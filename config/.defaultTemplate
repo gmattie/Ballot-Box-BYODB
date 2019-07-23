@@ -1,0 +1,11 @@
+# Config's default.json template
+
+{
+    "dbConfig": {
+
+        "protocol": "",
+        "user": "",
+        "pass": "",
+        "path": ""
+    }
+}
