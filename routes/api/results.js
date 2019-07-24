@@ -10,7 +10,9 @@ const router = require("express").Router();
 
 /**
  * @description GET results root endpoint.
+ * 
  * @public
+ * @constant
  * 
  */
 router.get("/", (req, res) => {

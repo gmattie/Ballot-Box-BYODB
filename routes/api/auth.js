@@ -10,7 +10,9 @@ const router = require("express").Router();
 
 /**
  * @description GET auth root endpoint.
+ * 
  * @public
+ * @constant
  * 
  */
 router.get("/", (req, res) => {
