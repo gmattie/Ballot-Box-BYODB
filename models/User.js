@@ -41,7 +41,4 @@ const userSchema = new mongoose.Schema({
  * Export module
  * 
  */
-module.exports = {
-
-    user: mongoose.model("user", userSchema)
-};
+module.exports = mongoose.model(C.Model.USER, userSchema);

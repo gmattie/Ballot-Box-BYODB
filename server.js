@@ -2,11 +2,13 @@
  * @description The server.js module is the entry point for the application and contains logic for connecting to the database and starting the server.
  * 
  * @requires config
+ * @requires constants
  * @requires express
  * @requires mongoose
  * @module
  * 
  */
+const C = require("./support/constants");
 const config = require("config");
 const express = require("express");
 const mongoose = require("mongoose");
@@ -26,12 +28,17 @@ const connectDB = async () => {
 
     try {
 
-        await mongoose.connect(mongoURI, { useNewUrlParser: true });
-        console.log("Database connected...");
+        await mongoose.connect(mongoURI, {
+            
+            useNewUrlParser: true,
+            useCreateIndex: true
+        });
+        
+        console.log(C.Message.DATABASE_CONNECTED);
     }
-    catch(err) {
+    catch(error) {
 
-        console.error(err.message);
+        console.error(error.message);
         process.exit(1);
     }
 };
@@ -65,14 +72,12 @@ const startServer = () => {
 
     app.get("/", (req, res) => {
         
-        return res
-                .status(200)
-                .send("API Running");
+        return res.sendStatus(C.Status.OK);
     });
 
     const port = process.env.PORT || 5000;
 
-    app.listen(port, () => console.log(`Server running on port ${port}`));
+    app.listen(port, () => console.log(`${C.Message.SERVER_RUNNING} ${port}`));
 };
 
 /**
