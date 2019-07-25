@@ -1,13 +1,14 @@
 /**
  * @description The User model created from Mongoose schema definition.
  * 
+ * @requires constants
  * @requires mongoose
  * @public
  * @module
  * 
  */
+const C = require("../support/constants");
 const mongoose = require("mongoose");
-
 /**
  * @description The keys for the schema definition include name, email, password and date.
  * 
@@ -17,20 +18,20 @@ const mongoose = require("mongoose");
  */
 const userSchema = new mongoose.Schema({
 
-    name: {
+    [C.User.NAME]: {
         type: String,
         required: true
     },
-    email: {
+    [C.User.EMAIL]: {
         type: String,
         required: true,
         unique: true
     },
-    password: {
+    [C.User.PASSWORD]: {
         type: String,
         required: true
     },
-    date: {
+    [C.User.DATE]: {
         type: Date,
         default: Date.now
     }

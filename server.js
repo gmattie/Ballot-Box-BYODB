@@ -1,15 +1,15 @@
 /**
  * @description The server.js module is the entry point for the application and contains logic for connecting to the database and starting the server.
  * 
+ * @requires config
  * @requires express
  * @requires mongoose
- * @requires config
  * @module
  * 
  */
-const app = require("express")();
-const mongoose = require("mongoose");
 const config = require("config");
+const express = require("express");
+const mongoose = require("mongoose");
 
 /**
  * @description Connect to the MongoDB database using URI from Config default.json variables.
@@ -44,6 +44,10 @@ const connectDB = async () => {
  * 
  */
 const startServer = () => {
+    
+    const app = express();
+
+    app.use(express.json({ extended: false }));
 
     const ROUTES = "./routes";
     const API = {
