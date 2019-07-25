@@ -1,11 +1,10 @@
-# Config's default.json template
-
 {
-    "dbConfig": {
+    "dbURI": {
 
         "protocol": "",
         "user": "",
         "pass": "",
         "path": ""
-    }
+    },
+    "jwtToken": ""
 }

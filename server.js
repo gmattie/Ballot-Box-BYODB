@@ -23,8 +23,8 @@ const mongoose = require("mongoose");
  */
 const connectDB = async () => {
 
-    const dbConfig = config.get("dbConfig");
-    const mongoURI = `${dbConfig.protocol}://${dbConfig.user}:${dbConfig.pass}@${dbConfig.path}`;
+    const dbURI = config.get(C.Config.DB_URI);
+    const mongoURI = `${dbURI.protocol}://${dbURI.user}:${dbURI.pass}@${dbURI.path}`;
 
     try {
 
@@ -36,7 +36,7 @@ const connectDB = async () => {
         
         console.log(C.Message.DATABASE_CONNECTED);
     }
-    catch(error) {
+    catch (error) {
 
         console.error(error.message);
         process.exit(1);

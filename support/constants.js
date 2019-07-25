@@ -6,6 +6,23 @@
  * 
  */
 
+  /**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
+ *     <li> USER </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const Config = {
+
+    DB_URI: "dbURI",
+    JWT_TOKEN: "jwtToken"
+};
+
  /**
  * @description Properties of type {string} consist of:
  * 
@@ -34,7 +51,6 @@ const Error = {
  * <ul>
  *     <li> DATABASE_CONNECTED </li>
  *     <li> SERVER_RUNNING </li>
- *     <li> USER_REGISTERED </li>
  * </ul>
  * 
  * @public
@@ -45,7 +61,6 @@ const Message = {
 
     DATABASE_CONNECTED: "Database connected...",
     SERVER_RUNNING: "Server is running on port:",
-    USER_REGISTERED: "User registered",
 };
 
  /**
@@ -112,6 +127,7 @@ const User = {
  */
 module.exports = {
 
+    Config,
     Error,
     Message,
     Model,

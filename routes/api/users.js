@@ -2,9 +2,11 @@
  * @description Users router module prefixed with the path /api/users.
  * 
  * @requires bcryptjs
+ * @requires config
  * @requires constants
  * @requires express
  * @requires express-validator
+ * @requires jsonwebtoken
  * @requires User
  * @public
  * @module
@@ -13,6 +15,8 @@
 const { check, validationResult } = require("express-validator");
 const bcryptjs = require("bcryptjs");
 const C = require("../../support/constants");
+const config = require("config");
+const jwt = require("jsonwebtoken");
 const router = require("express").Router();
 const User = require("../../models/User");
 
@@ -72,13 +76,31 @@ router.post("/", [
                 password: encryptedPassword
             });
 
-            await user.save();
+            jwt.sign(
 
-            return res
-                .status(C.Status.OK)
-                .send(C.Message.USER_REGISTERED);
+                { user },
+                config.get(C.Config.JWT_TOKEN),
+                { expiresIn: "1h" },
+
+                async (error, token) => {
+
+                    if (error) {
+
+                        return res
+                            .status(C.Status.INTERNAL_SERVER_ERROR)
+                            .send(error.message);
+                    }
+
+                    await user.save();
+
+                    return res
+                        .status(C.Status.OK)
+                        .json({ token });
+                }
+
+            );
         }
-        catch(error) {
+        catch (error) {
 
             return res
                 .status(C.Status.INTERNAL_SERVER_ERROR)
