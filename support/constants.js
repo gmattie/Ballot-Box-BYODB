@@ -89,6 +89,10 @@ const Message = {
  * 
  * <ul>
  *     <li> USER </li>
+ *     <li> USER_DATE </li>
+ *     <li> USER_EMAIL </li>
+ *     <li> USER_NAME </li>
+ *     <li> USER_PASSWORD </li>
  * </ul>
  * 
  * @public
@@ -98,6 +102,38 @@ const Message = {
 const Model = {
 
     USER: "user",
+    USER_DATE: "date",
+    USER_EMAIL: "email",
+    USER_NAME: "name",
+    USER_PASSWORD: "password"
+};
+
+/**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
+ *     <li> ITEMS </li>
+ *     <li> RESULTS </li>
+ *     <li> ROUTES </li>
+ *     <li> USERS </li>
+ *     <li> USERS_AUTH </li>
+ *     <li> USERS_LOGIN </li>
+ *     <li> USERS_REGISTER </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const Route = {
+
+    ITEMS: "/api/items",
+    RESULTS: "/api/results",
+    ROUTES_DIR: "./routes",
+    USERS: "/api/users",
+    USERS_AUTH: "/auth",
+    USERS_LOGIN: "/login",
+    USERS_REGISTER: "/register",
 };
 
 /**
@@ -123,28 +159,6 @@ const Status = {
 };
 
 /**
- * @description Properties of type {string} consist of:
- * 
- * <ul>
- *     <li> DATE </li>
- *     <li> EMAIL </li>
- *     <li> NAME </li>
- *     <li> PASSWORD </li>
- * </ul>
- * 
- * @public
- * @constant
- * 
- */
-const User = {
-
-    DATE: "date",
-    EMAIL: "email",
-    NAME: "name",
-    PASSWORD: "password",
-};
-
-/**
  * Export module
  * 
  */
@@ -155,6 +169,6 @@ module.exports = {
     Error,
     Message,
     Model,
-    Status,
-    User
+    Route,
+    Status
 };

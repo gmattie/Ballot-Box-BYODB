@@ -56,19 +56,9 @@ const startServer = () => {
 
     app.use(express.json({ extended: false }));
 
-    const ROUTES = "./routes";
-    const API = {
-        
-        AUTH: "/api/auth",
-        ITEMS: "/api/items",
-        RESULTS: "/api/results",
-        USERS: "/api/users"
-    };
-
-    app.use(API.AUTH, require(`${ROUTES}${API.AUTH}`));
-    app.use(API.ITEMS, require(`${ROUTES}${API.ITEMS}`));
-    app.use(API.RESULTS, require(`${ROUTES}${API.RESULTS}`));
-    app.use(API.USERS, require(`${ROUTES}${API.USERS}`));
+    app.use(C.Route.ITEMS, require(`${C.Route.ROUTES_DIR}${C.Route.ITEMS}`));
+    app.use(C.Route.RESULTS, require(`${C.Route.ROUTES_DIR}${C.Route.RESULTS}`));
+    app.use(C.Route.USERS, require(`${C.Route.ROUTES_DIR}${C.Route.USERS}`));
 
     app.get("/", (req, res) => {
         

@@ -18,20 +18,20 @@ const mongoose = require("mongoose");
  */
 const userSchema = new mongoose.Schema({
 
-    [C.User.NAME]: {
+    [C.Model.USER_NAME]: {
         type: String,
         required: true
     },
-    [C.User.EMAIL]: {
+    [C.Model.USER_EMAIL]: {
         type: String,
         required: true,
         unique: true
     },
-    [C.User.PASSWORD]: {
+    [C.Model.USER_PASSWORD]: {
         type: String,
         required: true
     },
-    [C.User.DATE]: {
+    [C.Model.USER_DATE]: {
         type: Date,
         default: Date.now
     }
