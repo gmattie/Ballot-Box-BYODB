@@ -76,11 +76,19 @@ router.post("/", [
                 password: encryptedPassword
             });
 
+            const jwtPayload = {
+
+                user: {
+
+                    id: user.id
+                }
+            };
+
             jwt.sign(
 
-                { user },
+                jwtPayload,
                 config.get(C.Config.JWT_TOKEN),
-                { expiresIn: "1h" },
+                { expiresIn: C.Auth.TOKEN_EXPIRATION },
 
                 async (error, token) => {
 
