@@ -30,8 +30,9 @@ const connectDB = async () => {
 
         await mongoose.connect(mongoURI, {
             
-            useNewUrlParser: true,
-            useCreateIndex: true
+            useCreateIndex: true,
+            useFindAndModify: false,
+            useNewUrlParser: true
         });
         
         console.log(C.Message.DATABASE_CONNECTED);

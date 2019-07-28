@@ -21,7 +21,7 @@
 const Auth = {
 
     HEADER_X_AUTH_TOKEN: "X-Auth-Token",
-    TOKEN_EXPIRATION: "7d"    
+    TOKEN_EXPIRATION: "1d"    
 };
 
 /**
@@ -105,7 +105,7 @@ const Model = {
     USER_DATE: "date",
     USER_EMAIL: "email",
     USER_NAME: "name",
-    USER_PASSWORD: "password"
+    USER_PASSWORD: "password",
 };
 
 /**
@@ -117,8 +117,10 @@ const Model = {
  *     <li> ROUTES </li>
  *     <li> USERS </li>
  *     <li> USERS_AUTH </li>
+ *     <li> USERS_DELETE </li>
  *     <li> USERS_LOGIN </li>
  *     <li> USERS_REGISTER </li>
+ *     <li> USERS_UPDATE </li>
  * </ul>
  * 
  * @public
@@ -132,8 +134,10 @@ const Route = {
     ROUTES_DIR: "./routes",
     USERS: "/api/users",
     USERS_AUTH: "/auth",
+    USERS_DELETE: "/delete",
     USERS_LOGIN: "/login",
     USERS_REGISTER: "/register",
+    USERS_UPDATE: "/update",
 };
 
 /**

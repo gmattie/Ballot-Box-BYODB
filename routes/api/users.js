@@ -22,8 +22,28 @@ const jwt = require("jsonwebtoken");
 const router = require("express").Router();
 const User = require("../../models/User");
 
+
 /**
- * @description (POST) Register user endpoint with validation and password encryption.
+ * @description JSON Web Token payload object populated by the id key of a user document.
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const jwtPayload = (userId) => {
+
+    return {
+
+        user: {
+
+            id: userId
+        }
+    };
+};
+
+
+/**
+ * @description (POST) Register user with input validation and password encryption.
  * 
  * @public
  * @constant
@@ -73,22 +93,14 @@ router.post(C.Route.USERS_REGISTER, [
 
             const user = new User({
 
-                name,
-                email,
-                password: encryptedPassword
+                [C.Model.USER_NAME]: name,
+                [C.Model.USER_EMAIL]: email,
+                [C.Model.USER_PASSWORD]: encryptedPassword
             });
-
-            const jwtPayload = {
-
-                user: {
-
-                    id: user.id
-                }
-            };
 
             jwt.sign(
 
-                jwtPayload,
+                jwtPayload(user.id),
                 config.get(C.Config.JWT_TOKEN),
                 { expiresIn: C.Auth.TOKEN_EXPIRATION },
 
@@ -107,7 +119,6 @@ router.post(C.Route.USERS_REGISTER, [
                         .status(C.Status.OK)
                         .json({ token });
                 }
-
             );
         }
         catch (error) {
@@ -120,7 +131,7 @@ router.post(C.Route.USERS_REGISTER, [
 );
 
 /**
- * @description (POST) Authenticate login user credentials then send a JSON Web Token.
+ * @description (POST) Login authentication of user credentials that responds with a JSON Web Token.
  * 
  * @public
  * @constant
@@ -164,17 +175,9 @@ router.post(C.Route.USERS_LOGIN, [
                     .json({ errors: [{ msg: C.Error.USER_INVALID_CREDENTIALS }] });
             }
 
-            const jwtPayload = {
-
-                user: {
-
-                    id: user.id
-                }
-            };
-
             jwt.sign(
 
-                jwtPayload,
+                jwtPayload(user.id),
                 config.get(C.Config.JWT_TOKEN),
                 { expiresIn: C.Auth.TOKEN_EXPIRATION },
 
@@ -191,7 +194,6 @@ router.post(C.Route.USERS_LOGIN, [
                         .status(C.Status.OK)
                         .json({ token });
                 }
-
             );
         }
         catch (error) {
@@ -206,7 +208,7 @@ router.post(C.Route.USERS_LOGIN, [
 /**
  * @description (GET) Authorize a user via middleware that verifies a JSON Web Token.
  * 
- * @public
+ * @protected
  * @constant
  * 
  */
@@ -230,6 +232,113 @@ router.get(C.Route.USERS_AUTH, auth, async (req, res) => {
     }
 });
 
+/**
+ * @description (PATCH) Update the name and/or password keys of an authorized user document.
+ * 
+ * @protected
+ * @constant
+ * 
+ */
+router.patch(C.Route.USERS_UPDATE, [auth, [
+
+        check(C.Model.USER_NAME, C.Error.USER_NAME)
+            .optional()
+            .not()
+            .isEmpty({ ignore_whitespace: true })
+            .trim(),
+
+        check(C.Model.USER_PASSWORD, C.Error.USER_PASSWORD)
+            .optional()
+            .not()
+            .isEmpty()
+        ]
+    ],
+    async (req, res) => {
+
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+
+            return res
+                .status(C.Status.BAD_REQUEST)
+                .json({ errors: errors.array() });
+        }
+
+        const update = req.body;
+
+        try {
+
+            if (update.password) {
+                
+                const salt = await bcryptjs.genSalt();
+                const encryptedPassword = await bcryptjs.hash(update.password, salt);
+
+                update.password = encryptedPassword;
+            }
+
+            const user = await User.findByIdAndUpdate(
+
+                req.user.id,
+                { $set: update },
+                { new: true }
+            );
+
+            jwt.sign(
+
+                jwtPayload(user.id),
+                config.get(C.Config.JWT_TOKEN),
+                { expiresIn: C.Auth.TOKEN_EXPIRATION },
+
+                (error, token) => {
+
+                    if (error) {
+
+                        return res
+                            .status(C.Status.INTERNAL_SERVER_ERROR)
+                            .send(error.message);
+                    }
+
+                    return res
+                        .status(C.Status.OK)
+                        .json({ token });
+                }
+            );                
+        }
+        catch (error) {
+
+            return res
+                .status(C.Status.INTERNAL_SERVER_ERROR)
+                .send(error.message);
+        }
+    }
+);
+
+/**
+ * @description (DELETE) Delete an authorized user document.
+ * 
+ * @protected
+ * @constant
+ * 
+ */
+router.delete(C.Route.USERS_DELETE, auth, async (req, res) => {
+    
+    try {
+
+        const user = await User
+            .findByIdAndDelete(req.user.id)
+            .select(`-${C.Model.USER_PASSWORD}`);
+
+        return res
+            .status(C.Status.OK)
+            .json({ user });
+    }
+    catch (error) {
+
+        return res
+            .status(C.Status.INTERNAL_SERVER_ERROR)
+            .send(error.message);
+    }
+});
 
 /**
  * Export module
