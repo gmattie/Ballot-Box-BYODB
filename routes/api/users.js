@@ -9,6 +9,7 @@
  * @requires express-validator
  * @requires jsonwebtoken
  * @requires User
+ * @requires utils
  * @public
  * @module
  * 
@@ -21,10 +22,10 @@ const config = require("config");
 const jwt = require("jsonwebtoken");
 const router = require("express").Router();
 const User = require("../../models/User");
-
+const utils = require("../../support/utilities");
 
 /**
- * @description JSON Web Token payload object populated by the id key of a user document.
+ * @description JSON Web Token payload object populated by the id value of a user document.
  * 
  * @public
  * @constant
@@ -40,7 +41,6 @@ const jwtPayload = (userId) => {
         }
     };
 };
-
 
 /**
  * @description (POST) Register user with input validation and password encryption.
@@ -88,9 +88,7 @@ router.post(C.Route.USERS_REGISTER, [
                     .json({ errors: [{ msg: C.Error.USER_ALREADY_EXISTS }] });
             }
 
-            const salt = await bcryptjs.genSalt();
-            const encryptedPassword = await bcryptjs.hash(password, salt);
-
+            const encryptedPassword = await bcryptjs.hash(password, 10);
             const user = new User({
 
                 [C.Model.USER_NAME]: name,
@@ -98,28 +96,22 @@ router.post(C.Route.USERS_REGISTER, [
                 [C.Model.USER_PASSWORD]: encryptedPassword
             });
 
-            jwt.sign(
+            const token = await jwt.sign(
 
                 jwtPayload(user.id),
                 config.get(C.Config.JWT_TOKEN),
-                { expiresIn: C.Auth.TOKEN_EXPIRATION },
-
-                async (error, token) => {
-
-                    if (error) {
-
-                        return res
-                            .status(C.Status.INTERNAL_SERVER_ERROR)
-                            .send(error.message);
-                    }
-
-                    await user.save();
-
-                    return res
-                        .status(C.Status.OK)
-                        .json({ token });
-                }
+                { expiresIn: C.Auth.TOKEN_EXPIRATION }
             );
+
+            const tokenSignature = utils.getTokenSignature(token);
+            const encryptedTokenSignature = await bcryptjs.hash(tokenSignature, 10);
+            user[C.Model.USER_TOKEN] = encryptedTokenSignature;
+
+            await user.save();
+
+            return res
+                .status(C.Status.OK)
+                .json({ token });
         }
         catch (error) {
 
@@ -162,7 +154,7 @@ router.post(C.Route.USERS_LOGIN, [
             if (!user) {
 
                 return res
-                    .status(C.Status.UNAUTHORIZED)
+                    .status(C.Status.UNAUTHENTICATED)
                     .json({ errors: [{ msg: C.Error.USER_INVALID_CREDENTIALS }] });
             }
 
@@ -171,30 +163,26 @@ router.post(C.Route.USERS_LOGIN, [
             if (!validPassword) {
 
                 return res
-                    .status(C.Status.UNAUTHORIZED)
+                    .status(C.Status.UNAUTHENTICATED)
                     .json({ errors: [{ msg: C.Error.USER_INVALID_CREDENTIALS }] });
             }
 
-            jwt.sign(
+            const token = await jwt.sign(
 
                 jwtPayload(user.id),
                 config.get(C.Config.JWT_TOKEN),
-                { expiresIn: C.Auth.TOKEN_EXPIRATION },
-
-                (error, token) => {
-
-                    if (error) {
-
-                        return res
-                            .status(C.Status.INTERNAL_SERVER_ERROR)
-                            .send(error.message);
-                    }
-
-                    return res
-                        .status(C.Status.OK)
-                        .json({ token });
-                }
+                { expiresIn: C.Auth.TOKEN_EXPIRATION }
             );
+
+            const tokenSignature = utils.getTokenSignature(token);
+            const encryptedTokenSignature = await bcryptjs.hash(tokenSignature, 10);
+            user[C.Model.USER_TOKEN] = encryptedTokenSignature;
+
+            await user.save();
+
+            return res
+                .status(C.Status.OK)
+                .json({ token });
         }
         catch (error) {
 
@@ -214,26 +202,15 @@ router.post(C.Route.USERS_LOGIN, [
  */
 router.get(C.Route.USERS_AUTH, auth, async (req, res) => {
     
-    try {
+    const user = res.locals.user;
 
-        const user = await User
-            .findById(req.user.id)
-            .select(`-${C.Model.USER_PASSWORD}`);
-
-        return res
-            .status(C.Status.OK)
-            .json({ user });
-    }
-    catch (error) {
-
-        return res
-            .status(C.Status.INTERNAL_SERVER_ERROR)
-            .send(error.message);
-    }
+    return res
+        .status(C.Status.OK)
+        .json({ user });
 });
 
 /**
- * @description (PATCH) Update the name and/or password keys of an authorized user document.
+ * @description (PATCH) Update the name and/or password values of an authorized user document.
  * 
  * @protected
  * @constant
@@ -264,45 +241,38 @@ router.patch(C.Route.USERS_UPDATE, [auth, [
                 .json({ errors: errors.array() });
         }
 
-        const update = req.body;
-
         try {
+            
+            const user = res.locals.user;
+            const update = req.body;
+
+            if (update.name) {
+
+                user[C.Model.USER_NAME] = update.name;
+            }
 
             if (update.password) {
                 
-                const salt = await bcryptjs.genSalt();
-                const encryptedPassword = await bcryptjs.hash(update.password, salt);
-
-                update.password = encryptedPassword;
+                const encryptedPassword = await bcryptjs.hash(update.password, 10);
+                user[C.Model.USER_PASSWORD] = encryptedPassword;
             }
 
-            const user = await User.findByIdAndUpdate(
-
-                req.user.id,
-                { $set: update },
-                { new: true }
-            );
-
-            jwt.sign(
+            const token = await jwt.sign(
 
                 jwtPayload(user.id),
                 config.get(C.Config.JWT_TOKEN),
-                { expiresIn: C.Auth.TOKEN_EXPIRATION },
+                { expiresIn: C.Auth.TOKEN_EXPIRATION }
+            );
 
-                (error, token) => {
+            const tokenSignature = utils.getTokenSignature(token);
+            const encryptedTokenSignature = await bcryptjs.hash(tokenSignature, 10);
+            user[C.Model.USER_TOKEN] = encryptedTokenSignature;
 
-                    if (error) {
+            await user.save();
 
-                        return res
-                            .status(C.Status.INTERNAL_SERVER_ERROR)
-                            .send(error.message);
-                    }
-
-                    return res
-                        .status(C.Status.OK)
-                        .json({ token });
-                }
-            );                
+            return res
+                .status(C.Status.OK)
+                .json({ token });            
         }
         catch (error) {
 
@@ -314,19 +284,21 @@ router.patch(C.Route.USERS_UPDATE, [auth, [
 );
 
 /**
- * @description (DELETE) Delete an authorized user document.
+ * @description (GET) Logout and revoke authorization by deleting the token property from the user document. 
  * 
  * @protected
  * @constant
  * 
  */
-router.delete(C.Route.USERS_DELETE, auth, async (req, res) => {
-    
+router.get(C.Route.USERS_LOGOUT, auth, async (req, res) => {
+
+    const user = res.locals.user;
+
     try {
 
-        const user = await User
-            .findByIdAndDelete(req.user.id)
-            .select(`-${C.Model.USER_PASSWORD}`);
+        delete user[C.Model.USER_TOKEN];
+        
+        await user.save();
 
         return res
             .status(C.Status.OK)
@@ -339,6 +311,34 @@ router.delete(C.Route.USERS_DELETE, auth, async (req, res) => {
             .send(error.message);
     }
 });
+
+/**
+ * @description (DELETE) Delete an authorized user document.
+ * 
+ * @protected
+ * @constant
+ * 
+ */
+router.delete(C.Route.USERS_DELETE, auth, async (req, res) => {
+    
+    const user = res.locals.user;
+
+    try {
+
+        const deletedUser = await user.remove();
+      
+        return res
+            .status(C.Status.OK)
+            .json({ deletedUser });
+    }
+    catch (error) {
+        
+        return res
+            .status(C.Status.INTERNAL_SERVER_ERROR)
+            .send(error.message);
+    }
+});
+
 
 /**
  * Export module

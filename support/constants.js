@@ -58,7 +58,7 @@ const Config = {
  */
 const Error = {
 
-    USER_INVALID_CREDENTIALS: "Invalid Credentials",
+    USER_INVALID_CREDENTIALS: "Invalid credentials",
     USER_ALREADY_EXISTS: "User already exists",
     USER_EMAIL: "Email is not valid",
     USER_NAME: "Name is required",
@@ -93,6 +93,7 @@ const Message = {
  *     <li> USER_EMAIL </li>
  *     <li> USER_NAME </li>
  *     <li> USER_PASSWORD </li>
+ *     <li> USER_TOKEN </li>
  * </ul>
  * 
  * @public
@@ -106,6 +107,7 @@ const Model = {
     USER_EMAIL: "email",
     USER_NAME: "name",
     USER_PASSWORD: "password",
+    USER_TOKEN: "token",
 };
 
 /**
@@ -119,6 +121,7 @@ const Model = {
  *     <li> USERS_AUTH </li>
  *     <li> USERS_DELETE </li>
  *     <li> USERS_LOGIN </li>
+ *     <li> USERS_LOGOUT </li>
  *     <li> USERS_REGISTER </li>
  *     <li> USERS_UPDATE </li>
  * </ul>
@@ -136,6 +139,7 @@ const Route = {
     USERS_AUTH: "/auth",
     USERS_DELETE: "/delete",
     USERS_LOGIN: "/login",
+    USERS_LOGOUT: "/logout",
     USERS_REGISTER: "/register",
     USERS_UPDATE: "/update",
 };
@@ -147,7 +151,7 @@ const Route = {
  *     <li> BAD_REQUEST </li>
  *     <li> INTERNAL_SERVER_ERROR </li>
  *     <li> OK </li>
- *     <li> UNAUTHORIZED </li>
+ *     <li> UNAUTHENTICATED </li>
  * </ul>
  * 
  * @public
@@ -159,7 +163,7 @@ const Status = {
     BAD_REQUEST: 400,
     INTERNAL_SERVER_ERROR: 500,
     OK: 200,
-    UNAUTHORIZED: 401,
+    UNAUTHENTICATED: 401,
 };
 
 /**

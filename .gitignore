@@ -3,3 +3,6 @@ node_modules/
 
 # Ignore Config's default.json file
 config/default.json
+
+# Ignore todo file
+todo
