@@ -6,15 +6,14 @@
  * @requires config
  * @requires constants
  * @requires express
- * @requires express-validator
  * @requires jsonwebtoken
  * @requires User
  * @requires utils
+ * @requires validation
  * @public
  * @module
  * 
  */
-const { check, validationResult } = require("express-validator");
 const auth = require("../../middleware/auth");
 const bcryptjs = require("bcryptjs");
 const C = require("../../support/constants");
@@ -23,6 +22,7 @@ const jwt = require("jsonwebtoken");
 const router = require("express").Router();
 const User = require("../../models/User");
 const utils = require("../../support/utilities");
+const validation = require("../../middleware/validation");
 
 /**
  * @description JSON Web Token payload object populated by the id value of a user document.
@@ -50,30 +50,11 @@ const jwtPayload = (userId) => {
  * 
  */
 router.post(C.Route.USERS_REGISTER, [
-
-        check(C.Model.USER_NAME, C.Error.USER_NAME)
-            .not()
-            .isEmpty({ ignore_whitespace: true })
-            .trim(),
-
-        check(C.Model.USER_EMAIL, C.Error.USER_EMAIL)
-            .isEmail()
-            .normalizeEmail(),
-
-        check(C.Model.USER_PASSWORD, C.Error.USER_PASSWORD)
-            .not()
-            .isEmpty()
+    
+        validation.register,
+        validation.result
     ],
     async (req, res) => {
-
-        const errors = validationResult(req);
-
-        if (!errors.isEmpty()) {
-
-            return res
-                .status(C.Status.BAD_REQUEST)
-                .json({ errors: errors.array() });
-        }
 
         const { name, email, password } = req.body;
 
@@ -123,7 +104,7 @@ router.post(C.Route.USERS_REGISTER, [
 );
 
 /**
- * @description (POST) Login authentication of user credentials that responds with a JSON Web Token.
+ * @description (POST) Login authentication of validated user credentials that responds with a JSON Web Token.
  * 
  * @public
  * @constant
@@ -131,19 +112,10 @@ router.post(C.Route.USERS_REGISTER, [
  */
 router.post(C.Route.USERS_LOGIN, [
 
-        check(C.Model.USER_EMAIL, C.Error.USER_EMAIL).isEmail(),
-        check(C.Model.USER_PASSWORD, C.Error.USER_PASSWORD).exists()
+        validation.login,
+        validation.result
     ],
     async (req, res) => {
-
-        const errors = validationResult(req);
-
-        if (!errors.isEmpty()) {
-
-            return res
-                .status(C.Status.BAD_REQUEST)
-                .json({ errors: errors.array() });
-        }
 
         const { email, password } = req.body;
 
@@ -210,36 +182,19 @@ router.get(C.Route.USERS_AUTH, auth, async (req, res) => {
 });
 
 /**
- * @description (PATCH) Update the name and/or password values of an authorized user document.
+ * @description (PATCH) Validate and update name and/or password values of an authorized user document.
  * 
  * @protected
  * @constant
  * 
  */
-router.patch(C.Route.USERS_UPDATE, [auth, [
-
-        check(C.Model.USER_NAME, C.Error.USER_NAME)
-            .optional()
-            .not()
-            .isEmpty({ ignore_whitespace: true })
-            .trim(),
-
-        check(C.Model.USER_PASSWORD, C.Error.USER_PASSWORD)
-            .optional()
-            .not()
-            .isEmpty()
-        ]
+router.patch(C.Route.USERS_UPDATE, [
+    
+        auth,
+        validation.update,
+        validation.result
     ],
     async (req, res) => {
-
-        const errors = validationResult(req);
-
-        if (!errors.isEmpty()) {
-
-            return res
-                .status(C.Status.BAD_REQUEST)
-                .json({ errors: errors.array() });
-        }
 
         try {
             
