@@ -35,7 +35,7 @@ const connectDB = async () => {
             useNewUrlParser: true
         });
         
-        console.log(C.Message.DATABASE_CONNECTED);
+        console.info(C.Message.DATABASE_CONNECTED);
     }
     catch (error) {
 
@@ -68,7 +68,7 @@ const startServer = () => {
 
     const port = process.env.PORT || 5000;
 
-    app.listen(port, () => console.log(`${C.Message.SERVER_RUNNING} ${port}`));
+    app.listen(port, () => console.info(`${C.Message.SERVER_RUNNING} ${port}`));
 };
 
 /**

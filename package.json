@@ -1,6 +1,6 @@
 {
-  "name": "ballot-box-byodb",
-  "productName": "Ballot Box BYODB",
+  "name": "ballot-box",
+  "productName": "Ballot Box",
   "version": "1.0.0",
   "description": "Open polls and aggregate election results using your own database.",
   "main": "server.js",

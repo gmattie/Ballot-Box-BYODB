@@ -1,4 +1,4 @@
-# **Ballot Box BYODB**
+# **Ballot Box**
 
 Open polls and aggregate election results using your own database.
 
