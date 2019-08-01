@@ -30,7 +30,7 @@ const auth = async (req, res, next) => {
     const token = req.header(C.Auth.HEADER_X_AUTH_TOKEN);
     
     try {
-    
+  
         if (!token) {
     
             throw new Error(C.Error.USER_INVALID_CREDENTIALS);
@@ -39,12 +39,12 @@ const auth = async (req, res, next) => {
         const tokenSignature = utils.getTokenSignature(token);
         const payload = await jwt.verify(token, config.get(C.Config.JWT_TOKEN));
         const user = await User.findById(payload.user.id);
-
-        if (!user) {
-
+        
+        if (!user || !user.token) {
+            
             throw new Error(C.Error.USER_INVALID_CREDENTIALS);
         }
-
+        
         const isUserToken = await bcryptjs.compare(tokenSignature, user.token);
 
         if (!isUserToken) {

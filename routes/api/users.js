@@ -310,7 +310,7 @@ router.get(C.Route.USERS_LOGOUT, auth, async (req, res) => {
 
     try {
 
-        delete user[C.Model.USER_TOKEN];
+        user[C.Model.USER_TOKEN] = undefined;
         
         await user.save();
 
