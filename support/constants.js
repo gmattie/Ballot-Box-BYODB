@@ -89,6 +89,7 @@ const Message = {
  * 
  * <ul>
  *     <li> USER </li>
+ *     <li> USER_ADMIN </li>
  *     <li> USER_DATE </li>
  *     <li> USER_EMAIL </li>
  *     <li> USER_NAME </li>
@@ -102,23 +103,25 @@ const Message = {
  */
 const Model = {
 
-    USER: "user",
+    USER_ADMIN: "admin",
     USER_DATE: "date",
     USER_EMAIL: "email",
     USER_NAME: "name",
     USER_PASSWORD: "password",
     USER_TOKEN: "token",
+    USER: "user",
 };
 
 /**
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> ADMIN </li>
+ *     <li> AUTH </li>
  *     <li> ITEMS </li>
  *     <li> RESULTS </li>
  *     <li> ROUTES </li>
  *     <li> USERS </li>
- *     <li> USERS_AUTH </li>
  *     <li> USERS_DELETE </li>
  *     <li> USERS_LOGIN </li>
  *     <li> USERS_LOGOUT </li>
@@ -132,16 +135,17 @@ const Model = {
  */
 const Route = {
 
+    ADMIN: "/api/admin",
+    AUTH: "/auth",
     ITEMS: "/api/items",
     RESULTS: "/api/results",
     ROUTES_DIR: "./routes",
-    USERS: "/api/users",
-    USERS_AUTH: "/auth",
     USERS_DELETE: "/delete",
     USERS_LOGIN: "/login",
     USERS_LOGOUT: "/logout",
     USERS_REGISTER: "/register",
     USERS_UPDATE: "/update",
+    USERS: "/api/users",
 };
 
 /**

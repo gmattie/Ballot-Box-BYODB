@@ -25,13 +25,59 @@ const utils = require("../../support/utilities");
 const validation = require("../../middleware/validation");
 
 /**
- * @description JSON Web Token payload object populated by the id value of a user document.
+ * @description Returns an encrypted password.
  * 
+ * @param {string} password - The target password to encrypt.
+ * @returns (string) The encrypted password.
  * @public
- * @constant
+ * @function
  * 
  */
-const jwtPayload = (userId) => {
+const getEncryptedPassword = async (password) => {
+
+    try {
+
+        return await bcryptjs.hash(password, 10);
+    }
+    catch (error) {
+
+        throw new Error(error);
+    }
+};
+
+/**
+ * @description Returns an encrypted signature partition of a JSON Web Token.
+ * 
+ * @param {string} token - The target JSON Web Token.
+ * @returns {string} An encrypted signature partition of the target JSON Web Token.
+ * @public
+ * @function
+ * 
+ */
+const getEncryptedTokenSignature = async (token) => {
+
+    try {
+
+        const tokenSignature = utils.getTokenSignature(token);
+        
+        return await bcryptjs.hash(tokenSignature, 10);
+    }
+    catch (error) {
+
+        throw new Error(error);
+    }
+};
+
+/**
+ * @description Returns a JSON Web Token payload object populated by the id value of a user document.
+ * 
+ * @param {string} userId - An id value of a user document assigned to the payload object.
+ * @returns {object} A JSON Web Token payload object.
+ * @public
+ * @function
+ * 
+ */
+const getJWTPayload = (userId) => {
 
     return {
 
@@ -56,7 +102,7 @@ router.post(C.Route.USERS_REGISTER, [
     ],
     async (req, res) => {
 
-        const { name, email, password } = req.body;
+        const { name, email, password, adminUser, adminPass } = req.body;
 
         try {
 
@@ -64,29 +110,30 @@ router.post(C.Route.USERS_REGISTER, [
 
             if (userExists) {
 
-                return res
-                    .status(C.Status.BAD_REQUEST)
-                    .json({ errors: [{ msg: C.Error.USER_ALREADY_EXISTS }] });
+                throw new Error(C.Error.USER_ALREADY_EXISTS);
             }
 
-            const encryptedPassword = await bcryptjs.hash(password, 10);
             const user = new User({
 
                 [C.Model.USER_NAME]: name,
                 [C.Model.USER_EMAIL]: email,
-                [C.Model.USER_PASSWORD]: encryptedPassword
+                [C.Model.USER_PASSWORD]: await getEncryptedPassword(password)
             });
+
+            const dbURI = config.get(C.Config.DB_URI);
+            const validAdminUser = adminUser === dbURI.user;
+            const validAdminPass = adminPass === dbURI.pass;
+            
+            user[C.Model.USER_ADMIN] = (validAdminUser && validAdminPass);
 
             const token = await jwt.sign(
 
-                jwtPayload(user.id),
+                getJWTPayload(user.id),
                 config.get(C.Config.JWT_TOKEN),
                 { expiresIn: C.Auth.TOKEN_EXPIRATION }
             );
 
-            const tokenSignature = utils.getTokenSignature(token);
-            const encryptedTokenSignature = await bcryptjs.hash(tokenSignature, 10);
-            user[C.Model.USER_TOKEN] = encryptedTokenSignature;
+            user[C.Model.USER_TOKEN] = await getEncryptedTokenSignature(token);
 
             await user.save();
 
@@ -95,6 +142,13 @@ router.post(C.Route.USERS_REGISTER, [
                 .json({ token });
         }
         catch (error) {
+
+            if (error.message === C.Error.USER_ALREADY_EXISTS) {
+
+                return res
+                    .status(C.Status.BAD_REQUEST)
+                    .send(C.Error.USER_ALREADY_EXISTS);
+            }
 
             return res
                 .status(C.Status.INTERNAL_SERVER_ERROR)
@@ -125,30 +179,24 @@ router.post(C.Route.USERS_LOGIN, [
 
             if (!user) {
 
-                return res
-                    .status(C.Status.UNAUTHENTICATED)
-                    .json({ errors: [{ msg: C.Error.USER_INVALID_CREDENTIALS }] });
+                throw new Error(C.Error.USER_INVALID_CREDENTIALS);
             }
 
             const validPassword = await bcryptjs.compare(password, user.password);
 
             if (!validPassword) {
 
-                return res
-                    .status(C.Status.UNAUTHENTICATED)
-                    .json({ errors: [{ msg: C.Error.USER_INVALID_CREDENTIALS }] });
+                throw new Error(C.Error.USER_INVALID_CREDENTIALS);
             }
 
             const token = await jwt.sign(
 
-                jwtPayload(user.id),
+                getJWTPayload(user.id),
                 config.get(C.Config.JWT_TOKEN),
                 { expiresIn: C.Auth.TOKEN_EXPIRATION }
             );
 
-            const tokenSignature = utils.getTokenSignature(token);
-            const encryptedTokenSignature = await bcryptjs.hash(tokenSignature, 10);
-            user[C.Model.USER_TOKEN] = encryptedTokenSignature;
+            user[C.Model.USER_TOKEN] = await getEncryptedTokenSignature(token);
 
             await user.save();
 
@@ -157,6 +205,13 @@ router.post(C.Route.USERS_LOGIN, [
                 .json({ token });
         }
         catch (error) {
+
+            if (error.message === C.Error.USER_INVALID_CREDENTIALS) {
+
+                return res
+                .status(C.Status.UNAUTHENTICATED)
+                .send(C.Error.USER_INVALID_CREDENTIALS);
+            }
 
             return res
                 .status(C.Status.INTERNAL_SERVER_ERROR)
@@ -172,7 +227,7 @@ router.post(C.Route.USERS_LOGIN, [
  * @constant
  * 
  */
-router.get(C.Route.USERS_AUTH, auth, async (req, res) => {
+router.get(C.Route.AUTH, auth, (req, res) => {
     
     const user = res.locals.user;
 
@@ -199,29 +254,33 @@ router.patch(C.Route.USERS_UPDATE, [
         try {
             
             const user = res.locals.user;
-            const update = req.body;
+            const { name, password, adminUser, adminPass } = req.body;
 
-            if (update.name) {
+            if (name) {
 
-                user[C.Model.USER_NAME] = update.name;
+                user[C.Model.USER_NAME] = name;
             }
 
-            if (update.password) {
+            if (password) {
                 
-                const encryptedPassword = await bcryptjs.hash(update.password, 10);
-                user[C.Model.USER_PASSWORD] = encryptedPassword;
+                user[C.Model.USER_PASSWORD] = await getEncryptedPassword(password);
+            }
+
+            const dbURI = config.get(C.Config.DB_URI);
+
+            if (adminUser && adminPass) {
+
+                user[C.Model.USER_ADMIN] = (adminUser === dbURI.user && adminPass === dbURI.pass);
             }
 
             const token = await jwt.sign(
 
-                jwtPayload(user.id),
+                getJWTPayload(user.id),
                 config.get(C.Config.JWT_TOKEN),
                 { expiresIn: C.Auth.TOKEN_EXPIRATION }
             );
 
-            const tokenSignature = utils.getTokenSignature(token);
-            const encryptedTokenSignature = await bcryptjs.hash(tokenSignature, 10);
-            user[C.Model.USER_TOKEN] = encryptedTokenSignature;
+            user[C.Model.USER_TOKEN] = await getEncryptedTokenSignature(token);
 
             await user.save();
 
@@ -293,7 +352,6 @@ router.delete(C.Route.USERS_DELETE, auth, async (req, res) => {
             .send(error.message);
     }
 });
-
 
 /**
  * Export module

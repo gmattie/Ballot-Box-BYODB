@@ -18,14 +18,22 @@ const mongoose = require("mongoose");
  */
 const userSchema = new mongoose.Schema({
 
-    [C.Model.USER_NAME]: {
-        type: String,
-        required: true
+    [C.Model.USER_ADMIN]: {
+        type: Boolean,
+        default: false
+    },
+    [C.Model.USER_DATE]: {
+        type: Date,
+        default: Date.now
     },
     [C.Model.USER_EMAIL]: {
         type: String,
         required: true,
         unique: true
+    },
+    [C.Model.USER_NAME]: {
+        type: String,
+        required: true
     },
     [C.Model.USER_PASSWORD]: {
         type: String,
@@ -35,10 +43,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
-    [C.Model.USER_DATE]: {
-        type: Date,
-        default: Date.now
-    }
 });
 
 /**
