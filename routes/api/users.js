@@ -89,6 +89,67 @@ const getJWTPayload = (userId) => {
 };
 
 /**
+ * @description (GET) Get A list of all users.
+ * Only admin users are authorized to retrieve the list of all user documents via token and admin authentication.
+ * 
+ * @protected
+ * @constant
+ * 
+ */
+router.get("/", auth, async (req, res) => {
+    
+    try {
+
+        const user = res.locals.user;
+
+        if (user.admin) {
+
+            const users = await User
+                .find({})
+                .select(`${C.Model.USER_NAME} ${C.Model.USER_EMAIL}`);
+
+            return res
+                .status(C.Status.OK)
+                .json({ users });
+        }
+        else {
+
+            throw new Error(C.Error.USER_INVALID_CREDENTIALS);
+        }
+    }
+    catch (error) {
+        
+        if (error.message === C.Error.USER_INVALID_CREDENTIALS) {
+
+            return res
+                .status(C.Status.UNAUTHENTICATED)
+                .send(C.Error.USER_INVALID_CREDENTIALS);
+        }
+
+        return res
+            .status(C.Status.INTERNAL_SERVER_ERROR)
+            .send(error.message);
+    }
+});
+
+/**
+ * @description (GET) Check user authentication.
+ * User authentication is verified by the presence and/or validity of the token value in the user document.
+ * 
+ * @protected
+ * @constant
+ * 
+ */
+router.get(C.Route.AUTH, auth, (req, res) => {
+    
+    const user = res.locals.user;
+
+    return res
+        .status(C.Status.OK)
+        .json({ user });
+});
+
+/**
  * @description (POST) Register user with input validation and password encryption.
  * 
  * @public
@@ -221,23 +282,8 @@ router.post(C.Route.USERS_LOGIN, [
 );
 
 /**
- * @description (GET) Authorize a user via middleware that verifies a JSON Web Token.
- * 
- * @protected
- * @constant
- * 
- */
-router.get(C.Route.AUTH, auth, (req, res) => {
-    
-    const user = res.locals.user;
-
-    return res
-        .status(C.Status.OK)
-        .json({ user });
-});
-
-/**
- * @description (PATCH) Validate and update name and/or password values of an authorized user document.
+ * @description (PATCH) Update a user.
+ * All users are authorized to update the name, password and admin values of their own user document via token authentication.
  * 
  * @protected
  * @constant
@@ -298,7 +344,8 @@ router.patch(C.Route.USERS_UPDATE, [
 );
 
 /**
- * @description (GET) Logout and revoke authorization by deleting the token property from the user document. 
+ * @description (GET) Logout a user.
+ * All users are authorized to logout and revoke authorization by deleting the token property from their own user document. 
  * 
  * @protected
  * @constant
@@ -327,26 +374,58 @@ router.get(C.Route.USERS_LOGOUT, auth, async (req, res) => {
 });
 
 /**
- * @description (DELETE) Delete an authorized user document.
+ * @description (DELETE) Delete a user document.
+ * All users are authorized to delete their own user document via token authentication.
+ * Admin users, via admin authentication, are authorized to delete any user document by providing an optional valid user ID request parameter.
  * 
  * @protected
  * @constant
  * 
  */
-router.delete(C.Route.USERS_DELETE, auth, async (req, res) => {
+router.delete(`${C.Route.USERS_DELETE}/:${C.Route.PARAM_USER_ID}?`, auth, async (req, res) => {
     
-    const user = res.locals.user;
-
     try {
+        
+        const user = res.locals.user;
+        const paramUserID = req.params[C.Route.PARAM_USER_ID];
+        let deletedUser;
 
-        const deletedUser = await user.remove();
-      
+        if (paramUserID) {
+
+            if (user.admin) {
+
+                deletedUser = await User
+                    .findByIdAndRemove(paramUserID)
+                    .select(`${C.Model.USER_NAME} ${C.Model.USER_EMAIL}`);
+
+                if (!deletedUser) {
+                    
+                    throw new Error(C.Error.USER_INVALID_CREDENTIALS);
+                }
+            }
+            else {
+
+                throw new Error(C.Error.USER_INVALID_CREDENTIALS);
+            }
+        }
+        else {
+
+            deletedUser = await user.deleteOne();
+        }
+
         return res
             .status(C.Status.OK)
             .json({ deletedUser });
     }
     catch (error) {
         
+        if (error.message === C.Error.USER_INVALID_CREDENTIALS) {
+
+            return res
+                .status(C.Status.UNAUTHENTICATED)
+                .send(C.Error.USER_INVALID_CREDENTIALS);
+        }
+
         return res
             .status(C.Status.INTERNAL_SERVER_ERROR)
             .send(error.message);

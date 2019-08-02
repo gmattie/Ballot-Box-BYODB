@@ -52,21 +52,14 @@ const auth = async (req, res, next) => {
             throw new Error(C.Error.USER_INVALID_CREDENTIALS);
         }
 
-        const isAdminRoute = req.baseUrl === C.Route.ADMIN;
-        const isUserAdmin = user[C.Model.USER_ADMIN];
-
-        if (isAdminRoute && !isUserAdmin) {
-
-            throw new Error(C.Error.USER_INVALID_CREDENTIALS);
-        }
-
         res.locals.user = user;
 
         next();
     }
     catch (error) {
 
-        if (error.message === C.Error.USER_INVALID_CREDENTIALS) {
+        if (error.message === C.Error.USER_INVALID_CREDENTIALS ||
+            error.name === C.Error.NAME_TOKEN_EXPIRED) {
 
             return res
                 .status(C.Status.UNAUTHENTICATED)

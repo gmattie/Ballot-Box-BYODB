@@ -57,7 +57,6 @@ const startServer = () => {
 
     app.use(express.json({ extended: false }));
 
-    app.use(C.Route.ADMIN, require(`${C.Route.ROUTES_DIR}${C.Route.ADMIN}`));
     app.use(C.Route.ITEMS, require(`${C.Route.ROUTES_DIR}${C.Route.ITEMS}`));
     app.use(C.Route.RESULTS, require(`${C.Route.ROUTES_DIR}${C.Route.RESULTS}`));
     app.use(C.Route.USERS, require(`${C.Route.ROUTES_DIR}${C.Route.USERS}`));
