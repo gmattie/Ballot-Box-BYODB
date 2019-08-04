@@ -40,8 +40,7 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     [C.Model.USER_TOKEN]: {
-        type: String,
-        unique: true
+        type: String
     },
 });
 

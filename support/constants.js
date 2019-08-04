@@ -45,10 +45,10 @@ const Config = {
  * @description Properties of type {string} consist of:
  * 
  * <ul>
- *     <li> NAME_TOKEN_EXPIRED </li>
- *     <li> USER_INVALID_CREDENTIALS </li>
  *     <li> USER_ALREADY_EXISTS </li>
+ *     <li> USER_DOES_NOT_EXIST </li>
  *     <li> USER_EMAIL </li>
+ *     <li> USER_INVALID_CREDENTIALS </li>
  *     <li> USER_NAME </li>
  *     <li> USER_PASSWORD </li>
  * </ul>
@@ -59,10 +59,10 @@ const Config = {
  */
 const Error = {
 
-    NAME_TOKEN_EXPIRED: "TokenExpiredError",
-    USER_INVALID_CREDENTIALS: "Invalid credentials",
     USER_ALREADY_EXISTS: "User already exists",
+    USER_DOES_NOT_EXIST: "User does not exist",
     USER_EMAIL: "Email is not valid",
+    USER_INVALID_CREDENTIALS: "Invalid credentials",
     USER_NAME: "Name is required",
     USER_PASSWORD: "Password is required",
 };
@@ -118,13 +118,13 @@ const Model = {
  * @description Properties of type {string} consist of:
  * 
  * <ul>
- *     <li> AUTH </li>
  *     <li> ITEMS </li>
  *     <li> PARAM_USER_ID </li>
  *     <li> RESULTS </li>
  *     <li> ROUTES </li>
  *     <li> USERS </li>
  *     <li> USERS_DELETE </li>
+ *     <li> USERS_INFO </li>
  *     <li> USERS_LOGIN </li>
  *     <li> USERS_LOGOUT </li>
  *     <li> USERS_REGISTER </li>
@@ -137,12 +137,12 @@ const Model = {
  */
 const Route = {
 
-    AUTH: "/auth",
     ITEMS: "/api/items",
     PARAM_USER_ID: "userID",
     RESULTS: "/api/results",
     ROUTES_DIR: "./routes",
     USERS_DELETE: "/delete",
+    USERS_INFO: "/info",
     USERS_LOGIN: "/login",
     USERS_LOGOUT: "/logout",
     USERS_REGISTER: "/register",

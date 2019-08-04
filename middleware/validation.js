@@ -47,7 +47,8 @@ const login = [
         .isEmail(),
 
     check(C.Model.USER_PASSWORD, C.Error.USER_PASSWORD)
-        .exists()
+        .not()
+        .isEmpty()
 ];
 
 /**
@@ -86,7 +87,7 @@ const result = (req, res, next) => {
 
         return res
             .status(C.Status.BAD_REQUEST)
-            .json({ errors: errors.array() });
+            .send({ error: errors.array() });
     }
 
     next();

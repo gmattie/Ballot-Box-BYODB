@@ -28,7 +28,7 @@ const utils = require("../support/utilities");
 const auth = async (req, res, next) => {
 
     const token = req.header(C.Auth.HEADER_X_AUTH_TOKEN);
-    
+
     try {
   
         if (!token) {
@@ -46,7 +46,7 @@ const auth = async (req, res, next) => {
         }
         
         const isUserToken = await bcryptjs.compare(tokenSignature, user.token);
-
+         
         if (!isUserToken) {
 
             throw new Error(C.Error.USER_INVALID_CREDENTIALS);
@@ -58,17 +58,18 @@ const auth = async (req, res, next) => {
     }
     catch (error) {
 
-        if (error.message === C.Error.USER_INVALID_CREDENTIALS ||
-            error.name === C.Error.NAME_TOKEN_EXPIRED) {
+        if (error instanceof jwt.JsonWebTokenError ||
+            error instanceof SyntaxError ||
+            error.message === C.Error.USER_INVALID_CREDENTIALS) {
 
             return res
                 .status(C.Status.UNAUTHENTICATED)
-                .send(C.Error.USER_INVALID_CREDENTIALS);
+                .send({ error: C.Error.USER_INVALID_CREDENTIALS });
         }
 
         return res
             .status(C.Status.INTERNAL_SERVER_ERROR)
-            .send(error.message);
+            .send({ error: error.message });
     }
 };
 
