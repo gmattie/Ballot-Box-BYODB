@@ -90,47 +90,6 @@ const getJWTPayload = (userId) => {
 };
 
 /**
- * @description Sends an error HTTP response according to a provided error message.
- * 
- * @param {object} error - An error object that contains an error message.
- * @param {object} response - An HTTP response object.
- * @returns {object} An HTTP response object.
- * @public
- * @function 
- * 
- */
-
-const sendErrorResponse = (error, response) => {
-
-    switch (error.message) {
-
-        case C.Error.USER_ALREADY_EXISTS:
-
-             return response
-                .status(C.Status.BAD_REQUEST)
-                .send({ error: C.Error.USER_ALREADY_EXISTS });
-
-        case C.Error.USER_DOES_NOT_EXIST:
-
-            return response
-                .status(C.Status.BAD_REQUEST)
-                .send({ error: C.Error.USER_DOES_NOT_EXIST });
-
-        case C.Error.USER_INVALID_CREDENTIALS:
-
-            return response
-                .status(C.Status.UNAUTHENTICATED)
-                .send({ error: C.Error.USER_INVALID_CREDENTIALS });
-
-        default:
-
-            return response
-                .status(C.Status.INTERNAL_SERVER_ERROR)
-                .send({ error: error.message });
-    }
-};
-
-/**
  * @description (POST) Register user with input validation and password encryption.
  * 
  * @public
@@ -139,15 +98,14 @@ const sendErrorResponse = (error, response) => {
  */
 router.post(C.Route.USERS_REGISTER, [
     
-        validation.register,
+        validation.userRegister,
         validation.result
     ],
     async (req, res) => {
 
-        const { name, email, password, adminUser, adminPass } = req.body;
-
         try {
-
+            
+            const { name, email, password, adminUser, adminPass } = req.body;
             const userExists = await User.findOne({ email });
 
             if (userExists) {
@@ -157,16 +115,16 @@ router.post(C.Route.USERS_REGISTER, [
 
             const user = new User({
 
-                [C.Model.USER_NAME]: name,
-                [C.Model.USER_EMAIL]: email,
-                [C.Model.USER_PASSWORD]: await getEncryptedPassword(password)
+                [C.Model.NAME]: name,
+                [C.Model.EMAIL]: email,
+                [C.Model.PASSWORD]: await getEncryptedPassword(password)
             });
 
             const dbURI = config.get(C.Config.DB_URI);
             const validAdminUser = adminUser === dbURI.user;
             const validAdminPass = adminPass === dbURI.pass;
             
-            user[C.Model.USER_ADMIN] = (validAdminUser && validAdminPass);
+            user[C.Model.ADMIN] = (validAdminUser && validAdminPass);
 
             const token = await jwt.sign(
 
@@ -175,7 +133,7 @@ router.post(C.Route.USERS_REGISTER, [
                 { expiresIn: C.Auth.TOKEN_EXPIRATION }
             );
 
-            user[C.Model.USER_TOKEN] = await getEncryptedTokenSignature(token);
+            user[C.Model.TOKEN] = await getEncryptedTokenSignature(token);
 
             await user.save();
 
@@ -185,7 +143,7 @@ router.post(C.Route.USERS_REGISTER, [
         }
         catch (error) {
 
-            sendErrorResponse(error, res);
+            utils.sendErrorResponse(error, res);
         }
     }
 );
@@ -199,15 +157,14 @@ router.post(C.Route.USERS_REGISTER, [
  */
 router.post(C.Route.USERS_LOGIN, [
 
-        validation.login,
+        validation.userLogin,
         validation.result
     ],
     async (req, res) => {
 
-        const { email, password } = req.body;
-
         try {
 
+            const { email, password } = req.body;
             const user = await User.findOne({ email });
 
             if (!user) {
@@ -229,7 +186,7 @@ router.post(C.Route.USERS_LOGIN, [
                 { expiresIn: C.Auth.TOKEN_EXPIRATION }
             );
 
-            user[C.Model.USER_TOKEN] = await getEncryptedTokenSignature(token);
+            user[C.Model.TOKEN] = await getEncryptedTokenSignature(token);
 
             await user.save();
 
@@ -239,13 +196,13 @@ router.post(C.Route.USERS_LOGIN, [
         }
         catch (error) {
 
-            sendErrorResponse(error, res);
+            utils.sendErrorResponse(error, res);
         }
     }
 );
 
 /**
- * @description (GET) Information on one of more users.
+ * @description (GET) Retrieve an array of either one or all users.
  * All users are authorized to retrieve their own user document via token authentication and optionally providing their own valid user ID as a request parameter.
  * Admin users, via admin authentication, are authorized to retrieve either a list of all users or a single user by optionally providing a valid user ID as a request parameter.
  * 
@@ -274,7 +231,7 @@ router.get(`${C.Route.USERS_INFO}/:${C.Route.PARAM_USER_ID}?`, auth, async (req,
 
                 result = (paramUserID === user.id) ? user : await User
                     .findById(paramUserID)
-                    .select(`${C.Model.USER_NAME} ${C.Model.USER_EMAIL} ${C.Model.USER_ADMIN}`);
+                    .select(`${C.Model.NAME} ${C.Model.EMAIL} ${C.Model.ADMIN}`);
 
                 if (!result) {
 
@@ -287,7 +244,7 @@ router.get(`${C.Route.USERS_INFO}/:${C.Route.PARAM_USER_ID}?`, auth, async (req,
 
                 result = await User
                     .find({})
-                    .select(`${C.Model.USER_NAME} ${C.Model.USER_EMAIL} ${C.Model.USER_ADMIN}`);
+                    .select(`${C.Model.NAME} ${C.Model.EMAIL} ${C.Model.ADMIN}`);
             }
         }
         else {
@@ -306,7 +263,7 @@ router.get(`${C.Route.USERS_INFO}/:${C.Route.PARAM_USER_ID}?`, auth, async (req,
     }
     catch (error) {
 
-        sendErrorResponse(error, res);
+        utils.sendErrorResponse(error, res);
     }
 });
 
@@ -318,10 +275,10 @@ router.get(`${C.Route.USERS_INFO}/:${C.Route.PARAM_USER_ID}?`, auth, async (req,
  * @constant
  * 
  */
-router.patch(C.Route.USERS_UPDATE, [
+router.patch(C.Route.USERS_EDIT, [
     
         auth,
-        validation.update,
+        validation.userUpdate,
         validation.result
     ],
     async (req, res) => {
@@ -333,19 +290,19 @@ router.patch(C.Route.USERS_UPDATE, [
 
             if (name) {
 
-                user[C.Model.USER_NAME] = name;
+                user[C.Model.NAME] = name;
             }
 
             if (password) {
                 
-                user[C.Model.USER_PASSWORD] = await getEncryptedPassword(password);
+                user[C.Model.PASSWORD] = await getEncryptedPassword(password);
             }
 
             const dbURI = config.get(C.Config.DB_URI);
 
             if (adminUser && adminPass) {
 
-                user[C.Model.USER_ADMIN] = (adminUser === dbURI.user && adminPass === dbURI.pass);
+                user[C.Model.ADMIN] = (adminUser === dbURI.user && adminPass === dbURI.pass);
             }
 
             const token = await jwt.sign(
@@ -355,7 +312,8 @@ router.patch(C.Route.USERS_UPDATE, [
                 { expiresIn: C.Auth.TOKEN_EXPIRATION }
             );
 
-            user[C.Model.USER_TOKEN] = await getEncryptedTokenSignature(token);
+            user[C.Model.TOKEN] = await getEncryptedTokenSignature(token);
+            user[C.Model.DATE] = Date.now();
 
             await user.save();
 
@@ -365,7 +323,7 @@ router.patch(C.Route.USERS_UPDATE, [
         }
         catch (error) {
 
-            sendErrorResponse(error, res);
+            utils.sendErrorResponse(error, res);
         }
     }
 );
@@ -400,7 +358,7 @@ router.get(`${C.Route.USERS_LOGOUT}/:${C.Route.PARAM_USER_ID}?`, auth, async (re
 
                 result = (paramUserID === user.id) ? user : await User
                     .findById(paramUserID)
-                    .select(`${C.Model.USER_NAME} ${C.Model.USER_EMAIL} ${C.Model.USER_ADMIN}`);
+                    .select(`${C.Model.NAME} ${C.Model.EMAIL} ${C.Model.ADMIN}`);
 
                 if (!result) {
 
@@ -422,7 +380,7 @@ router.get(`${C.Route.USERS_LOGOUT}/:${C.Route.PARAM_USER_ID}?`, auth, async (re
             result = user;
         }
 
-        result[C.Model.USER_TOKEN] = undefined;
+        result[C.Model.TOKEN] = undefined;
         
         await result.save();
 
@@ -432,13 +390,12 @@ router.get(`${C.Route.USERS_LOGOUT}/:${C.Route.PARAM_USER_ID}?`, auth, async (re
     }
     catch (error) {
 
-        sendErrorResponse(error, res);
+        utils.sendErrorResponse(error, res);
     }
 });
 
 /**
- * @description (DELETE) Delete a user document.
- * 
+ * @description (DELETE) Delete a user.
  * All users are authorized to delete their own user document via token authentication and optionally providing their own valid user ID as a request parameter.
  * Admin users, via admin authentication, are authorized to delete any user document by providing an optional valid user ID request parameter.
  * 
@@ -467,7 +424,7 @@ router.delete(`${C.Route.USERS_DELETE}/:${C.Route.PARAM_USER_ID}?`, auth, async 
 
                 result = (paramUserID === user.id) ? user : await User
                     .findByIdAndRemove(paramUserID)
-                    .select(`${C.Model.USER_NAME} ${C.Model.USER_EMAIL} ${C.Model.USER_ADMIN}`);
+                    .select(`${C.Model.NAME} ${C.Model.EMAIL} ${C.Model.ADMIN}`);
 
                 if (!result) {
                     
@@ -495,7 +452,7 @@ router.delete(`${C.Route.USERS_DELETE}/:${C.Route.PARAM_USER_ID}?`, auth, async 
     }
     catch (error) {
 
-        sendErrorResponse(error, res);
+        utils.sendErrorResponse(error, res);
     }
 });
 

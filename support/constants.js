@@ -45,12 +45,14 @@ const Config = {
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> EMAIL </li>
+ *     <li> ITEM_ALREADY_EXISTS </li>
+ *     <li> ITEM_DOES_NOT_EXIST </li>
+ *     <li> NAME </li>
+ *     <li> PASSWORD </li>
  *     <li> USER_ALREADY_EXISTS </li>
  *     <li> USER_DOES_NOT_EXIST </li>
- *     <li> USER_EMAIL </li>
  *     <li> USER_INVALID_CREDENTIALS </li>
- *     <li> USER_NAME </li>
- *     <li> USER_PASSWORD </li>
  * </ul>
  * 
  * @public
@@ -59,12 +61,14 @@ const Config = {
  */
 const Error = {
 
+    EMAIL: "Email is not valid",
+    ITEM_ALREADY_EXISTS: "Item already exists",
+    ITEM_DOES_NOT_EXIST: "Item does not exist",
+    NAME: "Name is required",
+    PASSWORD: "Password is required",
     USER_ALREADY_EXISTS: "User already exists",
     USER_DOES_NOT_EXIST: "User does not exist",
-    USER_EMAIL: "Email is not valid",
     USER_INVALID_CREDENTIALS: "Invalid credentials",
-    USER_NAME: "Name is required",
-    USER_PASSWORD: "Password is required",
 };
 
 /**
@@ -90,13 +94,14 @@ const Message = {
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> ADMIN </li>
+ *     <li> DATE </li>
+ *     <li> EMAIL </li>
+ *     <li> ITEM </li>
+ *     <li> NAME </li>
+ *     <li> PASSWORD </li>
+ *     <li> TOKEN </li>
  *     <li> USER </li>
- *     <li> USER_ADMIN </li>
- *     <li> USER_DATE </li>
- *     <li> USER_EMAIL </li>
- *     <li> USER_NAME </li>
- *     <li> USER_PASSWORD </li>
- *     <li> USER_TOKEN </li>
  * </ul>
  * 
  * @public
@@ -105,12 +110,13 @@ const Message = {
  */
 const Model = {
 
-    USER_ADMIN: "admin",
-    USER_DATE: "date",
-    USER_EMAIL: "email",
-    USER_NAME: "name",
-    USER_PASSWORD: "password",
-    USER_TOKEN: "token",
+    ADMIN: "admin",
+    DATE: "date",
+    EMAIL: "email",
+    ITEM: "item",
+    NAME: "name",
+    PASSWORD: "password",
+    TOKEN: "token",
     USER: "user",
 };
 
@@ -119,16 +125,20 @@ const Model = {
  * 
  * <ul>
  *     <li> ITEMS </li>
+ *     <li> ITEMS_ADD </li>
+ *     <li> ITEMS_DELETE </li>
+ *     <li> ITEMS_EDIT </li>
+ *     <li> PARAM_ITEM_ID </li>
  *     <li> PARAM_USER_ID </li>
  *     <li> RESULTS </li>
  *     <li> ROUTES </li>
  *     <li> USERS </li>
  *     <li> USERS_DELETE </li>
+ *     <li> USERS_EDIT </li>
  *     <li> USERS_INFO </li>
  *     <li> USERS_LOGIN </li>
  *     <li> USERS_LOGOUT </li>
  *     <li> USERS_REGISTER </li>
- *     <li> USERS_UPDATE </li>
  * </ul>
  * 
  * @public
@@ -137,16 +147,20 @@ const Model = {
  */
 const Route = {
 
+    ITEMS_ADD: "/add",
+    ITEMS_DELETE: "/delete",
+    ITEMS_EDIT: "/edit",
     ITEMS: "/api/items",
+    PARAM_ITEM_ID: "itemID",
     PARAM_USER_ID: "userID",
     RESULTS: "/api/results",
     ROUTES_DIR: "./routes",
     USERS_DELETE: "/delete",
+    USERS_EDIT: "/edit",
     USERS_INFO: "/info",
     USERS_LOGIN: "/login",
     USERS_LOGOUT: "/logout",
     USERS_REGISTER: "/register",
-    USERS_UPDATE: "/update",
     USERS: "/api/users",
 };
 
