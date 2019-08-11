@@ -10,7 +10,7 @@
 const C = require("../support/constants");
 const mongoose = require("mongoose");
 /**
- * @description The keys for the schema definition.
+ * @description The Item schema definition.
  * 
  * @private
  * @constant
@@ -19,10 +19,16 @@ const mongoose = require("mongoose");
 const itemSchema = new mongoose.Schema({
 
     [C.Model.DATE]: {
+
         type: Date,
         default: Date.now
     },
+    [C.Model.IMAGE]: {
+
+        type: Buffer
+    },
     [C.Model.NAME]: {
+        
         type: String,
         required: true,
         unique: true

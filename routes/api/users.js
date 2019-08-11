@@ -30,7 +30,7 @@ const validation = require("../../middleware/validation");
  * 
  * @param {string} password - The target password to encrypt.
  * @returns (string) The encrypted password.
- * @public
+ * @private
  * @function
  * 
  */
@@ -51,7 +51,7 @@ const getEncryptedPassword = async (password) => {
  * 
  * @param {string} token - The target JSON Web Token.
  * @returns {string} An encrypted signature partition of the target JSON Web Token.
- * @public
+ * @private
  * @function
  * 
  */
@@ -74,7 +74,7 @@ const getEncryptedTokenSignature = async (token) => {
  * 
  * @param {string} userId - An id value of a user document assigned to the payload object.
  * @returns {object} A JSON Web Token payload object.
- * @public
+ * @private
  * @function
  * 
  */
@@ -214,7 +214,7 @@ router.get(`${C.Route.USERS_INFO}/:${C.Route.PARAM_USER_ID}?`, auth, async (req,
     
     try {
 
-        const user = res.locals.user;
+        const user = res.locals[C.Local.USER];
         const paramUserID = req.params[C.Route.PARAM_USER_ID];
         let result;
 
@@ -285,7 +285,7 @@ router.patch(C.Route.USERS_EDIT, [
 
         try {
             
-            const user = res.locals.user;
+            const user = res.locals[C.Local.USER];
             const { name, password, adminUser, adminPass } = req.body;
 
             if (name) {
@@ -341,7 +341,7 @@ router.get(`${C.Route.USERS_LOGOUT}/:${C.Route.PARAM_USER_ID}?`, auth, async (re
     
     try {
         
-        const user = res.locals.user;
+        const user = res.locals[C.Local.USER];
         const paramUserID = req.params[C.Route.PARAM_USER_ID];
         let result;
 
@@ -407,7 +407,7 @@ router.delete(`${C.Route.USERS_DELETE}/:${C.Route.PARAM_USER_ID}?`, auth, async 
     
     try {
         
-        const user = res.locals.user;
+        const user = res.locals[C.Local.USER];
         const paramUserID = req.params[C.Route.PARAM_USER_ID];
         let result;
 

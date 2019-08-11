@@ -52,7 +52,7 @@ const auth = async (req, res, next) => {
             throw new Error(C.Error.USER_INVALID_CREDENTIALS);
         }
 
-        res.locals.user = user;
+        res.locals[C.Local.USER] = user;
 
         next();
     }

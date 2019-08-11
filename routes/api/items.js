@@ -23,15 +23,15 @@ const validation = require("../../middleware/validation");
  * @description (GET) Retrieve an array of either one or all items.
  * Only authenticated admin users are authorized to retrieve either a list or all items or a single item by optionally providing a valid item ID as a request parameter.
  * 
- * @public
+ * @protected
  * @constant
  * 
  */
 router.get(`/:${C.Route.PARAM_ITEM_ID}?`, auth, async (req, res) => {
-    
+
     try {
 
-        const user = res.locals.user;
+        const user = res.locals[C.Local.USER];
         
         if (user.admin) {
             
@@ -80,7 +80,7 @@ router.get(`/:${C.Route.PARAM_ITEM_ID}?`, auth, async (req, res) => {
  * @description (POST) Add an item.
  * Only authenticated admin users are authorized to add items.
  * 
- * @public
+ * @protected
  * @constant
  * 
  */
@@ -94,7 +94,7 @@ router.post(C.Route.ITEMS_ADD, [
 
         try {
 
-            const user = res.locals.user;
+            const user = res.locals[C.Local.USER];
 
             if (user.admin) {
 
@@ -132,7 +132,7 @@ router.post(C.Route.ITEMS_ADD, [
  * @description (PATCH) Update the name of an item.
  * Only authenticated admin users are authorized to update the name of an existing item.
  * 
- * @public
+ * @protected
  * @constant
  * 
  */
@@ -146,7 +146,7 @@ router.patch(`${C.Route.ITEMS_EDIT}/:${C.Route.PARAM_ITEM_ID}`, [
     
         try {
 
-            const user = res.locals.user;
+            const user = res.locals[C.Local.USER];
             
             if (user.admin) {
                 
@@ -190,7 +190,7 @@ router.patch(`${C.Route.ITEMS_EDIT}/:${C.Route.PARAM_ITEM_ID}`, [
  * @description (DELETE) Delete an item.
  * Only authenticated admin users are authorized to delete items.
  * 
- * @public
+ * @protected
  * @constant
  * 
  */
@@ -198,7 +198,7 @@ router.delete(`${C.Route.ITEMS_DELETE}/:${C.Route.PARAM_ITEM_ID}`, auth, async (
     
     try {
 
-        const user = res.locals.user;
+        const user = res.locals[C.Local.USER];
 
         if (user.admin) {
 

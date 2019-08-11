@@ -10,7 +10,7 @@
 const C = require("../support/constants");
 const mongoose = require("mongoose");
 /**
- * @description The keys for the schema definition..
+ * @description The User schema definition.
  * 
  * @private
  * @constant
@@ -19,27 +19,33 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
 
     [C.Model.ADMIN]: {
+
         type: Boolean,
         default: false
     },
     [C.Model.DATE]: {
+
         type: Date,
         default: Date.now
     },
     [C.Model.EMAIL]: {
+
         type: String,
         required: true,
         unique: true
     },
     [C.Model.NAME]: {
+
         type: String,
         required: true
     },
     [C.Model.PASSWORD]: {
+
         type: String,
         required: true
     },
     [C.Model.TOKEN]: {
+        
         type: String
     },
 }, { versionKey: false });

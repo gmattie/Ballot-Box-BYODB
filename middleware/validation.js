@@ -117,6 +117,20 @@ const userUpdate = [
 ];
 
 /**
+ * @description Validation for vote open route.
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const voteOpen = [
+
+    check(C.Model.DEADLINE, C.Error.DEADLINE)
+        .optional()
+        .isInt({ min: 1, max: 31622400 })
+];
+
+/**
  * Export module
  * 
  */
@@ -127,5 +141,6 @@ module.exports = {
     result,
     userLogin,
     userRegister,
-    userUpdate
+    userUpdate,
+    voteOpen
 };

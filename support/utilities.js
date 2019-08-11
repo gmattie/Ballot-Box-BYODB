@@ -53,6 +53,18 @@ const sendErrorResponse = (error, response) => {
                 .status(C.Status.UNAUTHENTICATED)
                 .send({ error: C.Error.USER_INVALID_CREDENTIALS });
 
+        case C.Error.VOTE_ALREADY_CLOSED:
+
+            return response
+                .status(C.Status.BAD_REQUEST)
+                .send({ error: C.Error.VOTE_ALREADY_CLOSED });
+
+        case C.Error.VOTE_ALREADY_OPEN:
+
+            return response
+                .status(C.Status.BAD_REQUEST)
+                .send({ error: C.Error.VOTE_ALREADY_OPEN });
+
         default:
 
             return response
