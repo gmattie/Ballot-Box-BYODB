@@ -20,63 +20,6 @@ const utils = require("../../support/utilities");
 const validation = require("../../middleware/validation");
 
 /**
- * @description (GET) Retrieve an array of either one or all items.
- * Only authenticated admin users are authorized to retrieve either a list or all items or a single item by optionally providing a valid item ID as a request parameter.
- * 
- * @protected
- * @constant
- * 
- */
-router.get(`/:${C.Route.PARAM_ITEM_ID}?`, auth, async (req, res) => {
-
-    try {
-
-        const user = res.locals[C.Local.USER];
-        
-        if (user.admin) {
-            
-            const paramItemID = req.params[C.Route.PARAM_ITEM_ID];
-            let result;
-
-            if (paramItemID) {
-
-                const isValidItemID = mongoose.Types.ObjectId.isValid(paramItemID);
-
-                if (!isValidItemID) {
-
-                    throw new Error(C.Error.ITEM_DOES_NOT_EXIST);
-                }
-
-                result = await Item.findById(paramItemID);
-
-                if (!result) {
-
-                    throw new Error(C.Error.ITEM_DOES_NOT_EXIST);
-                }
-
-                result = [result];
-            }
-            else {
-
-                result = await Item.find({});
-            }
-
-            return res
-                .status(C.Status.OK)
-                .send({ items: result });
-        }
-        else {
-
-            throw new Error(C.Error.USER_INVALID_CREDENTIALS);
-        }
-    }
-    catch (error) {
-
-        utils.sendErrorResponse(error, res);
-    }
-});
-
-/**
  * @description (POST) Add an item.
  * Only authenticated admin users are authorized to add items.
  * 
@@ -84,7 +27,7 @@ router.get(`/:${C.Route.PARAM_ITEM_ID}?`, auth, async (req, res) => {
  * @constant
  * 
  */
-router.post(C.Route.ITEMS_ADD, [
+router.post(C.Route.ADD, [
     
         auth,
         validation.itemAdd,
@@ -129,17 +72,17 @@ router.post(C.Route.ITEMS_ADD, [
 });
 
 /**
- * @description (PATCH) Update the name of an item.
- * Only authenticated admin users are authorized to update the name of an existing item.
+ * @description (PATCH) Edit the name of an item.
+ * Only authenticated admin users are authorized to edit the name of an existing item.
  * 
  * @protected
  * @constant
  * 
  */
-router.patch(`${C.Route.ITEMS_EDIT}/:${C.Route.PARAM_ITEM_ID}`, [
+router.patch(`${C.Route.EDIT}/:${C.Route.ID}`, [
     
         auth,
-        validation.itemUpdate,
+        validation.itemEdit,
         validation.result
     ],
     async (req, res) => {
@@ -150,7 +93,7 @@ router.patch(`${C.Route.ITEMS_EDIT}/:${C.Route.PARAM_ITEM_ID}`, [
             
             if (user.admin) {
                 
-                const paramItemID = req.params[C.Route.PARAM_ITEM_ID];
+                const paramItemID = req.params[C.Route.ID];
                 const isValidItemID = mongoose.Types.ObjectId.isValid(paramItemID);
 
                 if (!isValidItemID) {
@@ -194,7 +137,7 @@ router.patch(`${C.Route.ITEMS_EDIT}/:${C.Route.PARAM_ITEM_ID}`, [
  * @constant
  * 
  */
-router.delete(`${C.Route.ITEMS_DELETE}/:${C.Route.PARAM_ITEM_ID}`, auth, async (req, res) => {
+router.delete(`${C.Route.DELETE}/:${C.Route.ID}`, auth, async (req, res) => {
     
     try {
 
@@ -202,7 +145,7 @@ router.delete(`${C.Route.ITEMS_DELETE}/:${C.Route.PARAM_ITEM_ID}`, auth, async (
 
         if (user.admin) {
 
-            const paramItemID = req.params[C.Route.PARAM_ITEM_ID];
+            const paramItemID = req.params[C.Route.ID];
             const isValidItemID = mongoose.Types.ObjectId.isValid(paramItemID);
 
             if (!isValidItemID) {
@@ -224,6 +167,54 @@ router.delete(`${C.Route.ITEMS_DELETE}/:${C.Route.PARAM_ITEM_ID}`, auth, async (
 
             throw new Error(C.Error.USER_INVALID_CREDENTIALS);
         }
+    }
+    catch (error) {
+
+        utils.sendErrorResponse(error, res);
+    }
+});
+
+/**
+ * @description (GET) Retrieve an array of either one or all items.
+ * All users are authorized to retrieve either a list of all items or a single item by optionally providing a valid item ID as a request parameter.
+ * 
+ * @protected
+ * @constant
+ * 
+ */
+router.get(`/:${C.Route.ID}?`, auth, async (req, res) => {
+
+    try {
+
+        const paramItemID = req.params[C.Route.ID];
+        let result;
+
+        if (paramItemID) {
+
+            const isValidItemID = mongoose.Types.ObjectId.isValid(paramItemID);
+
+            if (!isValidItemID) {
+
+                throw new Error(C.Error.ITEM_DOES_NOT_EXIST);
+            }
+
+            result = await Item.findById(paramItemID);
+
+            if (!result) {
+
+                throw new Error(C.Error.ITEM_DOES_NOT_EXIST);
+            }
+
+            result = [result];
+        }
+        else {
+
+            result = await Item.find({});
+        }
+
+        return res
+            .status(C.Status.OK)
+            .send({ items: result });
     }
     catch (error) {
 

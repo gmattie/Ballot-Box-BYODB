@@ -33,7 +33,7 @@ const result = (req, res, next) => {
 };
 
 /**
- * @description Validation for item add route.
+ * @description Validation for /api/items/add route.
  * 
  * @public
  * @constant
@@ -48,16 +48,16 @@ const itemAdd = [
 ];
 
 /**
- * @description Validation for item update route.
+ * @description Validation for /api/items/edit route.
  * 
  * @public
  * @constant
  * 
  */
-const itemUpdate = itemAdd;
+const itemEdit = itemAdd;
 
 /**
- * @description Validation for user login route.
+ * @description Validation for /api/users/login route.
  * 
  * @public
  * @constant
@@ -73,7 +73,7 @@ const userLogin = [
 ];
 
 /**
- * @description Validation for user registration route.
+ * @description Validation for /api/users/register route.
  * 
  * @public
  * @constant
@@ -96,13 +96,13 @@ const userRegister = [
 ];
 
 /**
- * @description Validation for user update route.
+ * @description Validation for /api/users/edit route.
  * 
  * @public
  * @constant
  * 
  */
-const userUpdate = [
+const userEdit = [
 
     check(C.Model.NAME, C.Error.NAME)
         .optional()
@@ -117,7 +117,7 @@ const userUpdate = [
 ];
 
 /**
- * @description Validation for vote open route.
+ * @description Validation for /api/votes/open route.
  * 
  * @public
  * @constant
@@ -127,7 +127,11 @@ const voteOpen = [
 
     check(C.Model.DEADLINE, C.Error.DEADLINE)
         .optional()
-        .isInt({ min: 1, max: 31622400 })
+        .isInt({ min: 1, max: 31622400 }),
+
+    check(C.Model.QUANTITY, C.Error.QUANTITY)
+        .optional()
+        .isInt({ min: 1 })
 ];
 
 /**
@@ -137,10 +141,10 @@ const voteOpen = [
 module.exports = {
     
     itemAdd,
-    itemUpdate,
+    itemEdit,
     result,
+    userEdit,
     userLogin,
     userRegister,
-    userUpdate,
     voteOpen
 };

@@ -96,7 +96,7 @@ const getJWTPayload = (userId) => {
  * @constant
  * 
  */
-router.post(C.Route.USERS_REGISTER, [
+router.post(C.Route.REGISTER, [
     
         validation.userRegister,
         validation.result
@@ -155,7 +155,7 @@ router.post(C.Route.USERS_REGISTER, [
  * @constant
  * 
  */
-router.post(C.Route.USERS_LOGIN, [
+router.post(C.Route.LOGIN, [
 
         validation.userLogin,
         validation.result
@@ -202,72 +202,6 @@ router.post(C.Route.USERS_LOGIN, [
 );
 
 /**
- * @description (GET) Retrieve an array of either one or all users.
- * All users are authorized to retrieve their own user document via token authentication and optionally providing their own valid user ID as a request parameter.
- * Admin users, via admin authentication, are authorized to retrieve either a list of all users or a single user by optionally providing a valid user ID as a request parameter.
- * 
- * @protected
- * @constant
- * 
- */
-router.get(`${C.Route.USERS_INFO}/:${C.Route.PARAM_USER_ID}?`, auth, async (req, res) => {
-    
-    try {
-
-        const user = res.locals[C.Local.USER];
-        const paramUserID = req.params[C.Route.PARAM_USER_ID];
-        let result;
-
-        if (user.admin) {
-
-            if (paramUserID) {
-
-                const isValidUserID = mongoose.Types.ObjectId.isValid(paramUserID);
-
-                if (!isValidUserID) {
-
-                    throw new Error(C.Error.USER_DOES_NOT_EXIST);
-                }
-
-                result = (paramUserID === user.id) ? user : await User
-                    .findById(paramUserID)
-                    .select(`${C.Model.NAME} ${C.Model.EMAIL} ${C.Model.ADMIN}`);
-
-                if (!result) {
-
-                    throw new Error(C.Error.USER_DOES_NOT_EXIST);
-                }
-
-                result = [result];
-            }
-            else {
-
-                result = await User
-                    .find({})
-                    .select(`${C.Model.NAME} ${C.Model.EMAIL} ${C.Model.ADMIN}`);
-            }
-        }
-        else {
-
-            if (paramUserID && paramUserID !== user.id) {
-                
-                throw new Error(C.Error.USER_INVALID_CREDENTIALS);
-            }
-
-            result = [user];
-        }
-            
-        return res
-            .status(C.Status.OK)
-            .send({ info: result });
-    }
-    catch (error) {
-
-        utils.sendErrorResponse(error, res);
-    }
-});
-
-/**
  * @description (PATCH) Update a user.
  * All users are authorized to update the name, password and admin values of their own user document via token authentication.
  * 
@@ -275,10 +209,10 @@ router.get(`${C.Route.USERS_INFO}/:${C.Route.PARAM_USER_ID}?`, auth, async (req,
  * @constant
  * 
  */
-router.patch(C.Route.USERS_EDIT, [
+router.patch(C.Route.EDIT, [
     
         auth,
-        validation.userUpdate,
+        validation.userEdit,
         validation.result
     ],
     async (req, res) => {
@@ -337,14 +271,14 @@ router.patch(C.Route.USERS_EDIT, [
  * @constant
  * 
  */
-router.get(`${C.Route.USERS_LOGOUT}/:${C.Route.PARAM_USER_ID}?`, auth, async (req, res) => {
+router.get(`${C.Route.LOGOUT}/:${C.Route.ID}?`, auth, async (req, res) => {
     
     try {
         
         const user = res.locals[C.Local.USER];
-        const paramUserID = req.params[C.Route.PARAM_USER_ID];
+        const paramUserID = req.params[C.Route.ID];
         let result;
-
+console.log("---", paramUserID);
         if (user.admin) {
 
             if (paramUserID) {
@@ -403,12 +337,12 @@ router.get(`${C.Route.USERS_LOGOUT}/:${C.Route.PARAM_USER_ID}?`, auth, async (re
  * @constant
  * 
  */
-router.delete(`${C.Route.USERS_DELETE}/:${C.Route.PARAM_USER_ID}?`, auth, async (req, res) => {
+router.delete(`${C.Route.DELETE}/:${C.Route.ID}?`, auth, async (req, res) => {
     
     try {
         
         const user = res.locals[C.Local.USER];
-        const paramUserID = req.params[C.Route.PARAM_USER_ID];
+        const paramUserID = req.params[C.Route.ID];
         let result;
 
         if (user.admin) {
@@ -449,6 +383,72 @@ router.delete(`${C.Route.USERS_DELETE}/:${C.Route.PARAM_USER_ID}?`, auth, async 
         return res
             .status(C.Status.OK)
             .json({ user: result });
+    }
+    catch (error) {
+
+        utils.sendErrorResponse(error, res);
+    }
+});
+
+/**
+ * @description (GET) Retrieve an array of either one or all users.
+ * All users are authorized to retrieve their own user document via token authentication and optionally providing their own valid user ID as a request parameter.
+ * Admin users, via admin authentication, are authorized to retrieve either a list of all users or a single user by optionally providing a valid user ID as a request parameter.
+ * 
+ * @protected
+ * @constant
+ * 
+ */
+router.get(`/:${C.Route.ID}?`, auth, async (req, res) => {
+
+    try {
+
+        const user = res.locals[C.Local.USER];
+        const paramUserID = req.params[C.Route.ID];
+        let result;
+
+        if (user.admin) {
+
+            if (paramUserID) {
+
+                const isValidUserID = mongoose.Types.ObjectId.isValid(paramUserID);
+
+                if (!isValidUserID) {
+
+                    throw new Error(C.Error.USER_DOES_NOT_EXIST);
+                }
+
+                result = (paramUserID === user.id) ? user : await User
+                    .findById(paramUserID)
+                    .select(`${C.Model.NAME} ${C.Model.EMAIL} ${C.Model.ADMIN}`);
+
+                if (!result) {
+
+                    throw new Error(C.Error.USER_DOES_NOT_EXIST);
+                }
+
+                result = [result];
+            }
+            else {
+
+                result = await User
+                    .find({})
+                    .select(`${C.Model.NAME} ${C.Model.EMAIL} ${C.Model.ADMIN}`);
+            }
+        }
+        else {
+
+            if (paramUserID && paramUserID !== user.id) {
+                
+                throw new Error(C.Error.USER_INVALID_CREDENTIALS);
+            }
+
+            result = [user];
+        }
+            
+        return res
+            .status(C.Status.OK)
+            .send({ users: result });
     }
     catch (error) {
 

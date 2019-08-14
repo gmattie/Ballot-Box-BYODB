@@ -4,8 +4,10 @@
  * @requires auth
  * @requires constants
  * @requires express
+ * @requires mongoose
  * @requires utils
  * @requires validation
+ * @requires Vote
  * @requires ws
  * @public
  * @module
@@ -13,9 +15,11 @@
  */
 const auth = require("../../middleware/auth");
 const C = require("../../support/constants");
+const mongoose = require("mongoose");
 const router = require("express").Router();
 const utils = require("../../support/utilities");
 const validation = require("../../middleware/validation");
+const Vote = require("../../models/Vote");
 const WebSocket = require("ws");
 
 /**
@@ -42,7 +46,7 @@ const broadcast = (clients, data) => {
 };
 
 /**
- * @description Closes voting.
+ * @description Negates the flag that allows users to cast votes and stops an optional running deadline countdown.
  * 
  * @param {Object} req - An HTTP request object.
  * @private
@@ -57,20 +61,21 @@ const closeVote = (req) => {
 };
 
 /**
- * @description (GET) Opens voting to allow all connected clients to cast their votes before an optional deadline.
- * Admin users, via admin authentication, are authorized to open voting with an optional time limit by providing a deadline value (in seconds) within the request body.
+ * @description (POST) Opens voting to allow clients to cast their votes before an optional deadline.
+ * Admin users, via admin authentication, are authorized to open voting with an optional time limit and optional ranking quantity properties.
+ * The optional properties are set by providing a "deadline" value (in seconds) and a "quantity" value within the HTTP request body.
  * 
  * @protected
  * @constant
  * 
  */
-router.get(C.Route.VOTES_OPEN, [
+router.post(C.Route.OPEN, [
     
         auth,
         validation.voteOpen,
         validation.result
     ],
-    (req, res) => {
+    async (req, res) => {
 
         try {
 
@@ -82,7 +87,15 @@ router.get(C.Route.VOTES_OPEN, [
                     
                     req.app.locals[C.Local.IS_VOTE_OPEN] = true;
                     
-                    let seconds = req.body[C.Model.DEADLINE];
+                    const { deadline, quantity } = req.body;
+
+                    const vote = new Vote({
+
+                        [C.Model.DEADLINE]: deadline,
+                        [C.Model.QUANTITY]: quantity,
+                    });
+
+                    let seconds = deadline;
                     
                     if (seconds) {
 
@@ -120,7 +133,11 @@ router.get(C.Route.VOTES_OPEN, [
                         req.app.locals[C.Local.DEADLINE_INTERVAL] = setInterval(deadlineIntervalCallback, 1000);
                     }
 
-                    return res.sendStatus(C.Status.OK);
+                    await vote.save();
+
+                    return res
+                        .status(C.Status.OK)
+                        .json({ vote });
                 }
                 else {
 
@@ -140,14 +157,14 @@ router.get(C.Route.VOTES_OPEN, [
 );
 
 /**
- * @description (GET) Closes voting to block connected clients from casting votes.
+ * @description (GET) Closing voting stops an optional running deadline countdown and blocks clients from casting votes.
  * Admin users, via admin authentication, are authorized to close voting.
  * 
  * @protected
  * @constant
  * 
  */
-router.get(C.Route.VOTES_CLOSE, auth, (req, res) => {
+router.get(C.Route.CLOSE, auth, (req, res) => {
 
     try {
 
@@ -177,20 +194,102 @@ router.get(C.Route.VOTES_CLOSE, auth, (req, res) => {
     }
 });
 
-
-// Cast
-router.get(C.Route.VOTES_CAST, auth, (req, res) => {
-
-});
-
-// Results
-router.get(C.Route.VOTES_RESULTS, auth, (req, res) => {
+// Cast (PATCH)
+router.patch(C.Route.CAST, auth, (req, res) => {
 
 });
 
-// Delete
-router.get(C.Route.VOTES_DELETE, auth, (req, res) => {
+/**
+ * @description (DELETE) Delete a vote.
+ * Only authenticated admin users are authorized to delete votes.
+ * 
+ * @protected
+ * @constant
+ * 
+ */
+router.delete(`${C.Route.DELETE}/:${C.Route.ID}`, auth, async (req, res) => {
 
+    try {
+
+        const user = res.locals[C.Local.USER];
+
+        if (user.admin) {
+
+            const paramVoteID = req.params[C.Route.ID];
+            const isValidVoteID = mongoose.Types.ObjectId.isValid(paramVoteID);
+
+            if (!isValidVoteID) {
+
+                throw new Error(C.Error.VOTE_DOES_NOT_EXIST);
+            }
+            const vote = await Vote.findByIdAndRemove(paramVoteID);
+
+            if (!vote) {
+
+                throw new Error(C.Error.VOTE_DOES_NOT_EXIST);
+            }
+
+            return res
+                .status(C.Status.OK)
+                .json({ vote });
+        }
+        else {
+
+            throw new Error(C.Error.USER_INVALID_CREDENTIALS);
+        }
+    }
+    catch (error) {
+
+        utils.sendErrorResponse(error, res);
+    }
+});
+
+/**
+ * @description (GET) Retrieve an array of either one or all votes.
+ * All users are authorized to retrieve either a list of all votes or a single vote by optionally providing a valid vote ID as a request parameter.
+ * 
+ * @protected
+ * @constant
+ * 
+ */
+router.get(`/:${C.Route.ID}?`, auth, async (req, res) => {
+
+    try {
+
+        const paramVoteID = req.params[C.Route.ID];
+        let result;
+
+        if (paramVoteID) {
+
+            const isValidVoteID = mongoose.Types.ObjectId.isValid(paramVoteID);
+
+            if (!isValidVoteID) {
+
+                throw new Error(C.Error.VOTE_DOES_NOT_EXIST);
+            }
+
+            result = await Vote.findById(paramVoteID);
+
+            if (!result) {
+
+                throw new Error(C.Error.VOTE_DOES_NOT_EXIST);
+            }
+
+            result = [result];
+        }
+        else {
+
+            result = await Vote.find({});
+        }
+
+        return res
+            .status(C.Status.OK)
+            .json({ votes: result });
+    }
+    catch (error) {
+
+        utils.sendErrorResponse(error, res);
+    }
 });
 
 /**

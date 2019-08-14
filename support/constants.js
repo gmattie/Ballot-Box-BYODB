@@ -70,11 +70,13 @@ const Dir = {
  *     <li> ITEM_DOES_NOT_EXIST </li>
  *     <li> NAME </li>
  *     <li> PASSWORD </li>
+ *     <li> QUANTITY </li>
  *     <li> USER_ALREADY_EXISTS </li>
  *     <li> USER_DOES_NOT_EXIST </li>
  *     <li> USER_INVALID_CREDENTIALS </li>
  *     <li> VOTE_ALREADY_CLOSED </li>
  *     <li> VOTE_ALREADY_OPEN </li>
+ *     <li> VOTE_DOES_NOT_EXIST </li>
  * </ul>
  * 
  * @public
@@ -89,11 +91,13 @@ const Error = {
     ITEM_DOES_NOT_EXIST: "Item does not exist",
     NAME: "Name is required",
     PASSWORD: "Password is required",
+    QUANTITY: "Quantity is not valid",
     USER_ALREADY_EXISTS: "User already exists",
     USER_DOES_NOT_EXIST: "User does not exist",
     USER_INVALID_CREDENTIALS: "Invalid credentials",
     VOTE_ALREADY_CLOSED: "Voting is already closed",
     VOTE_ALREADY_OPEN: "Voting is already open",
+    VOTE_DOES_NOT_EXIST: "Vote does not exist",
 };
 
 /**
@@ -162,6 +166,7 @@ const Message = {
  * 
  * <ul>
  *     <li> ADMIN </li>
+ *     <li> CAST </li>
  *     <li> DATE </li>
  *     <li> DEADLINE </li>
  *     <li> EMAIL </li>
@@ -169,8 +174,8 @@ const Message = {
  *     <li> ITEM </li>
  *     <li> NAME </li>
  *     <li> PASSWORD </li>
+ *     <li> QUANTITY </li>
  *     <li> RANK </li>
- *     <li> RESULT </li>
  *     <li> TOKEN </li>
  *     <li> USER </li>
  *     <li> VOTE </li>
@@ -183,6 +188,7 @@ const Message = {
 const Model = {
 
     ADMIN: "admin",
+    CAST: "cast",
     DATE: "date",
     DEADLINE: "deadline",
     EMAIL: "email",
@@ -190,8 +196,8 @@ const Model = {
     ITEM: "item",
     NAME: "name",
     PASSWORD: "password",
+    QUANTITY: "quantity",
     RANK: "rank",
-    RESULT: "result",
     TOKEN: "token",
     USER: "user",
     VOTE: "vote",
@@ -201,25 +207,19 @@ const Model = {
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> ADD </li>
+ *     <li> CAST </li>
+ *     <li> CLOSE </li>
+ *     <li> DELETE </li>
+ *     <li> EDIT </li>
+ *     <li> ID </li>
  *     <li> ITEMS </li>
- *     <li> ITEMS_ADD </li>
- *     <li> ITEMS_DELETE </li>
- *     <li> ITEMS_EDIT </li>
- *     <li> PARAM_ITEM_ID </li>
- *     <li> PARAM_USER_ID </li>
+ *     <li> LOGIN </li>
+ *     <li> LOGOUT </li>
+ *     <li> OPEN </li>
+ *     <li> REGISTER </li>
  *     <li> USERS </li>
- *     <li> USERS_DELETE </li>
- *     <li> USERS_EDIT </li>
- *     <li> USERS_INFO </li>
- *     <li> USERS_LOGIN </li>
- *     <li> USERS_LOGOUT </li>
- *     <li> USERS_REGISTER </li>
  *     <li> VOTES </li>
- *     <li> VOTES_CAST </li>
- *     <li> VOTES_CLOSE </li>
- *     <li> VOTES_DELETE </li>
- *     <li> VOTES_OPEN </li>
- *     <li> VOTES_RESULTS </li>
  * </ul>
  * 
  * @public
@@ -228,24 +228,18 @@ const Model = {
  */
 const Route = {
 
-    ITEMS_ADD: "/add",
-    ITEMS_DELETE: "/delete",
-    ITEMS_EDIT: "/edit",
+    ADD: "/add",
+    CAST: "/cast",
+    CLOSE: "/close",
+    DELETE: "/delete",
+    EDIT: "/edit",
+    ID: "id",
     ITEMS: "/api/items",
-    PARAM_ITEM_ID: "itemID",
-    PARAM_USER_ID: "userID",
-    USERS_DELETE: "/delete",
-    USERS_EDIT: "/edit",
-    USERS_INFO: "/info",
-    USERS_LOGIN: "/login",
-    USERS_LOGOUT: "/logout",
-    USERS_REGISTER: "/register",
+    LOGIN: "/login",
+    LOGOUT: "/logout",
+    OPEN: "/open",
+    REGISTER: "/register",
     USERS: "/api/users",
-    VOTES_CAST: "/cast",
-    VOTES_CLOSE: "/close",
-    VOTES_DELETE: "/delete",
-    VOTES_OPEN: "/open",
-    VOTES_RESULTS: "/results",
     VOTES: "/api/votes",
 };
 

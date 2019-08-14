@@ -10,27 +10,48 @@
  * 
  */
 const C = require("../support/constants");
-const Item = require("../models/Item");
 const mongoose = require("mongoose");
-const User = require("../models/User");
 
 /**
- * @description The Result sub document schema definition.
+ * @description The Rank subdocument schema definition.
  * 
  * @private
  * @constant
  * 
  */
-const resultSchema = new mongoose.Schema({
+const rankSchema = new mongoose.Schema({
 
     [C.Model.ITEM]: {
 
-        type: Item,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: C.Model.ITEM,
         required: true
     },
     [C.Model.RANK]: {
 
         type: Number,
+        required: true
+    }
+}, { versionKey: false });
+
+/**
+ * @description The Cast subdocument schema definition.
+ * 
+ * @private
+ * @constant
+ * 
+ */
+const castSchema = new mongoose.Schema({
+
+    [C.Model.CAST]: {
+
+        type: [rankSchema],
+        required: true
+    },
+    [C.Model.USER]: {
+
+        type: mongoose.Schema.Types.ObjectId,
+        ref: C.Model.USER,
         required: true
     }
 }, { versionKey: false });
@@ -45,6 +66,7 @@ const resultSchema = new mongoose.Schema({
 const voteSchema = new mongoose.Schema({
 
     [C.Model.DATE]: {
+        
         type: Date,
         default: Date.now
     },
@@ -53,17 +75,16 @@ const voteSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    [C.Model.RESULT]: {
+    [C.Model.VOTE]: {
 
-        type: [resultSchema],
-        required: true
+        type: [castSchema]
     },
-    [C.Model.USER]: {
+    [C.Model.QUANTITY]: {
 
-        type: User,
-        required: true,
-        unique: true
+        type: Number,
+        default: 1
     }
+
 }, { versionKey: false });
 
 /**
