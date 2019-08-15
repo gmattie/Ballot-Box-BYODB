@@ -278,7 +278,7 @@ router.get(`${C.Route.LOGOUT}/:${C.Route.ID}?`, auth, async (req, res) => {
         const user = res.locals[C.Local.USER];
         const paramUserID = req.params[C.Route.ID];
         let result;
-console.log("---", paramUserID);
+
         if (user.admin) {
 
             if (paramUserID) {

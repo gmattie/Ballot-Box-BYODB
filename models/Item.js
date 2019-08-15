@@ -25,7 +25,7 @@ const itemSchema = new mongoose.Schema({
     },
     [C.Model.IMAGE]: {
 
-        type: Buffer
+        type: String
     },
     [C.Model.NAME]: {
         

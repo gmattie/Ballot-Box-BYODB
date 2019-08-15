@@ -41,7 +41,7 @@ router.post(C.Route.ADD, [
 
             if (user.admin) {
 
-                const { name } = req.body;
+                const { image, name } = req.body;
                 const itemExists = await Item.findOne({ name });
 
                 if (itemExists) {
@@ -51,6 +51,7 @@ router.post(C.Route.ADD, [
 
                 const item = new Item({
 
+                    [C.Model.IMAGE]: image,
                     [C.Model.NAME]: name
                 });
 
@@ -108,10 +109,20 @@ router.patch(`${C.Route.EDIT}/:${C.Route.ID}`, [
                     throw new Error(C.Error.ITEM_DOES_NOT_EXIST);
                 }
 
-                const { name } = req.body;
-                item[C.Model.NAME] = name;
                 item[C.Model.DATE] = Date.now();
+                
+                const { image, name } = req.body;
 
+                if (image) {
+                    
+                    item[C.Model.IMAGE] = image;
+                }
+                
+                if (name) {
+                    
+                    item[C.Model.NAME] = name;
+                }
+                
                 await item.save();
 
                 return res

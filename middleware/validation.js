@@ -44,7 +44,11 @@ const itemAdd = [
     check(C.Model.NAME, C.Error.NAME)
         .not()
         .isEmpty({ ignore_whitespace: true })
-        .trim()
+        .trim(),
+
+    check(C.Model.IMAGE, C.Error.IMAGE)
+        .optional()
+        .isURL()
 ];
 
 /**
@@ -54,7 +58,18 @@ const itemAdd = [
  * @constant
  * 
  */
-const itemEdit = itemAdd;
+const itemEdit = [
+
+    check(C.Model.NAME, C.Error.NAME)
+        .optional()
+        .not()
+        .isEmpty({ ignore_whitespace: true })
+        .trim(),
+
+    check(C.Model.IMAGE, C.Error.IMAGE)
+        .optional()
+        .isURL()
+];
 
 /**
  * @description Validation for /api/users/login route.

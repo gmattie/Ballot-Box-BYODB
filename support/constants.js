@@ -66,6 +66,7 @@ const Dir = {
  * <ul>
  *     <li> DEADLINE </li>
  *     <li> EMAIL </li>
+ *     <li> IMAGE </li>
  *     <li> ITEM_ALREADY_EXISTS </li>
  *     <li> ITEM_DOES_NOT_EXIST </li>
  *     <li> NAME </li>
@@ -85,19 +86,20 @@ const Dir = {
  */
 const Error = {
 
-    DEADLINE: "Deadline is not valid",
-    EMAIL: "Email is not valid",
-    ITEM_ALREADY_EXISTS: "Item already exists",
-    ITEM_DOES_NOT_EXIST: "Item does not exist",
-    NAME: "Name is required",
-    PASSWORD: "Password is required",
-    QUANTITY: "Quantity is not valid",
-    USER_ALREADY_EXISTS: "User already exists",
-    USER_DOES_NOT_EXIST: "User does not exist",
-    USER_INVALID_CREDENTIALS: "Invalid credentials",
-    VOTE_ALREADY_CLOSED: "Voting is already closed",
-    VOTE_ALREADY_OPEN: "Voting is already open",
-    VOTE_DOES_NOT_EXIST: "Vote does not exist",
+    DEADLINE: "Invalid deadline.",
+    EMAIL: "Invalid email.",
+    IMAGE: "Invalid image URL.",
+    ITEM_ALREADY_EXISTS: "Item already exists.",
+    ITEM_DOES_NOT_EXIST: "Item does not exist.",
+    NAME: "Name is required.",
+    PASSWORD: "Password is required.",
+    QUANTITY: "Invalid quantity.",
+    USER_ALREADY_EXISTS: "User already exists.",
+    USER_DOES_NOT_EXIST: "User does not exist.",
+    USER_INVALID_CREDENTIALS: "Invalid credentials.",
+    VOTE_ALREADY_CLOSED: "Voting is already closed.",
+    VOTE_ALREADY_OPEN: "Voting is already open.",
+    VOTE_DOES_NOT_EXIST: "Vote does not exist.",
 };
 
 /**
@@ -208,18 +210,18 @@ const Model = {
  * 
  * <ul>
  *     <li> ADD </li>
+ *     <li> API_ITEMS </li>
+ *     <li> API_USERS </li>
+ *     <li> API_VOTES </li>
  *     <li> CAST </li>
  *     <li> CLOSE </li>
  *     <li> DELETE </li>
  *     <li> EDIT </li>
  *     <li> ID </li>
- *     <li> ITEMS </li>
  *     <li> LOGIN </li>
  *     <li> LOGOUT </li>
  *     <li> OPEN </li>
  *     <li> REGISTER </li>
- *     <li> USERS </li>
- *     <li> VOTES </li>
  * </ul>
  * 
  * @public
@@ -229,18 +231,18 @@ const Model = {
 const Route = {
 
     ADD: "/add",
+    API_ITEMS: "/api/items",
+    API_USERS: "/api/users",
+    API_VOTES: "/api/votes",
     CAST: "/cast",
     CLOSE: "/close",
     DELETE: "/delete",
     EDIT: "/edit",
     ID: "id",
-    ITEMS: "/api/items",
     LOGIN: "/login",
     LOGOUT: "/logout",
     OPEN: "/open",
     REGISTER: "/register",
-    USERS: "/api/users",
-    VOTES: "/api/votes",
 };
 
 /**

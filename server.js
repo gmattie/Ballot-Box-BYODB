@@ -30,9 +30,9 @@ const server = () => {
     app.use(express.static(C.Dir.CLIENT));
     app.use(express.json({ extended: false }));
     
-    app.use(C.Route.ITEMS, require(`${C.Dir.ROUTES}${C.Route.ITEMS}`));
-    app.use(C.Route.USERS, require(`${C.Dir.ROUTES}${C.Route.USERS}`));
-    app.use(C.Route.VOTES, require(`${C.Dir.ROUTES}${C.Route.VOTES}`));
+    app.use(C.Route.API_ITEMS, require(`${C.Dir.ROUTES}${C.Route.API_ITEMS}`));
+    app.use(C.Route.API_USERS, require(`${C.Dir.ROUTES}${C.Route.API_USERS}`));
+    app.use(C.Route.API_VOTES, require(`${C.Dir.ROUTES}${C.Route.API_VOTES}`));
     
     const port = process.env.PORT || 5000;
     const server = createServer(app);
