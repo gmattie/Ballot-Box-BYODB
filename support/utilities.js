@@ -33,44 +33,43 @@ const getTokenSignature = (jwt) => jwt.slice(jwt.lastIndexOf(".") + 1);
 
 const sendErrorResponse = (error, response) => {
 
+    let status;
+
     switch (error.message) {
 
         case C.Error.USER_ALREADY_EXISTS:
 
-             return response
-                .status(C.Status.BAD_REQUEST)
-                .send({ error: C.Error.USER_ALREADY_EXISTS });
+            status = C.Status.BAD_REQUEST;
+            break;
 
         case C.Error.USER_DOES_NOT_EXIST:
 
-            return response
-                .status(C.Status.BAD_REQUEST)
-                .send({ error: C.Error.USER_DOES_NOT_EXIST });
+            status = C.Status.BAD_REQUEST;
+            break;
 
         case C.Error.USER_INVALID_CREDENTIALS:
 
-            return response
-                .status(C.Status.UNAUTHENTICATED)
-                .send({ error: C.Error.USER_INVALID_CREDENTIALS });
+            status = C.Status.UNAUTHENTICATED;
+            break;
 
         case C.Error.VOTE_ALREADY_CLOSED:
 
-            return response
-                .status(C.Status.BAD_REQUEST)
-                .send({ error: C.Error.VOTE_ALREADY_CLOSED });
+            status = C.Status.BAD_REQUEST;
+            break;
 
         case C.Error.VOTE_ALREADY_OPEN:
 
-            return response
-                .status(C.Status.BAD_REQUEST)
-                .send({ error: C.Error.VOTE_ALREADY_OPEN });
+            status = C.Status.BAD_REQUEST;
+            break;
 
         default:
 
-            return response
-                .status(C.Status.INTERNAL_SERVER_ERROR)
-                .send({ error: error.message });
+            status = C.Status.INTERNAL_SERVER_ERROR;
     }
+
+    return response
+        .status(status)
+        .send({ error: error.message });
 };
 
 /**

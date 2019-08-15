@@ -86,20 +86,20 @@ const Dir = {
  */
 const Error = {
 
-    DEADLINE: "Invalid deadline.",
-    EMAIL: "Invalid email.",
-    IMAGE: "Invalid image URL.",
-    ITEM_ALREADY_EXISTS: "Item already exists.",
-    ITEM_DOES_NOT_EXIST: "Item does not exist.",
-    NAME: "Name is required.",
-    PASSWORD: "Password is required.",
-    QUANTITY: "Invalid quantity.",
-    USER_ALREADY_EXISTS: "User already exists.",
-    USER_DOES_NOT_EXIST: "User does not exist.",
-    USER_INVALID_CREDENTIALS: "Invalid credentials.",
-    VOTE_ALREADY_CLOSED: "Voting is already closed.",
-    VOTE_ALREADY_OPEN: "Voting is already open.",
-    VOTE_DOES_NOT_EXIST: "Vote does not exist.",
+    DEADLINE: "Invalid deadline",
+    EMAIL: "Invalid email",
+    IMAGE: "Invalid image URL",
+    ITEM_ALREADY_EXISTS: "Item already exists",
+    ITEM_DOES_NOT_EXIST: "Item does not exist",
+    NAME: "Name is required",
+    PASSWORD: "Password is required",
+    QUANTITY: "Invalid quantity",
+    USER_ALREADY_EXISTS: "User already exists",
+    USER_DOES_NOT_EXIST: "User does not exist",
+    USER_INVALID_CREDENTIALS: "Invalid credentials",
+    VOTE_ALREADY_CLOSED: "Voting is already closed",
+    VOTE_ALREADY_OPEN: "Voting is already open",
+    VOTE_DOES_NOT_EXIST: "Vote does not exist",
 };
 
 /**
@@ -158,7 +158,7 @@ const Local = {
 
 const Message = {
 
-    DATABASE_CONNECTED: "Database connected...",
+    DATABASE_CONNECTED: "Database connected",
     CONNECTED_CLIENTS: "Connected clients:",
     SERVER_RUNNING: "Server is running on port:",
 };
