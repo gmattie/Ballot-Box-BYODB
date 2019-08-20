@@ -337,53 +337,40 @@ router.get(`${C.Route.LOGOUT}/:${C.Route.ID}?`, auth, async (req, res) => {
 /**
  * @description (DELETE) Delete a user.
  * All users are authorized to delete their own user document by providing their own valid user ID as a request parameter.
- * Admin users, via admin authentication, are authorized to delete any user document by providing an optional valid user ID request parameter.
+ * Admin users, via admin authentication, are authorized to delete any user document by providing a valid user ID request parameter.
  * 
  * @protected
  * @constant
  * 
  */
-router.delete(`${C.Route.DELETE}/:${C.Route.ID}?`, auth, async (req, res) => {
+router.delete(`${C.Route.DELETE}/:${C.Route.ID}`, auth, async (req, res) => {
     
     try {
         
         const user = res.locals[C.Local.USER];
         const paramUserID = req.params[C.Route.ID];
+        const isValidUserID = mongoose.Types.ObjectId.isValid(paramUserID);
         let result;
 
-        if (user.admin) {
+        if (!isValidUserID) {
 
-            if (paramUserID) {
-
-                const isValidUserID = mongoose.Types.ObjectId.isValid(paramUserID);
-
-                if (!isValidUserID) {
-
-                    throw new Error(C.Error.USER_DOES_NOT_EXIST);
-                }
-
-                result = (paramUserID === user.id) ? user : await User
-                    .findByIdAndRemove(paramUserID)
-                    .select(`${C.Model.NAME} ${C.Model.EMAIL} ${C.Model.ADMIN}`);
-
-                if (!result) {
-                    
-                    throw new Error(C.Error.USER_DOES_NOT_EXIST);
-                }
-            }
-            else {
-
-                result = await user.deleteOne();
-            }
+            throw new Error(C.Error.USER_DOES_NOT_EXIST);
         }
-        else {
 
-            if (paramUserID && paramUserID !== user.id) {
+        if (user.admin || (paramUserID === user.id)) {
 
-                throw new Error(C.Error.USER_INVALID_CREDENTIALS);
-            }
-        
-            result = await user.deleteOne();
+            result = await User
+                .findByIdAndRemove(paramUserID)
+                .select(`${C.Model.ADMIN} ${C.Model.EMAIL} ${C.Model.NAME}`);
+        }
+        else{
+
+            throw new Error(C.Error.USER_INVALID_CREDENTIALS);
+        }
+
+        if (!result) {
+            
+            throw new Error(C.Error.USER_DOES_NOT_EXIST);
         }
 
         return res
@@ -398,7 +385,7 @@ router.delete(`${C.Route.DELETE}/:${C.Route.ID}?`, auth, async (req, res) => {
 
 /**
  * @description (GET) Retrieve an array of either one or all users.
- * All users are authorized to retrieve their own user document by providing their own valid user ID as a request parameter.
+ * All users are authorized to retrieve their own user document via token authentication or by providing their own valid user ID as a request parameter.
  * Admin users, via admin authentication, are authorized to retrieve either a list of all users or a single user by optionally providing a valid user ID as a request parameter.
  * 
  * @protected
