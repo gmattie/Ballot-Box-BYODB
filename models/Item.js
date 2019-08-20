@@ -12,7 +12,7 @@ const mongoose = require("mongoose");
 /**
  * @description The Item schema definition.
  * 
- * @private
+ * @public
  * @constant
  * 
  */

@@ -12,7 +12,7 @@ const mongoose = require("mongoose");
 /**
  * @description The User schema definition.
  * 
- * @private
+ * @public
  * @constant
  * 
  */

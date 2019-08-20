@@ -52,12 +52,12 @@ const sendErrorResponse = (error, response) => {
             status = C.Status.UNAUTHENTICATED;
             break;
 
-        case C.Error.VOTE_ALREADY_CLOSED:
+        case C.Error.VOTE_CLOSED:
 
             status = C.Status.BAD_REQUEST;
             break;
 
-        case C.Error.VOTE_ALREADY_OPEN:
+        case C.Error.VOTE_OPENED:
 
             status = C.Status.BAD_REQUEST;
             break;

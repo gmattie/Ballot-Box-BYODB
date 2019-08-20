@@ -64,6 +64,7 @@ const Dir = {
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> CAST </li>
  *     <li> DEADLINE </li>
  *     <li> EMAIL </li>
  *     <li> IMAGE </li>
@@ -72,12 +73,13 @@ const Dir = {
  *     <li> NAME </li>
  *     <li> PASSWORD </li>
  *     <li> QUANTITY </li>
+ *     <li> RANK </li>
  *     <li> USER_ALREADY_EXISTS </li>
  *     <li> USER_DOES_NOT_EXIST </li>
  *     <li> USER_INVALID_CREDENTIALS </li>
- *     <li> VOTE_ALREADY_CLOSED </li>
- *     <li> VOTE_ALREADY_OPEN </li>
+ *     <li> VOTE_CLOSED </li>
  *     <li> VOTE_DOES_NOT_EXIST </li>
+ *     <li> VOTE_OPENED </li>
  * </ul>
  * 
  * @public
@@ -86,6 +88,7 @@ const Dir = {
  */
 const Error = {
 
+    CAST: "Invalid cast",
     DEADLINE: "Invalid deadline",
     EMAIL: "Invalid email",
     IMAGE: "Invalid image URL",
@@ -94,12 +97,13 @@ const Error = {
     NAME: "Name is required",
     PASSWORD: "Password is required",
     QUANTITY: "Invalid quantity",
+    RANK: "Invalid rank",
     USER_ALREADY_EXISTS: "User already exists",
     USER_DOES_NOT_EXIST: "User does not exist",
     USER_INVALID_CREDENTIALS: "Invalid credentials",
-    VOTE_ALREADY_CLOSED: "Voting is already closed",
-    VOTE_ALREADY_OPEN: "Voting is already open",
+    VOTE_CLOSED: "Voting is already closed",
     VOTE_DOES_NOT_EXIST: "Vote does not exist",
+    VOTE_OPENED: "Voting is already open",
 };
 
 /**
@@ -108,6 +112,8 @@ const Error = {
  * <ul>
  *     <li> CLOSE </li>
  *     <li> CONNECTION </li>
+ *     <li> WEBSOCKET_VOTE_CLOSED </li>
+ *     <li> WEBSOCKET_VOTE_OPENED </li>
  * </ul>
  * 
  * @public
@@ -118,6 +124,8 @@ const Event = {
 
     CLOSE: "close",
     CONNECTION: "connection",
+    WEBSOCKET_VOTE_CLOSED: "websocketVoteClosed",
+    WEBSOCKET_VOTE_OPENED: "websocketVoteOpened",
 };
 
 /**
@@ -146,8 +154,8 @@ const Local = {
  * @description Properties of type {string} consist of:
  * 
  * <ul>
- *     <li> DATABASE_CONNECTED </li>
  *     <li> CONNECTED_CLIENTS </li>
+ *     <li> DATABASE_CONNECTED </li>
  *     <li> SERVER_RUNNING </li>
  * </ul>
  * 
@@ -158,15 +166,16 @@ const Local = {
 
 const Message = {
 
-    DATABASE_CONNECTED: "Database connected",
     CONNECTED_CLIENTS: "Connected clients:",
-    SERVER_RUNNING: "Server is running on port:",
+    DATABASE_CONNECTED: "Database connected",
+    SERVER_RUNNING: "Server is running on port:"
 };
 
 /**
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> ACTIVE </li>
  *     <li> ADMIN </li>
  *     <li> CAST </li>
  *     <li> DATE </li>
@@ -189,6 +198,7 @@ const Message = {
  */
 const Model = {
 
+    ACTIVE: "active",
     ADMIN: "admin",
     CAST: "cast",
     DATE: "date",

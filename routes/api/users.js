@@ -90,7 +90,9 @@ const getJWTPayload = (userId) => {
 };
 
 /**
- * @description (POST) Register user with input validation and password encryption.
+ * @description (POST) Register a user.
+ * Users are registered by providing "name", "email" and "password" values within the HTTP request body.
+ * Admin users are registered by additionally providing valid credentials for both "adminUser" and "adminPass" within the HTTP request body.
  * 
  * @public
  * @constant
@@ -149,7 +151,8 @@ router.post(C.Route.REGISTER, [
 );
 
 /**
- * @description (POST) Login authentication of validated user credentials that responds with a JSON Web Token.
+ * @description (POST) Login a user.
+ * Users are logged in by providing valid credentials for both "email" and "password" within the HTTP request body.
  * 
  * @public
  * @constant
@@ -204,6 +207,9 @@ router.post(C.Route.LOGIN, [
 /**
  * @description (PATCH) Update a user.
  * All users are authorized to update the name, password and admin values of their own user document via token authentication.
+ * 
+ * All users are authorized to edit their own existing User document by providing a valid user ID as a request parameter.
+ * Users are edited by providing option "name", "password", "adminUser" and/or "adminPass" values within the HTTP request body.
  * 
  * @protected
  * @constant
@@ -330,7 +336,7 @@ router.get(`${C.Route.LOGOUT}/:${C.Route.ID}?`, auth, async (req, res) => {
 
 /**
  * @description (DELETE) Delete a user.
- * All users are authorized to delete their own user document via token authentication and optionally providing their own valid user ID as a request parameter.
+ * All users are authorized to delete their own user document by providing their own valid user ID as a request parameter.
  * Admin users, via admin authentication, are authorized to delete any user document by providing an optional valid user ID request parameter.
  * 
  * @protected
@@ -392,7 +398,7 @@ router.delete(`${C.Route.DELETE}/:${C.Route.ID}?`, auth, async (req, res) => {
 
 /**
  * @description (GET) Retrieve an array of either one or all users.
- * All users are authorized to retrieve their own user document via token authentication and optionally providing their own valid user ID as a request parameter.
+ * All users are authorized to retrieve their own user document by providing their own valid user ID as a request parameter.
  * Admin users, via admin authentication, are authorized to retrieve either a list of all users or a single user by optionally providing a valid user ID as a request parameter.
  * 
  * @protected

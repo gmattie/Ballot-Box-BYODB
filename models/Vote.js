@@ -1,5 +1,5 @@
 /**
- * @description The Vote model created from Mongoose schema definition.
+ * @description The Rank, Cast and Vote models created from Mongoose schema definitions.
  * 
  * @requires constants
  * @requires Item
@@ -13,9 +13,9 @@ const C = require("../support/constants");
 const mongoose = require("mongoose");
 
 /**
- * @description The Rank subdocument schema definition.
+ * @description The Rank schema definition.
  * 
- * @private
+ * @public
  * @constant
  * 
  */
@@ -35,9 +35,9 @@ const rankSchema = new mongoose.Schema({
 }, { versionKey: false });
 
 /**
- * @description The Cast subdocument schema definition.
+ * @description The Cast schema definition.
  * 
- * @private
+ * @public
  * @constant
  * 
  */
@@ -65,6 +65,11 @@ const castSchema = new mongoose.Schema({
  */
 const voteSchema = new mongoose.Schema({
 
+    [C.Model.ACTIVE]: {
+
+        type: Boolean,
+        required: true
+    },
     [C.Model.DATE]: {
         
         type: Date,
@@ -84,11 +89,15 @@ const voteSchema = new mongoose.Schema({
         type: Number,
         default: 1
     }
-
 }, { versionKey: false });
 
 /**
  * Export module
  * 
  */
-module.exports = mongoose.model(C.Model.VOTE, voteSchema);
+module.exports = {
+
+    Rank: mongoose.model(C.Model.RANK, rankSchema),
+    Cast: mongoose.model(C.Model.CAST, castSchema),
+    Vote: mongoose.model(C.Model.VOTE, voteSchema)
+};

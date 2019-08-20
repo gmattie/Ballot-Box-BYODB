@@ -3,6 +3,7 @@
  * 
  * @requires constants
  * @requires express-validator
+ * @requires mongoose
  * @public
  * @module
  * 
@@ -10,27 +11,7 @@
 
 const { check, validationResult } = require("express-validator");
 const C = require("../support/constants");
-
-/**
- * @description Sends a response of existing validation errors.
- * 
- * @public
- * @function
- * 
- */
-const result = (req, res, next) => {
-
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-
-        return res
-            .status(C.Status.BAD_REQUEST)
-            .json({ errors: errors.array() });
-    }
-
-    next();
-};
+const mongoose = require("mongoose");
 
 /**
  * @description Validation for /api/items/add route.
@@ -69,6 +50,48 @@ const itemEdit = [
     check(C.Model.IMAGE, C.Error.IMAGE)
         .optional()
         .isURL()
+];
+
+/**
+ * @description Sends a response of existing validation errors.
+ * 
+ * @public
+ * @function
+ * 
+ */
+const result = (req, res, next) => {
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+
+        return res
+            .status(C.Status.BAD_REQUEST)
+            .json({ errors: errors.array() });
+    }
+
+    next();
+};
+
+/**
+ * @description Validation for /api/users/edit route.
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const userEdit = [
+
+    check(C.Model.NAME, C.Error.NAME)
+        .optional()
+        .not()
+        .isEmpty({ ignore_whitespace: true })
+        .trim(),
+
+    check(C.Model.PASSWORD, C.Error.PASSWORD)
+        .optional()
+        .not()
+        .isEmpty()
 ];
 
 /**
@@ -111,24 +134,24 @@ const userRegister = [
 ];
 
 /**
- * @description Validation for /api/users/edit route.
+ * @description Validation for /api/votes/cast route.
  * 
  * @public
  * @constant
  * 
  */
-const userEdit = [
+const voteCast = [
 
-    check(C.Model.NAME, C.Error.NAME)
-        .optional()
+    check(C.Model.CAST, C.Error.CAST)
+        .isArray()
         .not()
-        .isEmpty({ ignore_whitespace: true })
-        .trim(),
+        .isEmpty(),
 
-    check(C.Model.PASSWORD, C.Error.PASSWORD)
-        .optional()
-        .not()
-        .isEmpty()
+    check(`${C.Model.CAST}.*.${C.Model.ITEM}`, C.Error.ITEM_DOES_NOT_EXIST)
+        .custom((value) => mongoose.Types.ObjectId.isValid(value)),
+
+    check(`${C.Model.CAST}.*.${C.Model.RANK}`, C.Error.RANK)
+        .isInt({ min: 0 })
 ];
 
 /**
@@ -141,11 +164,9 @@ const userEdit = [
 const voteOpen = [
 
     check(C.Model.DEADLINE, C.Error.DEADLINE)
-        .optional()
-        .isInt({ min: 1, max: 31622400 }),
+        .isInt({ min: 0, max: 31622400 }),
 
     check(C.Model.QUANTITY, C.Error.QUANTITY)
-        .optional()
         .isInt({ min: 1 })
 ];
 
@@ -161,5 +182,6 @@ module.exports = {
     userEdit,
     userLogin,
     userRegister,
-    voteOpen
+    voteCast,
+    voteOpen, 
 };

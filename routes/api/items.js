@@ -22,6 +22,7 @@ const validation = require("../../middleware/validation");
 /**
  * @description (POST) Add an item.
  * Only authenticated admin users are authorized to add items.
+ * Items are added by providing a "name" value and an option "image" URL within the HTTP request body.
  * 
  * @protected
  * @constant
@@ -74,7 +75,8 @@ router.post(C.Route.ADD, [
 
 /**
  * @description (PATCH) Edit the name of an item.
- * Only authenticated admin users are authorized to edit the name of an existing item.
+ * Only admin users, via admin authentication, are authorized to edit existing items by providing a valid item ID as a request parameter.
+ * Items are edited by providing an option "name" value and/or an option "image" URL within the HTTP request body.
  * 
  * @protected
  * @constant
@@ -142,7 +144,7 @@ router.patch(`${C.Route.EDIT}/:${C.Route.ID}`, [
 
 /**
  * @description (DELETE) Delete an item.
- * Only authenticated admin users are authorized to delete items.
+ * Only admin users, via admin authentication, are authorized to delete existing items by providing a valid item ID as a request parameter.
  * 
  * @protected
  * @constant
