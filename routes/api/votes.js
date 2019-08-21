@@ -55,23 +55,22 @@ const broadcast = (clients, data) => {
  */
 const closeVote = async (req) => {
 
-    const clients = req.app.locals[C.Local.CLIENTS];
-
     try {
-
+        
         req.app.locals[C.Local.IS_VOTE_OPEN] = false;
         clearInterval(req.app.locals[C.Local.DEADLINE_INTERVAL]);
-
+        
         const vote = await Vote
-            .findOne({ [C.Model.ACTIVE]: true })
-            .populate(`${C.Model.VOTE}.${C.Model.USER}`, C.Model.NAME)
-            .populate(`${C.Model.VOTE}.${C.Model.CAST}.${C.Model.ITEM}`, `${C.Model.NAME} ${C.Model.IMAGE}`);
-
+        .findOne({ [C.Model.ACTIVE]: true })
+        .populate(`${C.Model.VOTE}.${C.Model.USER}`, C.Model.NAME)
+        .populate(`${C.Model.VOTE}.${C.Model.CAST}.${C.Model.ITEM}`, `${C.Model.NAME} ${C.Model.IMAGE}`);
+        
         if (!vote) {
-
+            
             throw new Error(C.Error.VOTE_DOES_NOT_EXIST);
         }
-
+        
+        const clients = req.app.locals[C.Local.CLIENTS];
         broadcast(clients, C.Event.WEBSOCKET_VOTE_CLOSED);
 
         if (vote[C.Model.VOTE].length === 0) {
@@ -90,7 +89,7 @@ const closeVote = async (req) => {
     }
     catch (error) {
 
-        broadcast(clients, error.message);
+        throw error;
     }
 };
 
@@ -142,7 +141,7 @@ router.post(C.Route.OPEN, [
                                 .padStart(2, "0");
                         };
 
-                        const deadlineIntervalCallback = async () => {
+                        const deadlineIntervalCallback = () => {
             
                             const data = {
                     
@@ -155,7 +154,7 @@ router.post(C.Route.OPEN, [
                             broadcast(clients, JSON.stringify(data));
                     
                             if (seconds === 0) {
-                    
+        
                                 closeVote(req);
                             }
                             else {
@@ -200,7 +199,7 @@ router.post(C.Route.OPEN, [
  * @constant
  * 
  */
-router.get(C.Route.CLOSE, auth, (req, res) => {
+router.get(C.Route.CLOSE, auth, async (req, res) => {
 
     try {
 
@@ -210,7 +209,7 @@ router.get(C.Route.CLOSE, auth, (req, res) => {
         
             if (req.app.locals[C.Local.IS_VOTE_OPEN]) {
 
-                closeVote(req);
+                await closeVote(req);
 
                 res.sendStatus(C.Status.OK);
             }
