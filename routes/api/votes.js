@@ -360,10 +360,10 @@ router.get(`/:${C.Route.ID}?`, auth, async (req, res) => {
         const user = res.locals[C.Local.USER];
         const paramVoteID = req.params[C.Route.ID];
         
-        const populatePathUser = `${C.Model.VOTE}.${C.Model.USER}`;
-        const populateFieldsUser = `${C.Model.NAME}`;
-        const populatePathItem = `${C.Model.VOTE}.${C.Model.CAST}.${C.Model.ITEM}`;
-        const populateFieldsItem = `${C.Model.NAME} ${C.Model.IMAGE}`;
+        const popPathUser = `${C.Model.VOTE}.${C.Model.USER}`;
+        const popFieldsUser = C.Model.NAME;
+        const popPathItem = `${C.Model.VOTE}.${C.Model.CAST}.${C.Model.ITEM}`;
+        const popFieldsItem = `${C.Model.NAME} ${C.Model.IMAGE}`;
         
         let result;
 
@@ -377,8 +377,8 @@ router.get(`/:${C.Route.ID}?`, auth, async (req, res) => {
             }
 
             result = await Vote.findById(paramVoteID)
-                .populate(populatePathUser, populateFieldsUser)
-                .populate(populatePathItem, populateFieldsItem);
+                .populate(popPathUser, popFieldsUser)
+                .populate(popPathItem, popFieldsItem);
 
             if (!result || (result[C.Model.ACTIVE] && !user.admin)) {
 
@@ -389,18 +389,12 @@ router.get(`/:${C.Route.ID}?`, auth, async (req, res) => {
         }
         else {
 
-            if (user.admin) {
+            const filter = (user.admin) ? {} : { [C.Model.ACTIVE]: false };
 
-                result = await Vote.find({})
-                    .populate(populatePathUser, populateFieldsUser)
-                    .populate(populatePathItem, populateFieldsItem);
-            }
-            else {
-
-                result = await Vote.find({ [C.Model.ACTIVE]: false })
-                    .populate(populatePathUser, populateFieldsUser)
-                    .populate(populatePathItem, populateFieldsItem);
-            }
+            result = await Vote.find(filter)
+                .sort(`-${C.Model.DATE}`)
+                .populate(popPathUser, popFieldsUser)
+                .populate(popPathItem, popFieldsItem);
         }
 
         return res
