@@ -22,7 +22,7 @@ const validation = require("../../middleware/validation");
 /**
  * @description (POST) Add an item.
  * Only authenticated admin users are authorized to add items.
- * Items are added by providing a "name" value and an option "image" URL within the HTTP request body.
+ * Items are added by providing an "item" array of objects that contain "name" and "image" properties within the HTTP request body. 
  * 
  * @protected
  * @constant
@@ -42,21 +42,9 @@ router.post(C.Route.ADD, [
 
             if (user.admin) {
 
-                const { image, name } = req.body;
-                const itemExists = await Item.findOne({ name });
+                const { item } = req.body;
 
-                if (itemExists) {
-
-                    throw new Error(C.Error.ITEM_ALREADY_EXISTS);
-                }
-
-                const item = new Item({
-
-                    [C.Model.IMAGE]: image,
-                    [C.Model.NAME]: name
-                });
-
-                await item.save();
+                await Item.insertMany(item);
 
                 return res
                     .status(C.Status.OK)

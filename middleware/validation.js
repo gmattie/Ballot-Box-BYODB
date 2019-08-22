@@ -22,12 +22,17 @@ const mongoose = require("mongoose");
  */
 const itemAdd = [
 
-    check(C.Model.NAME, C.Error.NAME)
+    check(C.Model.ITEM, C.Error.ITEM)
+        .isArray()
+        .not()
+        .isEmpty(),
+
+    check(`${C.Model.ITEM}.*.${C.Model.NAME}`, C.Error.NAME)
         .not()
         .isEmpty({ ignore_whitespace: true })
         .trim(),
 
-    check(C.Model.IMAGE, C.Error.IMAGE)
+    check(`${C.Model.ITEM}.*.${C.Model.IMAGE}`, C.Error.IMAGE)
         .optional()
         .isURL()
 ];

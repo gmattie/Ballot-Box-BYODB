@@ -68,7 +68,7 @@ const Dir = {
  *     <li> DEADLINE </li>
  *     <li> EMAIL </li>
  *     <li> IMAGE </li>
- *     <li> ITEM_ALREADY_EXISTS </li>
+ *     <li> ITEM </li>
  *     <li> ITEM_DOES_NOT_EXIST </li>
  *     <li> NAME </li>
  *     <li> PASSWORD </li>
@@ -92,8 +92,8 @@ const Error = {
     DEADLINE: "Invalid deadline",
     EMAIL: "Invalid email",
     IMAGE: "Invalid image URL",
-    ITEM_ALREADY_EXISTS: "Item already exists",
     ITEM_DOES_NOT_EXIST: "Item does not exist",
+    ITEM: "Invalid item",
     NAME: "Name is required",
     PASSWORD: "Password is required",
     QUANTITY: "Invalid quantity",
