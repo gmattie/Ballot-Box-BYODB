@@ -80,14 +80,18 @@ const voteSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    [C.Model.VOTE]: {
-
-        type: [castSchema]
-    },
     [C.Model.QUANTITY]: {
 
         type: Number,
         default: 1
+    },
+    [C.Model.TOTAL]: {
+
+        type: [rankSchema]
+    },
+    [C.Model.VOTE]: {
+
+        type: [castSchema]
     }
 }, { versionKey: false });
 

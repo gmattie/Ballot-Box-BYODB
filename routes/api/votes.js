@@ -46,7 +46,9 @@ const broadcast = (clients, data) => {
 };
 
 /**
- * @description Negates the flag that allows users to cast votes, stops an optional running deadline countdown and broadcasts the vote to all connected clients.
+ * @description Closing the vote blocks clients from casting votes and, if applicable, stops a running deadline countdown.
+ * Cast votes are aggregated and sorted to populate the "total" property of the vote document.
+ * Websocket event messages C.Event.VOTE_CLOSED and C.Event.VOTE_COMPLETE are broadcast to all connected clients.  
  * 
  * @param {Object} req - An HTTP request object.
  * @private
@@ -61,9 +63,8 @@ const closeVote = async (req) => {
         clearInterval(req.app.locals[C.Local.DEADLINE_INTERVAL]);
         
         const vote = await Vote
-        .findOne({ [C.Model.ACTIVE]: true })
-        .populate(`${C.Model.VOTE}.${C.Model.USER}`, C.Model.NAME)
-        .populate(`${C.Model.VOTE}.${C.Model.CAST}.${C.Model.ITEM}`, `${C.Model.NAME} ${C.Model.IMAGE}`);
+            .findOne({ [C.Model.ACTIVE]: true })
+            .populate(`${C.Model.VOTE}.${C.Model.CAST}.${C.Model.ITEM}`, `${C.Model.NAME} ${C.Model.IMAGE}`);
         
         if (!vote) {
             
@@ -71,7 +72,7 @@ const closeVote = async (req) => {
         }
         
         const clients = req.app.locals[C.Local.CLIENTS];
-        broadcast(clients, C.Event.WEBSOCKET_VOTE_CLOSED);
+        broadcast(clients, C.Event.VOTE_CLOSED);
 
         if (vote[C.Model.VOTE].length === 0) {
 
@@ -79,12 +80,53 @@ const closeVote = async (req) => {
         }
         else {
 
-            vote[C.Model.DATE] = Date.now();
+            let total = new Map();
+            const quantity = vote[C.Model.QUANTITY];
+
+            for (const castSchema of vote[C.Model.VOTE]) {
+
+                for (const rankSchema of castSchema[C.Model.CAST]) {
+
+                    const item = rankSchema[C.Model.ITEM];
+                    const rank = quantity - rankSchema[C.Model.RANK];
+
+                    if (total.has(item)) {
+                         
+                        total.set(item, total.get(item) + rank);
+                    }
+                    else {
+
+                        total.set(item, rank);
+                    }
+                }
+            }
+
+            total = Array.from([...total.entries()].sort((a, b) => {
+                
+                if (a[1] === b[1]) {
+
+                    return a[0].name.localeCompare(b[0].name);
+                }
+
+                return b[1] - a[1];
+            }));
+
+            total = total.map((rankSchema) => {
+
+                return new Rank({
+
+                    item: rankSchema[0],
+                    rank: rankSchema[1]
+                });
+            });
+
             vote[C.Model.ACTIVE] = false;
+            vote[C.Model.DATE] = Date.now();
+            vote[C.Model.TOTAL] = total;
             
             await vote.save();
 
-            broadcast(clients, JSON.stringify(vote));
+            broadcast(clients, C.Event.VOTE_COMPLETE);
         }
     }
     catch (error) {
@@ -97,6 +139,7 @@ const closeVote = async (req) => {
  * @description (POST) Opens voting to allow clients to cast their votes before an optional deadline.
  * Admin users, via admin authentication, are authorized to open voting with a vote deadline and ranking quantity properties.
  * The properties are set by providing a "deadline" value (in seconds) and a "quantity" value within the HTTP request body.
+ * Websocket event message C.Event.VOTE_OPENED is broadcast to all connected clients. 
  * 
  * @protected
  * @constant
@@ -168,7 +211,7 @@ router.post(C.Route.OPEN, [
 
                     await vote.save();
 
-                    broadcast(clients, C.Event.WEBSOCKET_VOTE_OPENED);
+                    broadcast(clients, C.Event.VOTE_OPENED);
 
                     return res
                         .status(C.Status.OK)
@@ -192,7 +235,7 @@ router.post(C.Route.OPEN, [
 );
 
 /**
- * @description (GET) Closing voting stops a running deadline countdown and blocks clients from casting votes.
+ * @description (GET) Calls the "closeVote" function.
  * Admin users, via admin authentication, are authorized to close voting.
  * 
  * @protected
@@ -360,9 +403,11 @@ router.get(`/:${C.Route.ID}?`, auth, async (req, res) => {
         const user = res.locals[C.Local.USER];
         const paramVoteID = req.params[C.Route.ID];
         
-        const popPathUser = `${C.Model.VOTE}.${C.Model.USER}`;
+        const popPathVoteUser = `${C.Model.VOTE}.${C.Model.USER}`;
+        const popPathVoteItem = `${C.Model.VOTE}.${C.Model.CAST}.${C.Model.ITEM}`;
+        const popPathTotalItem = `${C.Model.TOTAL}.${C.Model.ITEM}`;
+
         const popFieldsUser = C.Model.NAME;
-        const popPathItem = `${C.Model.VOTE}.${C.Model.CAST}.${C.Model.ITEM}`;
         const popFieldsItem = `${C.Model.NAME} ${C.Model.IMAGE}`;
         
         let result;
@@ -377,8 +422,9 @@ router.get(`/:${C.Route.ID}?`, auth, async (req, res) => {
             }
 
             result = await Vote.findById(paramVoteID)
-                .populate(popPathUser, popFieldsUser)
-                .populate(popPathItem, popFieldsItem);
+                .populate(popPathVoteUser, popFieldsUser)
+                .populate(popPathVoteItem, popFieldsItem)
+                .populate(popPathTotalItem, popFieldsItem);
 
             if (!result || (result[C.Model.ACTIVE] && !user.admin)) {
 
@@ -393,8 +439,9 @@ router.get(`/:${C.Route.ID}?`, auth, async (req, res) => {
 
             result = await Vote.find(filter)
                 .sort(`-${C.Model.DATE}`)
-                .populate(popPathUser, popFieldsUser)
-                .populate(popPathItem, popFieldsItem);
+                .populate(popPathVoteUser, popFieldsUser)
+                .populate(popPathVoteItem, popFieldsItem)
+                .populate(popPathTotalItem, popFieldsItem);
         }
 
         return res

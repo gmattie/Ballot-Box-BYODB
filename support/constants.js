@@ -112,8 +112,8 @@ const Error = {
  * <ul>
  *     <li> CLOSE </li>
  *     <li> CONNECTION </li>
- *     <li> WEBSOCKET_VOTE_CLOSED </li>
- *     <li> WEBSOCKET_VOTE_OPENED </li>
+ *     <li> VOTE_CLOSED </li>
+ *     <li> VOTE_OPENED </li>
  * </ul>
  * 
  * @public
@@ -124,8 +124,9 @@ const Event = {
 
     CLOSE: "close",
     CONNECTION: "connection",
-    WEBSOCKET_VOTE_CLOSED: "websocketVoteClosed",
-    WEBSOCKET_VOTE_OPENED: "websocketVoteOpened",
+    VOTE_CLOSED: "voteClosed",
+    VOTE_COMPLETE: "voteComplete",
+    VOTE_OPENED: "voteOpened",
 };
 
 /**
@@ -188,6 +189,7 @@ const Message = {
  *     <li> QUANTITY </li>
  *     <li> RANK </li>
  *     <li> TOKEN </li>
+ *     <li> TOTAL </li>
  *     <li> USER </li>
  *     <li> VOTE </li>
  * </ul>
@@ -211,6 +213,7 @@ const Model = {
     QUANTITY: "quantity",
     RANK: "rank",
     TOKEN: "token",
+    TOTAL: "total",
     USER: "user",
     VOTE: "vote",
 };
