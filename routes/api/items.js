@@ -89,7 +89,7 @@ router.patch(`${C.Route.EDIT}/:${C.Route.ID}`, [
 
                 if (!isValidItemID) {
 
-                    throw new Error(C.Error.ITEM_DOES_NOT_EXIST);
+                    throw new Error(C.Error.ITEM);
                 }
 
                 const item = await Item.findById(paramItemID);
@@ -151,7 +151,7 @@ router.delete(`${C.Route.DELETE}/:${C.Route.ID}`, auth, async (req, res) => {
 
             if (!isValidItemID) {
 
-                throw new Error(C.Error.ITEM_DOES_NOT_EXIST);
+                throw new Error(C.Error.ITEM);
             }
             const item = await Item.findByIdAndRemove(paramItemID);
 
@@ -196,7 +196,7 @@ router.get(`/:${C.Route.ID}?`, auth, async (req, res) => {
 
             if (!isValidItemID) {
 
-                throw new Error(C.Error.ITEM_DOES_NOT_EXIST);
+                throw new Error(C.Error.ITEM);
             }
 
             result = await Item.findById(paramItemID);

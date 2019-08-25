@@ -101,9 +101,9 @@ const Error = {
     USER_ALREADY_EXISTS: "User already exists",
     USER_DOES_NOT_EXIST: "User does not exist",
     USER_INVALID_CREDENTIALS: "Invalid credentials",
-    VOTE_CLOSED: "Voting is already closed",
+    VOTE_CLOSED: "Voting is closed",
     VOTE_DOES_NOT_EXIST: "Vote does not exist",
-    VOTE_OPENED: "Voting is already open",
+    VOTE_OPENED: "Voting is open",
 };
 
 /**

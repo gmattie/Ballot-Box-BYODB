@@ -150,9 +150,29 @@ const voteCast = [
     check(C.Model.CAST, C.Error.CAST)
         .isArray()
         .not()
-        .isEmpty(),
+        .isEmpty()
+        .custom((array) => {
+            
+            const items = new Set();
+            const ranks = new Set();
 
-    check(`${C.Model.CAST}.*.${C.Model.ITEM}`, C.Error.ITEM_DOES_NOT_EXIST)
+            for (const element of array) {
+
+                items.add(element.item);
+                ranks.add(element.rank);
+            }
+
+            const isUnique = (items.size === array.length && ranks.size === array.length);
+
+            const isOrdered = Array
+                .from(ranks)
+                .sort((a, b) => a - b)
+                .every((element, index) => parseInt(element) === index);
+
+            return (isUnique && isOrdered);
+        }),
+
+    check(`${C.Model.CAST}.*.${C.Model.ITEM}`, C.Error.ITEM)
         .custom((value) => mongoose.Types.ObjectId.isValid(value)),
 
     check(`${C.Model.CAST}.*.${C.Model.RANK}`, C.Error.RANK)

@@ -4,6 +4,7 @@
  * @requires auth
  * @requires constants
  * @requires express
+ * @requires Item
  * @requires mongoose
  * @requires utils
  * @requires validation
@@ -16,6 +17,7 @@
 const { Rank, Cast, Vote } = require("../../models/Vote");
 const auth = require("../../middleware/auth");
 const C = require("../../support/constants");
+const Item = require("../../models/Item");
 const mongoose = require("mongoose");
 const router = require("express").Router();
 const utils = require("../../support/utilities");
@@ -274,7 +276,7 @@ router.get(C.Route.CLOSE, auth, async (req, res) => {
 
 /**
  * @description (POST) Cast a vote.
- * All users are authorized to cast votes via token authentication.
+ * When voting is open, all users are authorized to cast votes via token authentication.
  * Votes are cast by providing a "cast" array of objects that contain "item" and "rank" properties within the HTTP request body. 
  * 
  * @protected
@@ -295,18 +297,6 @@ router.post(C.Route.CAST, [
 
                 throw new Error(C.Error.VOTE_CLOSED);
             }
-            
-            const { cast } = req.body;
-            const ranks = [];
-            
-            for (const rank of cast) {
-                
-                ranks.push(new Rank({
-                    
-                    [C.Model.ITEM]: rank[C.Model.ITEM],
-                    [C.Model.RANK]: rank[C.Model.RANK]
-                }));
-            }
 
             const vote = await Vote
                 .findOne({ [C.Model.ACTIVE]: true })
@@ -317,6 +307,35 @@ router.post(C.Route.CAST, [
                 throw new Error(C.Error.VOTE_DOES_NOT_EXIST);
             }
             
+            const { cast } = req.body;
+            const ranks = [];
+
+            if (cast.length > vote[C.Model.QUANTITY]) {
+
+                cast.length = vote[C.Model.QUANTITY];
+            }
+
+            const existingItems = [];
+
+            for (const item of await Item.find({})) {
+
+                existingItems.push(item.id);
+            }
+
+            for (const rankSchema of cast) {
+                
+                if (!existingItems.includes(rankSchema[C.Model.ITEM])) {
+
+                    throw new Error(C.Error.ITEM_DOES_NOT_EXIST);
+                }
+
+                ranks.push(new Rank({
+                    
+                    [C.Model.ITEM]: rankSchema[C.Model.ITEM],
+                    [C.Model.RANK]: rankSchema[C.Model.RANK]
+                }));
+            }
+     
             const user = res.locals[C.Local.USER];
             const previousCastIndex = vote[C.Model.VOTE].findIndex((cast) => cast.user.id === user.id);
 
