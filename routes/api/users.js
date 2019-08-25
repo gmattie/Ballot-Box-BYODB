@@ -3,7 +3,6 @@
  * 
  * @requires auth
  * @requires bcryptjs
- * @requires config
  * @requires constants
  * @requires express
  * @requires jsonwebtoken
@@ -18,7 +17,6 @@
 const auth = require("../../middleware/auth");
 const bcryptjs = require("bcryptjs");
 const C = require("../../support/constants");
-const config = require("config");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const router = require("express").Router();
@@ -123,16 +121,15 @@ router.post(C.Route.REGISTER, [
                 [C.Model.PASSWORD]: await getEncryptedPassword(password)
             });
 
-            const dbURI = config.get(C.Config.DB_URI);
-            const validAdminUser = adminUser === dbURI.user;
-            const validAdminPass = adminPass === dbURI.pass;
+            const validAdminUser = adminUser === process.env.DB_USER;
+            const validAdminPass = adminPass === process.env.DB_PASS;
             
             user[C.Model.ADMIN] = (validAdminUser && validAdminPass);
 
             const token = await jwt.sign(
 
                 getJWTPayload(user.id),
-                config.get(C.Config.JWT_TOKEN),
+                process.env.JWT_TOKEN,
                 { expiresIn: C.Auth.TOKEN_EXPIRATION }
             );
 
@@ -186,7 +183,7 @@ router.post(C.Route.LOGIN, [
             const token = await jwt.sign(
 
                 getJWTPayload(user.id),
-                config.get(C.Config.JWT_TOKEN),
+                process.env.JWT_TOKEN,
                 { expiresIn: C.Auth.TOKEN_EXPIRATION }
             );
 
@@ -239,18 +236,15 @@ router.patch(C.Route.EDIT, [
                 
                 user[C.Model.PASSWORD] = await getEncryptedPassword(password);
             }
-
-            const dbURI = config.get(C.Config.DB_URI);
-
             if (adminUser && adminPass) {
 
-                user[C.Model.ADMIN] = (adminUser === dbURI.user && adminPass === dbURI.pass);
+                user[C.Model.ADMIN] = (adminUser === process.env.DB_USER && adminPass === process.env.DB_PASS);
             }
 
             const token = await jwt.sign(
 
                 getJWTPayload(user.id),
-                config.get(C.Config.JWT_TOKEN),
+                process.env.JWT_TOKEN,
                 { expiresIn: C.Auth.TOKEN_EXPIRATION }
             );
 

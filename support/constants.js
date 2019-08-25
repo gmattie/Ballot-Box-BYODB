@@ -28,24 +28,6 @@ const Auth = {
  * @description Properties of type {string} consist of:
  * 
  * <ul>
- *     <li> DB_URI </li>
- *     <li> JWT_TOKEN </li>
- * </ul>
- * 
- * @public
- * @constant
- * 
- */
-const Config = {
-
-    DB_URI: "dbURI",
-    JWT_TOKEN: "jwtToken"
-};
-
-/**
- * @description Properties of type {string} consist of:
- * 
- * <ul>
  *     <li> CLIENT </li>
  *     <li> ROUTES </li>
  * </ul>
@@ -289,7 +271,6 @@ const Status = {
 module.exports = {
 
     Auth,
-    Config,
     Dir,
     Error,
     Event,

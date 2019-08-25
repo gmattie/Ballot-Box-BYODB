@@ -1,7 +1,6 @@
 /**
  * @description The server.js module is the entry point for the application and contains logic for connecting to the database and starting the server.
  * 
- * @requires config
  * @requires constants
  * @requires express
  * @requires http
@@ -12,13 +11,12 @@
  */
 const { createServer } = require("http");
 const C = require("./support/constants");
-const config = require("config");
 const express = require("express");
 const mongoose = require("mongoose");
 const WebSocket = require("ws");
 
 /**
- * @description Create and start an HTTP and WebSocket server with loaded API router modules.
+ * @description Start an HTTP and WebSocket serve.
  * 
  * @private
  * @function
@@ -52,7 +50,7 @@ const server = () => {
 };
 
 /**
- * @description Connect to the MongoDB database using URI from Config default.json variables.
+ * @description Connect to the MongoDB database.
  * 
  * @private
  * @function
@@ -61,8 +59,7 @@ const server = () => {
  */
 const database = async () => {
 
-    const dbURI = config.get(C.Config.DB_URI);
-    const mongoURI = `${dbURI.protocol}://${dbURI.user}:${dbURI.pass}@${dbURI.path}`;
+    const mongoURI = `${process.env.DB_PROTOCOL}://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_PATH}`;
 
     try {
 

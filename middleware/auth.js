@@ -2,7 +2,6 @@
  * @description Authorization middleware used to authenticate access protected routes via JSON Web Tokens.
  * 
  * @requires bcryptjs
- * @requires config
  * @requires constants
  * @requires jsonwebtoken
  * @requires User
@@ -13,7 +12,6 @@
  */
 const bcryptjs = require("bcryptjs");
 const C = require("../support/constants");
-const config = require("config");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const utils = require("../support/utilities");
@@ -37,7 +35,7 @@ const auth = async (req, res, next) => {
         }
 
         const tokenSignature = utils.getTokenSignature(token);
-        const payload = await jwt.verify(token, config.get(C.Config.JWT_TOKEN));
+        const payload = await jwt.verify(token, process.env.JWT_TOKEN);
         const user = await User.findById(payload.user.id);
         
         if (!user || !user.token) {
