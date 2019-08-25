@@ -183,6 +183,7 @@ const Message = {
  *     <li> DEADLINE </li>
  *     <li> EMAIL </li>
  *     <li> IMAGE </li>
+ *     <li> IP </li>
  *     <li> ITEM </li>
  *     <li> NAME </li>
  *     <li> PASSWORD </li>
@@ -207,6 +208,7 @@ const Model = {
     DEADLINE: "deadline",
     EMAIL: "email",
     IMAGE: "image",
+    IP: "ip",
     ITEM: "item",
     NAME: "name",
     PASSWORD: "password",

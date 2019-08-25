@@ -34,6 +34,11 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    [C.Model.IP]: {
+
+        type: String,
+        required: true
+    },
     [C.Model.NAME]: {
 
         type: String,

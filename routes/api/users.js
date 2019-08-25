@@ -117,8 +117,9 @@ router.post(C.Route.REGISTER, [
 
             const user = new User({
 
-                [C.Model.NAME]: name,
                 [C.Model.EMAIL]: email,
+                [C.Model.IP]: req.ip,
+                [C.Model.NAME]: name,
                 [C.Model.PASSWORD]: await getEncryptedPassword(password)
             });
 
@@ -190,6 +191,7 @@ router.post(C.Route.LOGIN, [
             );
 
             user[C.Model.TOKEN] = await getEncryptedTokenSignature(token);
+            user[C.Model.IP] = req.ip;
 
             await user.save();
 
@@ -298,7 +300,7 @@ router.get(`${C.Route.LOGOUT}/:${C.Route.ID}?`, auth, async (req, res) => {
 
                 result = (paramUserID === user.id) ? user : await User
                     .findById(paramUserID)
-                    .select(`${C.Model.NAME} ${C.Model.EMAIL} ${C.Model.ADMIN}`);
+                    .select(`${C.Model.EMAIL} ${C.Model.NAME}`);
 
                 if (!result) {
 
@@ -402,6 +404,8 @@ router.get(`/:${C.Route.ID}?`, auth, async (req, res) => {
 
         if (user.admin) {
 
+            const userFields = `${C.Model.ADMIN} ${C.Model.EMAIL} ${C.Model.IP} ${C.Model.NAME}`;
+
             if (paramUserID) {
 
                 const isValidUserID = mongoose.Types.ObjectId.isValid(paramUserID);
@@ -413,7 +417,7 @@ router.get(`/:${C.Route.ID}?`, auth, async (req, res) => {
 
                 result = (paramUserID === user.id) ? user : await User
                     .findById(paramUserID)
-                    .select(`${C.Model.NAME} ${C.Model.EMAIL} ${C.Model.ADMIN}`);
+                    .select(userFields);
 
                 if (!result) {
 
@@ -426,7 +430,7 @@ router.get(`/:${C.Route.ID}?`, auth, async (req, res) => {
 
                 result = await User
                     .find({})
-                    .select(`${C.Model.NAME} ${C.Model.EMAIL} ${C.Model.ADMIN}`);
+                    .select(userFields);
             }
         }
         else {

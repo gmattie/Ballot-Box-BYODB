@@ -426,7 +426,7 @@ router.get(`/:${C.Route.ID}?`, auth, async (req, res) => {
         const popPathVoteItem = `${C.Model.VOTE}.${C.Model.CAST}.${C.Model.ITEM}`;
         const popPathTotalItem = `${C.Model.TOTAL}.${C.Model.ITEM}`;
 
-        const popFieldsUser = C.Model.NAME;
+        const popFieldsUser = `${C.Model.EMAIL} ${C.Model.IP} ${C.Model.NAME}`;
         const popFieldsItem = `${C.Model.NAME} ${C.Model.IMAGE}`;
         
         let result;

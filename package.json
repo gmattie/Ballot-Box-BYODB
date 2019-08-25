@@ -1,7 +1,7 @@
 {
   "name": "ballot-box",
   "productName": "Ballot Box",
-  "version": "0.1.32-build",
+  "version": "0.1.33-build",
   "description": "Open polls and aggregate election results using your own database.",
   "main": "server.js",
   "scripts": {
