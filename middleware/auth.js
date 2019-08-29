@@ -38,12 +38,12 @@ const auth = async (req, res, next) => {
         const payload = await jwt.verify(token, process.env.JWT_TOKEN);
         const user = await User.findById(payload.user.id);
         
-        if (!user || !user.token) {
+        if (!user || !user[C.Model.TOKEN]) {
             
             throw new Error(C.Error.USER_INVALID_CREDENTIALS);
         }
         
-        const isUserToken = await bcryptjs.compare(tokenSignature, user.token);
+        const isUserToken = await bcryptjs.compare(tokenSignature, user[C.Model.TOKEN]);
          
         if (!isUserToken) {
 

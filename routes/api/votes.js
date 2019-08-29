@@ -369,7 +369,7 @@ router.post(C.Route.CAST, [
  * @constant
  * 
  */
-router.delete(`${C.Route.DELETE}/:${C.Route.ID}`, auth, async (req, res) => {
+router.delete(`${C.Route.DELETE}/:${C.Route.PARAM}`, auth, async (req, res) => {
 
     try {
 
@@ -377,7 +377,7 @@ router.delete(`${C.Route.DELETE}/:${C.Route.ID}`, auth, async (req, res) => {
 
         if (user.admin) {
 
-            const paramVoteID = req.params[C.Route.ID];
+            const paramVoteID = req.params[C.Route.PARAM];
             const isValidVoteID = mongoose.Types.ObjectId.isValid(paramVoteID);
 
             if (!isValidVoteID) {
@@ -415,12 +415,12 @@ router.delete(`${C.Route.DELETE}/:${C.Route.ID}`, auth, async (req, res) => {
  * @constant
  * 
  */
-router.get(`/:${C.Route.ID}?`, auth, async (req, res) => {
+router.get(`/:${C.Route.PARAM}?`, auth, async (req, res) => {
 
     try {
 
         const user = res.locals[C.Local.USER];
-        const paramVoteID = req.params[C.Route.ID];
+        const paramVoteID = req.params[C.Route.PARAM];
         
         const popPathVoteUser = `${C.Model.VOTE}.${C.Model.USER}`;
         const popPathVoteItem = `${C.Model.VOTE}.${C.Model.CAST}.${C.Model.ITEM}`;

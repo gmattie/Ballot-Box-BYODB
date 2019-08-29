@@ -7,6 +7,7 @@
  * @requires express
  * @requires jsonwebtoken
  * @requires mongoose
+ * @requires nodemailer
  * @requires User
  * @requires utils
  * @requires validation
@@ -19,10 +20,12 @@ const bcryptjs = require("bcryptjs");
 const C = require("../../support/constants");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
+const nodemailer = require("nodemailer");
 const router = require("express").Router();
 const User = require("../../models/User");
 const utils = require("../../support/utilities");
 const validation = require("../../middleware/validation");
+
 /**
  * @description Returns an encrypted password.
  * 
@@ -68,29 +71,37 @@ const getEncryptedTokenSignature = async (token) => {
 };
 
 /**
- * @description Returns a JSON Web Token payload object populated by the id value of a user document.
+ * @description Returns a JSON Web Token signed with the ID of a user document.
  * 
- * @param {string} userId - An id value of a user document assigned to the payload object.
- * @returns {object} A JSON Web Token payload object.
+ * @param {string} userID - The ID of a user document assigned to the JSON Web Token payload.
+ * @returns {object} A JSON Web Token.
  * @private
  * @function
  * 
  */
-const getJWTPayload = (userId) => {
+const getJWT = async (userID) => {
 
-    return {
+    const payload = {
 
         user: {
 
-            id: userId
+            id: userID
         }
     };
+
+    return await jwt.sign(
+
+        payload,
+        process.env.JWT_TOKEN,
+        { expiresIn: C.Auth.TOKEN_EXPIRATION }
+    );
 };
 
 /**
  * @description (POST) Register a user.
  * Users are registered by providing "name", "email" and "password" values within the HTTP request body.
  * Admin users are registered by additionally providing valid credentials for both "adminUser" and "adminPass" within the HTTP request body.
+ * The registered email address must be verified in order to activate the account and complete user registration.
  * 
  * @public
  * @constant
@@ -106,6 +117,10 @@ router.post(C.Route.REGISTER, [
         try {
             
             const { name, email, password, adminUser, adminPass } = req.body;
+
+            const validAdminUser = (adminUser === process.env.DB_USER);
+            const validAdminPass = (adminPass === process.env.DB_PASS);
+
             const userExists = await User.findOne({ email });
 
             if (userExists) {
@@ -115,24 +130,87 @@ router.post(C.Route.REGISTER, [
 
             const user = new User({
 
+                [C.Model.ADMIN]: (validAdminUser && validAdminPass),
                 [C.Model.EMAIL]: email,
                 [C.Model.IP]: req.ip,
                 [C.Model.NAME]: name,
                 [C.Model.PASSWORD]: await getEncryptedPassword(password)
             });
 
-            const validAdminUser = adminUser === process.env.DB_USER;
-            const validAdminPass = adminPass === process.env.DB_PASS;
+            const encodedEmail = encodeURIComponent(user[C.Model.EMAIL]);
+            const encodedPassword = encodeURIComponent(user[C.Model.PASSWORD]);
+            const query = `?${C.Model.EMAIL}=${encodedEmail}&${C.Model.PASSWORD}=${encodedPassword}`;
+            const buttonURL = `${req.protocol}://${req.get("host")}${C.Route.API_USERS}${C.Route.VERIFY}${query}`;
+            const html = `
             
-            user[C.Model.ADMIN] = (validAdminUser && validAdminPass);
+                <p>${user[C.Model.NAME]},<p>
+                <p>${C.Email.MESSAGE}</p>
+                <a style="${C.Email.BUTTON_STYLE}" href="${buttonURL}">
+                    ${C.Email.BUTTON_LABEL}
+                </a>
+            `;
+            
+            const transporter = nodemailer.createTransport({
+            
+                host: process.env.SMTP_HOST,
+                port: process.env.SMTP_PORT,
+                auth: {
+            
+                    user: process.env.SMTP_USER,
+                    pass: process.env.SMTP_PASS
+                }
+            });
 
-            const token = await jwt.sign(
+            await transporter.sendMail({
 
-                getJWTPayload(user.id),
-                process.env.JWT_TOKEN,
-                { expiresIn: C.Auth.TOKEN_EXPIRATION }
-            );
+                from: `${process.env.npm_package_productName} <${process.env.SMTP_USER}>`,
+                to: email,
+                subject: C.Email.SUBJECT,
+                html: html
+            });
 
+            await user.save();
+
+            return res
+                .status(C.Status.OK)
+                .json({ email: user[C.Model.EMAIL] });
+        }
+        catch (error) {
+
+            utils.sendErrorResponse(error, res);
+        }
+    }
+);
+
+/**
+ * @description (GET) Verify the email address registered to a user.
+ * User accounts are activated upon successful verification of the email address that has been registered to the user.
+ * 
+ * @public
+ * @constant
+ * 
+ */
+router.get(C.Route.VERIFY, async (req, res) => {
+
+        try {
+
+            const { email, password } = req.query;
+            const user = await User.findOne({ email });
+            
+            if (!user || (user[C.Model.PASSWORD] !== password)) {
+                
+                throw new Error(C.Error.USER_INVALID_CREDENTIALS);
+            }
+
+            if (user[C.Model.ACTIVE]) {
+
+                return res.sendStatus(C.Status.OK);
+            }
+            
+            const token = await getJWT(user.id);
+
+            user[C.Model.ACTIVE] = true;
+            user[C.Model.IP] = req.ip;
             user[C.Model.TOKEN] = await getEncryptedTokenSignature(token);
 
             await user.save();
@@ -168,7 +246,7 @@ router.post(C.Route.LOGIN, [
             const { email, password } = req.body;
             const user = await User.findOne({ email });
 
-            if (!user) {
+            if (!user || !user[C.Model.ACTIVE]) {
 
                 throw new Error(C.Error.USER_INVALID_CREDENTIALS);
             }
@@ -180,15 +258,10 @@ router.post(C.Route.LOGIN, [
                 throw new Error(C.Error.USER_INVALID_CREDENTIALS);
             }
 
-            const token = await jwt.sign(
+            const token = await getJWT(user.id);
 
-                getJWTPayload(user.id),
-                process.env.JWT_TOKEN,
-                { expiresIn: C.Auth.TOKEN_EXPIRATION }
-            );
-
-            user[C.Model.TOKEN] = await getEncryptedTokenSignature(token);
             user[C.Model.IP] = req.ip;
+            user[C.Model.TOKEN] = await getEncryptedTokenSignature(token);
 
             await user.save();
 
@@ -236,20 +309,16 @@ router.patch(C.Route.EDIT, [
                 
                 user[C.Model.PASSWORD] = await getEncryptedPassword(password);
             }
+
             if (adminUser && adminPass) {
 
                 user[C.Model.ADMIN] = (adminUser === process.env.DB_USER && adminPass === process.env.DB_PASS);
             }
 
-            const token = await jwt.sign(
+            const token = await getJWT(user.id);
 
-                getJWTPayload(user.id),
-                process.env.JWT_TOKEN,
-                { expiresIn: C.Auth.TOKEN_EXPIRATION }
-            );
-
-            user[C.Model.TOKEN] = await getEncryptedTokenSignature(token);
             user[C.Model.DATE] = Date.now();
+            user[C.Model.TOKEN] = await getEncryptedTokenSignature(token);
 
             await user.save();
 
@@ -273,12 +342,12 @@ router.patch(C.Route.EDIT, [
  * @constant
  * 
  */
-router.get(`${C.Route.LOGOUT}/:${C.Route.ID}?`, auth, async (req, res) => {
+router.get(`${C.Route.LOGOUT}/:${C.Route.PARAM}?`, auth, async (req, res) => {
     
     try {
         
         const user = res.locals[C.Local.USER];
-        const paramUserID = req.params[C.Route.ID];
+        const paramUserID = req.params[C.Route.PARAM];
         let result;
 
         if (user.admin) {
@@ -339,12 +408,12 @@ router.get(`${C.Route.LOGOUT}/:${C.Route.ID}?`, auth, async (req, res) => {
  * @constant
  * 
  */
-router.delete(`${C.Route.DELETE}/:${C.Route.ID}`, auth, async (req, res) => {
+router.delete(`${C.Route.DELETE}/:${C.Route.PARAM}`, auth, async (req, res) => {
     
     try {
         
         const user = res.locals[C.Local.USER];
-        const paramUserID = req.params[C.Route.ID];
+        const paramUserID = req.params[C.Route.PARAM];
         const isValidUserID = mongoose.Types.ObjectId.isValid(paramUserID);
         let result;
 
@@ -388,12 +457,12 @@ router.delete(`${C.Route.DELETE}/:${C.Route.ID}`, auth, async (req, res) => {
  * @constant
  * 
  */
-router.get(`/:${C.Route.ID}?`, auth, async (req, res) => {
+router.get(`/:${C.Route.PARAM}?`, auth, async (req, res) => {
 
     try {
 
         const user = res.locals[C.Local.USER];
-        const paramUserID = req.params[C.Route.ID];
+        const paramUserID = req.params[C.Route.PARAM];
         let result;
 
         if (user.admin) {

@@ -18,6 +18,11 @@ const mongoose = require("mongoose");
  */
 const userSchema = new mongoose.Schema({
 
+    [C.Model.ACTIVE]: {
+
+        type: Boolean,
+        default: false
+    },
     [C.Model.ADMIN]: {
 
         type: Boolean,
@@ -52,7 +57,7 @@ const userSchema = new mongoose.Schema({
     [C.Model.TOKEN]: {
         
         type: String
-    },
+    }
 }, { versionKey: false });
 
 /**

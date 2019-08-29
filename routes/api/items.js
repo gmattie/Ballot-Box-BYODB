@@ -70,7 +70,7 @@ router.post(C.Route.ADD, [
  * @constant
  * 
  */
-router.patch(`${C.Route.EDIT}/:${C.Route.ID}`, [
+router.patch(`${C.Route.EDIT}/:${C.Route.PARAM}`, [
     
         auth,
         validation.itemEdit,
@@ -84,7 +84,7 @@ router.patch(`${C.Route.EDIT}/:${C.Route.ID}`, [
             
             if (user.admin) {
                 
-                const paramItemID = req.params[C.Route.ID];
+                const paramItemID = req.params[C.Route.PARAM];
                 const isValidItemID = mongoose.Types.ObjectId.isValid(paramItemID);
 
                 if (!isValidItemID) {
@@ -138,7 +138,7 @@ router.patch(`${C.Route.EDIT}/:${C.Route.ID}`, [
  * @constant
  * 
  */
-router.delete(`${C.Route.DELETE}/:${C.Route.ID}`, auth, async (req, res) => {
+router.delete(`${C.Route.DELETE}/:${C.Route.PARAM}`, auth, async (req, res) => {
     
     try {
 
@@ -146,7 +146,7 @@ router.delete(`${C.Route.DELETE}/:${C.Route.ID}`, auth, async (req, res) => {
 
         if (user.admin) {
 
-            const paramItemID = req.params[C.Route.ID];
+            const paramItemID = req.params[C.Route.PARAM];
             const isValidItemID = mongoose.Types.ObjectId.isValid(paramItemID);
 
             if (!isValidItemID) {
@@ -183,11 +183,11 @@ router.delete(`${C.Route.DELETE}/:${C.Route.ID}`, auth, async (req, res) => {
  * @constant
  * 
  */
-router.get(`/:${C.Route.ID}?`, auth, async (req, res) => {
+router.get(`/:${C.Route.PARAM}?`, auth, async (req, res) => {
 
     try {
 
-        const paramItemID = req.params[C.Route.ID];
+        const paramItemID = req.params[C.Route.PARAM];
         let result;
 
         if (paramItemID) {

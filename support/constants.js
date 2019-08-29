@@ -46,6 +46,36 @@ const Dir = {
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> BUTTON_LABEL </li>
+ *     <li> BUTTON_STYLE </li>
+ *     <li> MESSAGE </li>
+ *     <li> SUBJECT </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const Email = {
+
+    BUTTON_LABEL: "ACTIVATE ACCOUNT",
+    BUTTON_STYLE: `
+
+        display: inline-block;
+        padding: 12px 20px 10px 20px;
+        border: 1px solid #dedede;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 600;
+    `,
+    MESSAGE: "Please press the button below to verify your email address and activate your account.",
+    SUBJECT: "Account Activation",
+};
+
+/**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
  *     <li> CAST </li>
  *     <li> DEADLINE </li>
  *     <li> EMAIL </li>
@@ -214,11 +244,12 @@ const Model = {
  *     <li> CLOSE </li>
  *     <li> DELETE </li>
  *     <li> EDIT </li>
- *     <li> ID </li>
  *     <li> LOGIN </li>
  *     <li> LOGOUT </li>
  *     <li> OPEN </li>
+ *     <li> PARAM </li>
  *     <li> REGISTER </li>
+ *     <li> VERIFY </li>
  * </ul>
  * 
  * @public
@@ -235,11 +266,12 @@ const Route = {
     CLOSE: "/close",
     DELETE: "/delete",
     EDIT: "/edit",
-    ID: "id",
     LOGIN: "/login",
     LOGOUT: "/logout",
     OPEN: "/open",
+    PARAM: "param",
     REGISTER: "/register",
+    VERIFY: "/verify",
 };
 
 /**
@@ -272,6 +304,7 @@ module.exports = {
 
     Auth,
     Dir,
+    Email,
     Error,
     Event,
     Local,
