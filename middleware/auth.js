@@ -25,7 +25,7 @@ const utils = require("../support/utilities");
  */
 const auth = async (req, res, next) => {
 
-    const token = req.header(C.Auth.HEADER_X_AUTH_TOKEN);
+    const token = req.header(C.Header.X_AUTH_TOKEN);
 
     try {
   

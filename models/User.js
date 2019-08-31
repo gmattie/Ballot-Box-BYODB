@@ -54,6 +54,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    [C.Model.RESET]: {
+
+        type: String
+    },
     [C.Model.TOKEN]: {
         
         type: String

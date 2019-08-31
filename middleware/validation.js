@@ -97,6 +97,7 @@ const userEdit = [
         .optional()
         .not()
         .isEmpty()
+        .custom((value) => !/\s/.test(value))
 ];
 
 /**
@@ -136,6 +137,25 @@ const userRegister = [
     check(C.Model.PASSWORD, C.Error.PASSWORD)
         .not()
         .isEmpty()
+        .custom((value) => !/\s/.test(value))
+];
+
+/**
+ * @description Validation for /api/users/reset route.
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const userReset = [
+
+    check(C.Model.EMAIL, C.Error.EMAIL)
+        .isEmail(),
+
+    check(C.Model.PASSWORD, C.Error.PASSWORD)
+        .not()
+        .isEmpty()
+        .custom((value) => !/\s/.test(value))
 ];
 
 /**
@@ -207,6 +227,7 @@ module.exports = {
     userEdit,
     userLogin,
     userRegister,
+    userReset,
     voteCast,
     voteOpen, 
 };

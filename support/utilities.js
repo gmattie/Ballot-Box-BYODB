@@ -38,33 +38,31 @@ const sendErrorResponse = (error, response) => {
     switch (error.message) {
 
         case C.Error.USER_ALREADY_EXISTS:
-
             status = C.Status.BAD_REQUEST;
+            
             break;
 
         case C.Error.USER_DOES_NOT_EXIST:
-
             status = C.Status.BAD_REQUEST;
+
             break;
 
         case C.Error.USER_INVALID_CREDENTIALS:
-
             status = C.Status.UNAUTHENTICATED;
+
             break;
 
         case C.Error.VOTE_CLOSED:
-
             status = C.Status.BAD_REQUEST;
+
             break;
 
         case C.Error.VOTE_OPENED:
-
             status = C.Status.BAD_REQUEST;
+
             break;
 
-        default:
-
-            status = C.Status.INTERNAL_SERVER_ERROR;
+        default: status = C.Status.INTERNAL_SERVER_ERROR;
     }
 
     return response

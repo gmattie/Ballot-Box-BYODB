@@ -27,15 +27,15 @@ const utils = require("../../support/utilities");
 const validation = require("../../middleware/validation");
 
 /**
- * @description Returns an encrypted password.
+ * @description Returns a hashed password.
  * 
- * @param {string} password - The target password to encrypt.
- * @returns (string) The encrypted password.
+ * @param {string} password - The target password to hash.
+ * @returns (string) The hashed password.
  * @private
  * @function
  * 
  */
-const getEncryptedPassword = async (password) => {
+const getHashedPassword = async (password) => {  
 
     try {
 
@@ -48,15 +48,15 @@ const getEncryptedPassword = async (password) => {
 };
 
 /**
- * @description Returns an encrypted signature partition of a JSON Web Token.
+ * @description Returns a hashed signature partition of a JSON Web Token.
  * 
  * @param {string} token - The target JSON Web Token.
- * @returns {string} An encrypted signature partition of the target JSON Web Token.
+ * @returns {string} A hashed signature partition of the target JSON Web Token.
  * @private
  * @function
  * 
  */
-const getEncryptedTokenSignature = async (token) => {
+const getHashedTokenSignature = async (token) => {
 
     try {
 
@@ -93,15 +93,80 @@ const getJWT = async (userID) => {
 
         payload,
         process.env.JWT_TOKEN,
-        { expiresIn: C.Auth.TOKEN_EXPIRATION }
+        { expiresIn: C.Expire.JWT_TOKEN }
     );
+};
+
+/**
+ * @description Sends an email.
+ * 
+ * @param {string} to - The email address of the recipient.
+ * @param {string} name - The name of the recipient.
+ * @param {string} subject - The subject of the email.
+ * @param {string} href - The hypertext reference assigned to the button within the email body.
+ * 
+ */
+const sendEmail = async (to, name, subject, href) => {
+
+    try {
+
+        let message, buttonLabel;
+
+        switch (subject) {
+
+            case C.Email.SUBJECT_ACTIVATE:
+                message = C.Email.MESSAGE_ACTIVATE;
+                buttonLabel = C.Email.BUTTON_LABEL_ACTIVATE_ACCOUNT;
+
+                break;
+
+            case C.Email.SUBJECT_RESET:
+                message = C.Email.MESSAGE_RESET;
+                buttonLabel = C.Email.BUTTON_LABEL_RESET_PASSWORD;
+
+                break;
+        }
+
+        const html = `
+            
+            <p>${name},<p>
+            <p>${message}</p>
+            <a style="${C.Email.BUTTON_STYLE}" href="${href}">
+                ${buttonLabel}
+            </a>
+            <p>${C.Email.MESSAGE_CREDENTIALS}</p>
+        `;
+
+        const transporter = nodemailer.createTransport({
+                
+            host: process.env.SMTP_HOST,
+            port: process.env.SMTP_PORT,
+            auth: {
+        
+                user: process.env.SMTP_USER,
+                pass: process.env.SMTP_PASS
+            }
+        });
+
+        await transporter.sendMail({
+
+            from: `${process.env.npm_package_productName} <${process.env.SMTP_USER}>`,
+            to: to,
+            subject: subject,
+            html: html
+        });
+    }
+    catch (error) {
+
+        throw new Error(error);
+    }
 };
 
 /**
  * @description (POST) Register a user.
  * Users are registered by providing "name", "email" and "password" values within the HTTP request body.
  * Admin users are registered by additionally providing valid credentials for both "adminUser" and "adminPass" within the HTTP request body.
- * The registered email address must be verified in order to activate the account and complete user registration.
+ * Verifying the registered email address is required in order to activate the account and complete the registration.
  * 
  * @public
  * @constant
@@ -134,46 +199,21 @@ router.post(C.Route.REGISTER, [
                 [C.Model.EMAIL]: email,
                 [C.Model.IP]: req.ip,
                 [C.Model.NAME]: name,
-                [C.Model.PASSWORD]: await getEncryptedPassword(password)
-            });
-
-            const encodedEmail = encodeURIComponent(user[C.Model.EMAIL]);
-            const encodedPassword = encodeURIComponent(user[C.Model.PASSWORD]);
-            const query = `?${C.Model.EMAIL}=${encodedEmail}&${C.Model.PASSWORD}=${encodedPassword}`;
-            const buttonURL = `${req.protocol}://${req.get("host")}${C.Route.API_USERS}${C.Route.VERIFY}${query}`;
-            const html = `
-            
-                <p>${user[C.Model.NAME]},<p>
-                <p>${C.Email.MESSAGE}</p>
-                <a style="${C.Email.BUTTON_STYLE}" href="${buttonURL}">
-                    ${C.Email.BUTTON_LABEL}
-                </a>
-            `;
-            
-            const transporter = nodemailer.createTransport({
-            
-                host: process.env.SMTP_HOST,
-                port: process.env.SMTP_PORT,
-                auth: {
-            
-                    user: process.env.SMTP_USER,
-                    pass: process.env.SMTP_PASS
-                }
-            });
-
-            await transporter.sendMail({
-
-                from: `${process.env.npm_package_productName} <${process.env.SMTP_USER}>`,
-                to: email,
-                subject: C.Email.SUBJECT,
-                html: html
+                [C.Model.PASSWORD]: await getHashedPassword(password)
             });
 
             await user.save();
 
+            const encodedEmail = encodeURIComponent(user[C.Model.EMAIL]);
+            const encodedPassword = encodeURIComponent(user[C.Model.PASSWORD]);
+            const query = `?${C.Model.EMAIL}=${encodedEmail}&${C.Model.PASSWORD}=${encodedPassword}`;
+            const href = `${req.protocol}://${req.get(C.Header.HOST)}${C.Route.API_USERS}${C.Route.VERIFY}${query}`;
+            
+            await sendEmail(email, name, C.Email.SUBJECT_ACTIVATE, href);
+
             return res
                 .status(C.Status.OK)
-                .json({ email: user[C.Model.EMAIL] });
+                .json({ email });
         }
         catch (error) {
 
@@ -184,7 +224,8 @@ router.post(C.Route.REGISTER, [
 
 /**
  * @description (GET) Verify the email address registered to a user.
- * User accounts are activated upon successful verification of the email address that has been registered to the user.
+ * Actions that required verifying a registered email address include account activation and resetting a user's password.
+ * Email addresses are verified by comparing the user's hashed password to a forwarded query string that contains the same hashed password. 
  * 
  * @public
  * @constant
@@ -194,9 +235,9 @@ router.get(C.Route.VERIFY, async (req, res) => {
 
         try {
 
-            const { email, password } = req.query;
+            const { email, password } = req.query;          
             const user = await User.findOne({ email });
-            
+
             if (!user || (user[C.Model.PASSWORD] !== password)) {
                 
                 throw new Error(C.Error.USER_INVALID_CREDENTIALS);
@@ -204,14 +245,23 @@ router.get(C.Route.VERIFY, async (req, res) => {
 
             if (user[C.Model.ACTIVE]) {
 
-                return res.sendStatus(C.Status.OK);
+                if (!user[C.Model.RESET]) {
+
+                    throw new Error(C.Error.USER_INVALID_CREDENTIALS);
+                }
+
+                user[C.Model.PASSWORD] = user[C.Model.RESET];
+                user[C.Model.RESET] = undefined;
+            }
+            else {
+
+                user[C.Model.ACTIVE] = true;
             }
             
             const token = await getJWT(user.id);
 
-            user[C.Model.ACTIVE] = true;
             user[C.Model.IP] = req.ip;
-            user[C.Model.TOKEN] = await getEncryptedTokenSignature(token);
+            user[C.Model.TOKEN] = await getHashedTokenSignature(token);
 
             await user.save();
 
@@ -261,7 +311,7 @@ router.post(C.Route.LOGIN, [
             const token = await getJWT(user.id);
 
             user[C.Model.IP] = req.ip;
-            user[C.Model.TOKEN] = await getEncryptedTokenSignature(token);
+            user[C.Model.TOKEN] = await getHashedTokenSignature(token);
 
             await user.save();
 
@@ -307,7 +357,7 @@ router.patch(C.Route.EDIT, [
 
             if (password) {
                 
-                user[C.Model.PASSWORD] = await getEncryptedPassword(password);
+                user[C.Model.PASSWORD] = await getHashedPassword(password);
             }
 
             if (adminUser && adminPass) {
@@ -318,13 +368,61 @@ router.patch(C.Route.EDIT, [
             const token = await getJWT(user.id);
 
             user[C.Model.DATE] = Date.now();
-            user[C.Model.TOKEN] = await getEncryptedTokenSignature(token);
+            user[C.Model.TOKEN] = await getHashedTokenSignature(token);
 
             await user.save();
 
             return res
                 .status(C.Status.OK)
                 .json({ token });            
+        }
+        catch (error) {
+
+            utils.sendErrorResponse(error, res);
+        }
+    }
+);
+
+/**
+ * @description (POST) Reset a password.
+ * All users may request a reset of their password by providing their valid "email" address and a new "password" within the HTTP request body.
+ * Confirmation via email is required in order to reset the password.
+ * 
+ * @public
+ * @constant
+ * 
+ */
+router.post(C.Route.RESET, [
+
+        validation.userReset,
+        validation.result
+    ],
+    async (req, res) => {
+
+        try {
+
+            const { email, password } = req.body;
+            const user = await User.findOne({ email });
+
+            if (!user || !user[C.Model.ACTIVE]) {
+
+                throw new Error(C.Error.USER_INVALID_CREDENTIALS);
+            }
+
+            user[C.Model.RESET] = await getHashedPassword(password);
+
+            await user.save();
+
+            const encodedEmail = encodeURIComponent(email);
+            const encodedPasswords = encodeURIComponent(user[C.Model.PASSWORD]);
+            const query = `?${C.Model.EMAIL}=${encodedEmail}&${C.Model.PASSWORD}=${encodedPasswords}`;
+            const href = `${req.protocol}://${req.get(C.Header.HOST)}${C.Route.API_USERS}${C.Route.VERIFY}${query}`;
+            
+            await sendEmail(email, user[C.Model.NAME], C.Email.SUBJECT_RESET, href);
+
+            return res
+                .status(C.Status.OK)
+                .json({ email });
         }
         catch (error) {
 

@@ -10,24 +10,6 @@
  * @description Properties of type {string} consist of:
  * 
  * <ul>
- *     <li> HEADER_X_AUTH_TOKEN </li>
- *     <li> TOKEN_EXPIRATION </li>
- * </ul>
- * 
- * @public
- * @constant
- * 
- */
-const Auth = {
-
-    HEADER_X_AUTH_TOKEN: "X-Auth-Token",
-    TOKEN_EXPIRATION: "2d"    
-};
-
-/**
- * @description Properties of type {string} consist of:
- * 
- * <ul>
  *     <li> CLIENT </li>
  *     <li> ROUTES </li>
  * </ul>
@@ -46,10 +28,13 @@ const Dir = {
  * @description Properties of type {string} consist of:
  * 
  * <ul>
- *     <li> BUTTON_LABEL </li>
+ *     <li> BUTTON_LABEL_ACTIVATE_ACCOUNT </li>
+ *     <li> BUTTON_LABEL_RESET_PASSWORD </li>
  *     <li> BUTTON_STYLE </li>
- *     <li> MESSAGE </li>
- *     <li> SUBJECT </li>
+ *     <li> MESSAGE_ACTIVATE </li>
+ *     <li> MESSAGE_RESET </li>
+ *     <li> SUBJECT_ACTIVATE </li>
+ *     <li> SUBJECT_RESET </li>
  * </ul>
  * 
  * @public
@@ -58,7 +43,8 @@ const Dir = {
  */
 const Email = {
 
-    BUTTON_LABEL: "ACTIVATE ACCOUNT",
+    BUTTON_LABEL_ACTIVATE_ACCOUNT: "ACTIVATE ACCOUNT",
+    BUTTON_LABEL_RESET_PASSWORD: "RESET PASSWORD",
     BUTTON_STYLE: `
 
         display: inline-block;
@@ -68,8 +54,11 @@ const Email = {
         text-decoration: none;
         font-weight: 600;
     `,
-    MESSAGE: "Please press the button below to verify your email address and activate your account.",
-    SUBJECT: "Account Activation",
+    MESSAGE_ACTIVATE: "Please press the button below to activate your account.",
+    MESSAGE_CREDENTIALS: "Once completed, you will be able to login with your new credentials.",
+    MESSAGE_RESET: "A request to reset your account password has been submitted.  Please press the button below to confirm this request and reset your password.",
+    SUBJECT_ACTIVATE: "Account Activation",
+    SUBJECT_RESET: "Confirm Reset Password",
 };
 
 /**
@@ -106,8 +95,8 @@ const Error = {
     IMAGE: "Invalid image URL",
     ITEM_DOES_NOT_EXIST: "Item does not exist",
     ITEM: "Invalid item",
-    NAME: "Name is required",
-    PASSWORD: "Password is required",
+    NAME: "Invalid name",
+    PASSWORD: "Invalid password",
     QUANTITY: "Invalid quantity",
     RANK: "Invalid rank",
     USER_ALREADY_EXISTS: "User already exists",
@@ -139,6 +128,40 @@ const Event = {
     VOTE_CLOSED: "voteClosed",
     VOTE_COMPLETE: "voteComplete",
     VOTE_OPENED: "voteOpened",
+};
+
+/**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
+ *     <li> JWT_TOKEN </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const Expire = {
+
+    JWT_TOKEN: "2d"    
+};
+
+/**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
+ *     <li> HOST </li>
+ *     <li> X_AUTH_TOKEN </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const Header = {
+
+    HOST: "Host",
+    X_AUTH_TOKEN: "X-Auth-Token",
 };
 
 /**
@@ -201,6 +224,7 @@ const Message = {
  *     <li> PASSWORD </li>
  *     <li> QUANTITY </li>
  *     <li> RANK </li>
+ *     <li> RESET </li>
  *     <li> TOKEN </li>
  *     <li> TOTAL </li>
  *     <li> USER </li>
@@ -226,6 +250,7 @@ const Model = {
     PASSWORD: "password",
     QUANTITY: "quantity",
     RANK: "rank",
+    RESET: "reset",
     TOKEN: "token",
     TOTAL: "total",
     USER: "user",
@@ -249,6 +274,7 @@ const Model = {
  *     <li> OPEN </li>
  *     <li> PARAM </li>
  *     <li> REGISTER </li>
+ *     <li> RESET </li>
  *     <li> VERIFY </li>
  * </ul>
  * 
@@ -271,6 +297,7 @@ const Route = {
     OPEN: "/open",
     PARAM: "param",
     REGISTER: "/register",
+    RESET: "/reset",
     VERIFY: "/verify",
 };
 
@@ -302,11 +329,12 @@ const Status = {
  */
 module.exports = {
 
-    Auth,
     Dir,
     Email,
     Error,
     Event,
+    Expire,
+    Header,
     Local,
     Message,
     Model,
