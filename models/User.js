@@ -9,6 +9,35 @@
  */
 const C = require("../support/constants");
 const mongoose = require("mongoose");
+
+/**
+ * @description The Reset schema definition.
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const resetSchema = new mongoose.Schema({
+
+    [C.Model.EMAIL]: {
+
+        type: String,
+        required: true
+    },
+    [C.Model.EXPIRE]: {
+        
+        type: Date,
+        default: Date.now,
+        index: { expires: C.Expire.USER_RESET }
+    },
+    [C.Model.PASSWORD]: {
+
+        type: String,
+        required: true
+    },
+}, { versionKey: false });
+
+
 /**
  * @description The User schema definition.
  * 
@@ -18,11 +47,6 @@ const mongoose = require("mongoose");
  */
 const userSchema = new mongoose.Schema({
 
-    [C.Model.ACTIVE]: {
-
-        type: Boolean,
-        default: false
-    },
     [C.Model.ADMIN]: {
 
         type: Boolean,
@@ -39,6 +63,11 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    [C.Model.EXPIRE]: {
+
+        type: Date,
+        index: { expires: C.Expire.USER_ACTIVATE }
+    },
     [C.Model.IP]: {
 
         type: String,
@@ -54,10 +83,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    [C.Model.RESET]: {
-
-        type: String
-    },
     [C.Model.TOKEN]: {
         
         type: String
@@ -68,4 +93,8 @@ const userSchema = new mongoose.Schema({
  * Export module
  * 
  */
-module.exports = mongoose.model(C.Model.USER, userSchema);
+module.exports = {
+
+    Reset: mongoose.model(C.Model.RESET, resetSchema),
+    User: mongoose.model(C.Model.USER, userSchema)
+};

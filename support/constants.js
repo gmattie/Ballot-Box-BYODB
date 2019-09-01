@@ -32,6 +32,8 @@ const Dir = {
  *     <li> BUTTON_LABEL_RESET_PASSWORD </li>
  *     <li> BUTTON_STYLE </li>
  *     <li> MESSAGE_ACTIVATE </li>
+ *     <li> MESSAGE_CREDENTIALS </li>
+ *     <li> MESSAGE_EXPIRE </li>
  *     <li> MESSAGE_RESET </li>
  *     <li> SUBJECT_ACTIVATE </li>
  *     <li> SUBJECT_RESET </li>
@@ -56,6 +58,7 @@ const Email = {
     `,
     MESSAGE_ACTIVATE: "Please press the button below to activate your account.",
     MESSAGE_CREDENTIALS: "Once completed, you will be able to login with your new credentials.",
+    MESSAGE_EXPIRE: "This request will expire in",
     MESSAGE_RESET: "A request to reset your account password has been submitted.  Please press the button below to confirm this request and reset your password.",
     SUBJECT_ACTIVATE: "Account Activation",
     SUBJECT_RESET: "Confirm Reset Password",
@@ -135,6 +138,8 @@ const Event = {
  * 
  * <ul>
  *     <li> JWT_TOKEN </li>
+ *     <li> USER_ACTIVATE </li>
+ *     <li> USER_RESET </li>
  * </ul>
  * 
  * @public
@@ -143,7 +148,9 @@ const Event = {
  */
 const Expire = {
 
-    JWT_TOKEN: "2d"    
+    JWT_TOKEN: "2d",
+    USER_ACTIVATE: "60 minutes",
+    USER_RESET: "30 minutes"
 };
 
 /**
@@ -217,6 +224,7 @@ const Message = {
  *     <li> DATE </li>
  *     <li> DEADLINE </li>
  *     <li> EMAIL </li>
+ *     <li> EXPIRE </li>
  *     <li> IMAGE </li>
  *     <li> IP </li>
  *     <li> ITEM </li>
@@ -243,6 +251,7 @@ const Model = {
     DATE: "date",
     DEADLINE: "deadline",
     EMAIL: "email",
+    EXPIRE: "expire",
     IMAGE: "image",
     IP: "ip",
     ITEM: "item",

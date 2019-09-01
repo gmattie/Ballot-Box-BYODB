@@ -10,10 +10,10 @@
  * @module
  * 
  */
+const { User } = require("../models/User");
 const bcryptjs = require("bcryptjs");
 const C = require("../support/constants");
 const jwt = require("jsonwebtoken");
-const User = require("../models/User");
 const utils = require("../support/utilities");
 
 /**

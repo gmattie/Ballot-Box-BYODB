@@ -15,6 +15,7 @@
  * @module
  * 
  */
+const { Reset, User } = require("../../models/User");
 const auth = require("../../middleware/auth");
 const bcryptjs = require("bcryptjs");
 const C = require("../../support/constants");
@@ -22,7 +23,6 @@ const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const nodemailer = require("nodemailer");
 const router = require("express").Router();
-const User = require("../../models/User");
 const utils = require("../../support/utilities");
 const validation = require("../../middleware/validation");
 
@@ -110,19 +110,21 @@ const sendEmail = async (to, name, subject, href) => {
 
     try {
 
-        let message, buttonLabel;
+        let message, buttonLabel, expiration;
 
         switch (subject) {
 
             case C.Email.SUBJECT_ACTIVATE:
                 message = C.Email.MESSAGE_ACTIVATE;
                 buttonLabel = C.Email.BUTTON_LABEL_ACTIVATE_ACCOUNT;
+                expiration = C.Expire.USER_ACTIVATE;
 
                 break;
 
             case C.Email.SUBJECT_RESET:
                 message = C.Email.MESSAGE_RESET;
                 buttonLabel = C.Email.BUTTON_LABEL_RESET_PASSWORD;
+                expiration = C.Expire.USER_RESET;
 
                 break;
         }
@@ -135,6 +137,7 @@ const sendEmail = async (to, name, subject, href) => {
                 ${buttonLabel}
             </a>
             <p>${C.Email.MESSAGE_CREDENTIALS}</p>
+            <p>${C.Email.MESSAGE_EXPIRE} ${expiration}.</p>
         `;
 
         const transporter = nodemailer.createTransport({
@@ -197,6 +200,7 @@ router.post(C.Route.REGISTER, [
 
                 [C.Model.ADMIN]: (validAdminUser && validAdminPass),
                 [C.Model.EMAIL]: email,
+                [C.Model.EXPIRE]: Date.now(),
                 [C.Model.IP]: req.ip,
                 [C.Model.NAME]: name,
                 [C.Model.PASSWORD]: await getHashedPassword(password)
@@ -243,19 +247,22 @@ router.get(C.Route.VERIFY, async (req, res) => {
                 throw new Error(C.Error.USER_INVALID_CREDENTIALS);
             }
 
-            if (user[C.Model.ACTIVE]) {
+            if (!user[C.Model.EXPIRE]) {
 
-                if (!user[C.Model.RESET]) {
+                const reset = await Reset.findOne({ email });
+
+                if (!reset) {
 
                     throw new Error(C.Error.USER_INVALID_CREDENTIALS);
                 }
 
-                user[C.Model.PASSWORD] = user[C.Model.RESET];
-                user[C.Model.RESET] = undefined;
+                user[C.Model.PASSWORD] = reset[C.Model.PASSWORD];
+                
+                await reset.remove();
             }
             else {
 
-                user[C.Model.ACTIVE] = true;
+                user[C.Model.EXPIRE] = undefined;
             }
             
             const token = await getJWT(user.id);
@@ -296,7 +303,7 @@ router.post(C.Route.LOGIN, [
             const { email, password } = req.body;
             const user = await User.findOne({ email });
 
-            if (!user || !user[C.Model.ACTIVE]) {
+            if (!user || user[C.Model.EXPIRE]) {
 
                 throw new Error(C.Error.USER_INVALID_CREDENTIALS);
             }
@@ -404,14 +411,25 @@ router.post(C.Route.RESET, [
             const { email, password } = req.body;
             const user = await User.findOne({ email });
 
-            if (!user || !user[C.Model.ACTIVE]) {
+            if (!user || user[C.Model.EXPIRE]) {
 
                 throw new Error(C.Error.USER_INVALID_CREDENTIALS);
             }
 
-            user[C.Model.RESET] = await getHashedPassword(password);
+            let reset = await Reset.findOne({ email });
 
-            await user.save();
+            if (reset) {
+
+                await reset.remove();
+            }
+
+            reset = new Reset({
+
+                [C.Model.EMAIL]: email,
+                [C.Model.PASSWORD]: await getHashedPassword(password)
+            });
+
+            await reset.save();
 
             const encodedEmail = encodeURIComponent(email);
             const encodedPasswords = encodeURIComponent(user[C.Model.PASSWORD]);
