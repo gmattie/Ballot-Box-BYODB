@@ -9,7 +9,7 @@
  * 
  */
 
-const { check, validationResult } = require("express-validator");
+const { body, check, validationResult } = require("express-validator");
 const C = require("../support/constants");
 const mongoose = require("mongoose");
 
@@ -45,6 +45,25 @@ const itemAdd = [
  * 
  */
 const itemEdit = [
+
+    body().custom((value) => {
+
+        const allowedKeys = [
+
+            C.Model.NAME,
+            C.Model.IMAGE
+        ];
+
+        for (const key of Object.keys(value)) {
+
+            if (allowedKeys.indexOf(key) === -1) {
+
+                return false;
+            }
+        }
+
+        return true;
+    }),
 
     check(C.Model.NAME, C.Error.NAME)
         .optional()
@@ -87,6 +106,27 @@ const result = (req, res, next) => {
  */
 const userEdit = [
 
+    body().custom((value) => {
+
+        const allowedKeys = [
+
+            C.Model.NAME,
+            C.Model.PASSWORD,
+            `${C.Model.ADMIN}${C.Model.USER}${C.Model.NAME}`,
+            `${C.Model.ADMIN}${C.Model.PASSWORD}`
+        ];
+
+        for (const key of Object.keys(value)) {
+
+            if (allowedKeys.indexOf(key) === -1) {
+
+                return false;
+            }
+        }
+
+        return true;
+    }),
+
     check(C.Model.NAME, C.Error.NAME)
         .optional()
         .not()
@@ -94,6 +134,18 @@ const userEdit = [
         .trim(),
 
     check(C.Model.PASSWORD, C.Error.PASSWORD)
+        .optional()
+        .not()
+        .isEmpty()
+        .custom((value) => !/\s/.test(value)),
+
+    check(`${C.Model.ADMIN}${C.Model.USER}${C.Model.NAME}`, C.Error.NAME)
+        .optional()
+        .not()
+        .isEmpty({ ignore_whitespace: true })
+        .trim(),
+
+    check(`${C.Model.ADMIN}${C.Model.PASSWORD}`, C.Error.PASSWORD)
         .optional()
         .not()
         .isEmpty()
@@ -113,7 +165,9 @@ const userLogin = [
         .isEmail(),
 
     check(C.Model.PASSWORD, C.Error.PASSWORD)
-        .exists()
+        .not()
+        .isEmpty()
+        .custom((value) => !/\s/.test(value))
 ];
 
 /**
@@ -135,6 +189,18 @@ const userRegister = [
         .normalizeEmail(),
 
     check(C.Model.PASSWORD, C.Error.PASSWORD)
+        .not()
+        .isEmpty()
+        .custom((value) => !/\s/.test(value)),
+
+    check(`${C.Model.ADMIN}${C.Model.USER}${C.Model.NAME}`, C.Error.NAME)
+        .optional()
+        .not()
+        .isEmpty({ ignore_whitespace: true })
+        .trim(),
+
+    check(`${C.Model.ADMIN}${C.Model.PASSWORD}`, C.Error.PASSWORD)
+        .optional()
         .not()
         .isEmpty()
         .custom((value) => !/\s/.test(value))

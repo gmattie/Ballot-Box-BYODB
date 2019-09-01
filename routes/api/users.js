@@ -168,7 +168,7 @@ const sendEmail = async (to, name, subject, href) => {
 /**
  * @description (POST) Register a user.
  * Users are registered by providing "name", "email" and "password" values within the HTTP request body.
- * Admin users are registered by additionally providing valid credentials for both "adminUser" and "adminPass" within the HTTP request body.
+ * Admin users are registered by additionally providing valid credentials for both "adminusername" and "adminpassword" within the HTTP request body.
  * Verifying the registered email address is required in order to activate the account and complete the registration.
  * 
  * @public
@@ -184,10 +184,10 @@ router.post(C.Route.REGISTER, [
 
         try {
             
-            const { name, email, password, adminUser, adminPass } = req.body;
+            const { name, email, password, adminusername, adminpassword } = req.body;
 
-            const validAdminUser = (adminUser === process.env.DB_USER);
-            const validAdminPass = (adminPass === process.env.DB_PASS);
+            const validAdminUsername = (adminusername === process.env.DB_USER);
+            const validAdminPassword = (adminpassword === process.env.DB_PASS);
 
             const userExists = await User.findOne({ email });
 
@@ -198,7 +198,7 @@ router.post(C.Route.REGISTER, [
 
             const user = new User({
 
-                [C.Model.ADMIN]: (validAdminUser && validAdminPass),
+                [C.Model.ADMIN]: (validAdminUsername && validAdminPassword),
                 [C.Model.EMAIL]: email,
                 [C.Model.EXPIRE]: Date.now(),
                 [C.Model.IP]: req.ip,
@@ -338,7 +338,7 @@ router.post(C.Route.LOGIN, [
  * All users are authorized to update the name, password and admin values of their own user document via token authentication.
  * 
  * All users are authorized to edit their own existing User document by providing a valid user ID as a request parameter.
- * Users are edited by providing option "name", "password", "adminUser" and/or "adminPass" values within the HTTP request body.
+ * Users are edited by providing optional "name", "password", "adminusername" and/or "adminpassword" values within the HTTP request body.
  * 
  * @protected
  * @constant
@@ -355,7 +355,7 @@ router.patch(C.Route.EDIT, [
         try {
             
             const user = res.locals[C.Local.USER];
-            const { name, password, adminUser, adminPass } = req.body;
+            const { name, password, adminusername, adminpassword } = req.body;
 
             if (name) {
 
@@ -367,9 +367,9 @@ router.patch(C.Route.EDIT, [
                 user[C.Model.PASSWORD] = await getHashedPassword(password);
             }
 
-            if (adminUser && adminPass) {
+            if (adminusername && adminpassword) {
 
-                user[C.Model.ADMIN] = (adminUser === process.env.DB_USER && adminPass === process.env.DB_PASS);
+                user[C.Model.ADMIN] = (adminusername === process.env.DB_USER && adminpassword === process.env.DB_PASS);
             }
 
             const token = await getJWT(user.id);
