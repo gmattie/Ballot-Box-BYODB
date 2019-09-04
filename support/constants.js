@@ -20,8 +20,8 @@
  */
 const Dir = {
 
-    ROUTES: "./routes",
     CLIENT: "./client",    
+    ROUTES: "./routes",
 };
 
 /**
@@ -58,7 +58,7 @@ const Email = {
     `,
     MESSAGE_ACTIVATE: "Please press the button below to activate your account.",
     MESSAGE_CREDENTIALS: "Once completed, you will be able to login with your new credentials.",
-    MESSAGE_EXPIRE: "This request will expire in",
+    MESSAGE_EXPIRE: "This option will expire in",
     MESSAGE_RESET: "A request to reset your account password has been submitted.  Please press the button below to confirm this request and reset your password.",
     SUBJECT_ACTIVATE: "Account Activation",
     SUBJECT_RESET: "Confirm Reset Password",
@@ -117,6 +117,7 @@ const Error = {
  *     <li> CLOSE </li>
  *     <li> CONNECTION </li>
  *     <li> VOTE_CLOSED </li>
+ *     <li> VOTE_COMPLETE </li>
  *     <li> VOTE_OPENED </li>
  * </ul>
  * 
@@ -176,8 +177,8 @@ const Header = {
  * 
  * <ul>
  *     <li> CLIENTS </li>
- *     <li> IS_VOTE_OPEN </li>
  *     <li> DEADLINE_INTERVAL </li>
+ *     <li> IS_VOTE_OPEN </li>
  *     <li> USER </li>
  * </ul>
  * 
@@ -188,8 +189,8 @@ const Header = {
 const Local = {
 
     CLIENTS: "clients",
-    IS_VOTE_OPEN: "isVoteOpen",
     DEADLINE_INTERVAL: "deadlineInterval",
+    IS_VOTE_OPEN: "isVoteOpen",
     USER: "user"
 };
 

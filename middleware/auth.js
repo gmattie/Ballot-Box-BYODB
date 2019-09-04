@@ -35,7 +35,7 @@ const auth = async (req, res, next) => {
         }
 
         const tokenSignature = utils.getTokenSignature(token);
-        const payload = await jwt.verify(token, process.env.JWT_TOKEN);
+        const payload = await jwt.verify(token, process.env.JWT_PRIVATE_KEY);
         const user = await User.findById(payload.user.id);
         
         if (!user || !user[C.Model.TOKEN]) {

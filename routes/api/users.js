@@ -92,7 +92,7 @@ const getJWT = async (userID) => {
     return await jwt.sign(
 
         payload,
-        process.env.JWT_TOKEN,
+        process.env.JWT_PRIVATE_KEY,
         { expiresIn: C.Expire.JWT_TOKEN }
     );
 };

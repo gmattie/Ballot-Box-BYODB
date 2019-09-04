@@ -1,11 +1,20 @@
+#
+# Components of the database URL with embedded credentials.  Special characters must be URL encoded.
+#
 DB_PROTOCOL = ""
 DB_USER = ""
 DB_PASS = ""
 DB_PATH = ""
 
-JWT_TOKEN = ""
+#
+# Private key for signing and verifying JSON Web Tokens.
+#
+JWT_PRIVATE_KEY = ""
 
+#
+# Configuration of the outgoing email SMTP server.
+#
 SMTP_HOST = ""
-SMTP_PORT = 0
+SMTP_PORT = ""
 SMTP_USER = ""
 SMTP_PASS = ""
