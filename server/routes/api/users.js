@@ -146,14 +146,14 @@ const sendEmail = async (to, name, subject, href) => {
             port: process.env.SMTP_PORT,
             auth: {
         
-                user: process.env.SMTP_USER,
-                pass: process.env.SMTP_PASS
+                user: process.env.SMTP_EMAIL,
+                pass: process.env.SMTP_PASSWORD
             }
         });
 
         await transporter.sendMail({
 
-            from: `${process.env.npm_package_productName} <${process.env.SMTP_USER}>`,
+            from: `${process.env.SMTP_NAME} <${process.env.SMTP_EMAIL}>`,
             to: to,
             subject: subject,
             html: html
@@ -186,8 +186,8 @@ router.post(C.Route.REGISTER, [
             
             const { name, email, password, adminusername, adminpassword } = req.body;
 
-            const validAdminUsername = (adminusername === process.env.DB_USER);
-            const validAdminPassword = (adminpassword === process.env.DB_PASS);
+            const validAdminUsername = (adminusername === process.env.DB_USERNAME);
+            const validAdminPassword = (adminpassword === process.env.DB_PASSWORD);
 
             const userExists = await User.findOne({ email });
 
@@ -369,7 +369,7 @@ router.patch(C.Route.EDIT, [
 
             if (adminusername && adminpassword) {
 
-                user[C.Model.ADMIN] = (adminusername === process.env.DB_USER && adminpassword === process.env.DB_PASS);
+                user[C.Model.ADMIN] = (adminusername === process.env.DB_USERNAME && adminpassword === process.env.DB_PASSWORD);
             }
 
             const token = await getJWT(user.id);

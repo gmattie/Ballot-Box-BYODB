@@ -1,0 +1,19 @@
+{
+    "scripts": {
+        "deploy": "node index.js",
+        "start": "nodemon --require dotenv/config index.js"
+    },
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "dotenv": "^8.1.0",
+        "express": "^4.17.1",
+        "express-validator": "^6.1.1",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^5.6.5",
+        "nodemailer": "^6.3.0",
+        "ws": "^7.1.1"
+    },
+    "devDependencies": {
+        "nodemon": "^1.19.1"
+    }
+}
