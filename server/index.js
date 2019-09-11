@@ -1,5 +1,5 @@
 /**
- * @description The index.js module is the entry point for the application and contains logic for connecting to the database and starting the server.
+ * @description The entry point for the application's backend.
  * 
  * @requires constants
  * @requires express

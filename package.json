@@ -1,7 +1,7 @@
 {
     "name": "ballot-box",
     "productName": "Ballot Box",
-    "version": "0.2.0-build",
+    "version": "0.2.1-build",
     "description": "Open polls and aggregate election results using your own database.",
     "scripts": {
         "client": "npm run start --prefix client",

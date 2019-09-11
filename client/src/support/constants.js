@@ -6,7 +6,30 @@
  * 
  */
 
- /**
+/**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
+ *     <li> PAYLOAD </li>
+ *     <ul>
+ *         <li> MESSAGE </li>
+ *     </ul> 
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const Action = {
+
+    PAYLOAD: "payload",
+    Type: {
+
+        MESSAGE: "message",
+    }
+};
+
+/**
  * @description Properties of type {string} consist of:
  * 
  * <ul>
@@ -50,7 +73,7 @@ const Event = {
     VOTE_OPENED: "voteOpened",
 };
 
- /**
+/**
  * @description Properties of type {string} consist of:
  * 
  * <ul>
@@ -132,9 +155,10 @@ const Route = {
  */
 export {
 
+    Action,
     CSSClass,
     Event,
     HTMLElement,
     Local,
     Route,
-}
+};

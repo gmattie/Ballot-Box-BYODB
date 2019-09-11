@@ -30,7 +30,6 @@ const getTokenSignature = (jwt) => jwt.slice(jwt.lastIndexOf(".") + 1);
  * @function 
  * 
  */
-
 const sendErrorResponse = (error, response) => {
 
     let status;
@@ -62,7 +61,8 @@ const sendErrorResponse = (error, response) => {
 
             break;
 
-        default: status = C.Status.INTERNAL_SERVER_ERROR;
+        default:
+            status = C.Status.INTERNAL_SERVER_ERROR;
     }
 
     return response
