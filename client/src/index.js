@@ -5,9 +5,9 @@
  * @requires constants
  * @requires react
  * @requires react-dom
- * @requires styles
  * @requires react-redux
  * @requires store
+ * @requires styles
  * @public
  * @module
  * 

@@ -33,16 +33,16 @@ const Action = {
  * @description Properties of type {string} consist of:
  * 
  * <ul>
- *     <li> TITLE </li>
+ *     <li> APP </li>
  * </ul>
  * 
  * @public
  * @constant
  * 
  */
-const CSSClass = {
+const ClassName = {
 
-    TITLE: "title",
+    APP: "app",
 };
 
 /**
@@ -156,7 +156,7 @@ const Route = {
 export {
 
     Action,
-    CSSClass,
+    ClassName,
     Event,
     HTMLElement,
     Local,

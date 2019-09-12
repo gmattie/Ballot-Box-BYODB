@@ -28,7 +28,7 @@ const App = () => {
     const webSocketMessage = useSelector((state) => state.webSocket[C.Action.Type.MESSAGE]);
 
     return (
-        <div className={C.CSSClass.TITLE}>
+        <div className={C.ClassName.APP}>
             WebSocket Data: {webSocketMessage}
         </div>
     );

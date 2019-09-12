@@ -1,9 +1,6 @@
-@import "./modules/reset.scss";
-@import "./modules/app.scss";
+@import "./abstracts/variables";
 
-body {
+@import "./base/reset";
+@import "./base/root";
 
-    font-family: "Muli", sans-serif;
-    color: #FFFFFF;
-    background-color: #48BBEE;
-}
+@import "./components/app";
