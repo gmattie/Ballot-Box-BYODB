@@ -1,12 +1,14 @@
 /**
  * @description The root reducer module.
  * 
+ * @requires itemReducer
  * @requires redux
  * @requires webSocketReducer
  * @module
  * 
  */
 import { combineReducers } from "redux";
+import items from "./itemsReducer";
 import webSocket from "./webSocketReducer";
 
 /**
@@ -16,8 +18,9 @@ import webSocket from "./webSocketReducer";
  * @constant
  * 
  */
-const rootReducer = combineReducers({
+const reducers = combineReducers({
 
+    items,
     webSocket
 });
 
@@ -25,4 +28,4 @@ const rootReducer = combineReducers({
  * Export module
  * 
  */
-export default rootReducer;
+export default reducers;

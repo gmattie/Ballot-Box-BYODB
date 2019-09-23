@@ -9,6 +9,9 @@
         "redux": "^4.0.4",
         "redux-thunk": "^2.3.0"
     },
+    "devDependencies": {
+        "prop-types": "^15.7.2"
+    },
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build"

@@ -1,0 +1,24 @@
+.listItem {
+
+    width: 100%;
+    height: $LIST_ITEM_HEIGHT;
+    background-color: black;
+    list-style: none;
+
+    img {
+
+        height: 100%;
+    }
+
+    &-active {
+
+        height: $LIST_ITEM_HEIGHT;
+        background-color: gray;
+        opacity: 1;
+
+        img {
+
+            height: 100%;
+        }
+    }
+}

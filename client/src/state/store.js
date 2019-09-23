@@ -10,7 +10,7 @@
  */
 import { createStore, applyMiddleware, compose } from "redux";
 import * as C from "../support/constants";
-import rootReducer from "./reducers";
+import reducers from "./reducers";
 import thunk from "redux-thunk";
 
 /**
@@ -54,7 +54,7 @@ const enhancers = () => {
  */
 const store = createStore(
     
-    rootReducer,
+    reducers,
     enhancers()
 );
 

@@ -18,11 +18,11 @@
  * @constant
  * 
  */
-const Dir = {
+const Dir = Object.freeze({
 
     CLIENT: "./client",    
     ROUTES: "./routes",
-};
+});
 
 /**
  * @description Properties of type {string} consist of:
@@ -43,7 +43,7 @@ const Dir = {
  * @constant
  * 
  */
-const Email = {
+const Email = Object.freeze({
 
     BUTTON_LABEL_ACTIVATE_ACCOUNT: "ACTIVATE ACCOUNT",
     BUTTON_LABEL_RESET_PASSWORD: "RESET PASSWORD",
@@ -62,7 +62,7 @@ const Email = {
     MESSAGE_RESET: "A request to reset your account password has been submitted.  Please press the button below to confirm this request and reset your password.",
     SUBJECT_ACTIVATE: "Account Activation",
     SUBJECT_RESET: "Confirm Reset Password",
-};
+});
 
 /**
  * @description Properties of type {string} consist of:
@@ -90,7 +90,7 @@ const Email = {
  * @constant
  * 
  */
-const Error = {
+const Error = Object.freeze({
 
     CAST: "Invalid cast",
     DEADLINE: "Invalid deadline",
@@ -108,7 +108,7 @@ const Error = {
     VOTE_CLOSED: "Voting is closed",
     VOTE_DOES_NOT_EXIST: "Vote does not exist",
     VOTE_OPENED: "Voting is open",
-};
+});
 
 /**
  * @description Properties of type {string} consist of:
@@ -125,14 +125,14 @@ const Error = {
  * @constant
  * 
  */
-const Event = {
+const Event = Object.freeze({
 
     CLOSE: "close",
     CONNECTION: "connection",
     VOTE_CLOSED: "voteClosed",
     VOTE_COMPLETE: "voteComplete",
     VOTE_OPENED: "voteOpened",
-};
+});
 
 /**
  * @description Properties of type {string} consist of:
@@ -147,12 +147,12 @@ const Event = {
  * @constant
  * 
  */
-const Expire = {
+const Expire = Object.freeze({
 
     JWT_TOKEN: "2d",
     USER_ACTIVATE: "60 minutes",
     USER_RESET: "30 minutes"
-};
+});
 
 /**
  * @description Properties of type {string} consist of:
@@ -166,11 +166,11 @@ const Expire = {
  * @constant
  * 
  */
-const Header = {
+const Header = Object.freeze({
 
     HOST: "Host",
     X_AUTH_TOKEN: "X-Auth-Token",
-};
+});
 
 /**
  * @description Properties of type {string} consist of:
@@ -186,13 +186,13 @@ const Header = {
  * @constant
  * 
  */
-const Local = {
+const Local = Object.freeze({
 
     CLIENTS: "clients",
     DEADLINE_INTERVAL: "deadlineInterval",
     IS_VOTE_OPEN: "isVoteOpen",
     USER: "user"
-};
+});
 
 /**
  * @description Properties of type {string} consist of:
@@ -208,12 +208,12 @@ const Local = {
  * 
  */
 
-const Message = {
+const Message = Object.freeze({
 
     CONNECTED_CLIENTS: "Connected clients:",
     DATABASE_CONNECTED: "Database connected",
     SERVER_RUNNING: "Server is running on port:"
-};
+});
 
 /**
  * @description Properties of type {string} consist of:
@@ -244,7 +244,7 @@ const Message = {
  * @constant
  * 
  */
-const Model = {
+const Model = Object.freeze({
 
     ACTIVE: "active",
     ADMIN: "admin",
@@ -265,7 +265,7 @@ const Model = {
     TOTAL: "total",
     USER: "user",
     VOTE: "vote",
-};
+});
 
 /**
  * @description Properties of type {string} consist of:
@@ -292,7 +292,7 @@ const Model = {
  * @constant
  * 
  */
-const Route = {
+const Route = Object.freeze({
 
     ADD: "/add",
     API_ITEMS: "/api/items",
@@ -309,7 +309,7 @@ const Route = {
     REGISTER: "/register",
     RESET: "/reset",
     VERIFY: "/verify",
-};
+});
 
 /**
  * @description Properties of type {number} consist of:
@@ -325,13 +325,13 @@ const Route = {
  * @constant
  * 
  */
-const Status = {
+const Status = Object.freeze({
 
     BAD_REQUEST: 400,
     INTERNAL_SERVER_ERROR: 500,
     OK: 200,
     UNAUTHENTICATED: 401,
-};
+});
 
 /**
  * Export module

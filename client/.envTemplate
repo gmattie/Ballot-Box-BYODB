@@ -1,0 +1,4 @@
+#
+# JSON Web Token authorization for development environment
+#
+REACT_APP_DEV_JWT = ""

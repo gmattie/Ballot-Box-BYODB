@@ -12,6 +12,8 @@
  * <ul>
  *     <li> PAYLOAD </li>
  *     <ul>
+ *         <li> ERROR </li>
+ *         <li> ITEMS </li>
  *         <li> MESSAGE </li>
  *     </ul> 
  * </ul>
@@ -20,36 +22,26 @@
  * @constant
  * 
  */
-const Action = {
+const Action = Object.freeze({
 
     PAYLOAD: "payload",
     Type: {
 
+        ERROR: "error",
+        ITEMS: "items",
         MESSAGE: "message",
     }
-};
-
-/**
- * @description Properties of type {string} consist of:
- * 
- * <ul>
- *     <li> APP </li>
- * </ul>
- * 
- * @public
- * @constant
- * 
- */
-const ClassName = {
-
-    APP: "app",
-};
+});
 
 /**
  * @description Properties of type {string} consist of:
  * 
  * <ul>
  *     <li> CLOSE </li>
+ *     <li> DRAG_ENTER </li>
+ *     <li> DRAG_OVER </li>
+ *     <li> DRAG_START </li>
+ *     <li> DROP </li>
  *     <li> ERROR </li>
  *     <li> MESSAGE </li>
  *     <li> OPEN </li>
@@ -62,16 +54,20 @@ const ClassName = {
  * @constant
  * 
  */
-const Event = {
+const Event = Object.freeze({
 
     CLOSE: "close",
+    DRAG_ENTER: "dragenter",
+    DRAG_OVER: "dragover",
+    DRAG_START: "dragstart",
+    DROP: "drop",
     ERROR: "error",
     MESSAGE: "message",
     OPEN: "open",
     VOTE_CLOSED: "voteClosed",
     VOTE_COMPLETE: "voteComplete",
     VOTE_OPENED: "voteOpened",
-};
+});
 
 /**
  * @description Properties of type {string} consist of:
@@ -84,10 +80,10 @@ const Event = {
  * @constant
  * 
  */
-const HTMLElement = {
+const HTMLElement = Object.freeze({
 
     ROOT: "root",
-};
+});
 
 /**
  * @description Properties of type {string} consist of:
@@ -102,12 +98,30 @@ const HTMLElement = {
  * @constant
  * 
  */
-const Local = {
+const Local = Object.freeze({
 
     ENV_DEVELOPMENT: "development",
     PROTOCOL_WEB_SOCKET: "ws",
     PROTOCOL_HTTP: "http",
-};
+});
+
+/**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
+ *     <li> METHOD_GET </li>
+ *     <li> HEADER_X_AUTH_TOKEN </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const Request = Object.freeze({
+
+    METHOD_GET: "get",
+    HEADER_X_AUTH_TOKEN: "X-Auth-Token",
+});
 
 /**
  * @description Properties of type {string} consist of:
@@ -132,7 +146,7 @@ const Local = {
  * @constant
  * 
  */
-const Route = {
+const Route = Object.freeze({
 
     ADD: "/add",
     API_ITEMS: "/api/items",
@@ -147,7 +161,29 @@ const Route = {
     OPEN: "/open",
     REGISTER: "/register",
     RESET: "/reset",
-};
+});
+
+/**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
+ *     <li> APP </li>
+ *     <li> LIST </li>
+ *     <li> LIST_ITEM </li>
+ *     <li> LIST_ITEM_HIDE </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const Style = Object.freeze({
+
+    APP: "app",
+    LIST: "list",
+    LIST_ITEM: "listItem",
+    LIST_ITEM_ACTIVE: "listItem-active",
+});
 
 /**
  * Export module
@@ -156,9 +192,10 @@ const Route = {
 export {
 
     Action,
-    ClassName,
     Event,
     HTMLElement,
     Local,
+    Request,
     Route,
+    Style
 };

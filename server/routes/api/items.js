@@ -22,7 +22,7 @@ const validation = require("../../middleware/validation");
 /**
  * @description (POST) Add an item.
  * Only authenticated admin users are authorized to add items.
- * Items are added by providing an "item" array of objects that contain "name" and "image" properties within the HTTP request body. 
+ * Items are added by providing an "item" array of one of more objects that contain "name" and "image" properties within the HTTP request body. 
  * 
  * @protected
  * @constant
@@ -48,7 +48,7 @@ router.post(C.Route.ADD, [
 
                 return res
                     .status(C.Status.OK)
-                    .json({ item });
+                    .json(item);
             }
             else {
 
@@ -62,7 +62,7 @@ router.post(C.Route.ADD, [
 });
 
 /**
- * @description (PATCH) Edit the name of an item.
+ * @description (PATCH) Edit the name and/or image URL of an item.
  * Only admin users, via admin authentication, are authorized to edit existing items by providing a valid item ID as a request parameter.
  * Items are edited by providing an option "name" value and/or an option "image" URL within the HTTP request body.
  * 
@@ -117,7 +117,7 @@ router.patch(`${C.Route.EDIT}/:${C.Route.PARAM}`, [
 
                 return res
                     .status(C.Status.OK)
-                    .json({ item });
+                    .json(item);
             }
             else {
 
@@ -162,7 +162,7 @@ router.delete(`${C.Route.DELETE}/:${C.Route.PARAM}`, auth, async (req, res) => {
 
             return res
                 .status(C.Status.OK)
-                .json({ item });
+                .json(item);
         }
         else {
 
@@ -215,7 +215,7 @@ router.get(`/:${C.Route.PARAM}?`, auth, async (req, res) => {
 
         return res
             .status(C.Status.OK)
-            .send({ items: result });
+            .send(result);
     }
     catch (error) {
 

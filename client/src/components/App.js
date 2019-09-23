@@ -1,7 +1,8 @@
 /**
- * @description The parent component of the application.
+ * @description App component.
  * 
  * @requires constants
+ * @requires List
  * @requires react
  * @requires react-redux
  * @requires useWebSocket
@@ -9,13 +10,14 @@
  * @module
  * 
  */
+import { useSelector } from "react-redux";
 import * as C from "../support/constants";
+import List from "../components/List";
 import React from "react";
 import useWebSocket from "../hooks/useWebSocket";
-import { useSelector } from "react-redux";
 
 /**
- * @description Displays messages pushed from the server via a WebSocket connection.
+ * @description The parent component of the application.
  * 
  * @public
  * @function
@@ -23,14 +25,25 @@ import { useSelector } from "react-redux";
  */
 const App = () => {
 
+    /**
+     * Initiate a WebSocket
+     * 
+     */
     useWebSocket();
     
     const webSocketMessage = useSelector((state) => state.webSocket[C.Action.Type.MESSAGE]);
 
+    /**
+     * JSX markup
+     * 
+     */
     return (
-        <div className={C.ClassName.APP}>
-            WebSocket Data: {webSocketMessage}
-        </div>
+        <>
+            <div className={C.Style.APP}>
+                WebSocket Data: {webSocketMessage}
+            </div>
+            <List />
+        </>
     );
 };
 
