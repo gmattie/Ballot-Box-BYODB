@@ -4,13 +4,15 @@
  * @requires constants
  * @requires prop-types
  * @requires react
+ * @requires ViewportImage
  * @public
  * @module
  * 
  */
 import * as C from "../support/constants";
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import ViewportImage from "./ViewportImage";
 
 /**
  * @description The ListItem component displays data passed down as props from the parent component.
@@ -28,15 +30,16 @@ const ListItem = ({
         index,
         dragStartHandler,
         dragEnterHandler,
+        dropHandler,
         render
     }) => {
 
     /**
-     * Component state
+     * State and references
      * 
      */
     const [ style, setStyle ] = useState(C.Style.LIST_ITEM);
-    const [ dragImage, setDragImage ] = useState();
+    const emptyImage = useRef(new Image());
 
     /**
      * @description Sets the "style" state to the default value if the component is re-rendered.
@@ -52,22 +55,7 @@ const ListItem = ({
             
             setStyle(C.Style.LIST_ITEM);
         }
-
     }, [data, render]);
-
-    /**
-     * @description Sets the "dragImage" state to a blank image element.
-     * 
-     * @private
-     * @function
-     * 
-     */
-    useEffect(() => {
-
-        const dragImage = new Image();
-
-        setDragImage(dragImage);
-    }, []);
 
     /**
      * @description Handler for all dispatched drag events ("dragenter", "dragover", "dragstart" and "drop").
@@ -83,7 +71,8 @@ const ListItem = ({
         switch (event.type) {
 
             case C.Event.DRAG_ENTER:
-                dragEnterHandler(event, index);
+                event.preventDefault();
+                dragEnterHandler(index);
 
                 break;
 
@@ -93,15 +82,16 @@ const ListItem = ({
                 break;
 
             case C.Event.DRAG_START:
-                event.dataTransfer.setDragImage(dragImage, 0, 0);
+                event.dataTransfer.setDragImage(emptyImage.current, 0, 0);
                 setStyle(C.Style.LIST_ITEM_ACTIVE);
-                dragStartHandler(event, index);
+                dragStartHandler(index);
 
                 break; 
 
             case C.Event.DROP:
                 event.preventDefault();
                 setStyle(C.Style.LIST_ITEM);
+                dropHandler();
 
                 break;
 
@@ -124,8 +114,15 @@ const ListItem = ({
             onDragStart={dragHandler}
             onDrop={dragHandler}
         >
-            <img src={data.image} alt={data.name} />
-            {data.name}
+            <ViewportImage
+                src={data.image}
+                alt={data.name}
+                placeholder={C.Image.PLACEHOLDER}
+                style={C.Style.VIEWPORT_IMAGE}
+                intersectionStyle={C.Style.VIEWPORT_IMAGE_INTERSECTION}
+                errorStyle={C.Style.VIEWPORT_IMAGE_ERROR}
+            />
+            <span>{data.name}</span>
         </li>
     );
 };
@@ -147,6 +144,7 @@ ListItem.propTypes = {
     index: PropTypes.number.isRequired,
     dragStartHandler: PropTypes.func.isRequired,
     dragEnterHandler: PropTypes.func.isRequired,
+    dropHandler: PropTypes.func.isRequired,
     render: PropTypes.object
 };
 

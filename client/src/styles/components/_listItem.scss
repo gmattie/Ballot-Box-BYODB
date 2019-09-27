@@ -1,24 +1,21 @@
-.listItem {
+@mixin listItem {
 
     width: 100%;
     height: $LIST_ITEM_HEIGHT;
     background-color: black;
     list-style: none;
+    display: flex;
+    align-items: center;
+}
 
-    img {
+.listItem {
 
-        height: 100%;
-    }
+    @include listItem;
 
     &-active {
 
-        height: $LIST_ITEM_HEIGHT;
+        @include listItem;
+
         background-color: gray;
-        opacity: 1;
-
-        img {
-
-            height: 100%;
-        }
     }
 }

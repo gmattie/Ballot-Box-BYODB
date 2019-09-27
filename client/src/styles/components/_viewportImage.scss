@@ -1,0 +1,21 @@
+
+.viewportImage {
+
+    width: $LIST_ITEM_HEIGHT;
+    height: #{100%} - $LIST_ITEM_MARGIN * 2;
+    max-height: $LIST_ITEM_HEIGHT - $LIST_ITEM_MARGIN * 2;
+    object-fit: cover;
+    object-position: center;
+    margin: auto $LIST_ITEM_MARGIN;
+    pointer-events: none;
+    
+    &-intersection {
+
+        animation: fade 300ms ease-out;
+    }
+
+    &-error {
+
+        opacity: 0;
+    }
+}

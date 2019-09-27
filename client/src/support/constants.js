@@ -37,12 +37,14 @@ const Action = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> ANIMATION_END </li>
  *     <li> CLOSE </li>
  *     <li> DRAG_ENTER </li>
  *     <li> DRAG_OVER </li>
  *     <li> DRAG_START </li>
  *     <li> DROP </li>
  *     <li> ERROR </li>
+ *     <li> LOAD </li>
  *     <li> MESSAGE </li>
  *     <li> OPEN </li>
  *     <li> VOTE_CLOSED </li>
@@ -56,12 +58,14 @@ const Action = Object.freeze({
  */
 const Event = Object.freeze({
 
+    ANIMATION_END: "animationend",
     CLOSE: "close",
     DRAG_ENTER: "dragenter",
     DRAG_OVER: "dragover",
     DRAG_START: "dragstart",
     DROP: "drop",
     ERROR: "error",
+    LOAD: "load",
     MESSAGE: "message",
     OPEN: "open",
     VOTE_CLOSED: "voteClosed",
@@ -83,6 +87,22 @@ const Event = Object.freeze({
 const HTMLElement = Object.freeze({
 
     ROOT: "root",
+});
+
+/**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
+ *     <li> PLACEHOLDER </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const Image = Object.freeze({
+
+    PLACEHOLDER: "data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=",
 });
 
 /**
@@ -171,6 +191,8 @@ const Route = Object.freeze({
  *     <li> LIST </li>
  *     <li> LIST_ITEM </li>
  *     <li> LIST_ITEM_HIDE </li>
+ *     <li> VIEWPORT_IMAGE_ERROR </li>
+ *     <li> VIEWPORT_IMAGE_INTERSECTION </li>
  * </ul>
  * 
  * @public
@@ -180,9 +202,12 @@ const Route = Object.freeze({
 const Style = Object.freeze({
 
     APP: "app",
-    LIST: "list",
-    LIST_ITEM: "listItem",
     LIST_ITEM_ACTIVE: "listItem-active",
+    LIST_ITEM: "listItem",
+    LIST: "list",
+    VIEWPORT_IMAGE: "viewportImage",
+    VIEWPORT_IMAGE_ERROR: "viewportImage-error",
+    VIEWPORT_IMAGE_INTERSECTION: "viewportImage-intersection",
 });
 
 /**
@@ -194,6 +219,7 @@ export {
     Action,
     Event,
     HTMLElement,
+    Image,
     Local,
     Request,
     Route,

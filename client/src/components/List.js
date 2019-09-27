@@ -11,7 +11,7 @@
  */
 import * as C from "../support/constants";
 import ListItem from "./ListItem";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import useItems from "../hooks/useItems";
 
 /**
@@ -27,73 +27,80 @@ import useItems from "../hooks/useItems";
 const List = () => {
 
     /**
-     * Applications state
+     * State and references
      * 
      */
     const [ items, itemsError, setItems ] = useItems();
-
-    /**
-     * Component state
-     * 
-     */
-    const [ targetItem, setTargetItem ] = useState(null);
     const [ renderListItem, setRenderListItem ] = useState({ target: null });
+    const targetItemData = useRef(null);
 
     /**
-     * @description Handler for dispatched "dragstart" events from ListItem child components.
-     * Sets the "targetItem" component state according to the target ListItem component.
+     * @description Handler called when "dragstart" events are dispatched within ListItem child components.
+     * Sets the "targetItemData" reference to the "items" index of the event target ListItem component.
      * 
-     * @param {object} event - The drag event object.
      * @param {number} index - The current index of the target ListItem component.
      * @private
      * @function
      * 
      */
-    const dragStartHandler = (event, index) => {
+    const dragStartHandler = (index) => {
 
-        setTargetItem(items[index]);
+        targetItemData.current = items[index];
     };
 
     /**
-     * @description Handler for dispatched "dragenter" events from LitItem child components.
+     * @description Handler called when "dragenter" events are dispatched within ListItem child components.
      * Updates the order of items within the "items" application state according to both the dragged and entered ListItem components.
      * 
-     * @param {object} event - The drag event object.
      * @param {index} index - The current index of the target ListItem component.
      * @private
      * @function
      * 
      */
-    const dragEnterHandler = (event, index) => {
+    const dragEnterHandler = (index) => {
         
-        event.preventDefault();
-        
-        const eventTargetItem = items[index];
+        const dragData = targetItemData.current;
+        const dropData = items[index];
 
-        if (targetItem._id !== eventTargetItem._id) {
+        if (dragData.name !== dropData.name) {
 
-            const reorderedItems = items.filter((item) => item._id !== targetItem._id);
-            reorderedItems.splice(index, 0, targetItem);
+            const reorderedItemData = items.filter((item) => item.name !== dragData.name);
+            reorderedItemData.splice(index, 0, dragData);
 
-            setItems(reorderedItems);
+            setItems(reorderedItemData);
         }
     };
 
     /**
-     * @description Handler for dispatched "mouseleave" events.
-     * Ensures that dragged LitItem components will be re-rendered if they are dropped outside of the List component.
+     * @description Handler called when "drop" events are dispatched within ListItem child components.
+     * Resets the "targetItemData" reference to null.
+     * 
+     * @private
+     * @function
+     * 
+     */
+    const dropHandler = () => {
+
+        targetItemData.current = null;
+    };
+
+    /**
+     * @description Handler for all dispatched mouse events ("mouseup" and "mouseleave").
+     * Ensures that the target LitItem components will be re-rendered if it is dropped outside of the List component.
      * 
      * @param {object} event - The mouse event object.
      * @private
      * @function
      * 
      */
-    const mouseLeaveHandler = (event) => {
+    const mouseHandler = (event) => {
 
-        if (targetItem) {
+        let dragData = targetItemData.current;
 
-            setRenderListItem({ target: targetItem });
-            setTargetItem(null);
+        if (dragData) {
+
+            setRenderListItem({ target: dragData });
+            dragData = null;
         }
     };
 
@@ -105,7 +112,7 @@ const List = () => {
 
         <div
             className={C.Style.LIST}
-            onMouseLeave={mouseLeaveHandler}
+            onMouseLeave={mouseHandler}
         >
             {(itemsError !== null) && (
                 <>
@@ -117,11 +124,12 @@ const List = () => {
                 <ul>
                     {items.map((item, index) => (
                         <ListItem
-                            key={item._id}
+                            key={item.name}
                             data={item}
                             index={index}
                             dragStartHandler={dragStartHandler}
                             dragEnterHandler={dragEnterHandler}
+                            dropHandler={dropHandler}
                             render={renderListItem}                     
                         />
                     ))}
