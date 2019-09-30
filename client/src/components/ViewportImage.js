@@ -26,7 +26,6 @@ const ViewportImage = ({
         
         src,
         alt,
-        placeholder,
         style,
         intersectionStyle,
         errorStyle
@@ -36,7 +35,7 @@ const ViewportImage = ({
      * State and references
      * 
      */
-    const [ imageSrc, setImageSrc ] = useState(placeholder);
+    const [ imageSrc, setImageSrc ] = useState(C.Image.PLACEHOLDER);
     const image = useRef(null);
 
     /**
@@ -67,14 +66,14 @@ const ViewportImage = ({
 
         const imageElement = image.current;
         
-        if (imageElement.src !== placeholder) {
+        if (imageElement.src !== C.Image.PLACEHOLDER) {
 
             imageElement.addEventListener(C.Event.ANIMATION_END, animationEndHandler);
             imageElement.classList.add(intersectionStyle);
         }
         
         imageElement.removeEventListener(C.Event.LOAD, loadHandler);
-    }, [placeholder, animationEndHandler, intersectionStyle]);
+    }, [animationEndHandler, intersectionStyle]);
 
     /**
      * @description Handler for dispatched "error" events.
@@ -152,7 +151,6 @@ const ViewportImage = ({
      * 
      */
     return (
-    
         <img
             ref={image}
             src={imageSrc}
@@ -170,7 +168,6 @@ ViewportImage.propTypes = {
 
     src: PropTypes.string.isRequired,
     alt: PropTypes.string.isRequired,
-    placeholder: PropTypes.string.isRequired,
     style: PropTypes.string.isRequired,
     intersectionStyle: PropTypes.string.isRequired,
     errorStyle: PropTypes.string.isRequired

@@ -117,7 +117,6 @@ const ListItem = ({
             <ViewportImage
                 src={data.image}
                 alt={data.name}
-                placeholder={C.Image.PLACEHOLDER}
                 style={C.Style.VIEWPORT_IMAGE}
                 intersectionStyle={C.Style.VIEWPORT_IMAGE_INTERSECTION}
                 errorStyle={C.Style.VIEWPORT_IMAGE_ERROR}
