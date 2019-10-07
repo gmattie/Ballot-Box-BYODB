@@ -456,7 +456,8 @@ router.get(`/:${C.Route.PARAM}?`, auth, async (req, res) => {
 
             const filter = (user.admin) ? {} : { [C.Model.ACTIVE]: false };
 
-            result = await Vote.find(filter)
+            result = await Vote
+                .find(filter)
                 .sort(`-${C.Model.DATE}`)
                 .populate(popPathVoteUser, popFieldsUser)
                 .populate(popPathVoteItem, popFieldsItem)

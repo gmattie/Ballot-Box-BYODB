@@ -93,6 +93,22 @@ const HTMLElement = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> LIST </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const ID = Object.freeze({
+
+    LIST: "list",
+});
+
+/**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
  *     <li> PLACEHOLDER </li>
  * </ul>
  * 
@@ -219,6 +235,7 @@ export {
     Action,
     Event,
     HTMLElement,
+    ID,
     Image,
     Local,
     Request,

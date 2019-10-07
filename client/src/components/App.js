@@ -12,7 +12,7 @@
  */
 import { useSelector } from "react-redux";
 import * as C from "../support/constants";
-import List from "../components/List";
+import List from "./list/List";
 import React from "react";
 import useWebSocket from "../hooks/useWebSocket";
 

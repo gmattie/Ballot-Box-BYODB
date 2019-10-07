@@ -210,7 +210,9 @@ router.get(`/:${C.Route.PARAM}?`, auth, async (req, res) => {
         }
         else {
 
-            result = await Item.find({});
+            result = await Item
+                .find({})
+                .sort(`${C.Model.NAME}`);
         }
 
         return res
