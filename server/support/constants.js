@@ -10,7 +10,7 @@
  * @description Properties of type {string} consist of:
  * 
  * <ul>
- *     <li> CLIENT </li>
+ *     <li> BUILD </li>
  *     <li> ROUTES </li>
  * </ul>
  * 
@@ -20,7 +20,7 @@
  */
 const Dir = Object.freeze({
 
-    CLIENT: "./client",    
+    BUILD: "./client/build",
     ROUTES: "./routes",
 });
 
@@ -158,6 +158,22 @@ const Expire = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> INDEX </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const File = Object.freeze({
+
+    INDEX: "index.html"
+});
+
+/**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
  *     <li> HOST </li>
  *     <li> X_AUTH_TOKEN </li>
  * </ul>
@@ -178,6 +194,8 @@ const Header = Object.freeze({
  * <ul>
  *     <li> CLIENTS </li>
  *     <li> DEADLINE_INTERVAL </li>
+ *     <li> ENV_DEVELOPMENT </li>
+ *     <li> ENV_PRODUCTION </li>
  *     <li> IS_VOTE_OPEN </li>
  *     <li> USER </li>
  * </ul>
@@ -190,6 +208,8 @@ const Local = Object.freeze({
 
     CLIENTS: "clients",
     DEADLINE_INTERVAL: "deadlineInterval",
+    ENV_DEVELOPMENT: "development",
+    ENV_PRODUCTION: "production",
     IS_VOTE_OPEN: "isVoteOpen",
     USER: "user"
 });
@@ -344,6 +364,7 @@ module.exports = {
     Error,
     Event,
     Expire,
+    File,
     Header,
     Local,
     Message,

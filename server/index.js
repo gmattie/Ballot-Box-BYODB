@@ -5,6 +5,7 @@
  * @requires express
  * @requires http
  * @requires mongoose
+ * @requires path
  * @requires ws
  * @module
  * 
@@ -13,6 +14,7 @@ const { createServer } = require("http");
 const C = require("./support/constants");
 const express = require("express");
 const mongoose = require("mongoose");
+const path = require("path");
 const WebSocket = require("ws");
 
 /**
@@ -25,12 +27,20 @@ const WebSocket = require("ws");
 const server = () => {
     
     const app = express();
-    app.use(express.static(C.Dir.CLIENT));
     app.use(express.json({ extended: false }));
-    
+
     app.use(C.Route.API_ITEMS, require(`${C.Dir.ROUTES}${C.Route.API_ITEMS}`));
     app.use(C.Route.API_USERS, require(`${C.Dir.ROUTES}${C.Route.API_USERS}`));
     app.use(C.Route.API_VOTES, require(`${C.Dir.ROUTES}${C.Route.API_VOTES}`));
+    
+    const environment = process.env.NODE_ENV || C.Local.ENV_DEVELOPMENT;
+
+    if (environment === C.Local.ENV_PRODUCTION) {
+
+        app.use(express.static(C.Dir.BUILD));
+
+        app.get("*", (req, res) => res.sendFile(path.resolve(__dirname, "..", C.Dir.BUILD, C.File.INDEX)));
+    }
     
     const port = process.env.PORT || 5000;
     const server = createServer(app);
