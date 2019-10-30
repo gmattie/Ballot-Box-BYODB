@@ -212,6 +212,7 @@ router.get(`/:${C.Route.PARAM}?`, auth, async (req, res) => {
 
             result = await Item
                 .find({})
+                .collation({ locale: C.Local.ENGLISH })
                 .sort(`${C.Model.NAME}`);
         }
 

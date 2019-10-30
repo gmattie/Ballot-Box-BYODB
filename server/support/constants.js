@@ -194,6 +194,7 @@ const Header = Object.freeze({
  * <ul>
  *     <li> CLIENTS </li>
  *     <li> DEADLINE_INTERVAL </li>
+ *     <li> ENGLISH </li>
  *     <li> ENV_DEVELOPMENT </li>
  *     <li> ENV_PRODUCTION </li>
  *     <li> IS_VOTE_OPEN </li>
@@ -208,6 +209,7 @@ const Local = Object.freeze({
 
     CLIENTS: "clients",
     DEADLINE_INTERVAL: "deadlineInterval",
+    ENGLISH: "en",
     ENV_DEVELOPMENT: "development",
     ENV_PRODUCTION: "production",
     IS_VOTE_OPEN: "isVoteOpen",
