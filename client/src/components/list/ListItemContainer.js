@@ -27,14 +27,28 @@ const ListItemContainer = ({ data }) => {
      * JSX markup
      * 
      */
-    return data.map((data, index) => (
 
-        <ListItem
-            data={data}
-            index={index}
-            key={data._id}
-        />
-    ));
+    if (data) {
+
+        return data.map((data, index) => (
+
+            <ListItem
+                data={data}
+                index={index}
+                key={data._id}
+            />
+        ));
+    }
+
+    return null;
+};
+
+/**
+ * Default Props
+ */
+ListItemContainer.defaultProps = {
+
+    data: null
 };
 
 /**
@@ -43,13 +57,7 @@ const ListItemContainer = ({ data }) => {
  */
 ListItemContainer.propTypes = {
 
-    data: PropTypes.arrayOf(PropTypes.shape({
-
-        _id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        image: PropTypes.string,
-        date: PropTypes.string
-    })).isRequired,
+    data: PropTypes.array
 };
 
 /**

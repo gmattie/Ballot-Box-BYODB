@@ -20,9 +20,11 @@ import * as itemActions from "../state/actions/itemActions";
  * 
  * @returns {Array<{
  * 
- *      items: object,
+ *      itemsCandidate: object,
+ *      itemsVote: object,
  *      itemsError: object,
- *      setItems: function
+ *      setItemsCandidate: function
+ *      setItemsVote: function
  * }}
  * @public
  * @function 
@@ -45,16 +47,21 @@ const useItems = () => {
         dispatch(itemActions.fetchItems(authToken));
     }, [dispatch]);
 
-    const setItems = (items) => dispatch(itemActions.setItems(items));
+    const setItemsCandidate = (items) => dispatch(itemActions.setItemsCandidate(items));
+    const itemsCandidate = useSelector((state) => state.items[C.Action.Type.ITEMS_CANDIDATE], null);
 
-    const items = useSelector((state) => (state.items[C.Action.Type.ITEMS]), null);
-    const itemsError = useSelector((state) => state.items[C.Action.Type.ERROR]);
+    const setItemsVote = (items) => dispatch(itemActions.setItemsVote(items));
+    const itemsVote = useSelector((state) => state.items[C.Action.Type.ITEMS_VOTE], null);
+
+    const itemsError = useSelector((state) => state.items[C.Action.Type.ITEMS_ERROR]);
 
     return [
 
-        items,
-        itemsError,
-        setItems
+        setItemsCandidate,
+        itemsCandidate,
+        setItemsVote,
+        itemsVote,
+        itemsError
     ];
 };
 

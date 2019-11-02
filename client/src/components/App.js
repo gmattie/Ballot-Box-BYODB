@@ -2,7 +2,7 @@
  * @description App component.
  * 
  * @requires constants
- * @requires List
+ * @requires ListContainer
  * @requires react
  * @requires react-redux
  * @requires useWebSocket
@@ -12,7 +12,7 @@
  */
 import { useSelector } from "react-redux";
 import * as C from "../support/constants";
-import List from "./list/List";
+import ListContainer from "./list/ListContainer";
 import React from "react";
 import useWebSocket from "../hooks/useWebSocket";
 
@@ -31,7 +31,7 @@ const App = () => {
      */
     useWebSocket();
     
-    const webSocketMessage = useSelector((state) => state.webSocket[C.Action.Type.MESSAGE]);
+    const webSocketMessage = useSelector((state) => state.webSocket[C.Action.Type.WEBSOCKET_MESSAGE]);
 
     /**
      * JSX markup
@@ -42,7 +42,7 @@ const App = () => {
             <div className={C.Style.APP}>
                 WebSocket Data: {webSocketMessage}
             </div>
-            <List />
+            <ListContainer />
         </>
     );
 };

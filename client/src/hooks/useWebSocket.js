@@ -36,7 +36,7 @@ const useWebSocket = () => {
 
         const handleWebSocket = (message, close) => {
 
-            dispatch(webSocketActions.setMessage(message));
+            dispatch(webSocketActions.setWebSocketMessage(message));
 
             if (close) {
 

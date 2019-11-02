@@ -16,8 +16,9 @@ import * as C from "../../support/constants";
  */
 const initialState = {
     
-    [C.Action.Type.ITEMS]: null,
-    [C.Action.Type.ERROR]: null
+    [C.Action.Type.ITEMS_CANDIDATE]: null,
+    [C.Action.Type.ITEMS_VOTE]: null,
+    [C.Action.Type.ITEMS_ERROR]: null
 };
 
 /**
@@ -34,23 +35,34 @@ const itemsReducer = (state = initialState, action) => {
 
     switch (action.type) {
 
-        case C.Action.Type.ITEMS:
+        case C.Action.Type.ITEMS_CANDIDATE:
 
             return {
                 
                 ...state,
-                [C.Action.Type.ITEMS]: action[C.Action.PAYLOAD],
-                [C.Action.Type.ERROR]: null
+                [C.Action.Type.ITEMS_CANDIDATE]: action[C.Action.PAYLOAD],
+                [C.Action.Type.ITEMS_ERROR]: null
             };
 
-        case C.Action.Type.ERROR:
+        case C.Action.Type.ITEMS_VOTE:
+
             return {
 
                 ...state,
-                [C.Action.Type.ERROR]: action[C.Action.PAYLOAD]
+                [C.Action.Type.ITEMS_VOTE]: action[C.Action.PAYLOAD],
+                [C.Action.Type.ITEMS_ERROR]: null
+            };
+
+        case C.Action.Type.ITEMS_ERROR:
+            
+            return {
+
+                ...state,
+                [C.Action.Type.ITEMS_ERROR]: action[C.Action.PAYLOAD]
             };
 
         default:
+
             return state;
     }
 };

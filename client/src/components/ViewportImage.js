@@ -35,7 +35,7 @@ const ViewportImage = ({
      * State and references
      * 
      */
-    const [ imageSrc, setImageSrc ] = useState(C.Image.PLACEHOLDER);
+    const [ imageSrc, setImageSrc ] = useState(C.Image.TRANSPARENT_PLACEHOLDER);
     const image = useRef(null);
 
     /**
@@ -66,13 +66,12 @@ const ViewportImage = ({
 
         const imageElement = image.current;
         
-        if (imageElement.src !== C.Image.PLACEHOLDER) {
+        if (imageElement.src !== C.Image.TRANSPARENT_PLACEHOLDER) {
 
+            imageElement.removeEventListener(C.Event.LOAD, loadHandler);
             imageElement.addEventListener(C.Event.ANIMATION_END, animationEndHandler);
             imageElement.classList.add(intersectionStyle);
         }
-        
-        imageElement.removeEventListener(C.Event.LOAD, loadHandler);
     }, [animationEndHandler, intersectionStyle]);
 
     /**
@@ -99,10 +98,12 @@ const ViewportImage = ({
     useEffect(() => {
 
         const imageElement = image.current;
-        let observer;
-
-        window.addEventListener(C.Event.ERROR, errorHandler);
+        imageElement.addEventListener(C.Event.LOAD, loadHandler);
         imageElement.addEventListener(C.Event.ERROR, errorHandler);
+        
+        window.addEventListener(C.Event.ERROR, errorHandler);
+        
+        let observer;
 
         if (imageSrc !== src) {
 
@@ -111,13 +112,9 @@ const ViewportImage = ({
                 entries.forEach(entry => {
         
                     if (entry.isIntersecting) {
-        
-                        if (entry.intersectionRatio < 1.0) {
-        
-                            imageElement.addEventListener(C.Event.LOAD, loadHandler);
-                        }
-        
+          
                         setImageSrc(src);
+                        
                         observer.unobserve(imageElement);
                     }
                 });

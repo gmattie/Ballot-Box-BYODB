@@ -5,15 +5,15 @@
     },
     "dependencies": {
         "bcryptjs": "^2.4.3",
-        "dotenv": "^8.1.0",
+        "dotenv": "^8.2.0",
         "express": "^4.17.1",
-        "express-validator": "^6.1.1",
+        "express-validator": "^6.2.0",
         "jsonwebtoken": "^8.5.1",
-        "mongoose": "^5.6.5",
-        "nodemailer": "^6.3.0",
-        "ws": "^7.1.1"
+        "mongoose": "^5.7.7",
+        "nodemailer": "^6.3.1",
+        "ws": "^7.2.0"
     },
     "devDependencies": {
-        "nodemon": "^1.19.1"
+        "nodemon": "^1.19.4"
     }
 }

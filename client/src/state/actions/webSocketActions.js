@@ -8,7 +8,7 @@
 import * as C from "../../support/constants";
 
 /**
- * @description Creates an action that sets the "message" property of the webSocketReducer state. 
+ * @description Creates an action that sets the "websocketMessage" property of the webSocketReducer state. 
  * 
  * @param {string} message - The value of the payload embedded in the action.
  * @returns {object} The action.
@@ -16,11 +16,11 @@ import * as C from "../../support/constants";
  * @function
  *  
  */
-const setMessage = (message) => {
+const setWebSocketMessage = (message) => {
 
     return {
 
-        type: C.Action.Type.MESSAGE,
+        type: C.Action.Type.WEBSOCKET_MESSAGE,
         [C.Action.PAYLOAD]: message
     };
 };
@@ -31,5 +31,5 @@ const setMessage = (message) => {
  */
 export {
 
-    setMessage
+    setWebSocketMessage
 };

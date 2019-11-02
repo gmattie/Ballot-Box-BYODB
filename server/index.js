@@ -77,7 +77,8 @@ const database = async () => {
             
             useCreateIndex: true,
             useFindAndModify: false,
-            useNewUrlParser: true
+            useNewUrlParser: true,
+            useUnifiedTopology: true
         });
         
         console.info(C.Message.DATABASE_CONNECTED);

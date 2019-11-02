@@ -8,37 +8,55 @@
 import * as C from "../../support/constants";
 
 /**
- * @description Creates an action that sets the "items" property of the itemsReducer state.
+ * @description Creates an action that sets the "itemsCandidate" property of the itemsReducer state.
  * 
- * @param {string} items - The value of the payload embedded in the action.
+ * @param {string} data - The value of the payload embedded in the action.
  * @returns {object} The action.
  * @public
  * @function
  *  
  */
-const setItems = (items) => {
+const setItemsCandidate = (data) => {
 
     return {
 
-        type: C.Action.Type.ITEMS,
-        [C.Action.PAYLOAD]: items
+        type: C.Action.Type.ITEMS_CANDIDATE,
+        [C.Action.PAYLOAD]: data
     };
 };
 
 /**
- * @description Creates an action that sets the "error" property of the itemsReducer state. 
+ * @description Creates an action that sets the "itemsVote" property of the itemsReducer state.
  * 
- * @param {string} items - The value of the payload embedded in the action.
+ * @param {string} data - The value of the payload embedded in the action.
+ * @returns {object} The action.
+ * @public
+ * @function
+ *  
+ */
+const setItemsVote = (data) => {
+
+    return {
+
+        type: C.Action.Type.ITEMS_VOTE,
+        [C.Action.PAYLOAD]: data
+    };
+};
+
+/**
+ * @description Creates an action that sets the "itemsError" property of the itemsReducer state. 
+ * 
+ * @param {string} error - The value of the payload embedded in the action.
  * @returns {object} The action.
  * @private
  * @function
  *  
  */
-const setError = (error) => {
+const setItemsError = (error) => {
 
     return {
 
-        type: C.Action.Type.ERROR,
+        type: C.Action.Type.ITEMS_ERROR,
         [C.Action.PAYLOAD]: error
     };
 };
@@ -70,11 +88,11 @@ const fetchItems = (authToken) => {
             const response = await fetch(url, options);
             const data = await response.json();
             
-            dispatch((data.error) ? setError(data) : setItems(data));
+            dispatch((data.error) ? setItemsError(data) : setItemsCandidate(data));
         }
         catch (error) {
 
-            dispatch(setError(error));
+            dispatch(setItemsError(error));
         }
     };
 };
@@ -85,6 +103,7 @@ const fetchItems = (authToken) => {
  */
 export {
 
-    fetchItems,
-    setItems
+    setItemsCandidate,
+    setItemsVote,
+    fetchItems
 };

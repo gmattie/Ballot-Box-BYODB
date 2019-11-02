@@ -12,9 +12,10 @@
  * <ul>
  *     <li> PAYLOAD </li>
  *     <ul>
- *         <li> ERROR </li>
- *         <li> ITEMS </li>
- *         <li> MESSAGE </li>
+ *         <li> ITEMS_CANDIDATE </li>
+ *         <li> ITEMS_ERROR </li>
+ *         <li> ITEMS_VOTE </li>
+ *         <li> WEBSOCKET_MESSAGE </li>
  *     </ul> 
  * </ul>
  * 
@@ -27,9 +28,10 @@ const Action = Object.freeze({
     PAYLOAD: "payload",
     Type: {
 
-        ERROR: "error",
-        ITEMS: "items",
-        MESSAGE: "message",
+        ITEMS_CANDIDATE: "itemsCandidate",
+        ITEMS_ERROR: "itemsError",
+        ITEMS_VOTE: "itemsVote",
+        WEBSOCKET_MESSAGE: "websocketMessage"
     }
 });
 
@@ -93,7 +95,8 @@ const HTMLElement = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
- *     <li> LIST </li>
+ *     <li> LIST_ITEMS_CANDIDATE </li>
+ *     <li> LIST_ITEMS_VOTE </li>
  * </ul>
  * 
  * @public
@@ -102,14 +105,15 @@ const HTMLElement = Object.freeze({
  */
 const ID = Object.freeze({
 
-    LIST: "list",
+    LIST_ITEMS_CANDIDATE: "listItemsCandidate",
+    LIST_ITEMS_VOTE: "listItemsVote",
 });
 
 /**
  * @description Properties of type {string} consist of:
  * 
  * <ul>
- *     <li> PLACEHOLDER </li>
+ *     <li> TRANSPARENT_PLACEHOLDER </li>
  * </ul>
  * 
  * @public
@@ -118,7 +122,7 @@ const ID = Object.freeze({
  */
 const Image = Object.freeze({
 
-    PLACEHOLDER: "data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=",
+    TRANSPARENT_PLACEHOLDER: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==",
 });
 
 /**
@@ -205,6 +209,7 @@ const Route = Object.freeze({
  * <ul>
  *     <li> APP </li>
  *     <li> LIST </li>
+ *     <li> LIST_CONTAINER </li>
  *     <li> LIST_ITEM </li>
  *     <li> LIST_ITEM_HIDE </li>
  *     <li> VIEWPORT_IMAGE_ERROR </li>
@@ -220,6 +225,7 @@ const Style = Object.freeze({
     APP: "app",
     LIST_ITEM_ACTIVE: "listItem-active",
     LIST_ITEM: "listItem",
+    LIST_CONTAINER: "listContainer",
     LIST: "list",
     VIEWPORT_IMAGE: "viewportImage",
     VIEWPORT_IMAGE_ERROR: "viewportImage-error",

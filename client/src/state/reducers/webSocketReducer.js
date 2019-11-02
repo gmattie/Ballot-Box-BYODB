@@ -16,7 +16,7 @@ import * as C from "../../support/constants";
  */
 const initialState = {
     
-    [C.Action.Type.MESSAGE]: ""
+    [C.Action.Type.WEBSOCKET_MESSAGE]: ""
 };
 
 /**
@@ -33,14 +33,16 @@ const webSocketReducer = (state = initialState, action) => {
 
     switch (action.type) {
 
-        case C.Action.Type.MESSAGE:
+        case C.Action.Type.WEBSOCKET_MESSAGE:
+
             return {
                 
                 ...state,
-                [C.Action.Type.MESSAGE]: action[C.Action.PAYLOAD]
+                [C.Action.Type.WEBSOCKET_MESSAGE]: action[C.Action.PAYLOAD]
             };
 
         default:
+            
             return state;
     }
 };
