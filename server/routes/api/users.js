@@ -335,10 +335,8 @@ router.post(C.Route.LOGIN, [
 
 /**
  * @description (PATCH) Update a user.
- * All users are authorized to update the name, password and admin values of their own user document via token authentication.
- * 
- * All users are authorized to edit their own existing User document by providing a valid user ID as a request parameter.
- * Users are edited by providing optional "name", "password", "adminusername" and/or "adminpassword" values within the HTTP request body.
+ * All users are authorized to update their own user document via token authentication.
+ * User documents are edited by providing optional "name", "password", "adminusername" and/or "adminpassword" values within the HTTP request body.
  * 
  * @protected
  * @constant
