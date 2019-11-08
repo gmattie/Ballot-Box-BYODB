@@ -284,7 +284,7 @@ router.get(C.Route.VERIFY, async (req, res) => {
 );
 
 /**
- * @description (POST) Login a user.
+ * @description (POST) Log in a user.
  * Users are logged in by providing valid credentials for both "email" and "password" within the HTTP request body.
  * 
  * @public
@@ -448,7 +448,7 @@ router.post(C.Route.RESET, [
 );
 
 /**
- * @description (GET) Information on one of more users.
+ * @description (GET) Log out a user.
  * All users are authorized to log out via token authentication and optionally providing their own valid user ID as a request parameter.
  * Admin users, via admin authentication, are authorized to log out any user by providing an optional valid user ID request parameter.
  * 
@@ -556,8 +556,31 @@ router.delete(`${C.Route.DELETE}/:${C.Route.PARAM}`, auth, async (req, res) => {
 });
 
 /**
+ * @description (GET) Retrieve one's own user document.
+ * All users are authorized to retrieve their own user document via token authentication.
+ * 
+ * @protected
+ * @constant
+ * 
+ */
+router.get(C.Route.SELF, auth, async (req, res) => {
+
+    try {
+        
+        const user = res.locals[C.Local.USER];
+
+        return res
+            .status(C.Status.OK)
+            .json({ user });
+    }
+    catch (error) {
+
+        utils.sendErrorResponse(error, res);
+    }
+});
+
+/**
  * @description (GET) Retrieve an array of either one or all users.
- * All users are authorized to retrieve their own user document via token authentication or by providing their own valid user ID as a request parameter.
  * Admin users, via admin authentication, are authorized to retrieve either a list of all users or a single user by optionally providing a valid user ID as a request parameter.
  * 
  * @protected
@@ -605,12 +628,7 @@ router.get(`/:${C.Route.PARAM}?`, auth, async (req, res) => {
         }
         else {
 
-            if (paramUserID && paramUserID !== user.id) {
-                
-                throw new Error(C.Error.USER_INVALID_CREDENTIALS);
-            }
-
-            result = [user];
+            throw new Error(C.Error.USER_INVALID_CREDENTIALS);
         }
             
         return res

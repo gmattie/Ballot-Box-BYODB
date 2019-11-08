@@ -307,6 +307,7 @@ const Model = Object.freeze({
  *     <li> PARAM </li>
  *     <li> REGISTER </li>
  *     <li> RESET </li>
+ *     <li> SELF </li>
  *     <li> VERIFY </li>
  * </ul>
  * 
@@ -330,6 +331,7 @@ const Route = Object.freeze({
     PARAM: "param",
     REGISTER: "/register",
     RESET: "/reset",
+    SELF: "/self",
     VERIFY: "/verify",
 });
 
