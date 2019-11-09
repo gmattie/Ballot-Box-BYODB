@@ -12,9 +12,13 @@
  * <ul>
  *     <li> PAYLOAD </li>
  *     <ul>
+ *         <li> AUTH_ERROR </li>
+ *         <li> AUTH_TOKEN </li>
  *         <li> ITEMS_CANDIDATE </li>
  *         <li> ITEMS_ERROR </li>
  *         <li> ITEMS_VOTE </li>
+ *         <li> USERS_ERROR </li>
+ *         <li> USERS_SELF </li>
  *         <li> WEBSOCKET_MESSAGE </li>
  *     </ul> 
  * </ul>
@@ -28,9 +32,13 @@ const Action = Object.freeze({
     PAYLOAD: "payload",
     Type: {
 
+        AUTH_ERROR: "authError",
+        AUTH_TOKEN: "authToken",
         ITEMS_CANDIDATE: "itemsCandidate",
         ITEMS_ERROR: "itemsError",
         ITEMS_VOTE: "itemsVote",
+        USERS_ERROR: "usersError",
+        USERS_SELF: "usersSelf",
         WEBSOCKET_MESSAGE: "websocketMessage"
     }
 });
@@ -130,8 +138,9 @@ const Image = Object.freeze({
  * 
  * <ul>
  *     <li> ENV_DEVELOPMENT </li>
- *     <li> PROTOCOL_WEB_SOCKET </li>
  *     <li> PROTOCOL_HTTP </li>
+ *     <li> PROTOCOL_WEB_SOCKET </li>
+ *     <li> TOKEN </li>
  * </ul>
  * 
  * @public
@@ -141,16 +150,20 @@ const Image = Object.freeze({
 const Local = Object.freeze({
 
     ENV_DEVELOPMENT: "development",
-    PROTOCOL_WEB_SOCKET: "ws",
     PROTOCOL_HTTP: "http",
+    PROTOCOL_WEB_SOCKET: "ws",
+    TOKEN: "token",
 });
 
 /**
  * @description Properties of type {string} consist of:
  * 
  * <ul>
- *     <li> METHOD_GET </li>
+ *     <li> APPLICATION_JSON </li>
+ *     <li> CONTENT_TYPE </li>
  *     <li> HEADER_X_AUTH_TOKEN </li>
+ *     <li> METHOD_GET </li>
+ *     <li> METHOD_POST </li>
  * </ul>
  * 
  * @public
@@ -159,8 +172,11 @@ const Local = Object.freeze({
  */
 const Request = Object.freeze({
 
-    METHOD_GET: "get",
+    APPLICATION_JSON: "application/json",
+    CONTENT_TYPE: "content-type",
     HEADER_X_AUTH_TOKEN: "X-Auth-Token",
+    METHOD_GET: "get",
+    METHOD_POST: "post",
 });
 
 /**
@@ -180,6 +196,7 @@ const Request = Object.freeze({
  *     <li> OPEN </li>
  *     <li> REGISTER </li>
  *     <li> RESET </li>
+ *     <li> SELF </li>
  * </ul>
  * 
  * @public
@@ -201,6 +218,7 @@ const Route = Object.freeze({
     OPEN: "/open",
     REGISTER: "/register",
     RESET: "/reset",
+    SELF: "/self"
 });
 
 /**

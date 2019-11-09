@@ -1,5 +1,5 @@
 /**
- * @description The WebSocket reducer module.
+ * @description The users reducer module.
  * 
  * @requires constants
  * @module
@@ -16,7 +16,8 @@ import * as C from "../../support/constants";
  */
 const initialState = {
     
-    [C.Action.Type.WEBSOCKET_MESSAGE]: ""
+    [C.Action.Type.USERS_SELF]: null,
+    [C.Action.Type.USERS_ERROR]: null
 };
 
 /**
@@ -29,19 +30,29 @@ const initialState = {
  * @function
  * 
  */
-const webSocketReducer = (state = initialState, action) => {
+const usersReducer = (state = initialState, action) => {
 
     switch (action.type) {
 
-        case C.Action.Type.WEBSOCKET_MESSAGE:
+        case C.Action.Type.USERS_SELF:
 
             return {
                 
-                [C.Action.Type.WEBSOCKET_MESSAGE]: action[C.Action.PAYLOAD]
+                ...state,
+                [C.Action.Type.USERS_SELF]: action[C.Action.PAYLOAD],
+                [C.Action.Type.USERS_ERROR]: null
+            };
+
+        case C.Action.Type.USERS_ERROR:
+
+            return {
+
+                ...state,
+                [C.Action.Type.USERS_ERROR]: action[C.Action.PAYLOAD]
             };
 
         default:
-            
+
             return state;
     }
 };
@@ -50,4 +61,4 @@ const webSocketReducer = (state = initialState, action) => {
  * Export module
  * 
  */
-export default webSocketReducer;
+export default usersReducer;

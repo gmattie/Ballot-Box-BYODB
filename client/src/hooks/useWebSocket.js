@@ -11,7 +11,7 @@
  * 
  */
 import { proxy } from "../../package.json";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import * as C from "../support/constants";
 import * as webSocketActions from "../state/actions/webSocketActions";
@@ -61,6 +61,13 @@ const useWebSocket = () => {
             webSocket.removeEventListener(C.Event.ERROR, handleClose);
         };
     }, [dispatch]);
+
+    const webSocketMessage = useSelector((state) => state.webSocket[C.Action.Type.WEBSOCKET_MESSAGE]);
+
+    return [
+
+        webSocketMessage
+    ];
 };
 
 /**

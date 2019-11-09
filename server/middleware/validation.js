@@ -91,7 +91,7 @@ const result = (req, res, next) => {
 
         return res
             .status(C.Status.BAD_REQUEST)
-            .json({ errors: errors.array() });
+            .json({ error: errors.array() });
     }
 
     next();

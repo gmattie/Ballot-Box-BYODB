@@ -36,13 +36,7 @@ const useItems = () => {
 
     useEffect(() => {
 
-        // // TODO: Retrieve authToken // //
-        let authToken; 
-
-        if (process.env.NODE_ENV === C.Local.ENV_DEVELOPMENT) {
-
-            authToken = process.env.REACT_APP_DEV_JWT;
-        }
+        const authToken = localStorage.getItem(C.Local.TOKEN);
 
         dispatch(itemActions.fetchItems(authToken));
     }, [dispatch]);

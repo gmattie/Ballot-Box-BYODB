@@ -1,5 +1,5 @@
 /**
- * @description This module contains action creators associated with the webSocketReducer.
+ * @description Actions associated with the webSocketReducer.
  * 
  * @requires constants
  * @module

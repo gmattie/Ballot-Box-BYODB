@@ -1,5 +1,5 @@
 /**
- * @description The WebSocket reducer module.
+ * @description The auth reducer module.
  * 
  * @requires constants
  * @module
@@ -16,7 +16,8 @@ import * as C from "../../support/constants";
  */
 const initialState = {
     
-    [C.Action.Type.WEBSOCKET_MESSAGE]: ""
+    [C.Action.Type.AUTH_TOKEN]: "",
+    [C.Action.Type.AUTH_ERROR]: null
 };
 
 /**
@@ -29,15 +30,28 @@ const initialState = {
  * @function
  * 
  */
-const webSocketReducer = (state = initialState, action) => {
+const authReducer = (state = initialState, action) => {
 
     switch (action.type) {
 
-        case C.Action.Type.WEBSOCKET_MESSAGE:
+        case C.Action.Type.AUTH_TOKEN:
+
+            localStorage.setItem(C.Local.TOKEN, action[C.Action.PAYLOAD][C.Local.TOKEN]);
 
             return {
                 
-                [C.Action.Type.WEBSOCKET_MESSAGE]: action[C.Action.PAYLOAD]
+                [C.Action.Type.AUTH_TOKEN]: action[C.Action.PAYLOAD],
+                [C.Action.Type.AUTH_ERROR]: null
+            };
+
+        case C.Action.Type.AUTH_ERROR:
+
+            localStorage.removeItem(C.Local.TOKEN);
+
+            return {
+
+                ...state,
+                [C.Action.Type.AUTH_ERROR]: action[C.Action.PAYLOAD]
             };
 
         default:
@@ -50,4 +64,4 @@ const webSocketReducer = (state = initialState, action) => {
  * Export module
  * 
  */
-export default webSocketReducer;
+export default authReducer;

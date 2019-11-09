@@ -1,5 +1,5 @@
 /**
- * @description This module contains actions and action creators associated with the itemReducer.
+ * @description Actions associated with the itemsReducer.
  * 
  * @requires constants
  * @module
@@ -62,7 +62,7 @@ const setItemsError = (error) => {
 };
 
 /**
- * @description An action that fetches data from /api/items and dispatches it to the itemReducer state.
+ * @description An action that fetches data from /api/items and dispatches it to the itemsReducer state.
  * 
  * @returns {object} The action.
  * @public

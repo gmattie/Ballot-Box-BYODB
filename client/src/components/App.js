@@ -10,10 +10,11 @@
  * @module
  * 
  */
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import * as C from "../support/constants";
+import * as userActions from "../state/actions/userActions";
 import ListContainer from "./list/ListContainer";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useWebSocket from "../hooks/useWebSocket";
 
 /**
@@ -26,25 +27,53 @@ import useWebSocket from "../hooks/useWebSocket";
 const App = () => {
 
     /**
-     * Initiate a WebSocket
+     * Init
      * 
      */
-    useWebSocket();
-    
-    const webSocketMessage = useSelector((state) => state.webSocket[C.Action.Type.WEBSOCKET_MESSAGE]);
+    const [ render, setRender ] = useState(false);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+
+        async function login(email, password) {
+
+            await dispatch(userActions.login(email, password));
+
+            setRender(true);
+        }
+
+        if (process.env.NODE_ENV === C.Local.ENV_DEVELOPMENT) {
+
+            const authToken = process.env.REACT_APP_DEV_JWT;
+            localStorage.setItem(C.Local.TOKEN, authToken);
+
+            setRender(true);
+        }
+        else {
+
+            login("", "");
+        }
+    }, [dispatch]);
+
+    const [ webSocketMessage ] = useWebSocket();
 
     /**
      * JSX markup
      * 
      */
-    return (
-        <>
-            <div className={C.Style.APP}>
-                WebSocket Data: {webSocketMessage}
-            </div>
-            <ListContainer />
-        </>
-    );
+    if (render) {
+
+        return (
+            <>
+                <div className={C.Style.APP}>
+                    WebSocket Data: {webSocketMessage}
+                </div>
+                <ListContainer />
+            </>
+        );
+    }
+
+    return null;
 };
 
 /**

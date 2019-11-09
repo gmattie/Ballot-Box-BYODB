@@ -8,7 +8,9 @@
  * 
  */
 import { combineReducers } from "redux";
+import auth from "./authReducer";
 import items from "./itemsReducer";
+import users from "./usersReducer";
 import webSocket from "./webSocketReducer";
 
 /**
@@ -20,7 +22,9 @@ import webSocket from "./webSocketReducer";
  */
 const reducers = combineReducers({
 
+    auth,
     items,
+    users,
     webSocket
 });
 
