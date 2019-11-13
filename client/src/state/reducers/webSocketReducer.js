@@ -37,6 +37,7 @@ const webSocketReducer = (state = initialState, action) => {
 
             return {
                 
+                ...state,
                 [C.Action.Type.WEBSOCKET_MESSAGE]: action[C.Action.PAYLOAD]
             };
 

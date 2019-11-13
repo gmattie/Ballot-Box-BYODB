@@ -18,14 +18,14 @@ import * as itemActions from "../state/actions/itemActions";
  * @description Populate the application state with fetched data from /api/items.
  * This hook provides access to getting both item and error data as well as setting item data via the returned array. 
  * 
- * @returns {Array<{
+ * @returns {
  * 
  *      itemsCandidate: object,
  *      itemsVote: object,
  *      itemsError: object,
  *      setItemsCandidate: function
  *      setItemsVote: function
- * }}
+ * }
  * @public
  * @function 
  * 
@@ -49,14 +49,14 @@ const useItems = () => {
 
     const itemsError = useSelector((state) => state.items[C.Action.Type.ITEMS_ERROR]);
 
-    return [
+    return {
 
-        setItemsCandidate,
         itemsCandidate,
-        setItemsVote,
+        itemsError,
         itemsVote,
-        itemsError
-    ];
+        setItemsCandidate,
+        setItemsVote,
+    };
 };
 
 /**

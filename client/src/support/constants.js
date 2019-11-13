@@ -44,6 +44,22 @@ const Action = Object.freeze({
 });
 
 /**
+ * @description Properties of type {number} consist of:
+ * 
+ * <ul>
+ *     <li> ENTER </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const CharCode = Object.freeze({
+
+    ENTER: 13
+});
+
+/**
  * @description Properties of type {string} consist of:
  * 
  * <ul>
@@ -88,6 +104,10 @@ const Event = Object.freeze({
  * 
  * <ul>
  *     <li> ROOT </li>
+ *     <ul>
+ *         <li> TEXT </li> 
+ *         <li> PASSWORD </li> 
+ *     </ul>
  * </ul>
  * 
  * @public
@@ -97,14 +117,23 @@ const Event = Object.freeze({
 const HTMLElement = Object.freeze({
 
     ROOT: "root",
+    InputType: {
+
+        TEXT: "text",
+        PASSWORD: "password"
+    }
 });
 
 /**
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> ERROR_MESSAGE </li>
+ *     <li> ERROR_PARAM </li>
  *     <li> LIST_ITEMS_CANDIDATE </li>
  *     <li> LIST_ITEMS_VOTE </li>
+ *     <li> NAME_EMAIL </li>
+ *     <li> NAME_PASSWORD </li>
  * </ul>
  * 
  * @public
@@ -113,8 +142,12 @@ const HTMLElement = Object.freeze({
  */
 const ID = Object.freeze({
 
+    ERROR_MESSAGE: "msg",
+    ERROR_PARAM: "param",
     LIST_ITEMS_CANDIDATE: "listItemsCandidate",
     LIST_ITEMS_VOTE: "listItemsVote",
+    NAME_EMAIL: "email",
+    NAME_PASSWORD: "password",
 });
 
 /**
@@ -131,6 +164,26 @@ const ID = Object.freeze({
 const Image = Object.freeze({
 
     TRANSPARENT_PLACEHOLDER: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==",
+});
+
+/**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
+ *     <li> EMAIL </li>
+ *     <li> LOGIN </li>
+ *     <li> PASSWORD </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const Label = Object.freeze({
+
+    EMAIL: "Email",
+    LOGIN: "Login",
+    PASSWORD: "Password",
 });
 
 /**
@@ -196,6 +249,7 @@ const Request = Object.freeze({
  *     <li> OPEN </li>
  *     <li> REGISTER </li>
  *     <li> RESET </li>
+ *     <li> ROOT </li>
  *     <li> SELF </li>
  * </ul>
  * 
@@ -218,7 +272,8 @@ const Route = Object.freeze({
     OPEN: "/open",
     REGISTER: "/register",
     RESET: "/reset",
-    SELF: "/self"
+    ROOT: "/",
+    SELF: "/self",
 });
 
 /**
@@ -257,10 +312,12 @@ const Style = Object.freeze({
 export {
 
     Action,
+    CharCode,
     Event,
     HTMLElement,
     ID,
     Image,
+    Label,
     Local,
     Request,
     Route,

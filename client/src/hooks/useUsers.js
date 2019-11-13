@@ -2,7 +2,6 @@
  * @description useUsers hook module
  * 
  * @requires constants
- * @requires react
  * @requires react-redux
  * @requires userActions
  * @public
@@ -10,19 +9,19 @@
  * 
  */
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 import * as C from "../support/constants";
 import * as userActions from "../state/actions/userActions";
 
 /**
- * @description Populate the application state with fetched data from /api/users.
- * This hook provides access to setting and getting users data. 
+ * @description Provides access to setting and getting users data. 
  * 
- * @returns {Array<{
+ * @returns {
  * 
- *      usersSelf: object,
+ *      fetchUsersSelf: function,
+ *      login: function,
  *      usersError: object
- * }}
+ *      usersSelf: object,
+ * }
  * @public
  * @function 
  * 
@@ -31,21 +30,19 @@ const useUsers = () => {
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
-
-        const authToken = localStorage.getItem(C.Local.TOKEN);
-
-        dispatch(userActions.fetchUsersSelf(authToken));
-    }, [dispatch]);
+    const login = (email, password) => dispatch(userActions.login(email, password));
+    const fetchUsersSelf = (authToken) => dispatch(userActions.fetchUsersSelf(authToken));
 
     const usersSelf = useSelector((state) => state.users[C.Action.Type.USERS_SELF], null);
     const usersError = useSelector((state) => state.users[C.Action.Type.USERS_ERROR], null);
 
-    return [
+    return {
 
+        fetchUsersSelf,
+        login,
+        usersError,
         usersSelf,
-        usersError
-    ];
+    };
 };
 
 /**

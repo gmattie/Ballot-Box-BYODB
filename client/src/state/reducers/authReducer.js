@@ -16,7 +16,7 @@ import * as C from "../../support/constants";
  */
 const initialState = {
     
-    [C.Action.Type.AUTH_TOKEN]: "",
+    [C.Action.Type.AUTH_TOKEN]: null,
     [C.Action.Type.AUTH_ERROR]: null
 };
 
@@ -36,10 +36,14 @@ const authReducer = (state = initialState, action) => {
 
         case C.Action.Type.AUTH_TOKEN:
 
-            localStorage.setItem(C.Local.TOKEN, action[C.Action.PAYLOAD][C.Local.TOKEN]);
+            if (action[C.Action.PAYLOAD]) {
+
+                localStorage.setItem(C.Local.TOKEN, action[C.Action.PAYLOAD][C.Local.TOKEN]);
+            }
 
             return {
                 
+                ...state,
                 [C.Action.Type.AUTH_TOKEN]: action[C.Action.PAYLOAD],
                 [C.Action.Type.AUTH_ERROR]: null
             };
@@ -51,6 +55,7 @@ const authReducer = (state = initialState, action) => {
             return {
 
                 ...state,
+                [C.Action.Type.AUTH_TOKEN]: null,
                 [C.Action.Type.AUTH_ERROR]: action[C.Action.PAYLOAD]
             };
 

@@ -1,6 +1,7 @@
 /**
  * @description Actions associated with the usersReducer.
  * 
+ * @requires authActions
  * @requires constants
  * @module
  * 

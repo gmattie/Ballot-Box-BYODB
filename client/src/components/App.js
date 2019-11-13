@@ -2,23 +2,20 @@
  * @description App component.
  * 
  * @requires constants
- * @requires ListContainer
  * @requires react
- * @requires react-redux
- * @requires useWebSocket
+ * @requires react-router-dom
+ * @requires Root
  * @public
  * @module
  * 
  */
-import { useDispatch } from "react-redux";
 import * as C from "../support/constants";
-import * as userActions from "../state/actions/userActions";
-import ListContainer from "./list/ListContainer";
-import React, { useEffect, useState } from "react";
-import useWebSocket from "../hooks/useWebSocket";
+import React from "react";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import Root from "./layout/root/Root";
 
 /**
- * @description The parent component of the application.
+ * @description Contains the application with routing. 
  * 
  * @public
  * @function
@@ -27,53 +24,20 @@ import useWebSocket from "../hooks/useWebSocket";
 const App = () => {
 
     /**
-     * Init
-     * 
-     */
-    const [ render, setRender ] = useState(false);
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-
-        async function login(email, password) {
-
-            await dispatch(userActions.login(email, password));
-
-            setRender(true);
-        }
-
-        if (process.env.NODE_ENV === C.Local.ENV_DEVELOPMENT) {
-
-            const authToken = process.env.REACT_APP_DEV_JWT;
-            localStorage.setItem(C.Local.TOKEN, authToken);
-
-            setRender(true);
-        }
-        else {
-
-            login("", "");
-        }
-    }, [dispatch]);
-
-    const [ webSocketMessage ] = useWebSocket();
-
-    /**
      * JSX markup
      * 
      */
-    if (render) {
+    return (
 
-        return (
-            <>
-                <div className={C.Style.APP}>
-                    WebSocket Data: {webSocketMessage}
-                </div>
-                <ListContainer />
-            </>
-        );
-    }
-
-    return null;
+        <div className={C.Style.APP}>
+            <BrowserRouter>
+                <Switch>
+                    <Route exact path={C.Route.ROOT} component={Root} />
+                    <Redirect to={C.Route.ROOT} />
+                </Switch>
+            </BrowserRouter>
+        </div>
+    );
 };
 
 /**

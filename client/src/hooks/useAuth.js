@@ -1,5 +1,5 @@
 /**
- * @description useUsers hook module
+ * @description useAuth hook module
  * 
  * @requires authActions
  * @requires constants
@@ -16,13 +16,13 @@ import * as C from "../support/constants";
 /**
  * @description Provides access to setting and getting auth data. 
  * 
- * @returns {Array<{
+ * @returns {
  * 
- *      setAuthToken: function,
+ *      authError: object,
  *      authToken: string,
  *      setAuthError: function,
- *      authError: object
- * }}
+ *      setAuthToken: function,
+ * }
  * @public
  * @function 
  * 
@@ -32,18 +32,18 @@ const useAuth = () => {
     const dispatch = useDispatch();
 
     const setAuthToken = (token) => dispatch(authActions.setAuthToken(token));
-    const authToken = useSelector((state) => state.auth[C.Action.Type.AUTH_TOKEN]);
+    const authToken = useSelector((state) => state.auth[C.Action.Type.AUTH_TOKEN], null);
 
-    const setAuthError = (error) => dispatch(authActions.setAuthToken(error));
+    const setAuthError = (error) => dispatch(authActions.setAuthError(error));
     const authError = useSelector((state) => state.auth[C.Action.Type.AUTH_ERROR], null);
 
-    return [
+    return {
 
-        setAuthToken,
+        authError,
         authToken,
         setAuthError,
-        authError
-    ];
+        setAuthToken,
+    };
 };
 
 /**

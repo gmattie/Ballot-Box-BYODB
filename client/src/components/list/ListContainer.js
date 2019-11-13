@@ -31,14 +31,14 @@ const ListContainer = () => {
      * State
      * 
      */
-    const [
+    const {
         
-        setItemsCandidate,
         itemsCandidate,
-        setItemsVote,
+        itemsError,
         itemsVote,
-        itemsError
-    ] = useItems();
+        setItemsCandidate,
+        setItemsVote,
+     } = useItems();
 
     /**
      * @description Reorders and/or transfers item data between the "itemsCandidate" and "itemsVote" List components according to the results of a drag.

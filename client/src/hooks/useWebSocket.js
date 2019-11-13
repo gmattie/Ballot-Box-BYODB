@@ -20,6 +20,10 @@ import * as webSocketActions from "../state/actions/webSocketActions";
  * @description Initialize a WebSocket connection with event subscriptions.
  * All messages pushed from the server are dispatched to the Redux store in order to be accessible throughout the application.
  * 
+ * @returns {
+ * 
+ *      webSocketMessage: string
+ * }
  * @public
  * @function 
  * 
@@ -64,10 +68,10 @@ const useWebSocket = () => {
 
     const webSocketMessage = useSelector((state) => state.webSocket[C.Action.Type.WEBSOCKET_MESSAGE]);
 
-    return [
+    return {
 
         webSocketMessage
-    ];
+    };
 };
 
 /**
