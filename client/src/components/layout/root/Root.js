@@ -2,12 +2,14 @@
  * @description Root component.
  * 
  * @requires Login
+ * @requires Reset
  * @requires react
  * @public
  * @module
  * 
  */
 import Login from "./Login";
+import Reset from "./Reset";
 import React from "react";
 
 /**
@@ -25,8 +27,10 @@ const Root = () => {
      * 
      */
     return (
-
-        <Login />
+        <>
+            <Login />
+            <Reset />
+        </>
     );
 };
 

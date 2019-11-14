@@ -1,5 +1,5 @@
 /**
- * @description Login component
+ * @description Reset component
  * 
  * @requires constants
  * @requires react
@@ -17,21 +17,21 @@ import useInputText from "../../../hooks/useInputText";
 import useUsers from "../../../hooks/useUsers";
 
 /**
- * @description The Login component contains UI elements that are required to log in a user.
- * The UI elements include text input fields for entering credentials and a button for submitting the entered credentials to the server.
+ * @description The Reset component contains UI elements that are required to reset the user's password.
+ * The UI elements include text input fields for entering a user's valid email address and new password as well as a button for submitting the input data to the server.
  * 
  * @returns {object} JSX markup.
  * @public
  * @function
  * 
  */
-const Login = () => {
+const Reset = () => {
 
     /**
      * State
      * 
      */
-    const [ invalidCredentials, setInvalidCredentials ] = useState(null);
+    const [ userDoesNotExist, setUserDoesNotExist ] = useState(null);
     const [ invalidEmail, setInvalidEmail ] = useState(null);
     const [ invalidPassword, setInvalidPassword ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(false);
@@ -46,8 +46,8 @@ const Login = () => {
      * Custom hooks
      * 
      */
-    const { authError, authToken } = useAuth();
-    const { login } = useUsers();
+    const { authError } = useAuth();
+    const { reset, usersReset } = useUsers();
     
     const {
         
@@ -64,23 +64,23 @@ const Login = () => {
     } = useInputText(null, submitHandler);
 
     /**
-     * Login success
+     * Reset success
      * Clear text input elements and redirect route.
      * 
      */
-    if (authToken && responseUpdate.current) {
+    if (usersReset && responseUpdate.current) {
 
         responseUpdate.current = false;
 
         clearEmail();
         clearPassword();
-        
+
         // TODO: Replace with Redirected route
-        console.log(localStorage.getItem(C.Local.TOKEN));
+        console.log(usersReset);
     }
 
     /**
-     * Login failure
+     * Reset failure
      * Parse the error object to set the appropriate invalid states.
      * 
      */
@@ -104,7 +104,7 @@ const Login = () => {
         }
         else {
 
-            setInvalidCredentials(authError.error);
+            setUserDoesNotExist(authError.error);
         }
     }
 
@@ -119,13 +119,13 @@ const Login = () => {
      */
     async function submitHandler() {
 
-        setInvalidCredentials(null);
+        setUserDoesNotExist(null);
         setInvalidEmail(null);
         setInvalidPassword(null);
 
         setIsLoading(true);
 
-        await login(email, password);
+        await reset(email, password);
         responseUpdate.current = true;
 
         setIsLoading(false);
@@ -138,7 +138,7 @@ const Login = () => {
     return (
 
         <div>
-            {invalidCredentials && (<div>{invalidCredentials}</div>)}
+            {userDoesNotExist && (<div>{userDoesNotExist}</div>)}
 
             <div>
                 {invalidEmail && (<div>{invalidEmail}</div>)}
@@ -170,7 +170,7 @@ const Login = () => {
                 onClick={submitHandler}
                 disabled={isLoading}
             >
-                {C.Label.LOGIN.toUpperCase()}
+                {C.Label.RESET.toUpperCase()}
             </button>
 
             {
@@ -185,4 +185,4 @@ const Login = () => {
  * Export module
  * 
  */
-export default Login;
+export default Reset;

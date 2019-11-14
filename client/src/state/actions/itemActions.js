@@ -92,7 +92,7 @@ const fetchItems = (authToken) => {
         }
         catch (error) {
 
-            dispatch(setItemsError(error));
+            dispatch(setItemsError(error.message));
         }
     };
 };

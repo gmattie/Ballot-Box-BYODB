@@ -17,9 +17,11 @@ import * as userActions from "../state/actions/userActions";
  * 
  * @returns {
  * 
- *      fetchUsersSelf: function,
+ *      fetchSelf: function,
  *      login: function,
- *      usersError: object
+ *      reset: function,
+ *      usersError: object,
+ *      usersReset: object,
  *      usersSelf: object,
  * }
  * @public
@@ -30,17 +32,21 @@ const useUsers = () => {
 
     const dispatch = useDispatch();
 
+    const fetchSelf = (authToken) => dispatch(userActions.fetchSelf(authToken));
     const login = (email, password) => dispatch(userActions.login(email, password));
-    const fetchUsersSelf = (authToken) => dispatch(userActions.fetchUsersSelf(authToken));
+    const reset = (email, password) => dispatch(userActions.reset(email, password));
 
-    const usersSelf = useSelector((state) => state.users[C.Action.Type.USERS_SELF], null);
+    const usersReset = useSelector((state) => state.users[C.Action.Type.USERS_RESET], null);
     const usersError = useSelector((state) => state.users[C.Action.Type.USERS_ERROR], null);
+    const usersSelf = useSelector((state) => state.users[C.Action.Type.USERS_SELF], null);
 
     return {
 
-        fetchUsersSelf,
+        fetchSelf,
         login,
+        reset,
         usersError,
+        usersReset,
         usersSelf,
     };
 };

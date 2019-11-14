@@ -18,6 +18,7 @@
  *         <li> ITEMS_ERROR </li>
  *         <li> ITEMS_VOTE </li>
  *         <li> USERS_ERROR </li>
+ *         <li> USERS_RESET </li>
  *         <li> USERS_SELF </li>
  *         <li> WEBSOCKET_MESSAGE </li>
  *     </ul> 
@@ -38,8 +39,9 @@ const Action = Object.freeze({
         ITEMS_ERROR: "itemsError",
         ITEMS_VOTE: "itemsVote",
         USERS_ERROR: "usersError",
+        USERS_RESET: "usersReset",
         USERS_SELF: "usersSelf",
-        WEBSOCKET_MESSAGE: "websocketMessage"
+        WEBSOCKET_MESSAGE: "websocketMessage",
     }
 });
 
@@ -173,6 +175,7 @@ const Image = Object.freeze({
  *     <li> EMAIL </li>
  *     <li> LOGIN </li>
  *     <li> PASSWORD </li>
+ *     <li> RESET </li>
  * </ul>
  * 
  * @public
@@ -184,6 +187,7 @@ const Label = Object.freeze({
     EMAIL: "Email",
     LOGIN: "Login",
     PASSWORD: "Password",
+    RESET: "Reset",
 });
 
 /**

@@ -31,7 +31,7 @@ const setAuthToken = (token) => {
  * 
  * @param {string} error - The value of the payload embedded in the action.
  * @returns {object} The action.
- * @private
+ * @public
  * @function
  *  
  */

@@ -411,7 +411,7 @@ router.post(C.Route.RESET, [
 
             if (!user || user[C.Model.EXPIRE]) {
 
-                throw new Error(C.Error.USER_INVALID_CREDENTIALS);
+                throw new Error(C.Error.USER_DOES_NOT_EXIST);
             }
 
             let reset = await Reset.findOne({ email });
