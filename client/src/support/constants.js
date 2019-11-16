@@ -18,6 +18,7 @@
  *         <li> ITEMS_ERROR </li>
  *         <li> ITEMS_VOTE </li>
  *         <li> USERS_ERROR </li>
+ *         <li> USERS_REGISTER </li>
  *         <li> USERS_RESET </li>
  *         <li> USERS_SELF </li>
  *         <li> WEBSOCKET_MESSAGE </li>
@@ -39,6 +40,7 @@ const Action = Object.freeze({
         ITEMS_ERROR: "itemsError",
         ITEMS_VOTE: "itemsVote",
         USERS_ERROR: "usersError",
+        USERS_REGISTER: "usersRegister",
         USERS_RESET: "usersReset",
         USERS_SELF: "usersSelf",
         WEBSOCKET_MESSAGE: "websocketMessage",
@@ -134,7 +136,10 @@ const HTMLElement = Object.freeze({
  *     <li> ERROR_PARAM </li>
  *     <li> LIST_ITEMS_CANDIDATE </li>
  *     <li> LIST_ITEMS_VOTE </li>
+ *     <li> NAME_ADMIN_PASSWORD </li>
+ *     <li> NAME_ADMIN_USERNAME </li>
  *     <li> NAME_EMAIL </li>
+ *     <li> NAME_NAME </li>
  *     <li> NAME_PASSWORD </li>
  * </ul>
  * 
@@ -148,7 +153,10 @@ const ID = Object.freeze({
     ERROR_PARAM: "param",
     LIST_ITEMS_CANDIDATE: "listItemsCandidate",
     LIST_ITEMS_VOTE: "listItemsVote",
+    NAME_ADMIN_PASSWORD: "adminPassword",
+    NAME_ADMIN_USERNAME: "adminUsername",
     NAME_EMAIL: "email",
+    NAME_NAME: "name",
     NAME_PASSWORD: "password",
 });
 
@@ -172,9 +180,13 @@ const Image = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> ADMIN_PASSWORD </li>
+ *     <li> ADMIN_USERNAME </li>
  *     <li> EMAIL </li>
  *     <li> LOGIN </li>
+ *     <li> NAME </li>
  *     <li> PASSWORD </li>
+ *     <li> REGISTER </li>
  *     <li> RESET </li>
  * </ul>
  * 
@@ -184,9 +196,13 @@ const Image = Object.freeze({
  */
 const Label = Object.freeze({
 
+    ADMIN_PASSWORD: "Admin Password",
+    ADMIN_USERNAME: "Admin Username",
     EMAIL: "Email",
     LOGIN: "Login",
+    NAME: "Name",
     PASSWORD: "Password",
+    REGISTER: "Register",
     RESET: "Reset",
 });
 

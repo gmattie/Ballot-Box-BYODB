@@ -109,7 +109,7 @@ const Login = () => {
     }
 
     /**
-     * @description Clears all error notifications, manages the loading state and posts the "email" and "password" values to the server.
+     * @description Clears all error notifications, manages the loading state and posts the request body to the server.
      * Written as a named function declaration instead of a function expression in order to be hoisted and accessible to the custom hooks above.
      * 
      * @async

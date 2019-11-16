@@ -2,15 +2,17 @@
  * @description Root component.
  * 
  * @requires Login
- * @requires Reset
  * @requires react
+ * @requires Register
+ * @requires Reset
  * @public
  * @module
  * 
  */
 import Login from "./Login";
-import Reset from "./Reset";
 import React from "react";
+import Register from "./Register";
+import Reset from "./Reset";
 
 /**
  * @description The Root component contains UI that facilitates authenticated accessibility to the application.
@@ -29,6 +31,7 @@ const Root = () => {
     return (
         <>
             <Login />
+            <Register />
             <Reset />
         </>
     );

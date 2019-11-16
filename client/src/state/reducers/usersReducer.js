@@ -17,6 +17,7 @@ import * as C from "../../support/constants";
 const initialState = {
     
     [C.Action.Type.USERS_ERROR]: null,
+    [C.Action.Type.USERS_REGISTER]: null,
     [C.Action.Type.USERS_RESET]: null,
     [C.Action.Type.USERS_SELF]: null,
 };
@@ -41,6 +42,15 @@ const usersReducer = (state = initialState, action) => {
 
                 ...state,
                 [C.Action.Type.USERS_ERROR]: action[C.Action.PAYLOAD]
+            };
+
+        case C.Action.Type.USERS_REGISTER:
+
+            return {
+
+                ...state,
+                [C.Action.Type.USERS_REGISTER]: action[C.Action.PAYLOAD],
+                [C.Action.Type.USERS_ERROR]: null
             };
 
         case C.Action.Type.USERS_RESET:

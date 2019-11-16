@@ -28,6 +28,24 @@ const setUsersError = (error) => {
 };
 
 /**
+ * @description Creates an action that sets the "usersRegister" property of the usersReducer state.
+ * 
+ * @param {string} data - The value of the payload embedded in the action.
+ * @returns {object|null} The action.
+ * @private
+ * @function
+ *  
+ */
+const setUsersRegister = (data) => {
+
+    return {
+
+        type: C.Action.Type.USERS_REGISTER,
+        [C.Action.PAYLOAD]: data
+    };
+};
+
+/**
  * @description Creates an action that sets the "usersReset" property of the usersReducer state.
  * 
  * @param {string} data - The value of the payload embedded in the action.
@@ -134,7 +152,52 @@ const login = (email, password) => {
 };
 
 /**
- * @description Posts data to /api/users/reset and dispatches actions from either authActions to the authReducer state or from userActions to the usersReducer state.
+ * @description Post data to /api/users/register and dispatches actions from either userActions to the usersReducer state or from authActions to the authReducer state.
+ * 
+ * @param {string} name - The user's name.
+ * @param {string} email - The user's email address.
+ * @param {string} password - The user's password.
+ * @param {string|null} [adminusername=null] - The admin name credential.
+ * @param {string|null} [adminpassword=null] - The admin password credential.
+ * @public
+ * @function
+ * 
+ */
+const register = (name, email, password, adminusername = null, adminpassword = null) => {
+
+    return async (dispatch) => {
+
+        try {
+
+            const url = `${C.Route.API_USERS}${C.Route.REGISTER}`;
+            const options = {
+
+                method: C.Request.METHOD_POST,
+                headers: { [C.Request.CONTENT_TYPE]: C.Request.APPLICATION_JSON },
+                body: JSON.stringify({
+                    
+                    name,
+                    email,
+                    password,
+                    ...(adminusername && { adminusername }),
+                    ...(adminpassword && { adminpassword })
+                })
+            };
+
+            const response = await fetch(url, options);
+            const data = await response.json();
+
+            dispatch((data.error) ? authActions.setAuthError(data) : setUsersRegister(data));
+        }
+        catch (error) {
+
+            dispatch(setUsersError(error.message));
+        }
+    };
+};
+
+/**
+ * @description Posts data to /api/users/reset and dispatches actions from either userActions to the usersReducer state or from authActions to the authReducer state.
  * 
  * @param {string} email - The user's email address credential.
  * @param {string} password - The user's new password credential.
@@ -167,7 +230,7 @@ const reset = (email, password) => {
             dispatch(setUsersError(error.message));
         }
     };
-}; 
+};
 
 /**
  * Export module
@@ -177,5 +240,6 @@ export {
 
     fetchSelf,
     login,
+    register,
     reset
 };
