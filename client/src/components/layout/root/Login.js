@@ -46,9 +46,16 @@ const Login = () => {
      * Custom hooks
      * 
      */
-    const { authError, authToken } = useAuth();
-    const { login } = useUsers();
-    
+    const { fetchLogin } = useUsers();
+
+    const {
+        
+        authError,
+        authToken,
+        setAuthError,
+        setAuthToken,
+    } = useAuth();
+        
     const {
         
         binding: bindEmail,
@@ -81,7 +88,7 @@ const Login = () => {
 
     /**
      * Login failure
-     * Parse the error object to set the appropriate invalid states.
+     * Parse the error object to set the appropriate local error states.
      * 
      */
     if (authError && responseUpdate.current) {
@@ -91,14 +98,21 @@ const Login = () => {
         if (Array.isArray(authError.error)) {
             
             authError.error.forEach((error) => {
-                
-                if (error[C.ID.ERROR_PARAM] === C.ID.NAME_EMAIL) {
 
-                    setInvalidEmail(error[C.ID.ERROR_MESSAGE]);
-                }
-                else if (error[C.ID.ERROR_PARAM] === C.ID.NAME_PASSWORD) {
+                switch (error[C.ID.ERROR_PARAM]) {
 
-                    setInvalidPassword(error[C.ID.ERROR_MESSAGE]);
+                    case C.ID.NAME_EMAIL:
+                        setInvalidEmail(error[C.ID.ERROR_MESSAGE]);
+
+                        break;
+
+                    case C.ID.NAME_PASSWORD:
+                        setInvalidPassword(error[C.ID.ERROR_MESSAGE]);
+                        
+                        break;
+
+                    default:
+                        throw new Error(error[C.ID.ERROR_MESSAGE]);
                 }
             });
         }
@@ -109,8 +123,10 @@ const Login = () => {
     }
 
     /**
-     * @description Clears all error notifications, manages the loading state and posts the request body to the server.
-     * Written as a named function declaration instead of a function expression in order to be hoisted and accessible to the custom hooks above.
+     * @description Posts the request body to the server.
+     * Resets to the initial render by nullifying the "authError" and "authToken" states and clearing all local error states.
+     * Function executes asynchronously to facilitate the local loading state.
+     * Written as a function declaration in order to be hoisted and accessible to the custom hooks above.
      * 
      * @async
      * @function
@@ -119,14 +135,17 @@ const Login = () => {
      */
     async function submitHandler() {
 
+        setAuthError(null);
+        setAuthToken(null);
+
         setInvalidCredentials(null);
         setInvalidEmail(null);
         setInvalidPassword(null);
 
         setIsLoading(true);
 
-        await login(email, password);
         responseUpdate.current = true;
+        await fetchLogin(email, password);
 
         setIsLoading(false);
     }

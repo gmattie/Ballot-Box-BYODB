@@ -21,9 +21,10 @@ import * as itemActions from "../state/actions/itemActions";
  * @returns {
  * 
  *      itemsCandidate: object,
- *      itemsVote: object,
  *      itemsError: object,
+ *      itemsVote: object,
  *      setItemsCandidate: function
+ *      setItemsError: function
  *      setItemsVote: function
  * }
  * @public
@@ -41,13 +42,14 @@ const useItems = () => {
         dispatch(itemActions.fetchItems(authToken));
     }, [dispatch]);
 
-    const setItemsCandidate = (items) => dispatch(itemActions.setItemsCandidate(items));
+    const setItemsCandidate = (data) => dispatch(itemActions.setItemsCandidate(data));
     const itemsCandidate = useSelector((state) => state.items[C.Action.Type.ITEMS_CANDIDATE], null);
 
-    const setItemsVote = (items) => dispatch(itemActions.setItemsVote(items));
-    const itemsVote = useSelector((state) => state.items[C.Action.Type.ITEMS_VOTE], null);
-
+    const setItemsError = (data) => dispatch(itemActions.setItemsError(data));
     const itemsError = useSelector((state) => state.items[C.Action.Type.ITEMS_ERROR]);
+
+    const setItemsVote = (data) => dispatch(itemActions.setItemsVote(data));
+    const itemsVote = useSelector((state) => state.items[C.Action.Type.ITEMS_VOTE], null);
 
     return {
 
@@ -55,6 +57,7 @@ const useItems = () => {
         itemsError,
         itemsVote,
         setItemsCandidate,
+        setItemsError,
         setItemsVote,
     };
 };

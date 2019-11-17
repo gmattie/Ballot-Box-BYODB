@@ -22,17 +22,17 @@ const mongoose = require("mongoose");
  */
 const itemAdd = [
 
-    check(C.Model.ITEM, C.Error.ITEM)
+    check(C.Request.ITEM, C.Error.ITEM)
         .isArray()
         .not()
         .isEmpty(),
 
-    check(`${C.Model.ITEM}.*.${C.Model.NAME}`, C.Error.NAME)
+    check(`${C.Request.ITEM}.*.${C.Request.NAME}`, C.Error.NAME)
         .not()
         .isEmpty({ ignore_whitespace: true })
         .trim(),
 
-    check(`${C.Model.ITEM}.*.${C.Model.IMAGE}`, C.Error.IMAGE)
+    check(`${C.Request.ITEM}.*.${C.Request.IMAGE}`, C.Error.IMAGE)
         .optional()
         .isURL()
 ];
@@ -50,8 +50,8 @@ const itemEdit = [
 
         const allowedKeys = [
 
-            C.Model.NAME,
-            C.Model.IMAGE
+            C.Request.NAME,
+            C.Request.IMAGE
         ];
 
         for (const key of Object.keys(value)) {
@@ -65,13 +65,13 @@ const itemEdit = [
         return true;
     }),
 
-    check(C.Model.NAME, C.Error.NAME)
+    check(C.Request.NAME, C.Error.NAME)
         .optional()
         .not()
         .isEmpty({ ignore_whitespace: true })
         .trim(),
 
-    check(C.Model.IMAGE, C.Error.IMAGE)
+    check(C.Request.IMAGE, C.Error.IMAGE)
         .optional()
         .isURL()
 ];
@@ -110,10 +110,11 @@ const userEdit = [
 
         const allowedKeys = [
 
-            C.Model.NAME,
-            C.Model.PASSWORD,
-            `${C.Model.ADMIN}${C.Model.USER}${C.Model.NAME}`,
-            `${C.Model.ADMIN}${C.Model.PASSWORD}`
+            C.Request.NAME,
+            C.Request.PASSWORD,
+            C.Request.PASSWORD_CONFIRM,
+            C.Request.ADMIN_USERNAME,
+            C.Request.ADMIN_PASSWORD
         ];
 
         for (const key of Object.keys(value)) {
@@ -127,28 +128,28 @@ const userEdit = [
         return true;
     }),
 
-    check(C.Model.NAME, C.Error.NAME)
+    check(C.Request.NAME, C.Error.NAME)
         .optional()
         .not()
         .isEmpty({ ignore_whitespace: true })
         .trim(),
 
-    check(C.Model.PASSWORD, C.Error.PASSWORD)
+    check(C.Request.PASSWORD, C.Error.PASSWORD)
         .optional()
         .not()
         .isEmpty()
         .custom((value) => !/\s/.test(value)),
-
-    check(`${C.Model.ADMIN}${C.Model.USER}${C.Model.NAME}`, C.Error.NAME)
+    
+    check(C.Request.PASSWORD_CONFIRM, C.Error.PASSWORDS_DO_NOT_MATCH)
         .optional()
-        .not()
-        .isEmpty({ ignore_whitespace: true })
-        .trim(),
+        .custom((value, { req }) => value !== "" && value === req.body[C.Request.PASSWORD]),
 
-    check(`${C.Model.ADMIN}${C.Model.PASSWORD}`, C.Error.PASSWORD)
+    check(C.Request.ADMIN_USERNAME, C.Error.NAME)
         .optional()
-        .not()
-        .isEmpty()
+        .custom((value) => !/\s/.test(value)),
+
+    check(C.Request.ADMIN_PASSWORD, C.Error.PASSWORD)
+        .optional()
         .custom((value) => !/\s/.test(value))
 ];
 
@@ -161,10 +162,10 @@ const userEdit = [
  */
 const userLogin = [
 
-    check(C.Model.EMAIL, C.Error.EMAIL)
+    check(C.Request.EMAIL, C.Error.EMAIL)
         .isEmail(),
 
-    check(C.Model.PASSWORD, C.Error.PASSWORD)
+    check(C.Request.PASSWORD, C.Error.PASSWORD)
         .not()
         .isEmpty()
         .custom((value) => !/\s/.test(value))
@@ -179,30 +180,29 @@ const userLogin = [
  */
 const userRegister = [
 
-    check(C.Model.NAME, C.Error.NAME)
+    check(C.Request.NAME, C.Error.NAME)
         .not()
         .isEmpty({ ignore_whitespace: true })
         .trim(),
 
-    check(C.Model.EMAIL, C.Error.EMAIL)
+    check(C.Request.EMAIL, C.Error.EMAIL)
         .isEmail()
         .normalizeEmail(),
 
-    check(C.Model.PASSWORD, C.Error.PASSWORD)
+    check(C.Request.PASSWORD, C.Error.PASSWORD)
         .not()
         .isEmpty()
         .custom((value) => !/\s/.test(value)),
 
-    check(`${C.Model.ADMIN}${C.Model.USER}${C.Model.NAME}`, C.Error.NAME)
-        .optional()
-        .not()
-        .isEmpty({ ignore_whitespace: true })
-        .trim(),
+    check(C.Request.PASSWORD_CONFIRM, C.Error.PASSWORDS_DO_NOT_MATCH)
+        .custom((value, { req }) => value !== "" && value === req.body[C.Request.PASSWORD]),
 
-    check(`${C.Model.ADMIN}${C.Model.PASSWORD}`, C.Error.PASSWORD)
+    check(C.Request.ADMIN_USERNAME, C.Error.NAME)
         .optional()
-        .not()
-        .isEmpty()
+        .custom((value) => !/\s/.test(value)),
+
+    check(C.Request.ADMIN_PASSWORD, C.Error.PASSWORD)
+        .optional()
         .custom((value) => !/\s/.test(value))
 ];
 
@@ -215,13 +215,16 @@ const userRegister = [
  */
 const userReset = [
 
-    check(C.Model.EMAIL, C.Error.EMAIL)
+    check(C.Request.EMAIL, C.Error.EMAIL)
         .isEmail(),
 
-    check(C.Model.PASSWORD, C.Error.PASSWORD)
+    check(C.Request.PASSWORD, C.Error.PASSWORD)
         .not()
         .isEmpty()
-        .custom((value) => !/\s/.test(value))
+        .custom((value) => !/\s/.test(value)),
+
+    check(C.Request.PASSWORD_CONFIRM, C.Error.PASSWORDS_DO_NOT_MATCH)
+        .custom((value, { req }) => value !== "" && value === req.body[C.Request.PASSWORD])
 ];
 
 /**
@@ -233,7 +236,7 @@ const userReset = [
  */
 const voteCast = [
 
-    check(C.Model.CAST, C.Error.CAST)
+    check(C.Request.CAST, C.Error.CAST)
         .isArray()
         .not()
         .isEmpty()
@@ -258,10 +261,10 @@ const voteCast = [
             return (isUnique && isOrdered);
         }),
 
-    check(`${C.Model.CAST}.*.${C.Model.ITEM}`, C.Error.ITEM)
+    check(`${C.Request.CAST}.*.${C.Request.ITEM}`, C.Error.ITEM)
         .custom((value) => mongoose.Types.ObjectId.isValid(value)),
 
-    check(`${C.Model.CAST}.*.${C.Model.RANK}`, C.Error.RANK)
+    check(`${C.Request.CAST}.*.${C.Request.RANK}`, C.Error.RANK)
         .isInt({ min: 0 })
 ];
 
@@ -274,10 +277,10 @@ const voteCast = [
  */
 const voteOpen = [
 
-    check(C.Model.DEADLINE, C.Error.DEADLINE)
+    check(C.Request.DEADLINE, C.Error.DEADLINE)
         .isInt({ min: 0, max: 31622400 }),
 
-    check(C.Model.QUANTITY, C.Error.QUANTITY)
+    check(C.Request.QUANTITY, C.Error.QUANTITY)
         .isInt({ min: 1 })
 ];
 

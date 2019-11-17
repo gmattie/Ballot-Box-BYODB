@@ -35,6 +35,7 @@ const Register = () => {
     const [ invalidName, setInvalidName ] = useState(null);
     const [ invalidEmail, setInvalidEmail ] = useState(null);
     const [ invalidPassword, setInvalidPassword ] = useState(null);
+    const [ invalidPasswordConfirm, setInvalidPasswordConfirm ] = useState(null);
     const [ invalidAdminUsername, setInvalidAdminUsername ] = useState(null);
     const [ invalidAdminPassword, setInvalidAdminPassword ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(false);
@@ -49,8 +50,14 @@ const Register = () => {
      * Custom hooks
      * 
      */
-    const { authError } = useAuth();
-    const { register, usersRegister } = useUsers();
+    const { authError, setAuthError } = useAuth();
+
+    const {
+        
+        fetchRegister,
+        setUsersRegister,
+        usersRegister,
+    } = useUsers();
     
     const {
         
@@ -71,6 +78,13 @@ const Register = () => {
         binding: bindPassword,
         clearValue: clearPassword,
         value: password
+    } = useInputText(null, submitHandler);
+
+    const { 
+        
+        binding: bindPasswordConfirm,
+        clearValue: clearPasswordConfirm,
+        value: passwordConfirm
     } = useInputText(null, submitHandler);
 
     const {
@@ -99,6 +113,7 @@ const Register = () => {
         clearName();
         clearEmail();
         clearPassword();
+        clearPasswordConfirm();
         clearAdminName();
         clearAdminPassword();
 
@@ -108,7 +123,7 @@ const Register = () => {
 
     /**
      * Register failure
-     * Parse the error object to set the appropriate invalid states.
+     * Parse the error object to set the appropriate local error states.
      * 
      */
     if (authError && responseUpdate.current) {
@@ -136,6 +151,11 @@ const Register = () => {
 
                         break;
 
+                    case C.ID.NAME_PASSWORD_CONFIRM:
+                        setInvalidPasswordConfirm(error[C.ID.ERROR_MESSAGE]);
+
+                        break;
+
                     case C.ID.NAME_ADMIN_USERNAME:
                         setInvalidAdminUsername(error[C.ID.ERROR_MESSAGE]);
 
@@ -146,8 +166,8 @@ const Register = () => {
 
                         break;
 
-                    default: 
-                        setInvalidName(error[C.ID.ERROR_MESSAGE]);
+                    default:
+                        throw new Error(error[C.ID.ERROR_MESSAGE]);
                 }
             });
         }
@@ -158,8 +178,10 @@ const Register = () => {
     }
 
     /**
-     * @description Clears all error notifications, manages the loading state and posts the request body to the server.
-     * Written as a named function declaration instead of a function expression in order to be hoisted and accessible to the custom hooks above.
+     * @description Posts the request body to the server.
+     * Resets to the initial render by nullifying the "authError" and "usersRegister" states and clearing all local error states.
+     * Function executes asynchronously to facilitate the local loading state.
+     * Written as a function declaration in order to be hoisted and accessible to the custom hooks above.
      * 
      * @async
      * @function
@@ -168,25 +190,29 @@ const Register = () => {
      */
     async function submitHandler() {
 
+        setAuthError(null);
+        setUsersRegister(null);
+
         setUserAlreadyExists(null);
         setInvalidName(null);
         setInvalidEmail(null);
         setInvalidPassword(null);
+        setInvalidPasswordConfirm(null);
         setInvalidAdminUsername(null);
         setInvalidAdminPassword(null);
 
         setIsLoading(true);
 
-        await register(
+        responseUpdate.current = true;
+        await fetchRegister(
             
             name,
             email,
             password,
+            passwordConfirm,
             (adminUsername === "") ? null : adminUsername,
             (adminPassword === "") ? null : adminPassword
         );
-
-        responseUpdate.current = true;
 
         setIsLoading(false);
     }
@@ -212,7 +238,7 @@ const Register = () => {
                     />
                 </label>
             </div>
-            
+
             <div>
                 {invalidEmail && (<div>{invalidEmail}</div>)}
                 <label>
@@ -235,6 +261,19 @@ const Register = () => {
                         name={C.ID.NAME_PASSWORD}
                         disabled={isLoading}
                         {...bindPassword}
+                    />
+                </label>
+            </div>
+
+            <div>
+                {invalidPasswordConfirm && (<div>{invalidPasswordConfirm}</div>)}
+                <label>
+                    {C.Label.PASSWORD_CONFIRM}
+                    <input
+                        type={C.HTMLElement.InputType.PASSWORD}
+                        name={C.ID.NAME_PASSWORD_CONFIRM}
+                        disabled={isLoading}
+                        {...bindPasswordConfirm}
                     />
                 </label>
             </div>

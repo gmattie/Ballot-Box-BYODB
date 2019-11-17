@@ -41,7 +41,6 @@ const itemsReducer = (state = initialState, action) => {
                 
                 ...state,
                 [C.Action.Type.ITEMS_CANDIDATE]: action[C.Action.PAYLOAD],
-                [C.Action.Type.ITEMS_ERROR]: null
             };
 
         case C.Action.Type.ITEMS_VOTE:
@@ -50,7 +49,6 @@ const itemsReducer = (state = initialState, action) => {
 
                 ...state,
                 [C.Action.Type.ITEMS_VOTE]: action[C.Action.PAYLOAD],
-                [C.Action.Type.ITEMS_ERROR]: null
             };
 
         case C.Action.Type.ITEMS_ERROR:

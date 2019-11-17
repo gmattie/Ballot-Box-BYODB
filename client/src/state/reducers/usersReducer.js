@@ -50,7 +50,6 @@ const usersReducer = (state = initialState, action) => {
 
                 ...state,
                 [C.Action.Type.USERS_REGISTER]: action[C.Action.PAYLOAD],
-                [C.Action.Type.USERS_ERROR]: null
             };
 
         case C.Action.Type.USERS_RESET:
@@ -59,7 +58,6 @@ const usersReducer = (state = initialState, action) => {
 
                 ...state,
                 [C.Action.Type.USERS_RESET]: action[C.Action.PAYLOAD],
-                [C.Action.Type.USERS_ERROR]: null
             };
 
         case C.Action.Type.USERS_SELF:
@@ -68,7 +66,6 @@ const usersReducer = (state = initialState, action) => {
                 
                 ...state,
                 [C.Action.Type.USERS_SELF]: action[C.Action.PAYLOAD],
-                [C.Action.Type.USERS_ERROR]: null
             };
 
         default:

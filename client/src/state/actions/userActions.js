@@ -14,7 +14,7 @@ import * as authActions from "./authActions";
  * 
  * @param {string} error - The value of the payload embedded in the action.
  * @returns {object} The action.
- * @private
+ * @public
  * @function
  *  
  */
@@ -32,7 +32,7 @@ const setUsersError = (error) => {
  * 
  * @param {string} data - The value of the payload embedded in the action.
  * @returns {object|null} The action.
- * @private
+ * @public
  * @function
  *  
  */
@@ -50,7 +50,7 @@ const setUsersRegister = (data) => {
  * 
  * @param {string} data - The value of the payload embedded in the action.
  * @returns {object|null} The action.
- * @private
+ * @public
  * @function
  *  
  */
@@ -68,7 +68,7 @@ const setUsersReset = (data) => {
  * 
  * @param {string} data - The value of the payload embedded in the action.
  * @returns {object} The action.
- * @private
+ * @public
  * @function
  *  
  */
@@ -82,7 +82,127 @@ const setUsersSelf = (data) => {
 };
 
 /**
- * @description Fetches data from /api/users/self and dispatches actions to the usersReducer state.
+ * @description Posts data to /api/users/login and dispatches actions from authActions to the authReducer state.
+ * 
+ * @param {string} email - The user's email address credential.
+ * @param {string} password - The user's password credential.
+ * @returns {object} The action.
+ * @public
+ * @function
+ *  
+ */
+const fetchLogin = (email, password) => {
+
+    return async (dispatch) => {
+        
+        try {
+
+            const url = `${C.Route.API_USERS}${C.Route.LOGIN}`;
+            const options = {
+
+                method: C.Request.METHOD_POST,
+                headers: { [C.Request.CONTENT_TYPE]: C.Request.APPLICATION_JSON },
+                body: JSON.stringify({ email, password })
+            };
+
+            const response = await fetch(url, options);
+            const data = await response.json();
+            
+            dispatch((data.error) ? authActions.setAuthError(data) : authActions.setAuthToken(data));
+        }
+        catch (error) {
+
+            dispatch(setUsersError(error.message));
+        }
+    };
+};
+
+/**
+ * @description Post data to /api/users/register and dispatches actions from either userActions to the usersReducer state or from authActions to the authReducer state.
+ * 
+ * @param {string} name - The user's name.
+ * @param {string} email - The user's email address.
+ * @param {string} password - The user's password.
+ * @param {string} passwordConfirm - The user's confirmed password.
+ * @param {string|null} [adminUsername=null] - The admin username credential.
+ * @param {string|null} [adminPassword=null] - The admin password credential.
+ * @public
+ * @function
+ * 
+ */
+const fetchRegister = (name, email, password, passwordConfirm, adminUsername = null, adminPassword = null) => {
+
+    return async (dispatch) => {
+
+        try {
+
+            const url = `${C.Route.API_USERS}${C.Route.REGISTER}`;
+            const options = {
+
+                method: C.Request.METHOD_POST,
+                headers: { [C.Request.CONTENT_TYPE]: C.Request.APPLICATION_JSON },
+                body: JSON.stringify({
+                    
+                    name,
+                    email,
+                    password,
+                    passwordConfirm,
+                    adminUsername,
+                    adminPassword
+                })
+            };
+
+            const response = await fetch(url, options);
+            const data = await response.json();
+
+            dispatch((data.error) ? authActions.setAuthError(data) : setUsersRegister(data));
+        }
+        catch (error) {
+
+            dispatch(setUsersError(error.message));
+        }
+    };
+};
+
+/**
+ * @description Posts data to /api/users/reset and dispatches actions from either userActions to the usersReducer state or from authActions to the authReducer state.
+ * 
+ * @param {string} email - The user's email address credential.
+ * @param {string} password - The user's new password credential.
+ * @param {string} passwordConfirm - The user's confirmed new password credential.
+ * @returns {object} The action.
+ * @public
+ * @function
+ *  
+ */
+const fetchReset = (email, password, passwordConfirm) => {
+
+    return async (dispatch) => {
+        
+        try {
+            
+            const url = `${C.Route.API_USERS}${C.Route.RESET}`;
+            const options = {
+
+                method: C.Request.METHOD_POST,
+                headers: { [C.Request.CONTENT_TYPE]: C.Request.APPLICATION_JSON },
+                body: JSON.stringify({ email, password, passwordConfirm })
+            };
+
+            const response = await fetch(url, options);
+            const data = await response.json();
+            
+            dispatch((data.error) ? authActions.setAuthError(data) : setUsersReset(data));
+        }
+        catch (error) {
+
+            dispatch(setUsersError(error.message));
+        }
+    };
+};
+
+/**
+ * @description Gets data from /api/users/self and dispatches actions to the usersReducer state.
  *
  * @param {string} authToken - The JSON Web Token to authenticate the user.
  * @returns {object} The action.
@@ -116,130 +236,17 @@ const fetchSelf = (authToken) => {
 };
 
 /**
- * @description Posts data to /api/users/login and dispatches actions from authActions to the authReducer state.
- * 
- * @param {string} email - The user's email address credential.
- * @param {string} password - The user's password credential.
- * @returns {object} The action.
- * @public
- * @function
- *  
- */
-const login = (email, password) => {
-
-    return async (dispatch) => {
-        
-        try {
-
-            const url = `${C.Route.API_USERS}${C.Route.LOGIN}`;
-            const options = {
-
-                method: C.Request.METHOD_POST,
-                headers: { [C.Request.CONTENT_TYPE]: C.Request.APPLICATION_JSON },
-                body: JSON.stringify({ email, password })
-            };
-
-            const response = await fetch(url, options);
-            const data = await response.json();
-            
-            dispatch((data.error) ? authActions.setAuthError(data) : authActions.setAuthToken(data));
-        }
-        catch (error) {
-
-            dispatch(setUsersError(error.message));
-        }
-    };
-};
-
-/**
- * @description Post data to /api/users/register and dispatches actions from either userActions to the usersReducer state or from authActions to the authReducer state.
- * 
- * @param {string} name - The user's name.
- * @param {string} email - The user's email address.
- * @param {string} password - The user's password.
- * @param {string|null} [adminusername=null] - The admin name credential.
- * @param {string|null} [adminpassword=null] - The admin password credential.
- * @public
- * @function
- * 
- */
-const register = (name, email, password, adminusername = null, adminpassword = null) => {
-
-    return async (dispatch) => {
-
-        try {
-
-            const url = `${C.Route.API_USERS}${C.Route.REGISTER}`;
-            const options = {
-
-                method: C.Request.METHOD_POST,
-                headers: { [C.Request.CONTENT_TYPE]: C.Request.APPLICATION_JSON },
-                body: JSON.stringify({
-                    
-                    name,
-                    email,
-                    password,
-                    ...(adminusername && { adminusername }),
-                    ...(adminpassword && { adminpassword })
-                })
-            };
-
-            const response = await fetch(url, options);
-            const data = await response.json();
-
-            dispatch((data.error) ? authActions.setAuthError(data) : setUsersRegister(data));
-        }
-        catch (error) {
-
-            dispatch(setUsersError(error.message));
-        }
-    };
-};
-
-/**
- * @description Posts data to /api/users/reset and dispatches actions from either userActions to the usersReducer state or from authActions to the authReducer state.
- * 
- * @param {string} email - The user's email address credential.
- * @param {string} password - The user's new password credential.
- * @returns {object} The action.
- * @public
- * @function
- *  
- */
-const reset = (email, password) => {
-
-    return async (dispatch) => {
-        
-        try {
-            
-            const url = `${C.Route.API_USERS}${C.Route.RESET}`;
-            const options = {
-
-                method: C.Request.METHOD_POST,
-                headers: { [C.Request.CONTENT_TYPE]: C.Request.APPLICATION_JSON },
-                body: JSON.stringify({ email, password })
-            };
-
-            const response = await fetch(url, options);
-            const data = await response.json();
-            
-            dispatch((data.error) ? authActions.setAuthError(data) : setUsersReset(data));
-        }
-        catch (error) {
-
-            dispatch(setUsersError(error.message));
-        }
-    };
-};
-
-/**
  * Export module
  * 
  */
 export {
 
+    fetchLogin,
+    fetchRegister,
+    fetchReset,
     fetchSelf,
-    login,
-    register,
-    reset
+    setUsersError,
+    setUsersRegister,
+    setUsersReset,
+    setUsersSelf,
 };

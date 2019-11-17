@@ -31,11 +31,11 @@ const useAuth = () => {
 
     const dispatch = useDispatch();
 
-    const setAuthToken = (token) => dispatch(authActions.setAuthToken(token));
-    const authToken = useSelector((state) => state.auth[C.Action.Type.AUTH_TOKEN], null);
-
-    const setAuthError = (error) => dispatch(authActions.setAuthError(error));
+    const setAuthError = (data) => dispatch(authActions.setAuthError(data));
     const authError = useSelector((state) => state.auth[C.Action.Type.AUTH_ERROR], null);
+
+    const setAuthToken = (data) => dispatch(authActions.setAuthToken(data));
+    const authToken = useSelector((state) => state.auth[C.Action.Type.AUTH_TOKEN], null);
 
     return {
 

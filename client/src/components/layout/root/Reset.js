@@ -34,6 +34,7 @@ const Reset = () => {
     const [ userDoesNotExist, setUserDoesNotExist ] = useState(null);
     const [ invalidEmail, setInvalidEmail ] = useState(null);
     const [ invalidPassword, setInvalidPassword ] = useState(null);
+    const [ invalidPasswordConfirm, setInvalidPasswordConfirm ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(false);
 
     /**
@@ -46,8 +47,14 @@ const Reset = () => {
      * Custom hooks
      * 
      */
-    const { authError } = useAuth();
-    const { reset, usersReset } = useUsers();
+    const { authError, setAuthError } = useAuth();
+
+    const {
+        
+        fetchReset,
+        setUsersReset,
+        usersReset
+    } = useUsers();
     
     const {
         
@@ -63,6 +70,13 @@ const Reset = () => {
         value: password
     } = useInputText(null, submitHandler);
 
+    const { 
+        
+        binding: bindPasswordConfirm,
+        clearValue: clearPasswordConfirm,
+        value: passwordConfirm
+    } = useInputText(null, submitHandler);
+
     /**
      * Reset success
      * Clear text input elements and redirect route.
@@ -74,6 +88,7 @@ const Reset = () => {
 
         clearEmail();
         clearPassword();
+        clearPasswordConfirm();
 
         // TODO: Replace with Redirected route
         console.log(usersReset);
@@ -81,7 +96,7 @@ const Reset = () => {
 
     /**
      * Reset failure
-     * Parse the error object to set the appropriate invalid states.
+     * Parse the error object to set the appropriate local error states.
      * 
      */
     if (authError && responseUpdate.current) {
@@ -92,13 +107,25 @@ const Reset = () => {
             
             authError.error.forEach((error) => {
                 
-                if (error[C.ID.ERROR_PARAM] === C.ID.NAME_EMAIL) {
+                switch (error[C.ID.ERROR_PARAM]) {
 
-                    setInvalidEmail(error[C.ID.ERROR_MESSAGE]);
-                }
-                else if (error[C.ID.ERROR_PARAM] === C.ID.NAME_PASSWORD) {
+                    case C.ID.NAME_EMAIL:
+                        setInvalidEmail(error[C.ID.ERROR_MESSAGE]);
+                    
+                        break;
 
-                    setInvalidPassword(error[C.ID.ERROR_MESSAGE]);
+                    case C.ID.NAME_PASSWORD:
+                        setInvalidPassword(error[C.ID.ERROR_MESSAGE]);
+
+                        break;
+
+                    case C.ID.NAME_PASSWORD_CONFIRM:
+                        setInvalidPasswordConfirm(error[C.ID.ERROR_MESSAGE]);
+
+                        break;
+
+                    default:
+                        throw new Error(error[C.ID.ERROR_MESSAGE]); 
                 }
             });
         }
@@ -109,8 +136,10 @@ const Reset = () => {
     }
 
     /**
-     * @description Clears all error notifications, manages the loading state and posts the request body to the server.
-     * Written as a named function declaration instead of a function expression in order to be hoisted and accessible to the custom hooks above.
+     * @description Posts the request body to the server.
+     * Resets to the initial render by nullifying the "authError" and "usersReset" states and clearing all local error states.
+     * Function executes asynchronously to facilitate the local loading state.
+     * Written as a function declaration in order to be hoisted and accessible to the custom hooks above.
      * 
      * @async
      * @function
@@ -119,14 +148,18 @@ const Reset = () => {
      */
     async function submitHandler() {
 
+        setAuthError(null);
+        setUsersReset(null);
+
         setUserDoesNotExist(null);
         setInvalidEmail(null);
         setInvalidPassword(null);
+        setInvalidPasswordConfirm(null);
 
         setIsLoading(true);
 
-        await reset(email, password);
         responseUpdate.current = true;
+        await fetchReset(email, password, passwordConfirm);
 
         setIsLoading(false);
     }
@@ -162,6 +195,19 @@ const Reset = () => {
                         name={C.ID.NAME_PASSWORD}
                         disabled={isLoading}
                         {...bindPassword}
+                    />
+                </label>
+            </div>
+
+            <div>
+                {invalidPasswordConfirm && (<div>{invalidPasswordConfirm}</div>)}
+                <label>
+                    {C.Label.PASSWORD_CONFIRM}
+                    <input
+                        type={C.HTMLElement.InputType.PASSWORD}
+                        name={C.ID.NAME_PASSWORD_CONFIRM}
+                        disabled={isLoading}
+                        {...bindPasswordConfirm}
                     />
                 </label>
             </div>

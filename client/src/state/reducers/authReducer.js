@@ -45,7 +45,6 @@ const authReducer = (state = initialState, action) => {
                 
                 ...state,
                 [C.Action.Type.AUTH_TOKEN]: action[C.Action.PAYLOAD],
-                [C.Action.Type.AUTH_ERROR]: null
             };
 
         case C.Action.Type.AUTH_ERROR:
@@ -55,7 +54,6 @@ const authReducer = (state = initialState, action) => {
             return {
 
                 ...state,
-                [C.Action.Type.AUTH_TOKEN]: null,
                 [C.Action.Type.AUTH_ERROR]: action[C.Action.PAYLOAD]
             };
 

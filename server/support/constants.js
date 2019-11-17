@@ -76,6 +76,7 @@ const Email = Object.freeze({
  *     <li> ITEM_DOES_NOT_EXIST </li>
  *     <li> NAME </li>
  *     <li> PASSWORD </li>
+ *     <li> PASSWORDS_DO_NOT_MATCH </li>
  *     <li> QUANTITY </li>
  *     <li> RANK </li>
  *     <li> USER_ALREADY_EXISTS </li>
@@ -100,6 +101,7 @@ const Error = Object.freeze({
     ITEM: "Invalid item",
     NAME: "Invalid name",
     PASSWORD: "Invalid password",
+    PASSWORDS_DO_NOT_MATCH: "Passwords do not match",
     QUANTITY: "Invalid quantity",
     RANK: "Invalid rank",
     USER_ALREADY_EXISTS: "User already exists",
@@ -293,6 +295,44 @@ const Model = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> ADMIN_PASSWORD </li>
+ *     <li> ADMIN_USERNAME </li>
+ *     <li> CAST </li>
+ *     <li> DEADLINE </li>
+ *     <li> EMAIL </li>
+ *     <li> IMAGE </li>
+ *     <li> ITEM </li>
+ *     <li> NAME </li>
+ *     <li> PASSWORD </li>
+ *     <li> PASSWORD_CONFIRM </li>
+ *     <li> QUANTITY </li>
+ *     <li> RANK </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const Request = Object.freeze({
+
+    ADMIN_PASSWORD: "adminPassword",
+    ADMIN_USERNAME: "adminUsername",
+    CAST: "cast",
+    DEADLINE: "deadline",
+    EMAIL: "email",
+    IMAGE: "image",
+    ITEM: "item",
+    NAME: "name",
+    PASSWORD_CONFIRM: "passwordConfirm",
+    PASSWORD: "password",
+    QUANTITY: "quantity",
+    RANK: "rank",
+});
+
+/**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
  *     <li> ADD </li>
  *     <li> API_ITEMS </li>
  *     <li> API_USERS </li>
@@ -373,6 +413,7 @@ module.exports = {
     Local,
     Message,
     Model,
+    Request,
     Route,
     Status
 };

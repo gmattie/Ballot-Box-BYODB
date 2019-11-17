@@ -141,6 +141,7 @@ const HTMLElement = Object.freeze({
  *     <li> NAME_EMAIL </li>
  *     <li> NAME_NAME </li>
  *     <li> NAME_PASSWORD </li>
+ *     <li> NAME_PASSWORD_CONFIRM </li>
  * </ul>
  * 
  * @public
@@ -158,6 +159,7 @@ const ID = Object.freeze({
     NAME_EMAIL: "email",
     NAME_NAME: "name",
     NAME_PASSWORD: "password",
+    NAME_PASSWORD_CONFIRM: "passwordConfirm",
 });
 
 /**
@@ -186,6 +188,7 @@ const Image = Object.freeze({
  *     <li> LOGIN </li>
  *     <li> NAME </li>
  *     <li> PASSWORD </li>
+ *     <li> PASSWORD_CONFIRM </li>
  *     <li> REGISTER </li>
  *     <li> RESET </li>
  * </ul>
@@ -201,6 +204,7 @@ const Label = Object.freeze({
     EMAIL: "Email",
     LOGIN: "Login",
     NAME: "Name",
+    PASSWORD_CONFIRM: "Confirm Password",
     PASSWORD: "Password",
     REGISTER: "Register",
     RESET: "Reset",

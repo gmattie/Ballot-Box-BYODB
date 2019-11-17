@@ -168,7 +168,7 @@ const sendEmail = async (to, name, subject, href) => {
 /**
  * @description (POST) Register a user.
  * Users are registered by providing "name", "email" and "password" values within the HTTP request body.
- * Admin users are registered by additionally providing valid credentials for both "adminusername" and "adminpassword" within the HTTP request body.
+ * Admin users are registered by additionally providing valid credentials for both "adminUsername" and "adminPassword" within the HTTP request body.
  * Verifying the registered email address is required in order to activate the account and complete the registration.
  * 
  * @public
@@ -184,20 +184,19 @@ router.post(C.Route.REGISTER, [
 
         try {
             
-            const { name, email, password, adminusername, adminpassword } = req.body;
-
-            const validAdminUsername = (adminusername === process.env.DB_USERNAME);
-            const validAdminPassword = (adminpassword === process.env.DB_PASSWORD);
-
+            const { name, email, password, adminUsername, adminPassword } = req.body;
+            const validAdminUsername = (adminUsername === process.env.DB_USERNAME);
+            const validAdminPassword = (adminPassword === process.env.DB_PASSWORD);
+            
             const userExists = await User.findOne({ email });
-
+            
             if (userExists) {
 
                 throw new Error(C.Error.USER_ALREADY_EXISTS);
             }
-
+            
             const user = new User({
-
+                
                 [C.Model.ADMIN]: (validAdminUsername && validAdminPassword),
                 [C.Model.EMAIL]: email,
                 [C.Model.EXPIRE]: Date.now(),
@@ -205,9 +204,9 @@ router.post(C.Route.REGISTER, [
                 [C.Model.NAME]: name,
                 [C.Model.PASSWORD]: await getHashedPassword(password)
             });
-
+            
             await user.save();
-
+            
             const encodedEmail = encodeURIComponent(user[C.Model.EMAIL]);
             const encodedPassword = encodeURIComponent(user[C.Model.PASSWORD]);
             const query = `?${C.Model.EMAIL}=${encodedEmail}&${C.Model.PASSWORD}=${encodedPassword}`;
@@ -336,7 +335,7 @@ router.post(C.Route.LOGIN, [
 /**
  * @description (PATCH) Update a user.
  * All users are authorized to update their own user document via token authentication.
- * User documents are edited by providing optional "name", "password", "adminusername" and/or "adminpassword" values within the HTTP request body.
+ * User documents are edited by providing optional "name", "password", "adminUsername" and/or "adminPassword" values within the HTTP request body.
  * 
  * @protected
  * @constant
@@ -353,7 +352,7 @@ router.patch(C.Route.EDIT, [
         try {
             
             const user = res.locals[C.Local.USER];
-            const { name, password, adminusername, adminpassword } = req.body;
+            const { name, password, adminUsername, adminPassword } = req.body;
 
             if (name) {
 
@@ -365,9 +364,9 @@ router.patch(C.Route.EDIT, [
                 user[C.Model.PASSWORD] = await getHashedPassword(password);
             }
 
-            if (adminusername && adminpassword) {
+            if (adminUsername && adminPassword) {
 
-                user[C.Model.ADMIN] = (adminusername === process.env.DB_USERNAME && adminpassword === process.env.DB_PASSWORD);
+                user[C.Model.ADMIN] = (adminUsername === process.env.DB_USERNAME && adminPassword === process.env.DB_PASSWORD);
             }
 
             const token = await getJWT(user.id);
