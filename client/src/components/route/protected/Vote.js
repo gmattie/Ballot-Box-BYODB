@@ -8,9 +8,9 @@
  * @module
  * 
  */
-import ListContainer from "../list/ListContainer";
+import ListContainer from "../../list/ListContainer";
 import React from "react";
-import useWebSocket from "../../hooks/useWebSocket";
+import useWebSocket from "../../../hooks/useWebSocket";
 
 /**
  * @description The Vote component of the application.

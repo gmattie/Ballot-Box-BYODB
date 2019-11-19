@@ -62,7 +62,7 @@ const setItemsError = (error) => {
 };
 
 /**
- * @description An action that fetches data from /api/items and dispatches it to the itemsReducer state.
+ * @description Gets data from /api/items and dispatches actions to the itemsReducer state.
  * 
  * @returns {object} The action.
  * @public

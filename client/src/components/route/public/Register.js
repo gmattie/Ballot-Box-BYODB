@@ -1,5 +1,5 @@
 /**
- * @description Reset component
+ * @description Register component
  * 
  * @requires constants
  * @requires react
@@ -17,24 +17,27 @@ import useInputText from "../../../hooks/useInputText";
 import useUsers from "../../../hooks/useUsers";
 
 /**
- * @description The Reset component contains UI elements that are required to reset the user's password.
- * The UI elements include text input fields for entering a user's valid email address and new password as well as a button for submitting the input data to the server.
+ * @description The Register component contains UI elements that are required to register a user.
+ * The UI elements include text input fields for entering a user's name, email, password, optional admin credentials and a button for submitting the input data to the server.
  * 
  * @returns {object} JSX markup.
  * @public
  * @function
  * 
  */
-const Reset = () => {
+const Register = () => {
 
     /**
      * State
      * 
      */
-    const [ userDoesNotExist, setUserDoesNotExist ] = useState(null);
+    const [ userAlreadyExists, setUserAlreadyExists ] = useState(null);
+    const [ invalidName, setInvalidName ] = useState(null);
     const [ invalidEmail, setInvalidEmail ] = useState(null);
     const [ invalidPassword, setInvalidPassword ] = useState(null);
     const [ invalidPasswordConfirm, setInvalidPasswordConfirm ] = useState(null);
+    const [ invalidAdminUsername, setInvalidAdminUsername ] = useState(null);
+    const [ invalidAdminPassword, setInvalidAdminPassword ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(false);
 
     /**
@@ -44,18 +47,25 @@ const Reset = () => {
     const responseUpdate = useRef(false);
 
     /**
-     * Custom hooks
+     * Hooks
      * 
      */
     const { authError, setAuthError } = useAuth();
 
     const {
         
-        fetchReset,
-        setUsersReset,
-        usersReset
+        fetchRegister,
+        setUsersRegister,
+        usersRegister,
     } = useUsers();
     
+    const {
+        
+        binding: bindName,
+        clearValue: clearName,
+        value: name
+    } = useInputText(null, submitHandler);
+
     const {
         
         binding: bindEmail,
@@ -77,25 +87,42 @@ const Reset = () => {
         value: passwordConfirm
     } = useInputText(null, submitHandler);
 
+    const {
+        
+        binding: bindAdminUsername,
+        clearValue: clearAdminName,
+        value: adminUsername
+    } = useInputText(null, submitHandler);
+
+    const {
+        
+        binding: bindAdminPassword,
+        clearValue: clearAdminPassword,
+        value: adminPassword
+    } = useInputText(null, submitHandler);
+
     /**
-     * Reset success
+     * Register success
      * Clear text input elements and redirect route.
      * 
      */
-    if (usersReset && responseUpdate.current) {
+    if (usersRegister && responseUpdate.current) {
 
         responseUpdate.current = false;
 
+        clearName();
         clearEmail();
         clearPassword();
         clearPasswordConfirm();
+        clearAdminName();
+        clearAdminPassword();
 
         // TODO: Replace with Redirected route
-        console.log(usersReset);
+        console.log(usersRegister);
     }
 
     /**
-     * Reset failure
+     * Register failure
      * Parse the error object to set the appropriate local error states.
      * 
      */
@@ -106,12 +133,17 @@ const Reset = () => {
         if (Array.isArray(authError.error)) {
             
             authError.error.forEach((error) => {
-                
+
                 switch (error[C.ID.ERROR_PARAM]) {
+
+                    case C.ID.NAME_NAME:
+                        setInvalidName(error[C.ID.ERROR_MESSAGE]);
+
+                        break;
 
                     case C.ID.NAME_EMAIL:
                         setInvalidEmail(error[C.ID.ERROR_MESSAGE]);
-                    
+
                         break;
 
                     case C.ID.NAME_PASSWORD:
@@ -124,20 +156,30 @@ const Reset = () => {
 
                         break;
 
+                    case C.ID.NAME_ADMIN_USERNAME:
+                        setInvalidAdminUsername(error[C.ID.ERROR_MESSAGE]);
+
+                        break;
+
+                    case C.ID.NAME_ADMIN_PASSWORD:
+                        setInvalidAdminPassword(error[C.ID.ERROR_MESSAGE]);
+
+                        break;
+
                     default:
-                        throw new Error(error[C.ID.ERROR_MESSAGE]); 
+                        throw new Error(error[C.ID.ERROR_MESSAGE]);
                 }
             });
         }
         else {
 
-            setUserDoesNotExist(authError.error);
+            setUserAlreadyExists(authError.error);
         }
     }
 
     /**
      * @description Posts the request body to the server.
-     * Resets to the initial render by nullifying the "authError" and "usersReset" states and clearing all local error states.
+     * Resets to the initial render by nullifying the "authError" and "usersRegister" states and clearing all local error states.
      * Function executes asynchronously to facilitate the local loading state.
      * Written as a function declaration in order to be hoisted and accessible to the custom hooks above.
      * 
@@ -149,17 +191,28 @@ const Reset = () => {
     async function submitHandler() {
 
         setAuthError(null);
-        setUsersReset(null);
+        setUsersRegister(null);
 
-        setUserDoesNotExist(null);
+        setUserAlreadyExists(null);
+        setInvalidName(null);
         setInvalidEmail(null);
         setInvalidPassword(null);
         setInvalidPasswordConfirm(null);
+        setInvalidAdminUsername(null);
+        setInvalidAdminPassword(null);
 
         setIsLoading(true);
 
         responseUpdate.current = true;
-        await fetchReset(email, password, passwordConfirm);
+        await fetchRegister(
+            
+            name,
+            email,
+            password,
+            passwordConfirm,
+            (adminUsername === "") ? null : adminUsername,
+            (adminPassword === "") ? null : adminPassword
+        );
 
         setIsLoading(false);
     }
@@ -171,7 +224,20 @@ const Reset = () => {
     return (
 
         <div>
-            {userDoesNotExist && (<div>{userDoesNotExist}</div>)}
+            {userAlreadyExists && (<div>{userAlreadyExists}</div>)}
+
+            <div>
+                {invalidName && (<div>{invalidName}</div>)}
+                <label>
+                    {C.Label.NAME}
+                    <input 
+                        type={C.HTMLElement.InputType.TEXT}
+                        name={C.ID.NAME_NAME}
+                        disabled={isLoading}
+                        {...bindName}
+                    />
+                </label>
+            </div>
 
             <div>
                 {invalidEmail && (<div>{invalidEmail}</div>)}
@@ -211,12 +277,38 @@ const Reset = () => {
                     />
                 </label>
             </div>
+
+            <div>
+                {invalidAdminUsername && (<div>{invalidAdminUsername}</div>)}
+                <label>
+                    {C.Label.ADMIN_USERNAME}
+                    <input
+                        type={C.HTMLElement.InputType.TEXT}
+                        name={C.ID.NAME_ADMIN_USERNAME}
+                        disabled={isLoading}
+                        {...bindAdminUsername}
+                    />
+                </label>
+            </div>
+
+            <div>
+                {invalidAdminPassword && (<div>{invalidAdminPassword}</div>)}
+                <label>
+                    {C.Label.ADMIN_PASSWORD}
+                    <input
+                        type={C.HTMLElement.InputType.PASSWORD}
+                        name={C.ID.NAME_ADMIN_PASSWORD}
+                        disabled={isLoading}
+                        {...bindAdminPassword}
+                    />
+                </label>
+            </div>
             
             <button
                 onClick={submitHandler}
                 disabled={isLoading}
             >
-                {C.Label.RESET.toUpperCase()}
+                {C.Label.REGISTER.toUpperCase()}
             </button>
 
             {
@@ -231,4 +323,4 @@ const Reset = () => {
  * Export module
  * 
  */
-export default Reset;
+export default Register;

@@ -2,17 +2,17 @@
  * @description App component.
  * 
  * @requires constants
+ * @requires Entry
  * @requires react
  * @requires react-router-dom
- * @requires Root
  * @public
  * @module
  * 
  */
+import { Redirect, Route, Switch } from "react-router-dom";
 import * as C from "../support/constants";
+import Entry from "./route/public/Entry";
 import React from "react";
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import Root from "./layout/root/Root";
 
 /**
  * @description Contains the application with routing. 
@@ -30,12 +30,10 @@ const App = () => {
     return (
 
         <div className={C.Style.APP}>
-            <BrowserRouter>
-                <Switch>
-                    <Route exact path={C.Route.ROOT} component={Root} />
-                    <Redirect to={C.Route.ROOT} />
-                </Switch>
-            </BrowserRouter>
+            <Switch>
+                <Route path={C.Route.ENTRY} component={Entry} />
+                <Redirect to={C.Route.ENTRY} />
+            </Switch>
         </div>
     );
 };

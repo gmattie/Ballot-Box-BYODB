@@ -185,6 +185,7 @@ const Image = Object.freeze({
  *     <li> ADMIN_PASSWORD </li>
  *     <li> ADMIN_USERNAME </li>
  *     <li> EMAIL </li>
+ *     <li> ICON </li>
  *     <li> LOGIN </li>
  *     <li> NAME </li>
  *     <li> PASSWORD </li>
@@ -202,6 +203,7 @@ const Label = Object.freeze({
     ADMIN_PASSWORD: "Admin Password",
     ADMIN_USERNAME: "Admin Username",
     EMAIL: "Email",
+    ICON: "Icon",
     LOGIN: "Login",
     NAME: "Name",
     PASSWORD_CONFIRM: "Confirm Password",
@@ -268,12 +270,13 @@ const Request = Object.freeze({
  *     <li> CLOSE </li>
  *     <li> DELETE </li>
  *     <li> EDIT </li>
+ *     <li> ENTRY </li>
+ *     <li> FORWARD_SLASH </li>
  *     <li> LOGIN </li>
  *     <li> LOGOUT </li>
  *     <li> OPEN </li>
  *     <li> REGISTER </li>
  *     <li> RESET </li>
- *     <li> ROOT </li>
  *     <li> SELF </li>
  * </ul>
  * 
@@ -291,12 +294,13 @@ const Route = Object.freeze({
     CLOSE: "/close",
     DELETE: "/delete",
     EDIT: "/edit",
+    ENTRY: "/",
+    FORWARD_SLASH: "/",
     LOGIN: "/login",
     LOGOUT: "/logout",
     OPEN: "/open",
     REGISTER: "/register",
     RESET: "/reset",
-    ROOT: "/",
     SELF: "/self",
 });
 

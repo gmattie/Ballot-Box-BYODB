@@ -6,6 +6,7 @@
  * @requires react
  * @requires react-dom
  * @requires react-redux
+ * @requires react-router-dom
  * @requires store
  * @requires styles
  * @public
@@ -13,6 +14,7 @@
  * 
  */
 import "./styles/index.scss";
+import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import * as C from "./support/constants";
 import App from "./components/App";
@@ -30,7 +32,9 @@ import store from "./state/store";
 ReactDOM.render(
 
     <Provider store={store}>
-        <App />
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
     </Provider>,
     document.getElementById(C.HTMLElement.ROOT)
 );
