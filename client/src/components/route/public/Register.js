@@ -31,7 +31,7 @@ const Register = () => {
      * State
      * 
      */
-    const [ userAlreadyExists, setUserAlreadyExists ] = useState(null);
+    const [ emailAlreadyRegistered, setEmailAlreadyRegistered ] = useState(null);
     const [ invalidName, setInvalidName ] = useState(null);
     const [ invalidEmail, setInvalidEmail ] = useState(null);
     const [ invalidPassword, setInvalidPassword ] = useState(null);
@@ -173,7 +173,7 @@ const Register = () => {
         }
         else {
 
-            setUserAlreadyExists(authError.error);
+            setEmailAlreadyRegistered(authError.error);
         }
     }
 
@@ -193,7 +193,7 @@ const Register = () => {
         setAuthError(null);
         setUsersRegister(null);
 
-        setUserAlreadyExists(null);
+        setEmailAlreadyRegistered(null);
         setInvalidName(null);
         setInvalidEmail(null);
         setInvalidPassword(null);
@@ -224,7 +224,6 @@ const Register = () => {
     return (
 
         <div>
-            {userAlreadyExists && (<div>{userAlreadyExists}</div>)}
 
             <div>
                 {invalidName && (<div>{invalidName}</div>)}
@@ -240,6 +239,7 @@ const Register = () => {
             </div>
 
             <div>
+                {emailAlreadyRegistered && (<div>{emailAlreadyRegistered}</div>)}
                 {invalidEmail && (<div>{invalidEmail}</div>)}
                 <label>
                     {C.Label.EMAIL}

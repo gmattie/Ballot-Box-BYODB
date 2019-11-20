@@ -71,6 +71,7 @@ const Email = Object.freeze({
  *     <li> CAST </li>
  *     <li> DEADLINE </li>
  *     <li> EMAIL </li>
+ *     <li> EMAIL_ALREADY_REGISTERED </li>
  *     <li> IMAGE </li>
  *     <li> ITEM </li>
  *     <li> ITEM_DOES_NOT_EXIST </li>
@@ -79,9 +80,9 @@ const Email = Object.freeze({
  *     <li> PASSWORDS_DO_NOT_MATCH </li>
  *     <li> QUANTITY </li>
  *     <li> RANK </li>
- *     <li> USER_ALREADY_EXISTS </li>
  *     <li> USER_DOES_NOT_EXIST </li>
  *     <li> USER_INVALID_CREDENTIALS </li>
+ *     <li> VERIFICATION_ALREADY_PROCESSED </li>
  *     <li> VOTE_CLOSED </li>
  *     <li> VOTE_DOES_NOT_EXIST </li>
  *     <li> VOTE_OPENED </li>
@@ -95,6 +96,7 @@ const Error = Object.freeze({
 
     CAST: "Invalid cast",
     DEADLINE: "Invalid deadline",
+    EMAIL_ALREADY_REGISTERED: "Email already registered",
     EMAIL: "Invalid email",
     IMAGE: "Invalid image URL",
     ITEM_DOES_NOT_EXIST: "Item does not exist",
@@ -104,9 +106,9 @@ const Error = Object.freeze({
     PASSWORDS_DO_NOT_MATCH: "Passwords do not match",
     QUANTITY: "Invalid quantity",
     RANK: "Invalid rank",
-    USER_ALREADY_EXISTS: "User already exists",
     USER_DOES_NOT_EXIST: "User does not exist",
     USER_INVALID_CREDENTIALS: "Invalid credentials",
+    VERIFICATION_ALREADY_PROCESSED: "Verification already processed",
     VOTE_CLOSED: "Voting is closed",
     VOTE_DOES_NOT_EXIST: "Vote does not exist",
     VOTE_OPENED: "Voting is open",

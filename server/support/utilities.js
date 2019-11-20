@@ -36,19 +36,24 @@ const sendErrorResponse = (error, response) => {
 
     switch (error.message) {
 
-        case C.Error.USER_ALREADY_EXISTS:
+        case C.Error.EMAIL_ALREADY_REGISTERED:
             status = C.Status.BAD_REQUEST;
             
             break;
-
+            
         case C.Error.USER_DOES_NOT_EXIST:
             status = C.Status.BAD_REQUEST;
-
+            
             break;
-
+                
         case C.Error.USER_INVALID_CREDENTIALS:
             status = C.Status.UNAUTHENTICATED;
-
+            
+            break;
+                    
+        case C.Error.VERIFICATION_ALREADY_PROCESSED:
+            status = C.Status.BAD_REQUEST;
+        
             break;
 
         case C.Error.VOTE_CLOSED:

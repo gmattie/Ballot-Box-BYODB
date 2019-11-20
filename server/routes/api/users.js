@@ -192,7 +192,7 @@ router.post(C.Route.REGISTER, [
             
             if (userExists) {
 
-                throw new Error(C.Error.USER_ALREADY_EXISTS);
+                throw new Error(C.Error.EMAIL_ALREADY_REGISTERED);
             }
             
             const user = new User({
@@ -243,7 +243,7 @@ router.get(C.Route.VERIFY, async (req, res) => {
 
             if (!user || (user[C.Model.PASSWORD] !== password)) {
                 
-                throw new Error(C.Error.USER_INVALID_CREDENTIALS);
+                throw new Error(C.Error.VERIFICATION_ALREADY_PROCESSED);
             }
 
             if (!user[C.Model.EXPIRE]) {
@@ -252,7 +252,7 @@ router.get(C.Route.VERIFY, async (req, res) => {
 
                 if (!reset) {
 
-                    throw new Error(C.Error.USER_INVALID_CREDENTIALS);
+                    throw new Error(C.Error.VERIFICATION_ALREADY_PROCESSED);
                 }
 
                 user[C.Model.PASSWORD] = reset[C.Model.PASSWORD];
@@ -273,7 +273,7 @@ router.get(C.Route.VERIFY, async (req, res) => {
 
             return res
                 .status(C.Status.OK)
-                .json({ token });
+                .redirect(`${req.protocol}://${req.get(C.Header.HOST)}`);
         }
         catch (error) {
 
