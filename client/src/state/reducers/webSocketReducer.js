@@ -20,7 +20,7 @@ const initialState = {
 };
 
 /**
- * @description The reducer creates and returns a new state by changing the previous state in response to an action.
+ * @description The reducer creates and returns a new state immutably by altering a copy of the previous state in response to an action.
  * 
  * @param {object} state - The initial or previous state of the reducer.
  * @param {object} action - Describes how to change the state.

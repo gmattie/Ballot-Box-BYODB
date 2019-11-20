@@ -8,34 +8,40 @@
 import * as C from "../../support/constants";
 
 /**
- * @description Creates an action that sets the "authToken" property of the webSocketReducer state. 
+ * @description Writes the token data to local storage and creates an action that sets the "authToken" property of the authReducer state.
  * 
- * @param {string} token - The value of the payload embedded in the action.
+ * @param {string|null} data - The value of the payload embedded in the action.
  * @returns {object} The action.
  * @public
  * @function
  *  
  */
-const setAuthToken = (token) => {
+const setAuthToken = (data) => {
 
+    if (data) {
+    
+        localStorage.setItem(C.Local.TOKEN, data[C.Local.TOKEN]);
+    }
 
     return {
 
         type: C.Action.Type.AUTH_TOKEN,
-        [C.Action.PAYLOAD]: token
+        [C.Action.PAYLOAD]: data
     };
 };
 
 /**
- * @description Creates an action that sets the "authError" property of the usersReducer state. 
+ * @description Removes the token data from local storage and creates an action that sets the "authError" property of the authReducer state. 
  * 
- * @param {string} error - The value of the payload embedded in the action.
+ * @param {string|null} error - The value of the payload embedded in the action.
  * @returns {object} The action.
  * @public
  * @function
  *  
  */
 const setAuthError = (error) => {
+
+    localStorage.removeItem(C.Local.TOKEN);
 
     return {
 
