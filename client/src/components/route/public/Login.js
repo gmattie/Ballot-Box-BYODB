@@ -6,6 +6,7 @@
  * @requires useAuth
  * @requires useInputText
  * @requires useUsers
+ * @requires InputPassword
  * @public
  * @module
  * 
@@ -15,6 +16,7 @@ import React, { useRef, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useInputText from "../../../hooks/useInputText";
 import useUsers from "../../../hooks/useUsers";
+import InputPassword from "../../InputPassword";
 
 /**
  * @description The Login component contains UI elements that are required to log in a user.
@@ -176,8 +178,7 @@ const Login = () => {
                 {invalidPassword && (<div>{invalidPassword}</div>)}
                 <label>
                     {C.Label.PASSWORD}
-                    <input
-                        type={C.HTMLElement.InputType.PASSWORD}
+                    <InputPassword
                         name={C.ID.NAME_PASSWORD}
                         disabled={isLoading}
                         {...bindPassword}

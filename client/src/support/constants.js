@@ -309,6 +309,9 @@ const Route = Object.freeze({
  * 
  * <ul>
  *     <li> APP </li>
+ *     <li> INPUT_PASSWORD </li>
+ *     <li> INPUT_PASSWORD_HIDE </li>
+ *     <li> INPUT_PASSWORD_SHOW </li>
  *     <li> LIST </li>
  *     <li> LIST_CONTAINER </li>
  *     <li> LIST_ITEM </li>
@@ -324,13 +327,16 @@ const Route = Object.freeze({
 const Style = Object.freeze({
 
     APP: "app",
+    INPUT_PASSWORD_HIDE: "inputPassword-hide",
+    INPUT_PASSWORD_SHOW: "inputPassword-show",
+    INPUT_PASSWORD: "inputPassword",
+    LIST_CONTAINER: "listContainer",
     LIST_ITEM_ACTIVE: "listItem-active",
     LIST_ITEM: "listItem",
-    LIST_CONTAINER: "listContainer",
     LIST: "list",
-    VIEWPORT_IMAGE: "viewportImage",
     VIEWPORT_IMAGE_ERROR: "viewportImage-error",
     VIEWPORT_IMAGE_INTERSECTION: "viewportImage-intersection",
+    VIEWPORT_IMAGE: "viewportImage",
 });
 
 /**

@@ -2,6 +2,7 @@
  * @description Reset component
  * 
  * @requires constants
+ * @requires InputPassword
  * @requires react
  * @requires useAuth
  * @requires useInputText
@@ -11,6 +12,7 @@
  * 
  */
 import * as C from "../../../support/constants";
+import InputPassword from "../../InputPassword";
 import React, { useRef, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useInputText from "../../../hooks/useInputText";
@@ -190,8 +192,7 @@ const Reset = () => {
                 {invalidPassword && (<div>{invalidPassword}</div>)}
                 <label>
                     {C.Label.PASSWORD}
-                    <input
-                        type={C.HTMLElement.InputType.PASSWORD}
+                    <InputPassword
                         name={C.ID.NAME_PASSWORD}
                         disabled={isLoading}
                         {...bindPassword}
@@ -203,8 +204,7 @@ const Reset = () => {
                 {invalidPasswordConfirm && (<div>{invalidPasswordConfirm}</div>)}
                 <label>
                     {C.Label.PASSWORD_CONFIRM}
-                    <input
-                        type={C.HTMLElement.InputType.PASSWORD}
+                    <InputPassword
                         name={C.ID.NAME_PASSWORD_CONFIRM}
                         disabled={isLoading}
                         {...bindPasswordConfirm}

@@ -2,6 +2,7 @@
  * @description Register component
  * 
  * @requires constants
+ * @requires InputPassword
  * @requires react
  * @requires useAuth
  * @requires useInputText
@@ -11,6 +12,7 @@
  * 
  */
 import * as C from "../../../support/constants";
+import InputPassword from "../../InputPassword";
 import React, { useRef, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useInputText from "../../../hooks/useInputText";
@@ -256,8 +258,7 @@ const Register = () => {
                 {invalidPassword && (<div>{invalidPassword}</div>)}
                 <label>
                     {C.Label.PASSWORD}
-                    <input
-                        type={C.HTMLElement.InputType.PASSWORD}
+                    <InputPassword
                         name={C.ID.NAME_PASSWORD}
                         disabled={isLoading}
                         {...bindPassword}
@@ -269,8 +270,7 @@ const Register = () => {
                 {invalidPasswordConfirm && (<div>{invalidPasswordConfirm}</div>)}
                 <label>
                     {C.Label.PASSWORD_CONFIRM}
-                    <input
-                        type={C.HTMLElement.InputType.PASSWORD}
+                    <InputPassword
                         name={C.ID.NAME_PASSWORD_CONFIRM}
                         disabled={isLoading}
                         {...bindPasswordConfirm}
@@ -295,8 +295,7 @@ const Register = () => {
                 {invalidAdminPassword && (<div>{invalidAdminPassword}</div>)}
                 <label>
                     {C.Label.ADMIN_PASSWORD}
-                    <input
-                        type={C.HTMLElement.InputType.PASSWORD}
+                    <InputPassword
                         name={C.ID.NAME_ADMIN_PASSWORD}
                         disabled={isLoading}
                         {...bindAdminPassword}
