@@ -6,6 +6,24 @@
  * 
  */
 
+ /**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
+ *     <li> PROTECTED </li>
+ *     <li> PUBLIC </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const Access = Object.freeze({
+
+    PROTECTED: "protected",
+    PUBLIC: "public",
+});
+
 /**
  * @description Properties of type {string} consist of:
  * 
@@ -270,7 +288,6 @@ const Request = Object.freeze({
  *     <li> CLOSE </li>
  *     <li> DELETE </li>
  *     <li> EDIT </li>
- *     <li> ENTRY </li>
  *     <li> FORWARD_SLASH </li>
  *     <li> LOGIN </li>
  *     <li> LOGOUT </li>
@@ -294,7 +311,6 @@ const Route = Object.freeze({
     CLOSE: "/close",
     DELETE: "/delete",
     EDIT: "/edit",
-    ENTRY: "/",
     FORWARD_SLASH: "/",
     LOGIN: "/login",
     LOGOUT: "/logout",
@@ -316,6 +332,9 @@ const Route = Object.freeze({
  *     <li> LIST_CONTAINER </li>
  *     <li> LIST_ITEM </li>
  *     <li> LIST_ITEM_HIDE </li>
+ *     <li> PUBLIC_CONTAINER </li>
+ *     <li> PUBLIC_CONTAINER_BUTTON </li>
+ *     <li> PUBLIC_CONTAINER_BUTTON_SELECTED </li>
  *     <li> VIEWPORT_IMAGE_ERROR </li>
  *     <li> VIEWPORT_IMAGE_INTERSECTION </li>
  * </ul>
@@ -334,6 +353,9 @@ const Style = Object.freeze({
     LIST_ITEM_ACTIVE: "listItem-active",
     LIST_ITEM: "listItem",
     LIST: "list",
+    PUBLIC_CONTAINER_BUTTON_SELECTED: "publicContainer-button-selected",
+    PUBLIC_CONTAINER_BUTTON: "publicContainer-button",
+    PUBLIC_CONTAINER: "publicContainer",
     VIEWPORT_IMAGE_ERROR: "viewportImage-error",
     VIEWPORT_IMAGE_INTERSECTION: "viewportImage-intersection",
     VIEWPORT_IMAGE: "viewportImage",
@@ -345,6 +367,7 @@ const Style = Object.freeze({
  */
 export {
 
+    Access,
     Action,
     CharCode,
     Event,

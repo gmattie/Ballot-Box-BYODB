@@ -1,0 +1,48 @@
+@mixin container-button-base {
+
+    display: inline-block;
+    padding: 5px 20px;
+
+    a {
+
+        text-decoration: none;
+    }
+}
+
+@mixin container-button-link {
+
+    &:any-link  { color: gray; }
+    &:hover     { color: white; }
+    &:active    { color: white; }
+}
+
+@mixin container-button-link-selected {
+
+    &:any-link  { color: white; }
+    &:hover     { color: white; }
+    &:active    { color: gray; }
+}
+
+@mixin container-button {
+
+    @include container-button-base;
+
+    background-color: black;
+
+    a {
+
+        @include container-button-link;
+    }
+}
+
+@mixin container-button-selected {
+
+    @include container-button-base;
+
+    background-color: gray;
+
+    a {
+
+        @include container-button-link-selected;
+    }
+}
