@@ -22,6 +22,10 @@ const setAuthToken = (data) => {
     
         localStorage.setItem(C.Local.TOKEN, data[C.Local.TOKEN]);
     }
+    else {
+
+        localStorage.removeItem(C.Local.TOKEN);
+    }
 
     return {
 

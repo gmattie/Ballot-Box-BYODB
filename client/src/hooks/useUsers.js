@@ -18,6 +18,7 @@ import * as userActions from "../state/actions/userActions";
  * @returns {
  * 
  *      fetchLogin: function,
+ *      fetchLogout: function,
  *      fetchRegister: function,
  *      fetchReset: function,
  *      fetchSelf: function,
@@ -35,6 +36,7 @@ const useUsers = () => {
     const dispatch = useDispatch();
 
     const fetchLogin = (email, password) => dispatch(userActions.fetchLogin(email, password));
+    const fetchLogout = (authToken) => dispatch(userActions.fetchLogout(authToken));
     const fetchRegister = (name, email, password, passwordConfirm, adminUsername = null, adminPassword = null) => dispatch(userActions.fetchRegister(name, email, password, passwordConfirm, adminUsername, adminPassword));
     const fetchReset = (email, password, passwordConfirm) => dispatch(userActions.fetchReset(email, password, passwordConfirm));
     const fetchSelf = (authToken) => dispatch(userActions.fetchSelf(authToken));
@@ -54,6 +56,7 @@ const useUsers = () => {
     return {
 
         fetchLogin,
+        fetchLogout,
         fetchRegister,
         fetchReset,
         fetchSelf,

@@ -118,6 +118,48 @@ const fetchLogin = (email, password) => {
 };
 
 /**
+ * @description Posts data to /api/users/logout and dispatches actions to the usersReducer state and from authActions to the authReducer state.
+ *
+ * @param {string} authToken - The JSON Web Token to authenticate the user.
+ * @returns {object} The action.
+ * @public
+ * @function
+ *  
+ */
+const fetchLogout = (authToken) => {
+
+    return async (dispatch) => {
+
+        try {
+
+            const url = `${C.Route.API_USERS}${C.Route.SELF}`;
+            const options = {
+
+                method: C.Request.METHOD_GET,
+                headers: { [C.Request.HEADER_X_AUTH_TOKEN]: authToken }
+            };
+
+            const response = await fetch(url, options);
+            const data = await response.json();
+            
+            if (data.error) {
+
+                dispatch(setUsersError(data));
+            }
+            else {
+
+                dispatch(setUsersSelf(null));
+                dispatch(authActions.setAuthToken(null));
+            }
+        }
+        catch (error) {
+
+            dispatch(setUsersError(error.message));
+        }
+    };
+};
+
+/**
  * @description Post data to /api/users/register and dispatches actions from either userActions to the usersReducer state or from authActions to the authReducer state.
  * 
  * @param {string} name - The user's name.
@@ -225,7 +267,7 @@ const fetchSelf = (authToken) => {
 
             const response = await fetch(url, options);
             const data = await response.json();
-            
+     
             dispatch((data.error) ? setUsersError(data) : setUsersSelf(data));
         }
         catch (error) {
@@ -242,6 +284,7 @@ const fetchSelf = (authToken) => {
 export {
 
     fetchLogin,
+    fetchLogout,
     fetchRegister,
     fetchReset,
     fetchSelf,

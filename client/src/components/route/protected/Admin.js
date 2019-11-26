@@ -1,8 +1,8 @@
 /**
- * @description Vote component.
+ * @description Admin component.
  * 
- * @requires ListContainer
  * @requires react
+
  * @public
  * @module
  * 
@@ -17,17 +17,16 @@ import React from "react";
  * @function
  * 
  */
-const Vote = () => {
+const Admin = () => {
 
-    /**
-     * JSX markup
-     * 
-     */
-    return <div>Vote</div>;
+    return (
+
+        <div>Admin</div>
+    );
 };
 
 /**
  * Export module
  * 
  */
-export default Vote;
+export default Admin;

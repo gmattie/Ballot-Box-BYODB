@@ -200,16 +200,21 @@ const Image = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> ADMIN </li>
  *     <li> ADMIN_PASSWORD </li>
  *     <li> ADMIN_USERNAME </li>
+ *     <li> EDIT </li>
  *     <li> EMAIL </li>
  *     <li> ICON </li>
  *     <li> LOGIN </li>
+ *     <li> LOGOUT </li>
  *     <li> NAME </li>
  *     <li> PASSWORD </li>
  *     <li> PASSWORD_CONFIRM </li>
  *     <li> REGISTER </li>
  *     <li> RESET </li>
+ *     <li> RESULTS </li>
+ *     <li> VOTE </li>
  * </ul>
  * 
  * @public
@@ -220,14 +225,19 @@ const Label = Object.freeze({
 
     ADMIN_PASSWORD: "Admin Password",
     ADMIN_USERNAME: "Admin Username",
+    ADMIN: "Admin",
+    EDIT: "Edit",
     EMAIL: "Email",
     ICON: "Icon",
     LOGIN: "Login",
+    LOGOUT: "Logout",
     NAME: "Name",
     PASSWORD_CONFIRM: "Confirm Password",
     PASSWORD: "Password",
     REGISTER: "Register",
     RESET: "Reset",
+    RESULTS: "Results",
+    VOTE: "Vote",
 });
 
 /**
@@ -280,21 +290,17 @@ const Request = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
- *     <li> ADD </li>
+ *     <li> ADMIN </li>
  *     <li> API_ITEMS </li>
  *     <li> API_USERS </li>
  *     <li> API_VOTES </li>
- *     <li> CAST </li>
- *     <li> CLOSE </li>
- *     <li> DELETE </li>
  *     <li> EDIT </li>
- *     <li> FORWARD_SLASH </li>
  *     <li> LOGIN </li>
- *     <li> LOGOUT </li>
- *     <li> OPEN </li>
  *     <li> REGISTER </li>
  *     <li> RESET </li>
+ *     <li> RESULTS </li>
  *     <li> SELF </li>
+ *     <li> VOTE </li>
  * </ul>
  * 
  * @public
@@ -303,21 +309,17 @@ const Request = Object.freeze({
  */
 const Route = Object.freeze({
 
-    ADD: "/add",
+    ADMIN: "/admin",
     API_ITEMS: "/api/items",
     API_USERS: "/api/users",
     API_VOTES: "/api/votes",
-    CAST: "/cast",
-    CLOSE: "/close",
-    DELETE: "/delete",
     EDIT: "/edit",
-    FORWARD_SLASH: "/",
     LOGIN: "/login",
-    LOGOUT: "/logout",
-    OPEN: "/open",
     REGISTER: "/register",
     RESET: "/reset",
+    RESULTS: "/results",
     SELF: "/self",
+    VOTE: "/vote",
 });
 
 /**
@@ -332,6 +334,9 @@ const Route = Object.freeze({
  *     <li> LIST_CONTAINER </li>
  *     <li> LIST_ITEM </li>
  *     <li> LIST_ITEM_HIDE </li>
+ *     <li> PROTECTED_CONTAINER </li>
+ *     <li> PROTECTED_CONTAINER_BUTTON </li>
+ *     <li> PROTECTED_CONTAINER_BUTTON_SELECTED </li>
  *     <li> PUBLIC_CONTAINER </li>
  *     <li> PUBLIC_CONTAINER_BUTTON </li>
  *     <li> PUBLIC_CONTAINER_BUTTON_SELECTED </li>
@@ -353,6 +358,9 @@ const Style = Object.freeze({
     LIST_ITEM_ACTIVE: "listItem-active",
     LIST_ITEM: "listItem",
     LIST: "list",
+    PROTECTED_CONTAINER_BUTTON_SELECTED: "protectedContainer-button-selected",
+    PROTECTED_CONTAINER_BUTTON: "protectedContainer-button",
+    PROTECTED_CONTAINER: "protectedContainer",
     PUBLIC_CONTAINER_BUTTON_SELECTED: "publicContainer-button-selected",
     PUBLIC_CONTAINER_BUTTON: "publicContainer-button",
     PUBLIC_CONTAINER: "publicContainer",

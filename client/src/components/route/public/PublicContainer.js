@@ -29,7 +29,7 @@ import Reset from "./Reset";
  * @function
  * 
  */
-const Entry = () => {
+const PublicContainer = () => {
 
     /**
      * Hooks
@@ -111,4 +111,4 @@ const Entry = () => {
  * Export module
  * 
  */
-export default Entry;
+export default PublicContainer;

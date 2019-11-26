@@ -71,7 +71,7 @@ const RouteDiverter = ({
      */
     if (usersSelf && access === C.Access.PUBLIC) {
 
-        return <Redirect to={C.Route.FORWARD_SLASH} />;
+        return <Redirect to={C.Route.VOTE} />;
     }
 
     /**
