@@ -12,7 +12,7 @@
  * @module
  * 
  */
-import { Link, Route, Switch, useRouteMatch } from "react-router-dom";
+import { Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
 import * as C from "../../../support/constants";
 import Icon from "../../../assets/BallotBoxIcon.png";
 import Login from "./Login";
@@ -36,6 +36,7 @@ const PublicContainer = () => {
      * 
      */
     const { path } = useRouteMatch();
+    const history = useHistory();
 
     /**
      * @description Retrieves a CSS style based on the hypertext reference link argument.
@@ -57,21 +58,22 @@ const PublicContainer = () => {
     /**
      * @description Creates a button with a hypertext reference link and textual content.
      * 
-     * @param {string} href - The button's hypertext reference link.
      * @param {string} label - The button's textual content.
+     * @param {string} href - A hypertext reference link.
      * @private
      * @function
      * 
      */
-    const createButton = (href, label) => {
+    const createButton = (label, href) => {
 
         return (
 
-            <div className={getButtonStyle(href)}>
-                <Link to={href}>
-                    {label}
-                </Link>
-            </div>
+            <button
+                className={getButtonStyle(href)}
+                onClick={() => history.push(href)}
+            >
+                {label}
+            </button>
         );
     };
 
@@ -85,9 +87,9 @@ const PublicContainer = () => {
             <img src={Icon} alt={C.Label.ICON} />
 
             <div>
-                {createButton(C.Route.LOGIN, C.Label.LOGIN)}
-                {createButton(C.Route.REGISTER, C.Label.REGISTER)}
-                {createButton(C.Route.RESET, C.Label.RESET)}
+                {createButton(C.Label.LOGIN, C.Route.LOGIN)}
+                {createButton(C.Label.REGISTER, C.Route.REGISTER)}
+                {createButton(C.Label.RESET, C.Route.RESET)}
             </div>
             
             <Switch>

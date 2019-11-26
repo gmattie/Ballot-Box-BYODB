@@ -15,7 +15,7 @@
  * @module
  * 
  */
-import { Link, Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
+import { Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
 import * as C from "../../../support/constants";
 import Admin from "./Admin";
 import Edit from "./Edit";
@@ -69,24 +69,44 @@ const ProtectedContainer = () => {
     };
 
     /**
-     * @description Creates a button with a hypertext reference link and textual content.
+     * @description Creates a button with textual content, a click callback and a hypertext reference link.
      * 
-     * @param {string} href - The button's hypertext reference link.
      * @param {string} label - The button's textual content.
+     * @param {function} callback - The function to execute when the button is clicked.
+     * @param {string|null} href - A hypertext reference link.
      * @private
      * @function
      * 
      */
-    const createButton = (href, label) => {
+    const createButton = (label, callback, href) => {
 
+        if (href === C.Route.ADMIN && !usersSelf.user.admin) {
+
+            return null;
+        }
+ 
         return (
 
-            <div className={getButtonStyle(href)}>
-                <Link to={href}>
-                    {label}
-                </Link>
-            </div>
+            <button
+                className={getButtonStyle(href)}
+                onClick={callback.bind(null, href)}
+            >
+                {label}
+            </button>
         );
+    };
+
+    /**
+     * @description Adds a new route to the router history.
+     * 
+     * @param {string} route - the added route.
+     * @private
+     * @function
+     * 
+     */
+    const addRouterHistory = (route) => {
+
+        history.push(route);
     };
 
     /**
@@ -97,14 +117,14 @@ const ProtectedContainer = () => {
      * @function
      * 
      */
-    const logoutClickHandler = async () => {
+    const logout = async () => {
 
         setIsLoading(true);
 
         const token = localStorage.getItem(C.Local.TOKEN);
         await fetchLogout(token);
 
-        history.push(C.Route.LOGIN);
+        addRouterHistory(C.Route.LOGIN);
     };
 
     /**
@@ -123,19 +143,12 @@ const ProtectedContainer = () => {
                     </div>
 
                     <div>
-                        {createButton(C.Route.VOTE, C.Label.VOTE)}
-                        {createButton(C.Route.RESULTS, C.Label.RESULTS)}
-                        {createButton(C.Route.ADMIN, C.Label.ADMIN)}
-                        {createButton(C.Route.EDIT, C.Label.EDIT)}
+                        {createButton(C.Label.VOTE, addRouterHistory, C.Route.VOTE)}
+                        {createButton(C.Label.RESULTS, addRouterHistory, C.Route.RESULTS)}
+                        {createButton(C.Label.ADMIN, addRouterHistory, C.Route.ADMIN)}
+                        {createButton(C.Label.EDIT, addRouterHistory, C.Route.EDIT)}
+                        {createButton(C.Label.LOGOUT, logout, null)}
 
-                        <div
-                            className={C.Style.PROTECTED_CONTAINER_BUTTON}
-                            onClick={logoutClickHandler}
-                        >
-                            <Link to={"#"}>
-                                {C.Label.LOGOUT}
-                            </Link>
-                        </div>
                     </div>
 
                     <Switch>

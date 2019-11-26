@@ -2,11 +2,11 @@
 
     &-button {
 
-        @include container-button;
+        @include nav-button;
     
         &-selected {
 
-            @include container-button-selected;
+            @include nav-button-selected;
         }
     }
 }
