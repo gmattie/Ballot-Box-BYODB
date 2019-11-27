@@ -82,7 +82,7 @@ const setUsersSelf = (data) => {
 };
 
 /**
- * @description Posts data to /api/users/login and dispatches actions from authActions to the authReducer state.
+ * @description Posts data to /api/users/login and dispatches actions to the usersReducer state and from authActions to the authReducer state.
  * 
  * @param {string} email - The user's email address credential.
  * @param {string} password - The user's password credential.
@@ -108,7 +108,16 @@ const fetchLogin = (email, password) => {
             const response = await fetch(url, options);
             const data = await response.json();
             
-            dispatch((data.error) ? authActions.setAuthError(data) : authActions.setAuthToken(data));
+            if (data.error) {
+
+                dispatch(authActions.setAuthError(data));
+            }
+            else {
+
+                dispatch(setUsersError(null));
+                dispatch(authActions.setAuthToken(data));
+                dispatch(fetchSelf(data[C.Local.TOKEN]));
+            }
         }
         catch (error) {
 
@@ -147,9 +156,10 @@ const fetchLogout = (authToken) => {
                 dispatch(setUsersError(data));
             }
             else {
-
-                dispatch(setUsersSelf(null));
+                
+                dispatch(setUsersError(null));
                 dispatch(authActions.setAuthToken(null));
+                dispatch(setUsersSelf(null));
             }
         }
         catch (error) {
@@ -257,17 +267,17 @@ const fetchSelf = (authToken) => {
     return async (dispatch) => {
 
         try {
-
+            
             const url = `${C.Route.API_USERS}${C.Route.SELF}`;
             const options = {
-
+                
                 method: C.Request.METHOD_GET,
                 headers: { [C.Request.HEADER_X_AUTH_TOKEN]: authToken }
             };
-
+            
             const response = await fetch(url, options);
             const data = await response.json();
-     
+            
             dispatch((data.error) ? setUsersError(data) : setUsersSelf(data));
         }
         catch (error) {

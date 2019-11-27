@@ -173,10 +173,10 @@ const Reset = () => {
     return (
 
         <div>
-            {userDoesNotExist && (<div>{userDoesNotExist}</div>)}
+            {userDoesNotExist && <div>{userDoesNotExist}</div>}
 
             <div>
-                {invalidEmail && (<div>{invalidEmail}</div>)}
+                {invalidEmail && <div>{invalidEmail}</div>}
                 <label>
                     {C.Label.EMAIL}
                     <input 
@@ -189,7 +189,7 @@ const Reset = () => {
             </div>
 
             <div>
-                {invalidPassword && (<div>{invalidPassword}</div>)}
+                {invalidPassword && <div>{invalidPassword}</div>}
                 <label>
                     {C.Label.PASSWORD}
                     <InputPassword
@@ -201,7 +201,7 @@ const Reset = () => {
             </div>
 
             <div>
-                {invalidPasswordConfirm && (<div>{invalidPasswordConfirm}</div>)}
+                {invalidPasswordConfirm && <div>{invalidPasswordConfirm}</div>}
                 <label>
                     {C.Label.PASSWORD_CONFIRM}
                     <InputPassword
@@ -221,7 +221,7 @@ const Reset = () => {
 
             {
                 //TODO: Replace with style animation
-                isLoading && (<div>LOADING...</div>)
+                isLoading && <div>LOADING...</div>
             }
         </div>
     );

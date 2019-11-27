@@ -2,21 +2,23 @@
  * @description Login component
  * 
  * @requires constants
+ * @requires InputPassword
  * @requires react
+ * @requires react-router-dom
  * @requires useAuth
  * @requires useInputText
  * @requires useUsers
- * @requires InputPassword
  * @public
  * @module
  * 
  */
+import { useHistory } from "react-router-dom";
 import * as C from "../../../support/constants";
+import InputPassword from "../../InputPassword";
 import React, { useRef, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useInputText from "../../../hooks/useInputText";
 import useUsers from "../../../hooks/useUsers";
-import InputPassword from "../../InputPassword";
 
 /**
  * @description The Login component contains UI elements that are required to log in a user.
@@ -48,6 +50,7 @@ const Login = () => {
      * Hooks
      * 
      */
+    const history = useHistory();
     const { fetchLogin } = useUsers();
 
     const {
@@ -83,9 +86,8 @@ const Login = () => {
 
         clearEmail();
         clearPassword();
-        
-        // TODO: Replace with Redirected route
-        console.log(localStorage.getItem(C.Local.TOKEN));
+
+        setTimeout(() => history.push(C.Route.VOTE));
     }
 
     /**
@@ -159,10 +161,10 @@ const Login = () => {
     return (
 
         <div>
-            {invalidCredentials && (<div>{invalidCredentials}</div>)}
+            {invalidCredentials && <div>{invalidCredentials}</div>}
 
             <div>
-                {invalidEmail && (<div>{invalidEmail}</div>)}
+                {invalidEmail && <div>{invalidEmail}</div>}
                 <label>
                     {C.Label.EMAIL}
                     <input 
@@ -175,7 +177,7 @@ const Login = () => {
             </div>
 
             <div>
-                {invalidPassword && (<div>{invalidPassword}</div>)}
+                {invalidPassword && <div>{invalidPassword}</div>}
                 <label>
                     {C.Label.PASSWORD}
                     <InputPassword
@@ -195,7 +197,7 @@ const Login = () => {
 
             {
                 //TODO: Replace with style animation
-                isLoading && (<div>LOADING...</div>)
+                isLoading && <div>LOADING...</div>
             }
         </div>
     );

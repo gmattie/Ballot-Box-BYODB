@@ -228,7 +228,7 @@ const Register = () => {
         <div>
 
             <div>
-                {invalidName && (<div>{invalidName}</div>)}
+                {invalidName && <div>{invalidName}</div>}
                 <label>
                     {C.Label.NAME}
                     <input 
@@ -241,8 +241,8 @@ const Register = () => {
             </div>
 
             <div>
-                {emailAlreadyRegistered && (<div>{emailAlreadyRegistered}</div>)}
-                {invalidEmail && (<div>{invalidEmail}</div>)}
+                {emailAlreadyRegistered && <div>{emailAlreadyRegistered}</div>}
+                {invalidEmail && <div>{invalidEmail}</div>}
                 <label>
                     {C.Label.EMAIL}
                     <input 
@@ -255,7 +255,7 @@ const Register = () => {
             </div>
 
             <div>
-                {invalidPassword && (<div>{invalidPassword}</div>)}
+                {invalidPassword && <div>{invalidPassword}</div>}
                 <label>
                     {C.Label.PASSWORD}
                     <InputPassword
@@ -267,7 +267,7 @@ const Register = () => {
             </div>
 
             <div>
-                {invalidPasswordConfirm && (<div>{invalidPasswordConfirm}</div>)}
+                {invalidPasswordConfirm && <div>{invalidPasswordConfirm}</div>}
                 <label>
                     {C.Label.PASSWORD_CONFIRM}
                     <InputPassword
@@ -279,7 +279,7 @@ const Register = () => {
             </div>
 
             <div>
-                {invalidAdminUsername && (<div>{invalidAdminUsername}</div>)}
+                {invalidAdminUsername && <div>{invalidAdminUsername}</div>}
                 <label>
                     {C.Label.ADMIN_USERNAME}
                     <input
@@ -292,7 +292,7 @@ const Register = () => {
             </div>
 
             <div>
-                {invalidAdminPassword && (<div>{invalidAdminPassword}</div>)}
+                {invalidAdminPassword && <div>{invalidAdminPassword}</div>}
                 <label>
                     {C.Label.ADMIN_PASSWORD}
                     <InputPassword
@@ -312,7 +312,7 @@ const Register = () => {
 
             {
                 //TODO: Replace with style animation
-                isLoading && (<div>LOADING...</div>)
+                isLoading && <div>LOADING...</div>
             }
         </div>
     );
