@@ -63,6 +63,8 @@ const useWebSocket = () => {
             webSocket.removeEventListener(C.Event.MESSAGE, handleMessage);
             webSocket.removeEventListener(C.Event.CLOSE, handleClose);
             webSocket.removeEventListener(C.Event.ERROR, handleClose);
+            
+            webSocket.close();
         };
     }, [dispatch]);
 

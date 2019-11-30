@@ -8,6 +8,7 @@
  * @requires react-router-dom
  * @requires Register
  * @requires Reset
+ * @requires useUsers
  * @public
  * @module
  * 
@@ -19,6 +20,7 @@ import Login from "./Login";
 import React from "react";
 import Register from "./Register";
 import Reset from "./Reset";
+import useUsers from "../../../hooks/useUsers";
 
 /**
  * @description The PublicContainer component groups the UI components that facilitate authenticated accessibility to the application.
@@ -36,6 +38,7 @@ const PublicContainer = () => {
      * 
      */
     const { path } = useRouteMatch();
+    const { usersError } = useUsers();
     const history = useHistory();
 
     /**
@@ -81,30 +84,43 @@ const PublicContainer = () => {
      * JSX markup
      * 
      */
-    return (
+    if (usersError) {
 
-        <div className={C.Style.PUBLIC_CONTAINER}>
-            <img src={Icon} alt={C.Label.ICON} />
+        return (
+        
+            <div className={C.Style.PUBLIC_CONTAINER}>
+                <img src={Icon} alt={C.Label.ICON} />
 
-            <div>
-                {createButton(C.Label.LOGIN, C.Route.LOGIN)}
-                {createButton(C.Label.REGISTER, C.Route.REGISTER)}
-                {createButton(C.Label.RESET, C.Route.RESET)}
-            </div>
-            
-            <Switch>
-                <Route path={C.Route.LOGIN}>
-                    <Login />
-                </Route>
-
-                <Route path={C.Route.REGISTER}>
-                    <Register />
-                </Route>
+                <div>
+                    {createButton(C.Label.LOGIN, C.Route.LOGIN)}
+                    {createButton(C.Label.REGISTER, C.Route.REGISTER)}
+                    {createButton(C.Label.RESET, C.Route.RESET)}
+                </div>
                 
-                <Route path={C.Route.RESET}>
-                    <Reset />
-                </Route>
-            </Switch>
+                <Switch>
+                    <Route path={C.Route.LOGIN}>
+                        <Login />
+                    </Route>
+
+                    <Route path={C.Route.REGISTER}>
+                        <Register />
+                    </Route>
+                    
+                    <Route path={C.Route.RESET}>
+                        <Reset />
+                    </Route>
+                </Switch>
+            </div>
+        );
+    }
+
+    return (
+        
+        <div className={C.Style.PUBLIC_CONTAINER}>
+            <>
+                {/* TODO: Replace with style animation */}
+                <div>LOADING...</div>
+            </>
         </div>
     );
 };

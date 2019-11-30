@@ -134,11 +134,13 @@ const ProtectedContainer = () => {
     return (
 
         <div className={C.Style.PROTECTED_CONTAINER}>
-
             {(usersSelf && !isLoading) &&
                 <>
-                    <div>
+                    <div className={C.Style.PROTECTED_CONTAINER_WEBSOCKET_MESSAGE}>
                         {webSocketMessage}
+                    </div>
+
+                    <div className={C.Style.PROTECTED_CONTAINER_USER_INFO}>
                         {JSON.stringify(usersSelf)}
                     </div>
 
@@ -148,7 +150,6 @@ const ProtectedContainer = () => {
                         {createButton(C.Label.ADMIN, addRouterHistory, C.Route.ADMIN)}
                         {createButton(C.Label.EDIT, addRouterHistory, C.Route.EDIT)}
                         {createButton(C.Label.LOGOUT, logout, null)}
-
                     </div>
 
                     <Switch>

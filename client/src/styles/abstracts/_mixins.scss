@@ -3,9 +3,9 @@
     border: none;
     color: white;
     cursor: pointer;
-    margin: 30px 5px;
+    margin: 20px 10px;
     outline: none;
-    padding: 5px 40px;
+    padding: 10px;
 
     &:hover {
         
@@ -30,4 +30,12 @@
     @include nav-button-base;
 
     background-color: gray;
+}
+
+@mixin protected-container-header {
+
+    width: 100%;
+    border: 1px solid gray;
+    margin: $LIST_ITEM_MARGIN;
+    word-wrap: break-word;
 }

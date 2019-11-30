@@ -160,6 +160,7 @@ const fetchLogout = (authToken) => {
                 dispatch(setUsersError(null));
                 dispatch(authActions.setAuthToken(null));
                 dispatch(setUsersSelf(null));
+                dispatch(fetchSelf(null));
             }
         }
         catch (error) {

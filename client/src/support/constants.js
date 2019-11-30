@@ -28,6 +28,7 @@ const Access = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> HISTORY_POP </li>
  *     <li> PAYLOAD </li>
  *     <ul>
  *         <li> AUTH_ERROR </li>
@@ -49,7 +50,9 @@ const Access = Object.freeze({
  */
 const Action = Object.freeze({
 
+    HISTORY_POP: "POP",
     PAYLOAD: "payload",
+
     Type: {
 
         AUTH_ERROR: "authError",
@@ -337,6 +340,8 @@ const Route = Object.freeze({
  *     <li> PROTECTED_CONTAINER </li>
  *     <li> PROTECTED_CONTAINER_BUTTON </li>
  *     <li> PROTECTED_CONTAINER_BUTTON_SELECTED </li>
+ *     <li> PROTECTED_CONTAINER_USER_INFO </li>
+ *     <li> PROTECTED_CONTAINER_WEBSOCKET_MESSAGE </li>
  *     <li> PUBLIC_CONTAINER </li>
  *     <li> PUBLIC_CONTAINER_BUTTON </li>
  *     <li> PUBLIC_CONTAINER_BUTTON_SELECTED </li>
@@ -360,6 +365,8 @@ const Style = Object.freeze({
     LIST: "list",
     PROTECTED_CONTAINER_BUTTON_SELECTED: "protectedContainer-button-selected",
     PROTECTED_CONTAINER_BUTTON: "protectedContainer-button",
+    PROTECTED_CONTAINER_USER_INFO: "protectedContainer-userInfo",
+    PROTECTED_CONTAINER_WEBSOCKET_MESSAGE: "protectedContainer-webSocketMessage",
     PROTECTED_CONTAINER: "protectedContainer",
     PUBLIC_CONTAINER_BUTTON_SELECTED: "publicContainer-button-selected",
     PUBLIC_CONTAINER_BUTTON: "publicContainer-button",

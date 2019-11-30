@@ -1,5 +1,19 @@
 .protectedContainer {
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &-webSocketMessage {
+
+        @include protected-container-header;
+    }
+
+    &-userInfo {
+
+        @include protected-container-header;
+    }
+
     &-button {
 
         @include nav-button;

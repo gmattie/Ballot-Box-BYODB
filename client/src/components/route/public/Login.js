@@ -86,6 +86,7 @@ const Login = () => {
 
         clearEmail();
         clearPassword();
+        setIsLoading(false);
 
         setTimeout(() => history.push(C.Route.VOTE));
     }
@@ -124,12 +125,13 @@ const Login = () => {
 
             setInvalidCredentials(authError.error);
         }
+
+        setIsLoading(false);
     }
 
     /**
      * @description Posts the request body to the server.
      * Resets to the initial render by nullifying the "authError" and "authToken" states and clearing all local error states.
-     * Function executes asynchronously to facilitate the local loading state.
      * Written as a function declaration in order to be hoisted and accessible to the custom hooks above.
      * 
      * @async
@@ -137,7 +139,7 @@ const Login = () => {
      * @private
      *  
      */
-    async function submitHandler() {
+    function submitHandler() {
 
         setAuthError(null);
         setAuthToken(null);
@@ -149,9 +151,7 @@ const Login = () => {
         setIsLoading(true);
 
         responseUpdate.current = true;
-        await fetchLogin(email, password);
-
-        setIsLoading(false);
+        fetchLogin(email, password);
     }
 
     /**
