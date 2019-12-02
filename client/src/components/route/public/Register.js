@@ -41,6 +41,7 @@ const Register = () => {
     const [ invalidAdminUsername, setInvalidAdminUsername ] = useState(null);
     const [ invalidAdminPassword, setInvalidAdminPassword ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(false);
+    const [ emailSent, setEmailSent ] = useState(false);
 
     /**
      * Refs
@@ -119,8 +120,7 @@ const Register = () => {
         clearAdminName();
         clearAdminPassword();
 
-        // TODO: Replace with Redirected route
-        console.log(usersRegister);
+        setEmailSent(true);
     }
 
     /**
@@ -223,10 +223,20 @@ const Register = () => {
      * JSX markup
      * 
      */
+    if (emailSent) {
+
+        return (
+        
+            <div>
+                <p>{C.Label.EMAIL_SENT} <span>{usersRegister.email}</span></p>
+                <p>{C.Label.EMAIL_REFER} {C.Label.EMAIL_REGISTRATION}</p>
+            </div>
+        );
+    }
+
     return (
 
         <div>
-
             <div>
                 {invalidName && <div>{invalidName}</div>}
                 <label>

@@ -215,6 +215,10 @@ const Image = Object.freeze({
  *     <li> CANCEL </li>
  *     <li> EDIT </li>
  *     <li> EMAIL </li>
+ *     <li> EMAIL_REFER </li>
+ *     <li> EMAIL_REGISTRATION </li>
+ *     <li> EMAIL_RESET </li>
+ *     <li> EMAIL_SENT </li>
  *     <li> ICON </li>
  *     <li> LOGIN </li>
  *     <li> LOGOUT </li>
@@ -239,6 +243,10 @@ const Label = Object.freeze({
     ADMIN: "Admin",
     CANCEL: "Cancel",
     EDIT: "Edit",
+    EMAIL_REFER: "Please refer to the email in order to",
+    EMAIL_REGISTRATION: "complete your registration and activate your account.",
+    EMAIL_RESET: "confirm the request to reset your password.",
+    EMAIL_SENT: "An email has been sent to:",
     EMAIL: "Email",
     ICON: "Icon",
     LOGIN: "Login",

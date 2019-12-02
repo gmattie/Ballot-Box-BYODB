@@ -38,6 +38,7 @@ const Reset = () => {
     const [ invalidPassword, setInvalidPassword ] = useState(null);
     const [ invalidPasswordConfirm, setInvalidPasswordConfirm ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(false);
+    const [ emailSent, setEmailSent ] = useState(false);
 
     /**
      * Refs
@@ -92,8 +93,7 @@ const Reset = () => {
         clearPassword();
         clearPasswordConfirm();
 
-        // TODO: Replace with Redirected route
-        console.log(usersReset);
+        setEmailSent(true);
     }
 
     /**
@@ -170,6 +170,17 @@ const Reset = () => {
      * JSX markup
      * 
      */
+    if (emailSent) {
+
+        return (
+        
+            <div>
+                <p>{C.Label.EMAIL_SENT} <span>{usersReset.email}</span></p>
+                <p>{C.Label.EMAIL_REFER} {C.Label.EMAIL_RESET}</p>
+            </div>
+        );
+    }
+
     return (
 
         <div>
