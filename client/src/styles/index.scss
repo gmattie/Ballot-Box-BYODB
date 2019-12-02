@@ -7,9 +7,11 @@
 
 @import "./components/app";
 @import "./components/inputPassword";
-@import "./components/list";
-@import "./components/listContainer";
-@import "./components/listItem";
-@import "./components/protectedContainer";
-@import "./components/publicContainer";
+@import "./components/list/list";
+@import "./components/list/listContainer";
+@import "./components/list/listItem";
+@import "./components/modal/dialog";
+@import "./components/modal/portal";
+@import "./components/route/protected/protectedContainer";
+@import "./components/route/public/publicContainer";
 @import "./components/viewportImage";

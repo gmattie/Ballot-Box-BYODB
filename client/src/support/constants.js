@@ -128,11 +128,12 @@ const Event = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
- *     <li> ROOT </li>
+ *     <li> DIV </li>
  *     <ul>
  *         <li> TEXT </li> 
  *         <li> PASSWORD </li> 
  *     </ul>
+ *     <li> ROOT </li>
  * </ul>
  * 
  * @public
@@ -141,18 +142,22 @@ const Event = Object.freeze({
  */
 const HTMLElement = Object.freeze({
 
-    ROOT: "root",
-    InputType: {
+    DIV: "div",
 
+    InputType: {
+        
         TEXT: "text",
         PASSWORD: "password"
-    }
+    },
+
+    ROOT: "root",
 });
 
 /**
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> ELEMENT_DIALOG </li>
  *     <li> ERROR_MESSAGE </li>
  *     <li> ERROR_PARAM </li>
  *     <li> LIST_ITEMS_CANDIDATE </li>
@@ -171,6 +176,7 @@ const HTMLElement = Object.freeze({
  */
 const ID = Object.freeze({
 
+    ELEMENT_DIALOG: "dialog",
     ERROR_MESSAGE: "msg",
     ERROR_PARAM: "param",
     LIST_ITEMS_CANDIDATE: "listItemsCandidate",
@@ -179,8 +185,8 @@ const ID = Object.freeze({
     NAME_ADMIN_USERNAME: "adminUsername",
     NAME_EMAIL: "email",
     NAME_NAME: "name",
-    NAME_PASSWORD: "password",
     NAME_PASSWORD_CONFIRM: "passwordConfirm",
+    NAME_PASSWORD: "password",
 });
 
 /**
@@ -206,12 +212,14 @@ const Image = Object.freeze({
  *     <li> ADMIN </li>
  *     <li> ADMIN_PASSWORD </li>
  *     <li> ADMIN_USERNAME </li>
+ *     <li> CANCEL </li>
  *     <li> EDIT </li>
  *     <li> EMAIL </li>
  *     <li> ICON </li>
  *     <li> LOGIN </li>
  *     <li> LOGOUT </li>
  *     <li> NAME </li>
+ *     <li> OK </li>
  *     <li> PASSWORD </li>
  *     <li> PASSWORD_CONFIRM </li>
  *     <li> REGISTER </li>
@@ -229,12 +237,14 @@ const Label = Object.freeze({
     ADMIN_PASSWORD: "Admin Password",
     ADMIN_USERNAME: "Admin Username",
     ADMIN: "Admin",
+    CANCEL: "Cancel",
     EDIT: "Edit",
     EMAIL: "Email",
     ICON: "Icon",
     LOGIN: "Login",
     LOGOUT: "Logout",
     NAME: "Name",
+    OK: "OK",
     PASSWORD_CONFIRM: "Confirm Password",
     PASSWORD: "Password",
     REGISTER: "Register",
@@ -330,6 +340,9 @@ const Route = Object.freeze({
  * 
  * <ul>
  *     <li> APP </li>
+ *     <li> DIALOG </li>
+ *     <li> DIALOG_BUTTONS_CONTAINER </li>
+ *     <li> DIALOG_MESSAGE_CONTAINER </li>
  *     <li> INPUT_PASSWORD </li>
  *     <li> INPUT_PASSWORD_HIDE </li>
  *     <li> INPUT_PASSWORD_SHOW </li>
@@ -337,6 +350,7 @@ const Route = Object.freeze({
  *     <li> LIST_CONTAINER </li>
  *     <li> LIST_ITEM </li>
  *     <li> LIST_ITEM_HIDE </li>
+ *     <li> PORTAL </li>
  *     <li> PROTECTED_CONTAINER </li>
  *     <li> PROTECTED_CONTAINER_BUTTON </li>
  *     <li> PROTECTED_CONTAINER_BUTTON_SELECTED </li>
@@ -356,6 +370,9 @@ const Route = Object.freeze({
 const Style = Object.freeze({
 
     APP: "app",
+    DIALOG_BUTTONS_CONTAINER: "dialog-buttonsContainer",
+    DIALOG_MESSAGE_CONTAINER: "dialog-messageContainer",
+    DIALOG: "dialog",
     INPUT_PASSWORD_HIDE: "inputPassword-hide",
     INPUT_PASSWORD_SHOW: "inputPassword-show",
     INPUT_PASSWORD: "inputPassword",
@@ -363,6 +380,7 @@ const Style = Object.freeze({
     LIST_ITEM_ACTIVE: "listItem-active",
     LIST_ITEM: "listItem",
     LIST: "list",
+    PORTAL: "portal",
     PROTECTED_CONTAINER_BUTTON_SELECTED: "protectedContainer-button-selected",
     PROTECTED_CONTAINER_BUTTON: "protectedContainer-button",
     PROTECTED_CONTAINER_USER_INFO: "protectedContainer-userInfo",

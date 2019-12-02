@@ -25,11 +25,7 @@ import ViewportImage from "../ViewportImage";
  * @function
  * 
  */
-const ListItem = ({
-
-        data,
-        index
-    }) => {
+const ListItem = ({ data, index }) => {
 
     /**
      * JSX markup

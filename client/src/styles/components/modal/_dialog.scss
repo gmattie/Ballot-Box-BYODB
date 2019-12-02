@@ -1,0 +1,16 @@
+.dialog {
+
+    width: 50vw;
+    padding: 20px;
+    background-color: gray;
+    
+    &-messageContainer {
+
+        border: 1px solid black;
+    }
+
+    &-buttonsContainer {
+
+        border: 1px solid black;
+    }
+}

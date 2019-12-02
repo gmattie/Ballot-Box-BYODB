@@ -1,4 +1,8 @@
 #
 # JSON Web Token authorization for development environment
 #
+# Example:
+#
+# REACT_APP_DEV_JWT = "abc123def456ghi789"
+#
 REACT_APP_DEV_JWT = ""

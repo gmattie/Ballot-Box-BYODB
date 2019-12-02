@@ -148,6 +148,7 @@ const ViewportImage = ({
      * 
      */
     return (
+        
         <img
             ref={image}
             src={imageSrc}
