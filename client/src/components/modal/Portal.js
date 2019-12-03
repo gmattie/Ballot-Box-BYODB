@@ -20,6 +20,8 @@ import ReactDOM from "react-dom";
  * 
  * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} The portal rendered to the DOM.
+ * @public
+ * @function
  * 
  */
 const Portal = ({ elementID, children }) => {

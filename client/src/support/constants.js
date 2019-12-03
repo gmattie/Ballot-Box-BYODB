@@ -348,6 +348,12 @@ const Route = Object.freeze({
  * 
  * <ul>
  *     <li> APP </li>
+ *     <li> COLLAPSIBLE </li>
+ *     <li> COLLAPSIBLE_CONTENT </li>
+ *     <li> COLLAPSIBLE_CONTENT_HIDE </li>
+ *     <li> COLLAPSIBLE_CONTENT_SHOW </li>
+ *     <li> COLLAPSIBLE_HEADER </li>
+ *     <li> COLLAPSIBLE_HEADER_SELECTED </li>
  *     <li> DIALOG </li>
  *     <li> DIALOG_BUTTONS_CONTAINER </li>
  *     <li> DIALOG_MESSAGE_CONTAINER </li>
@@ -378,6 +384,12 @@ const Route = Object.freeze({
 const Style = Object.freeze({
 
     APP: "app",
+    COLLAPSIBLE_CONTENT_HIDE: "collapsible-content-hide",
+    COLLAPSIBLE_CONTENT_SHOW: "collapsible-content-show",
+    COLLAPSIBLE_CONTENT: "collapsible-content",
+    COLLAPSIBLE_HEADER_SELECTED: "collapsible-header-selected",
+    COLLAPSIBLE_HEADER: "collapsible-header",
+    COLLAPSIBLE: "collapsible",
     DIALOG_BUTTONS_CONTAINER: "dialog-buttonsContainer",
     DIALOG_MESSAGE_CONTAINER: "dialog-messageContainer",
     DIALOG: "dialog",

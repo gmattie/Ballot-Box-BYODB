@@ -1,0 +1,37 @@
+.collapsible {
+
+    width: 100%;
+
+    &-header {
+
+        @include button;
+
+        &::before {
+
+            content: "⏵ ";
+        }
+
+        &-selected {
+
+            &::before {
+            
+                content: "⏷ ";
+            }
+        }
+    }
+
+    &-content {
+
+        border: 1px solid gray;
+
+        &-show {
+
+            display: block;
+        }
+
+        &-hide {
+
+            display: none;
+        }
+    }
+}

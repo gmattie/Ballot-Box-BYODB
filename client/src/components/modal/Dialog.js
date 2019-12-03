@@ -21,6 +21,8 @@ import React from "react";
  * 
  * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} The portal rendered to the DOM.
+ * @public
+ * @function
  * 
  */
 const Dialog = ({

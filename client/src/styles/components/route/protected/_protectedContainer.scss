@@ -16,11 +16,11 @@
 
     &-button {
 
-        @include nav-button;
+        @include button;
     
         &-selected {
 
-            @include nav-button-selected;
+            @include button-selected;
         }
     }
 }

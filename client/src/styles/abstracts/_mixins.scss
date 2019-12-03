@@ -1,33 +1,36 @@
-@mixin nav-button-base {
+@mixin button-base {
 
     border: none;
     color: white;
     cursor: pointer;
-    margin: 20px 10px;
     outline: none;
     padding: 10px;
-
-    &:hover {
-        
-        background-color: rgb(80, 80, 80);
-    }
+    user-select: none;
 
     &:active {
-
-        color: gray;
+        
+        color: black;
+    }
+    
+    @media (hover: hover) {
+        
+        &:hover {
+            
+            background-color: gray;
+        }
     }
 }
 
-@mixin nav-button {
+@mixin button {
 
-    @include nav-button-base;
+    @include button-base;
 
     background-color: black;
 }
 
-@mixin nav-button-selected {
+@mixin button-selected {
 
-    @include nav-button-base;
+    @include button-base;
 
     background-color: gray;
 }
