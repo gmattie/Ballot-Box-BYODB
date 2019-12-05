@@ -121,8 +121,7 @@ const ProtectedContainer = () => {
 
         setIsLoading(true);
 
-        const token = localStorage.getItem(C.Local.TOKEN);
-        await fetchLogout(token);
+        await fetchLogout();
 
         addRouterHistory(C.Route.LOGIN);
     };
@@ -166,7 +165,7 @@ const ProtectedContainer = () => {
                         </Route>
 
                         <Route path={C.Route.EDIT}>
-                            <Edit />
+                            <Edit logout={logout}/>
                         </Route>
                     </Switch>
                 </>

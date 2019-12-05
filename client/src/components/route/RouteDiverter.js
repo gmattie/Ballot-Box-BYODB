@@ -11,7 +11,7 @@
  * @module
  * 
  */
-import { Redirect, Route, useHistory } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import * as C from "../../support/constants";
 import PropTypes from "prop-types";
 import React from "react";
@@ -47,7 +47,6 @@ const RouteDiverter = ({
     } = useUsers();
 
     const { onMount } = useMount();
-    const history = useHistory();
 
     /**
      * @description Checks the log status of a user.
@@ -80,7 +79,7 @@ const RouteDiverter = ({
      * Redirect to public route.
      * 
      */
-    if ((usersError || (!usersSelf && history.action === C.Action.HISTORY_POP)) && access === C.Access.PROTECTED) {
+    if (usersError && access === C.Access.PROTECTED) {
 
         return <Redirect to={C.Route.LOGIN} />;
     }

@@ -35,11 +35,15 @@ const useUsers = () => {
 
     const dispatch = useDispatch();
 
+    const fetchEdit = (name, password, passwordConfirm, adminUsername, adminPassword) => dispatch(userActions.fetchEdit(name, password, passwordConfirm, adminUsername, adminPassword));
     const fetchLogin = (email, password) => dispatch(userActions.fetchLogin(email, password));
-    const fetchLogout = (authToken) => dispatch(userActions.fetchLogout(authToken));
-    const fetchRegister = (name, email, password, passwordConfirm, adminUsername = null, adminPassword = null) => dispatch(userActions.fetchRegister(name, email, password, passwordConfirm, adminUsername, adminPassword));
+    const fetchLogout = (authToken = null) => dispatch(userActions.fetchLogout(authToken));
+    const fetchRegister = (name, email, password, passwordConfirm, adminUsername, adminPassword) => dispatch(userActions.fetchRegister(name, email, password, passwordConfirm, adminUsername, adminPassword));
     const fetchReset = (email, password, passwordConfirm) => dispatch(userActions.fetchReset(email, password, passwordConfirm));
     const fetchSelf = (authToken) => dispatch(userActions.fetchSelf(authToken));
+
+    const setUsersEdit = (data) => dispatch(userActions.setUsersEdit(data));
+    const usersEdit = useSelector((state) => state.users[C.Action.Type.USERS_EDIT], null);
 
     const setUsersError = (data) => dispatch(userActions.setUsersError(data));
     const usersError = useSelector((state) => state.users[C.Action.Type.USERS_ERROR], null);
@@ -55,15 +59,18 @@ const useUsers = () => {
 
     return {
 
+        fetchEdit,
         fetchLogin,
         fetchLogout,
         fetchRegister,
         fetchReset,
         fetchSelf,
+        setUsersEdit,
         setUsersError,
         setUsersRegister,
         setUsersReset,
         setUsersSelf,
+        usersEdit,
         usersError,
         usersRegister,
         usersReset,

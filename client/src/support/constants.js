@@ -28,12 +28,12 @@ const Access = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
- *     <li> HISTORY_POP </li>
  *     <li> PAYLOAD </li>
  *     <ul>
  *         <li> AUTH_ERROR </li>
  *         <li> AUTH_TOKEN </li>
  *         <li> ITEMS_CANDIDATE </li>
+ *         <li> USERS_EDIT </li>
  *         <li> ITEMS_ERROR </li>
  *         <li> ITEMS_VOTE </li>
  *         <li> USERS_ERROR </li>
@@ -50,7 +50,6 @@ const Access = Object.freeze({
  */
 const Action = Object.freeze({
 
-    HISTORY_POP: "POP",
     PAYLOAD: "payload",
 
     Type: {
@@ -60,6 +59,7 @@ const Action = Object.freeze({
         ITEMS_CANDIDATE: "itemsCandidate",
         ITEMS_ERROR: "itemsError",
         ITEMS_VOTE: "itemsVote",
+        USERS_EDIT: "usersEdit",
         USERS_ERROR: "usersError",
         USERS_REGISTER: "usersRegister",
         USERS_RESET: "usersReset",
@@ -210,9 +210,11 @@ const Image = Object.freeze({
  * 
  * <ul>
  *     <li> ADMIN </li>
+ *     <li> ADMIN_CREDENTIALS </li>
  *     <li> ADMIN_PASSWORD </li>
  *     <li> ADMIN_USERNAME </li>
  *     <li> CANCEL </li>
+ *     <li> CONFIRM_EDIT </li>
  *     <li> EDIT </li>
  *     <li> EMAIL </li>
  *     <li> EMAIL_REFER </li>
@@ -224,6 +226,7 @@ const Image = Object.freeze({
  *     <li> LOGOUT </li>
  *     <li> NAME </li>
  *     <li> OK </li>
+ *     <li> OPTIONAL </li>
  *     <li> PASSWORD </li>
  *     <li> PASSWORD_CONFIRM </li>
  *     <li> REGISTER </li>
@@ -238,10 +241,12 @@ const Image = Object.freeze({
  */
 const Label = Object.freeze({
 
+    ADMIN_CREDENTIALS: "Admin Credentials",
     ADMIN_PASSWORD: "Admin Password",
     ADMIN_USERNAME: "Admin Username",
     ADMIN: "Admin",
     CANCEL: "Cancel",
+    CONFIRM_EDIT: "Are you sure you want to edit your user account?",
     EDIT: "Edit",
     EMAIL_REFER: "Please refer to the email in order to",
     EMAIL_REGISTRATION: "complete your registration and activate your account.",
@@ -253,6 +258,7 @@ const Label = Object.freeze({
     LOGOUT: "Logout",
     NAME: "Name",
     OK: "OK",
+    OPTIONAL: "(Optional)",
     PASSWORD_CONFIRM: "Confirm Password",
     PASSWORD: "Password",
     REGISTER: "Register",
@@ -288,9 +294,10 @@ const Local = Object.freeze({
  * 
  * <ul>
  *     <li> APPLICATION_JSON </li>
- *     <li> CONTENT_TYPE </li>
+ *     <li> HEADER_CONTENT_TYPE </li>
  *     <li> HEADER_X_AUTH_TOKEN </li>
  *     <li> METHOD_GET </li>
+ *     <li> METHOD_PATCH </li>
  *     <li> METHOD_POST </li>
  * </ul>
  * 
@@ -301,10 +308,11 @@ const Local = Object.freeze({
 const Request = Object.freeze({
 
     APPLICATION_JSON: "application/json",
-    CONTENT_TYPE: "content-type",
+    HEADER_CONTENT_TYPE: "content-type",
     HEADER_X_AUTH_TOKEN: "X-Auth-Token",
-    METHOD_GET: "get",
-    METHOD_POST: "post",
+    METHOD_GET: "GET",
+    METHOD_PATCH: "PATCH",
+    METHOD_POST: "POST",
 });
 
 /**
@@ -317,6 +325,7 @@ const Request = Object.freeze({
  *     <li> API_VOTES </li>
  *     <li> EDIT </li>
  *     <li> LOGIN </li>
+ *     <li> LOGOUT </li>
  *     <li> REGISTER </li>
  *     <li> RESET </li>
  *     <li> RESULTS </li>
@@ -336,6 +345,7 @@ const Route = Object.freeze({
     API_VOTES: "/api/votes",
     EDIT: "/edit",
     LOGIN: "/login",
+    LOGOUT: "/logout",
     REGISTER: "/register",
     RESET: "/reset",
     RESULTS: "/results",

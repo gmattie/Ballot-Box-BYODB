@@ -16,6 +16,7 @@ import * as C from "../../support/constants";
  */
 const initialState = {
     
+    [C.Action.Type.USERS_EDIT]: null,
     [C.Action.Type.USERS_ERROR]: null,
     [C.Action.Type.USERS_REGISTER]: null,
     [C.Action.Type.USERS_RESET]: null,
@@ -35,6 +36,14 @@ const initialState = {
 const usersReducer = (state = initialState, action) => {
 
     switch (action.type) {
+
+        case C.Action.Type.USERS_EDIT:
+
+            return {
+
+                ...state,
+                [C.Action.Type.USERS_EDIT]: action[C.Action.PAYLOAD]
+            };
 
         case C.Action.Type.USERS_ERROR:
 

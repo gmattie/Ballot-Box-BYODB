@@ -30,7 +30,7 @@ const auth = async (req, res, next) => {
     try {
   
         if (!token) {
-    
+
             throw new Error(C.Error.USER_INVALID_CREDENTIALS);
         }
 
@@ -39,13 +39,20 @@ const auth = async (req, res, next) => {
         const user = await User.findById(payload.user.id);
         
         if (!user || !user[C.Model.TOKEN]) {
-            
+
             throw new Error(C.Error.USER_INVALID_CREDENTIALS);
         }
         
         const isUserToken = await bcryptjs.compare(tokenSignature, user[C.Model.TOKEN]);
          
         if (!isUserToken) {
+
+            if (user && user[C.Model.TOKEN]) {
+
+                user[C.Model.TOKEN] = undefined;
+
+                await user.save();
+            }
 
             throw new Error(C.Error.USER_INVALID_CREDENTIALS);
         }

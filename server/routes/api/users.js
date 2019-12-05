@@ -186,12 +186,11 @@ router.post(C.Route.REGISTER, [
             
             const { name, email, password, adminUsername, adminPassword } = req.body;
             const validAdminUsername = (adminUsername === process.env.DB_USERNAME);
-            const validAdminPassword = (adminPassword === process.env.DB_PASSWORD);
-            
+            const validAdminPassword = (adminPassword === process.env.DB_PASSWORD);            
             const userExists = await User.findOne({ email });
             
             if (userExists) {
-
+                
                 throw new Error(C.Error.EMAIL_ALREADY_REGISTERED);
             }
             

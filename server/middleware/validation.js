@@ -129,28 +129,24 @@ const userEdit = [
     }),
 
     check(C.Request.NAME, C.Error.NAME)
-        .optional()
-        .not()
-        .isEmpty({ ignore_whitespace: true })
+        .optional({checkFalsy: true})
         .trim(),
 
     check(C.Request.PASSWORD, C.Error.PASSWORD)
-        .optional()
-        .not()
-        .isEmpty()
+        .optional({checkFalsy: true})
         .custom((value) => !/\s/.test(value)),
     
     check(C.Request.PASSWORD_CONFIRM, C.Error.PASSWORDS_DO_NOT_MATCH)
-        .optional()
+        .optional({checkFalsy: true})
         .custom((value, { req }) => value !== "" && value === req.body[C.Request.PASSWORD]),
 
-    check(C.Request.ADMIN_USERNAME, C.Error.NAME)
-        .optional()
-        .custom((value) => !/\s/.test(value)),
+    check(C.Request.ADMIN_USERNAME, C.Error.USER_INVALID_CREDENTIALS)
+        .optional({checkFalsy: true})
+        .custom((value, { req }) => value === process.env.DB_USERNAME && req.body[C.Request.ADMIN_PASSWORD] === process.env.DB_PASSWORD),
 
-    check(C.Request.ADMIN_PASSWORD, C.Error.PASSWORD)
-        .optional()
-        .custom((value) => !/\s/.test(value))
+    check(C.Request.ADMIN_PASSWORD, C.Error.USER_INVALID_CREDENTIALS)
+        .optional({checkFalsy: true})
+        .custom((value, { req }) => value === process.env.DB_PASSWORD && req.body[C.Request.ADMIN_USERNAME] === process.env.DB_USERNAME)
 ];
 
 /**
@@ -197,13 +193,13 @@ const userRegister = [
     check(C.Request.PASSWORD_CONFIRM, C.Error.PASSWORDS_DO_NOT_MATCH)
         .custom((value, { req }) => value !== "" && value === req.body[C.Request.PASSWORD]),
 
-    check(C.Request.ADMIN_USERNAME, C.Error.NAME)
-        .optional()
-        .custom((value) => !/\s/.test(value)),
+    check(C.Request.ADMIN_USERNAME, C.Error.USER_INVALID_CREDENTIALS)
+        .optional({checkFalsy: true})
+        .custom((value, { req }) => value === process.env.DB_USERNAME && req.body[C.Request.ADMIN_PASSWORD] === process.env.DB_PASSWORD),
 
-    check(C.Request.ADMIN_PASSWORD, C.Error.PASSWORD)
-        .optional()
-        .custom((value) => !/\s/.test(value))
+    check(C.Request.ADMIN_PASSWORD, C.Error.USER_INVALID_CREDENTIALS)
+        .optional({checkFalsy: true})
+        .custom((value, { req }) => value === process.env.DB_PASSWORD && req.body[C.Request.ADMIN_USERNAME] === process.env.DB_USERNAME)
 ];
 
 /**
