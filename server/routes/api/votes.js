@@ -238,7 +238,7 @@ router.post(C.Route.OPEN, [
 
 /**
  * @description (GET) Calls the "closeVote" function.
- * Admin users, via admin authentication, are authorized to close voting.
+ * Only admin users, via admin authentication, are authorized to close voting.
  * 
  * @protected
  * @constant
@@ -363,7 +363,7 @@ router.post(C.Route.CAST, [
 
 /**
  * @description (DELETE) Delete a vote.
- * Only admin users, via admin authentication, are authorized to delete Vote documents providing an valid vote ID request parameter.
+ * Only admin users, via admin authentication, are authorized to delete Vote documents by providing a valid vote ID request parameter.
  * 
  * @protected
  * @constant
@@ -390,6 +390,39 @@ router.delete(`${C.Route.DELETE}/:${C.Route.PARAM}`, auth, async (req, res) => {
 
                 throw new Error(C.Error.VOTE_DOES_NOT_EXIST);
             }
+
+            return res
+                .status(C.Status.OK)
+                .json({ vote });
+        }
+        else {
+
+            throw new Error(C.Error.USER_INVALID_CREDENTIALS);
+        }
+    }
+    catch (error) {
+
+        utils.sendErrorResponse(error, res);
+    }
+});
+
+/**
+ * @description (GET) Retrieve the active vote.
+ * Only admin users, via admin authentication, are authorized to retrieve the active vote if it exists.
+ * 
+ * @protected
+ * @constant
+ * 
+ */
+router.get(C.Route.ACTIVE, auth, async (req, res) => {
+
+    try {
+
+        const user = res.locals[C.Local.USER];
+
+        if (user.admin) {
+
+            const vote = await Vote.findOne({ [C.Model.ACTIVE]: true });
 
             return res
                 .status(C.Status.OK)

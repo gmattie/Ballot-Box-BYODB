@@ -45,8 +45,6 @@ const setAuthToken = (data) => {
  */
 const setAuthError = (error) => {
 
-    localStorage.removeItem(C.Local.TOKEN);
-
     return {
 
         type: C.Action.Type.AUTH_ERROR,

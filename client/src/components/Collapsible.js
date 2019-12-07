@@ -13,7 +13,7 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 
 /**
- * @description A wrapper component that facilitates toggling the visibility of the content children when the header title is clicked.
+ * @description A wrapper component that facilitates toggling the visibility of the content children when the header is clicked.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} The portal rendered to the DOM.
@@ -21,7 +21,12 @@ import React, { useState } from "react";
  * @function
  * 
  */
-const Collapsible = ({ title, children }) => {
+const Collapsible = ({
+    
+        title,
+        headerStyle,
+        children
+    }) => {
 
     /**
      * State
@@ -51,11 +56,11 @@ const Collapsible = ({ title, children }) => {
      */
     const getHeaderStyle = () => {
 
-        const activity = (isCollapsed)
-            ? C.Style.COLLAPSIBLE_HEADER
-            : C.Style.COLLAPSIBLE_HEADER_SELECTED;
+        const titleStyle = (isCollapsed)
+            ? C.Style.COLLAPSIBLE_HEADER_TITLE
+            : C.Style.COLLAPSIBLE_HEADER_TITLE_EXPANDED;
 
-        return `${C.Style.COLLAPSIBLE_HEADER} ${activity}`;
+        return `${headerStyle} ${titleStyle}`;
     };
 
     /**
@@ -103,6 +108,7 @@ const Collapsible = ({ title, children }) => {
 Collapsible.propTypes = {
 
     title: PropTypes.string.isRequired,
+    headerStyle: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired
 };
 

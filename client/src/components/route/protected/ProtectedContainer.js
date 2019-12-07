@@ -161,11 +161,11 @@ const ProtectedContainer = () => {
                         </Route>
                         
                         <Route path={C.Route.ADMIN}>
-                            <Admin />
+                            <Admin logout={logout} />
                         </Route>
 
                         <Route path={C.Route.EDIT}>
-                            <Edit logout={logout}/>
+                            <Edit logout={logout} />
                         </Route>
                     </Switch>
                 </>

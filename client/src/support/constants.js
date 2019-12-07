@@ -40,6 +40,9 @@ const Access = Object.freeze({
  *         <li> USERS_REGISTER </li>
  *         <li> USERS_RESET </li>
  *         <li> USERS_SELF </li>
+ *         <li> VOTES_ACTIVE </li>
+ *         <li> VOTES_ALL </li>
+ *         <li> VOTES_ERROR </li>
  *         <li> WEBSOCKET_MESSAGE </li>
  *     </ul> 
  * </ul>
@@ -64,6 +67,9 @@ const Action = Object.freeze({
         USERS_REGISTER: "usersRegister",
         USERS_RESET: "usersReset",
         USERS_SELF: "usersSelf",
+        VOTES_ACTIVE: "votesActive",
+        VOTES_ALL: "votesAll",
+        VOTES_ERROR: "votesError",
         WEBSOCKET_MESSAGE: "websocketMessage",
     }
 });
@@ -164,10 +170,12 @@ const HTMLElement = Object.freeze({
  *     <li> LIST_ITEMS_VOTE </li>
  *     <li> NAME_ADMIN_PASSWORD </li>
  *     <li> NAME_ADMIN_USERNAME </li>
+ *     <li> NAME_DEADLINE </li>
  *     <li> NAME_EMAIL </li>
  *     <li> NAME_NAME </li>
  *     <li> NAME_PASSWORD </li>
  *     <li> NAME_PASSWORD_CONFIRM </li>
+ *     <li> NAME_QUANTITY </li>
  * </ul>
  * 
  * @public
@@ -183,10 +191,12 @@ const ID = Object.freeze({
     LIST_ITEMS_VOTE: "listItemsVote",
     NAME_ADMIN_PASSWORD: "adminPassword",
     NAME_ADMIN_USERNAME: "adminUsername",
+    NAME_DEADLINE: "deadline",
     NAME_EMAIL: "email",
     NAME_NAME: "name",
     NAME_PASSWORD_CONFIRM: "passwordConfirm",
     NAME_PASSWORD: "password",
+    NAME_QUANTITY: "quantity",
 });
 
 /**
@@ -214,7 +224,10 @@ const Image = Object.freeze({
  *     <li> ADMIN_PASSWORD </li>
  *     <li> ADMIN_USERNAME </li>
  *     <li> CANCEL </li>
+ *     <li> CLOSE </li>
+ *     <li> CONFIRM_ADMIN </li>
  *     <li> CONFIRM_EDIT </li>
+ *     <li> DEADLINE </li>
  *     <li> EDIT </li>
  *     <li> EMAIL </li>
  *     <li> EMAIL_REFER </li>
@@ -226,9 +239,12 @@ const Image = Object.freeze({
  *     <li> LOGOUT </li>
  *     <li> NAME </li>
  *     <li> OK </li>
+ *     <li> OPEN </li>
  *     <li> OPTIONAL </li>
  *     <li> PASSWORD </li>
  *     <li> PASSWORD_CONFIRM </li>
+ *     <li> POLLS </li>
+ *     <li> QUANTITY </li>
  *     <li> REGISTER </li>
  *     <li> RESET </li>
  *     <li> RESULTS </li>
@@ -246,7 +262,10 @@ const Label = Object.freeze({
     ADMIN_USERNAME: "Admin Username",
     ADMIN: "Admin",
     CANCEL: "Cancel",
+    CLOSE: "Close",
+    CONFIRM_ADMIN: "Are you sure you want to make these administrative modifications?",
     CONFIRM_EDIT: "Are you sure you want to edit your user account?",
+    DEADLINE: "Deadline",
     EDIT: "Edit",
     EMAIL_REFER: "Please refer to the email in order to",
     EMAIL_REGISTRATION: "complete your registration and activate your account.",
@@ -258,9 +277,12 @@ const Label = Object.freeze({
     LOGOUT: "Logout",
     NAME: "Name",
     OK: "OK",
+    OPEN: "Open",
     OPTIONAL: "(Optional)",
     PASSWORD_CONFIRM: "Confirm Password",
     PASSWORD: "Password",
+    POLLS: "Polls",
+    QUANTITY: "Quantity",
     REGISTER: "Register",
     RESET: "Reset",
     RESULTS: "Results",
@@ -319,13 +341,16 @@ const Request = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> ACTIVE </li>
  *     <li> ADMIN </li>
  *     <li> API_ITEMS </li>
  *     <li> API_USERS </li>
  *     <li> API_VOTES </li>
+ *     <li> CLOSE </li>
  *     <li> EDIT </li>
  *     <li> LOGIN </li>
  *     <li> LOGOUT </li>
+ *     <li> OPEN </li>
  *     <li> REGISTER </li>
  *     <li> RESET </li>
  *     <li> RESULTS </li>
@@ -339,13 +364,16 @@ const Request = Object.freeze({
  */
 const Route = Object.freeze({
 
+    ACTIVE: "/active",
     ADMIN: "/admin",
     API_ITEMS: "/api/items",
     API_USERS: "/api/users",
     API_VOTES: "/api/votes",
+    CLOSE: "/close",
     EDIT: "/edit",
     LOGIN: "/login",
     LOGOUT: "/logout",
+    OPEN: "/open",
     REGISTER: "/register",
     RESET: "/reset",
     RESULTS: "/results",
@@ -362,8 +390,10 @@ const Route = Object.freeze({
  *     <li> COLLAPSIBLE_CONTENT </li>
  *     <li> COLLAPSIBLE_CONTENT_HIDE </li>
  *     <li> COLLAPSIBLE_CONTENT_SHOW </li>
- *     <li> COLLAPSIBLE_HEADER </li>
- *     <li> COLLAPSIBLE_HEADER_SELECTED </li>
+ *     <li> COLLAPSIBLE_HEADER_LIST_ITEM </li>
+ *     <li> COLLAPSIBLE_HEADER_SECTION </li>
+ *     <li> COLLAPSIBLE_HEADER_TITLE </li>
+ *     <li> COLLAPSIBLE_HEADER_TITLE_EXPANDED </li>
  *     <li> DIALOG </li>
  *     <li> DIALOG_BUTTONS_CONTAINER </li>
  *     <li> DIALOG_MESSAGE_CONTAINER </li>
@@ -397,8 +427,10 @@ const Style = Object.freeze({
     COLLAPSIBLE_CONTENT_HIDE: "collapsible-content-hide",
     COLLAPSIBLE_CONTENT_SHOW: "collapsible-content-show",
     COLLAPSIBLE_CONTENT: "collapsible-content",
-    COLLAPSIBLE_HEADER_SELECTED: "collapsible-header-selected",
-    COLLAPSIBLE_HEADER: "collapsible-header",
+    COLLAPSIBLE_HEADER_LIST_ITEM: "collapsible-header-listItem",
+    COLLAPSIBLE_HEADER_SECTION: "collapsible-header-section",
+    COLLAPSIBLE_HEADER_TITLE_EXPANDED: "collapsible-header-title-expanded",
+    COLLAPSIBLE_HEADER_TITLE: "collapsible-header-title",
     COLLAPSIBLE: "collapsible",
     DIALOG_BUTTONS_CONTAINER: "dialog-buttonsContainer",
     DIALOG_MESSAGE_CONTAINER: "dialog-messageContainer",

@@ -117,14 +117,14 @@ const fetchEdit = (name, password, passwordConfirm, adminUsername, adminPassword
 
         try {
 
-            const token = getState().auth.authToken[C.Local.TOKEN];
+            const authToken = getState().auth.authToken[C.Local.TOKEN];
             const url = `${C.Route.API_USERS}${C.Route.EDIT}`;
             const options = {
 
                 method: C.Request.METHOD_PATCH,
                 headers: {
                     
-                    [C.Request.HEADER_X_AUTH_TOKEN]: token,
+                    [C.Request.HEADER_X_AUTH_TOKEN]: authToken,
                     [C.Request.HEADER_CONTENT_TYPE]: C.Request.APPLICATION_JSON
                 },
                 body: JSON.stringify({

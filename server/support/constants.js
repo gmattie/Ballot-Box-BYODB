@@ -335,6 +335,7 @@ const Request = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> ACTIVE </li>
  *     <li> ADD </li>
  *     <li> API_ITEMS </li>
  *     <li> API_USERS </li>
@@ -359,6 +360,7 @@ const Request = Object.freeze({
  */
 const Route = Object.freeze({
 
+    ACTIVE: "/active",
     ADD: "/add",
     API_ITEMS: "/api/items",
     API_USERS: "/api/users",

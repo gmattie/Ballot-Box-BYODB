@@ -285,7 +285,10 @@ const Register = () => {
                 </div>
             }
 
-            <Collapsible title={C.Label.ADMIN_CREDENTIALS}>
+            <Collapsible
+                title={C.Label.ADMIN_CREDENTIALS}
+                headerStyle={C.Style.COLLAPSIBLE_HEADER_SECTION}
+            >
                 {invalidAdminCredentials && <div>{invalidAdminCredentials}</div>}
 
                 <div>

@@ -4,19 +4,30 @@
 
     &-header {
 
-        @include button;
-
-        &::before {
-
-            content: "⏵ ";
-        }
-
-        &-selected {
+        &-title {
 
             &::before {
-            
-                content: "⏷ ";
+
+                content: "⏵ ";
             }
+
+            &-expanded {
+
+                &::before {
+                
+                    content: "⏷ ";
+                }
+            }
+        }
+
+        &-section {
+
+            @include button;
+        }
+
+        &-listItem {
+
+            border: 1px solid gray;
         }
     }
 

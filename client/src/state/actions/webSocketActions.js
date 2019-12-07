@@ -6,9 +6,11 @@
  * 
  */
 import * as C from "../../support/constants";
+import { setVotesActive } from "./voteActions";
 
 /**
- * @description Creates an action that sets the "websocketMessage" property of the webSocketReducer state. 
+ * @description Dispatches an action that sets the "websocketMessage" property of the webSocketReducer state.
+ * Additional actions may be conditionally dispatches from voteActions to the votesReducer state depending on the "message" argument.
  * 
  * @param {string} message - The value of the payload embedded in the action.
  * @returns {object} The action.
@@ -18,10 +20,18 @@ import * as C from "../../support/constants";
  */
 const setWebSocketMessage = (message) => {
 
-    return {
+    return (dispatch) => {
+        
+        if (message === C.Event.VOTE_CLOSED) {
 
-        type: C.Action.Type.WEBSOCKET_MESSAGE,
-        [C.Action.PAYLOAD]: message
+            dispatch(setVotesActive(null));
+        }
+
+        dispatch({
+
+            type: C.Action.Type.WEBSOCKET_MESSAGE,
+            [C.Action.PAYLOAD]: message
+        });
     };
 };
 
