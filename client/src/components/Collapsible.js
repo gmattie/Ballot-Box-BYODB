@@ -25,7 +25,8 @@ const Collapsible = ({
     
         title,
         headerStyle,
-        children
+        eventHandler,
+        children,
     }) => {
 
     /**
@@ -43,7 +44,14 @@ const Collapsible = ({
      */
     const toggleHandler = () => {
     
-        setIsCollapsed(!isCollapsed);
+        const collapsedState = !isCollapsed;
+
+        if (eventHandler) {
+
+            eventHandler(collapsedState);
+        }
+
+        setIsCollapsed(collapsedState);
     };
 
     /**
@@ -109,7 +117,8 @@ Collapsible.propTypes = {
 
     title: PropTypes.string.isRequired,
     headerStyle: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired
+    eventHandler: PropTypes.func,
+    children: PropTypes.node.isRequired,
 };
 
 /**

@@ -8,7 +8,6 @@
  * @requires react
  * @requires useAuth
  * @requires useInputText
- * @requires useVotes
  * @public
  * @module
  * 
@@ -21,7 +20,6 @@ import React, { useRef, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useInputText from "../../../hooks/useInputText";
 import useVotes from "../../../hooks/useVotes";
-import useMount from "../../../hooks/useMount";
 
 /**
  * @description
@@ -72,16 +70,14 @@ const Admin = ({ logout }) => {
         binding: bindDeadline,
         clearValue: clearDeadline,
         value: deadline
-    } = useInputText(null, confirmPollsHandler);
+    } = useInputText();
 
     const {
 
         binding: bindQuantity,
         clearValue: clearQuantity,
         value: quantity
-    } = useInputText(null, confirmPollsHandler);
-
-    const { onMount } = useMount();
+    } = useInputText();
 
     /**
      * Constants
@@ -89,26 +85,6 @@ const Admin = ({ logout }) => {
      */
     const pollsOpenButton = `${C.Label.OPEN} ${C.Label.POLLS}`;
     const pollsCloseButton = `${C.Label.CLOSE} ${C.Label.POLLS}`;
-
-    /**
-     * @description Retrieve the active vote if it exists.
-     * The existence of an active vote indicates that polls are currently open.
-     * 
-     * @private
-     * @function
-     * 
-     */
-    const mount = () => {
-        
-        (async () => {
-            
-            await fetchActive();
-
-            setIsPollsLoading(false);
-        })();
-    };
-
-    onMount(mount);
 
     /**
      * Set isPollsModifiable flag
@@ -120,7 +96,7 @@ const Admin = ({ logout }) => {
         (deadline && quantity) ||
         (votesActive && votesActive.vote)
     );    
-    
+
     /**
      * Polls modification success
      * Clear appropriate text input elements.
@@ -169,6 +145,25 @@ const Admin = ({ logout }) => {
             setTimeout(() => logout());
         }
     }
+
+    /**
+     * @description Callback executed each time the collapsed or expanded state of the Collapsible component is updated.
+     * 
+     * @param {boolean} isCollapsed - Indicates the state of the Collapsible component.
+     * @async
+     * @private
+     * @function
+     *  
+     */
+    const collapsibleHandler = async (isCollapsed) => {
+
+        if (isPollsLoading && !isCollapsed) {
+
+            await fetchActive();
+    
+            setIsPollsLoading(false);
+        }
+    };
 
     /**
      * @description Posts the request body to the server.
@@ -243,6 +238,7 @@ const Admin = ({ logout }) => {
             <Collapsible
                 title={C.Label.POLLS}
                 headerStyle={C.Style.COLLAPSIBLE_HEADER_SECTION}
+                eventHandler={collapsibleHandler}
             >
                 {!isPollsLoading &&
                     <>
