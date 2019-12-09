@@ -66,13 +66,11 @@ const itemEdit = [
     }),
 
     check(C.Request.NAME, C.Error.NAME)
-        .optional()
-        .not()
-        .isEmpty({ ignore_whitespace: true })
+        .optional({checkFalsy: true})
         .trim(),
 
     check(C.Request.IMAGE, C.Error.IMAGE)
-        .optional()
+        .optional({checkFalsy: true})
         .isURL()
 ];
 

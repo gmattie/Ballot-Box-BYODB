@@ -23,7 +23,8 @@ import useInputText from "../../../../hooks/useInputText";
 import useVotes from "../../../../hooks/useVotes";
 
 /**
- * @description
+ * @description The ManagePolls component contains UI elements that are required to open and close voting polls.
+ * The UI elements include text input fields for setting the "deadline" (in seconds) and "quantity" and buttons for opening and closing the polls.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} JSX markup.

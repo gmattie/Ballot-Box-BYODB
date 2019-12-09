@@ -1,7 +1,7 @@
 /**
  * @description ProtectedContainer component.
  * 
- * @requires Admin
+ * @requires AdminContainer
  * @requires constants
  * @requires Edit
  * @requires react
@@ -17,7 +17,7 @@
  */
 import { Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
 import * as C from "../../../support/constants";
-import Admin from "./admin/Admin";
+import AdminContainer from "./admin/AdminContainer";
 import Edit from "./Edit";
 import React, { useState } from "react";
 import Results from "./Results";
@@ -27,7 +27,7 @@ import Vote from "./Vote";
 
 /**
  * @description The ProtectedContainer component groups the UI components of the application that are only accessible via user authentication.
- * ProtectedContainer contains polling and user information, router links and all the other protected route components: Admin, Edit, Results and Vote.
+ * ProtectedContainer contains polling and user information, router links and all the other protected route components: AdminContainer, Edit, Results and Vote.
  * 
  * @returns {object} JSX markup.
  * @public
@@ -161,7 +161,7 @@ const ProtectedContainer = () => {
                         </Route>
                         
                         <Route path={C.Route.ADMIN}>
-                            <Admin logout={logout} />
+                            <AdminContainer logout={logout} />
                         </Route>
 
                         <Route path={C.Route.EDIT}>

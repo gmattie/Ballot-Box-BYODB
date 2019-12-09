@@ -25,7 +25,7 @@ import useInputText from "../../../hooks/useInputText";
 import useUsers from "../../../hooks/useUsers";
 
 /**
- * @description The Edit component contains UI elements that are required to edit a user document.
+ * @description The Edit component contains UI elements that are required to edit a User document.
  * The UI elements include text input fields for editing a user's name, password and admin credentials and a button for submitting the input data to the server.
  * 
  * @param {object} props - Immutable properties populated by the parent component.

@@ -15,6 +15,7 @@ import * as C from "../support/constants";
  * 
  * @param {string|null} placeholder - The placeholder value of the text input.
  * @param {function|null} keyPressEnterCallback - The function to call when the enter key is pressed while the text input has focus.
+ * @param {string|null} defaultValue - The default value of the text input when both initialized and cleared.
  * @returns {
  * 
  *     binding: {
@@ -31,13 +32,18 @@ import * as C from "../support/constants";
  * @function 
  * 
  */
-const useInputText = (placeholder = null, keyPressEnterCallback = null) => {
+const useInputText = (
+    
+        placeholder = null,
+        keyPressEnterCallback = null,
+        defaultValue = null
+    ) => {
 
     /**
      * State
      * 
      */
-    const [ value, setValue ] = useState("");
+    const [ value, setValue ] = useState(defaultValue || "");
 
     /**
      * @description Called when the value of the text input element is changed.
@@ -61,7 +67,7 @@ const useInputText = (placeholder = null, keyPressEnterCallback = null) => {
      */
     const clearValue = () => {
 
-        setValue("");
+        setValue(defaultValue || "");
     };
 
     /**

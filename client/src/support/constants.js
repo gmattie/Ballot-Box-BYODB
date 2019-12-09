@@ -34,9 +34,10 @@ const Access = Object.freeze({
  *         <li> AUTH_TOKEN </li>
  *         <li> ITEMS_ADD </li>
  *         <li> ITEMS_ALL </li>
- *         <li> USERS_EDIT </li>
+ *         <li> ITEMS_EDIT </li>
  *         <li> ITEMS_ERROR </li>
  *         <li> ITEMS_VOTE </li>
+ *         <li> USERS_EDIT </li>
  *         <li> USERS_ERROR </li>
  *         <li> USERS_REGISTER </li>
  *         <li> USERS_RESET </li>
@@ -62,6 +63,7 @@ const Action = Object.freeze({
         AUTH_TOKEN: "authToken",
         ITEMS_ADD: "itemsAdd",
         ITEMS_ALL: "itemsAll",
+        ITEMS_EDIT: "itemsEdit",
         ITEMS_ERROR: "itemsError",
         ITEMS_VOTE: "itemsVote",
         USERS_EDIT: "usersEdit",
@@ -239,8 +241,8 @@ const Image = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> ADD </li>
  *     <li> ADD_ITEM </li>
- *     <li> ADD_ITEMS </li>
  *     <li> ADMIN </li>
  *     <li> ADMIN_CREDENTIALS </li>
  *     <li> ADMIN_PASSWORD </li>
@@ -249,6 +251,7 @@ const Image = Object.freeze({
  *     <li> CLOSE_POOLS </li>
  *     <li> CONFIRM_ADD_ITEM </li>
  *     <li> CONFIRM_CLOSE_POLLS </li>
+ *     <li> CONFIRM_EDIT_ITEM </li>
  *     <li> CONFIRM_EDIT </li>
  *     <li> CONFIRM_OPEN_POLLS </li>
  *     <li> DEADLINE </li>
@@ -283,8 +286,8 @@ const Image = Object.freeze({
  */
 const Label = Object.freeze({
 
+    ADD: "Add",
     ADD_ITEM: "Add Item",
-    ADD_ITEMS: "Add Items",
     ADMIN_CREDENTIALS: "Admin Credentials",
     ADMIN_PASSWORD: "Admin Password",
     ADMIN_USERNAME: "Admin Username",
@@ -293,6 +296,7 @@ const Label = Object.freeze({
     CLOSE_POOLS: "Close Pools",
     CONFIRM_ADD_ITEM: "Are you sure you want to add this item?",
     CONFIRM_CLOSE_POLLS: "Are you sure you want to close the polls?",
+    CONFIRM_EDIT_ITEM: "Are you sure you want to edit this item?",
     CONFIRM_EDIT: "Are you sure you want to edit your user account?",
     CONFIRM_OPEN_POLLS: "Are you sure you want to open the polls?",
     DEADLINE: "Deadline",

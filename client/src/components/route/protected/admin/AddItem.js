@@ -1,5 +1,5 @@
 /**
- * @description AddItems component.
+ * @description AddItem component.
  * 
  * @requires Collapsible
  * @requires constants
@@ -23,7 +23,8 @@ import useInputText from "../../../../hooks/useInputText";
 import useItems from "../../../../hooks/useItems";
 
 /**
- * @description
+ * @description The AddItem component contains UI elements that are required to add Item documents to the database.
+ * The UI elements include text input fields for setting the "name" and optional "image" URL and a button for submitting the input data to the server.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} JSX markup.
@@ -31,7 +32,7 @@ import useItems from "../../../../hooks/useItems";
  * @function
  * 
  */
-const AddItems = ({ logout }) => {
+const AddItem = ({ logout }) => {
 
     /**
      * State
@@ -54,6 +55,7 @@ const AddItems = ({ logout }) => {
      * 
      */
     const { authError, setAuthError } = useAuth();
+
     const {
         
         fetchAdd,
@@ -83,7 +85,7 @@ const AddItems = ({ logout }) => {
     isSubmittable.current = name;
 
     /**
-     * Add items success
+     * Add item success
      * Clear appropriate text input elements.
      * 
      */
@@ -96,7 +98,7 @@ const AddItems = ({ logout }) => {
     }
     
     /**
-     * Add items failure
+     * Add item failure
      * Parse the error object to set the appropriate local error states.
      * 
      */
@@ -181,7 +183,7 @@ const AddItems = ({ logout }) => {
             }
 
             <Collapsible
-                title={C.Label.ADD_ITEMS}
+                title={C.Label.ADD_ITEM}
                 headerStyle={C.Style.COLLAPSIBLE_HEADER_SECTION}
             >
                 <>
@@ -215,7 +217,7 @@ const AddItems = ({ logout }) => {
                         onClick={() => setShowDialog(true)}
                         disabled={isLoading || !isSubmittable.current}
                     >
-                        {C.Label.ADD_ITEM.toUpperCase()}
+                        {C.Label.ADD.toUpperCase()}
                     </button>
                 </>
 
@@ -232,7 +234,7 @@ const AddItems = ({ logout }) => {
  * Prop Types
  * 
  */
-AddItems.propTypes = {
+AddItem.propTypes = {
 
     logout: PropTypes.func.isRequired
 };
@@ -241,4 +243,4 @@ AddItems.propTypes = {
  * Export module
  * 
  */
-export default AddItems;
+export default AddItem;

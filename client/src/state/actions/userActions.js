@@ -100,7 +100,7 @@ const setUsersSelf = (data) => {
 };
 
 /**
- * @description patch data to /api/users/edit and dispatches actions from either userActions to the usersReducer state or from authActions to the authReducer state.
+ * @description Patches data to /api/users/edit and dispatches actions from either userActions to the usersReducer state or from authActions to the authReducer state.
  * 
  * @param {string|null} name - The user's name.
  * @param {string|null} password - The user's password.

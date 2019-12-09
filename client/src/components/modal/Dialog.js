@@ -49,11 +49,10 @@ const Dialog = ({
                         {C.Label.OK}
                     </button>
                     
-                    {
-                        cancelCallback &&
-                            <button onClick={cancelCallback}>
-                                {C.Label.CANCEL}
-                            </button>
+                    {cancelCallback &&
+                        <button onClick={cancelCallback}>
+                            {C.Label.CANCEL}
+                        </button>
                     }
                 </div>
             </div>

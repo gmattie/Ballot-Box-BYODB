@@ -20,12 +20,15 @@ import * as itemActions from "../state/actions/itemActions";
  * 
  *      fetchAdd: function,
  *      fetchAll: function,
+ *      fetchEdit: function,
  *      itemsAdd: object,
  *      itemsAll: object,
+ *      itemsEdit: object,
  *      itemsError: object,
  *      itemsVote: object,
  *      setItemsAdd: function,
  *      setItemsAll: function,
+ *      setItemsEdit: function,
  *      setItemsError: function,
  *      setItemsVote: function,
  * }
@@ -39,12 +42,16 @@ const useItems = () => {
 
     const fetchAdd = (name, image) => dispatch(itemActions.fetchAdd(name, image));
     const fetchAll = () => dispatch(itemActions.fetchAll());
+    const fetchEdit = (itemID, name, image) => dispatch(itemActions.fetchEdit(itemID, name, image));
 
     const setItemsAdd = (data) => dispatch(itemActions.setItemsAdd(data));
     const itemsAdd = useSelector((state) => state.items[C.Action.Type.ITEMS_ADD], null);
 
     const setItemsAll = (data) => dispatch(itemActions.setItemsAll(data));
     const itemsAll = useSelector((state) => state.items[C.Action.Type.ITEMS_ALL], null);
+
+    const setItemsEdit = (data) => dispatch(itemActions.setItemsEdit(data));
+    const itemsEdit = useSelector((state) => state.items[C.Action.Type.ITEMS_EDIT], null);
 
     const setItemsError = (data) => dispatch(itemActions.setItemsError(data));
     const itemsError = useSelector((state) => state.items[C.Action.Type.ITEMS_ERROR], null);
@@ -56,12 +63,15 @@ const useItems = () => {
 
         fetchAdd,
         fetchAll,
+        fetchEdit,
         itemsAdd,
         itemsAll,
+        itemsEdit,
         itemsError,
         itemsVote,
         setItemsAdd,
         setItemsAll,
+        setItemsEdit,
         setItemsError,
         setItemsVote,
     };

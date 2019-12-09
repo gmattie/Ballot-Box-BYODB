@@ -46,6 +46,24 @@ const setItemsAll = (data) => {
 };
 
 /**
+ * @description Creates an action that sets the "itemsEdit" property of the itemsReducer state.
+ * 
+ * @param {string} data - The value of the payload embedded in the action.
+ * @returns {object} The action.
+ * @public
+ * @function
+ *  
+ */
+const setItemsEdit = (data) => {
+
+    return {
+
+        type: C.Action.Type.ITEMS_EDIT,
+        [C.Action.PAYLOAD]: data
+    };
+};
+
+/**
  * @description Creates an action that sets the "itemsError" property of the itemsReducer state. 
  * 
  * @param {string} error - The value of the payload embedded in the action.
@@ -173,6 +191,53 @@ const fetchAll = () => {
 };
 
 /**
+ * @description Patches data to /api/items/edit/:itemID and dispatches actions to the itemsReducer state or from authActions to the authReducer state.
+ * 
+ * @returns {object} The action.
+ * @public
+ * @function
+ *  
+ */
+const fetchEdit = (itemID, name, image) => {
+
+    return async (dispatch, getState) => {
+
+        try {
+
+            const authToken = getState().auth[C.Action.Type.AUTH_TOKEN][C.Local.TOKEN];
+            const url = `${C.Route.API_ITEMS}${C.Route.EDIT}/${itemID}`;
+            const options = {
+
+                method: C.Request.METHOD_PATCH,
+                headers: {
+                    
+                    [C.Request.HEADER_X_AUTH_TOKEN]: authToken,
+                    [C.Request.HEADER_CONTENT_TYPE]: C.Request.APPLICATION_JSON
+                },
+                body: JSON.stringify({ name, image })
+            };
+
+            const response = await fetch(url, options);
+            const data = await response.json();
+            
+            if (data.error) {
+
+                dispatch(authActions.setAuthError(data));
+            }
+            else {
+
+                dispatch(setItemsEdit(data));
+                dispatch(fetchAll());
+            }
+        }
+        catch (error) {
+
+            dispatch(setItemsError(error.message));
+        }
+    };
+};
+
+/**
  * Export module
  * 
  */
@@ -180,8 +245,10 @@ export {
 
     fetchAdd,
     fetchAll,
+    fetchEdit,
     setItemsAdd,
     setItemsAll,
+    setItemsEdit,
     setItemsError,
     setItemsVote,
 };
