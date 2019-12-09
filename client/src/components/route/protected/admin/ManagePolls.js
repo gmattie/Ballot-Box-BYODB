@@ -1,5 +1,5 @@
 /**
- * @description Admin component.
+ * @description ManagePolls component.
  * 
  * @requires Collapsible
  * @requires constants
@@ -8,18 +8,19 @@
  * @requires react
  * @requires useAuth
  * @requires useInputText
+ * @requires useVotes
  * @public
  * @module
  * 
  */
-import * as C from "../../../support/constants";
-import Collapsible from "../../Collapsible";
-import Dialog from "../../modal/Dialog";
+import * as C from "../../../../support/constants";
+import Collapsible from "../../../Collapsible";
+import Dialog from "../../../modal/Dialog";
 import PropTypes from "prop-types";
 import React, { useRef, useState } from "react";
-import useAuth from "../../../hooks/useAuth";
-import useInputText from "../../../hooks/useInputText";
-import useVotes from "../../../hooks/useVotes";
+import useAuth from "../../../../hooks/useAuth";
+import useInputText from "../../../../hooks/useInputText";
+import useVotes from "../../../../hooks/useVotes";
 
 /**
  * @description
@@ -30,7 +31,7 @@ import useVotes from "../../../hooks/useVotes";
  * @function
  * 
  */
-const Admin = ({ logout }) => {
+const ManagePolls = ({ logout }) => {
 
     /**
      * State
@@ -39,14 +40,14 @@ const Admin = ({ logout }) => {
     const [ invalidDeadline, setInvalidDeadline ] = useState(false);
     const [ invalidQuantity, setInvalidQuantity ] = useState(false);
     const [ isLoading, setIsLoading ] = useState(false);
-    const [ isPollsLoading, setIsPollsLoading ] = useState(true);
+    const [ isMounting, setIsMounting ] = useState(true);
     const [ showDialog, setShowDialog ] = useState(false);
 
     /**
      * Refs
      * 
      */
-    const isPollsModifiable = useRef(false);
+    const isSubmittable = useRef(false);
     const responseUpdate = useRef(false);
     const submitTarget = useRef(null);
 
@@ -80,18 +81,11 @@ const Admin = ({ logout }) => {
     } = useInputText();
 
     /**
-     * Constants
-     * 
-     */
-    const pollsOpenButton = `${C.Label.OPEN} ${C.Label.POLLS}`;
-    const pollsCloseButton = `${C.Label.CLOSE} ${C.Label.POLLS}`;
-
-    /**
-     * Set isPollsModifiable flag
+     * Set isSubmittable flag
      * Determines if the present state of text field data is sufficient for submitting to the server.
      * 
      */
-    isPollsModifiable.current = (
+    isSubmittable.current = (
         
         (deadline && quantity) ||
         (votesActive && votesActive.vote)
@@ -157,11 +151,30 @@ const Admin = ({ logout }) => {
      */
     const collapsibleHandler = async (isCollapsed) => {
 
-        if (isPollsLoading && !isCollapsed) {
+        if (isMounting && !isCollapsed) {
 
             await fetchActive();
     
-            setIsPollsLoading(false);
+            setIsMounting(false);
+        }
+    };
+
+    /**
+     * @description Displays the confirmation dialog.
+     * The ID of the event's target is assigned to the "submitTarget" reference that is used in the dialog's "submitHandler" callback.
+     * 
+     * @param {object} event - The event object. 
+     * @function
+     * @private
+     * 
+     */
+    const confirmHandler = (event) => {
+
+        if (isSubmittable.current) {
+
+            submitTarget.current = event.target.id;
+
+            setShowDialog(true);
         }
     };
 
@@ -180,7 +193,7 @@ const Admin = ({ logout }) => {
         setShowDialog(false);
         setIsLoading(true);
 
-        if (submitTarget.current === pollsOpenButton) {
+        if (submitTarget.current === C.Label.OPEN_POLLS) {
 
             setAuthError(null);
             setVotesActive(null);
@@ -192,7 +205,7 @@ const Admin = ({ logout }) => {
             await fetchOpen(deadline, quantity);
         }
 
-        if (submitTarget.current === pollsCloseButton) {
+        if (submitTarget.current === C.Label.CLOSE_POOLS) {
 
             await fetchClose();
         }
@@ -201,46 +214,31 @@ const Admin = ({ logout }) => {
     };
 
     /**
-     * @description Displays the confirmation dialog.
-     * The ID of the event's target is assigned to the "submitTarget" reference that is used in the dialog's "submitHandler" callback.
-     * Written as a function declaration in order to be hoisted and accessible to the custom hooks above.
-     * 
-     * @param {object} event - The event object. 
-     * @function
-     * @private
-     * 
-     */
-    function confirmPollsHandler(event) {
-
-        if (isPollsModifiable.current) {
-
-            submitTarget.current = event.target.id;
-
-            setShowDialog(true);
-        }
-    }
-
-    /**
      * JSX markup
      * 
      */
     return (
 
-        <div>
+        <>
             {showDialog &&
                 <Dialog 
-                    message={C.Label.CONFIRM_ADMIN}
+                    message={
+                        
+                        (submitTarget.current === C.Label.OPEN_POLLS)
+                            ? C.Label.CONFIRM_OPEN_POLLS
+                            : C.Label.CONFIRM_CLOSE_POLLS
+                    }
                     okCallback={submitHandler}
                     cancelCallback={() => setShowDialog(false)}
                 />
             }
 
             <Collapsible
-                title={C.Label.POLLS}
+                title={C.Label.MANAGE_POOLS}
                 headerStyle={C.Style.COLLAPSIBLE_HEADER_SECTION}
                 eventHandler={collapsibleHandler}
             >
-                {!isPollsLoading &&
+                {!isMounting &&
                     <>
                         {!(votesActive && votesActive.vote) &&
                             <>
@@ -271,22 +269,22 @@ const Admin = ({ logout }) => {
                                 </div>
 
                                 <button
-                                    id={pollsOpenButton}
-                                    onClick={confirmPollsHandler}
-                                    disabled={isLoading || !isPollsModifiable.current}
+                                    id={C.Label.OPEN_POLLS}
+                                    onClick={confirmHandler}
+                                    disabled={isLoading || !isSubmittable.current}
                                 >
-                                    {pollsOpenButton.toUpperCase()}
+                                    {C.Label.OPEN_POLLS.toUpperCase()}
                                 </button>
                             </>
                         }
 
                         {(votesActive && votesActive.vote) &&
                             <button
-                                id={pollsCloseButton}
-                                onClick={confirmPollsHandler}
+                                id={C.Label.CLOSE_POOLS}
+                                onClick={confirmHandler}
                                 disabled={isLoading}
                             >
-                                {pollsCloseButton.toUpperCase()}
+                                {C.Label.CLOSE_POOLS.toUpperCase()}
                             </button>
                         }
                     </>
@@ -294,15 +292,10 @@ const Admin = ({ logout }) => {
 
                 {
                     //TODO: Replace with style animation
-                    isPollsLoading && <div>LOADING...</div>
+                    (isMounting || isLoading) && <div>LOADING...</div>
                 }
             </Collapsible>
-
-            {
-                //TODO: Replace with style animation
-                isLoading && <div>LOADING...</div>
-            }
-        </div>
+        </>
     );
 };
 
@@ -310,7 +303,7 @@ const Admin = ({ logout }) => {
  * Prop Types
  * 
  */
-Admin.propTypes = {
+ManagePolls.propTypes = {
 
     logout: PropTypes.func.isRequired
 };
@@ -319,4 +312,4 @@ Admin.propTypes = {
  * Export module
  * 
  */
-export default Admin;
+export default ManagePolls;

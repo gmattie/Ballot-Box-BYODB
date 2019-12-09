@@ -33,7 +33,7 @@ const itemAdd = [
         .trim(),
 
     check(`${C.Request.ITEM}.*.${C.Request.IMAGE}`, C.Error.IMAGE)
-        .optional()
+        .optional({checkFalsy: true})
         .isURL()
 ];
 

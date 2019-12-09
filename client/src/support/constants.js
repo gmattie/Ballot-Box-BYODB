@@ -32,7 +32,8 @@ const Access = Object.freeze({
  *     <ul>
  *         <li> AUTH_ERROR </li>
  *         <li> AUTH_TOKEN </li>
- *         <li> ITEMS_CANDIDATE </li>
+ *         <li> ITEMS_ADD </li>
+ *         <li> ITEMS_ALL </li>
  *         <li> USERS_EDIT </li>
  *         <li> ITEMS_ERROR </li>
  *         <li> ITEMS_VOTE </li>
@@ -59,7 +60,8 @@ const Action = Object.freeze({
 
         AUTH_ERROR: "authError",
         AUTH_TOKEN: "authToken",
-        ITEMS_CANDIDATE: "itemsCandidate",
+        ITEMS_ADD: "itemsAdd",
+        ITEMS_ALL: "itemsAll",
         ITEMS_ERROR: "itemsError",
         ITEMS_VOTE: "itemsVote",
         USERS_EDIT: "usersEdit",
@@ -88,6 +90,22 @@ const Action = Object.freeze({
 const CharCode = Object.freeze({
 
     ENTER: 13
+});
+
+/**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
+ *     <li> DUPLICATE_KEY </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const Error = Object.freeze({
+
+    DUPLICATE_KEY: "E11000 duplicate key error",
 });
 
 /**
@@ -166,12 +184,13 @@ const HTMLElement = Object.freeze({
  *     <li> ELEMENT_DIALOG </li>
  *     <li> ERROR_MESSAGE </li>
  *     <li> ERROR_PARAM </li>
- *     <li> LIST_ITEMS_CANDIDATE </li>
+ *     <li> LIST_ITEMS_ALL </li>
  *     <li> LIST_ITEMS_VOTE </li>
  *     <li> NAME_ADMIN_PASSWORD </li>
  *     <li> NAME_ADMIN_USERNAME </li>
  *     <li> NAME_DEADLINE </li>
  *     <li> NAME_EMAIL </li>
+ *     <li> NAME_IMAGE </li>
  *     <li> NAME_NAME </li>
  *     <li> NAME_PASSWORD </li>
  *     <li> NAME_PASSWORD_CONFIRM </li>
@@ -187,12 +206,13 @@ const ID = Object.freeze({
     ELEMENT_DIALOG: "dialog",
     ERROR_MESSAGE: "msg",
     ERROR_PARAM: "param",
-    LIST_ITEMS_CANDIDATE: "listItemsCandidate",
+    LIST_ITEMS_ALL: "listItemsCandidate",
     LIST_ITEMS_VOTE: "listItemsVote",
     NAME_ADMIN_PASSWORD: "adminPassword",
     NAME_ADMIN_USERNAME: "adminUsername",
     NAME_DEADLINE: "deadline",
     NAME_EMAIL: "email",
+    NAME_IMAGE: "image",
     NAME_NAME: "name",
     NAME_PASSWORD_CONFIRM: "passwordConfirm",
     NAME_PASSWORD: "password",
@@ -219,31 +239,37 @@ const Image = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> ADD_ITEM </li>
+ *     <li> ADD_ITEMS </li>
  *     <li> ADMIN </li>
  *     <li> ADMIN_CREDENTIALS </li>
  *     <li> ADMIN_PASSWORD </li>
  *     <li> ADMIN_USERNAME </li>
  *     <li> CANCEL </li>
- *     <li> CLOSE </li>
- *     <li> CONFIRM_ADMIN </li>
+ *     <li> CLOSE_POOLS </li>
+ *     <li> CONFIRM_ADD_ITEM </li>
+ *     <li> CONFIRM_CLOSE_POLLS </li>
  *     <li> CONFIRM_EDIT </li>
+ *     <li> CONFIRM_OPEN_POLLS </li>
  *     <li> DEADLINE </li>
  *     <li> EDIT </li>
+ *     <li> EDIT_ITEMS </li>
  *     <li> EMAIL </li>
  *     <li> EMAIL_REFER </li>
  *     <li> EMAIL_REGISTRATION </li>
  *     <li> EMAIL_RESET </li>
  *     <li> EMAIL_SENT </li>
  *     <li> ICON </li>
+ *     <li> IMAGE </li>
  *     <li> LOGIN </li>
  *     <li> LOGOUT </li>
+ *     <li> MANAGE_POLLS </li>
  *     <li> NAME </li>
  *     <li> OK </li>
- *     <li> OPEN </li>
+ *     <li> OPEN_POLLS </li>
  *     <li> OPTIONAL </li>
  *     <li> PASSWORD </li>
  *     <li> PASSWORD_CONFIRM </li>
- *     <li> POLLS </li>
  *     <li> QUANTITY </li>
  *     <li> REGISTER </li>
  *     <li> RESET </li>
@@ -257,15 +283,20 @@ const Image = Object.freeze({
  */
 const Label = Object.freeze({
 
+    ADD_ITEM: "Add Item",
+    ADD_ITEMS: "Add Items",
     ADMIN_CREDENTIALS: "Admin Credentials",
     ADMIN_PASSWORD: "Admin Password",
     ADMIN_USERNAME: "Admin Username",
     ADMIN: "Admin",
     CANCEL: "Cancel",
-    CLOSE: "Close",
-    CONFIRM_ADMIN: "Are you sure you want to make these administrative modifications?",
+    CLOSE_POOLS: "Close Pools",
+    CONFIRM_ADD_ITEM: "Are you sure you want to add this item?",
+    CONFIRM_CLOSE_POLLS: "Are you sure you want to close the polls?",
     CONFIRM_EDIT: "Are you sure you want to edit your user account?",
+    CONFIRM_OPEN_POLLS: "Are you sure you want to open the polls?",
     DEADLINE: "Deadline",
+    EDIT_ITEMS: "Edit Items",
     EDIT: "Edit",
     EMAIL_REFER: "Please refer to the email in order to",
     EMAIL_REGISTRATION: "complete your registration and activate your account.",
@@ -273,15 +304,16 @@ const Label = Object.freeze({
     EMAIL_SENT: "An email has been sent to:",
     EMAIL: "Email",
     ICON: "Icon",
+    IMAGE: "Image",
     LOGIN: "Login",
     LOGOUT: "Logout",
+    MANAGE_POOLS: "Manage Polls",
     NAME: "Name",
     OK: "OK",
-    OPEN: "Open",
+    OPEN_POLLS: "Open Polls",
     OPTIONAL: "(Optional)",
     PASSWORD_CONFIRM: "Confirm Password",
     PASSWORD: "Password",
-    POLLS: "Polls",
     QUANTITY: "Quantity",
     REGISTER: "Register",
     RESET: "Reset",
@@ -342,6 +374,7 @@ const Request = Object.freeze({
  * 
  * <ul>
  *     <li> ACTIVE </li>
+ *     <li> ADD </li>
  *     <li> ADMIN </li>
  *     <li> API_ITEMS </li>
  *     <li> API_USERS </li>
@@ -365,6 +398,7 @@ const Request = Object.freeze({
 const Route = Object.freeze({
 
     ACTIVE: "/active",
+    ADD: "/add",
     ADMIN: "/admin",
     API_ITEMS: "/api/items",
     API_USERS: "/api/users",
@@ -465,6 +499,7 @@ export {
     Access,
     Action,
     CharCode,
+    Error,
     Event,
     HTMLElement,
     ID,

@@ -31,7 +31,15 @@ const itemSchema = new mongoose.Schema({
         
         type: String,
         required: true,
-        unique: true
+        index: {
+
+            unique: true,
+            collation: {
+                
+                locale: C.Local.ENGLISH,
+                strength: 2
+            }
+        }
     },
 }, { versionKey: false });
 

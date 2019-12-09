@@ -3,14 +3,12 @@
  * 
  * @requires constants
  * @requires itemActions
- * @requires react
  * @requires react-redux
  * @public
  * @module
  * 
  */
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 import * as C from "../support/constants";
 import * as itemActions from "../state/actions/itemActions";
 
@@ -20,12 +18,16 @@ import * as itemActions from "../state/actions/itemActions";
  * 
  * @returns {
  * 
- *      itemsCandidate: object,
+ *      fetchAdd: function,
+ *      fetchAll: function,
+ *      itemsAdd: object,
+ *      itemsAll: object,
  *      itemsError: object,
  *      itemsVote: object,
- *      setItemsCandidate: function
- *      setItemsError: function
- *      setItemsVote: function
+ *      setItemsAdd: function,
+ *      setItemsAll: function,
+ *      setItemsError: function,
+ *      setItemsVote: function,
  * }
  * @public
  * @function 
@@ -35,28 +37,31 @@ const useItems = () => {
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
+    const fetchAdd = (name, image) => dispatch(itemActions.fetchAdd(name, image));
+    const fetchAll = () => dispatch(itemActions.fetchAll());
 
-        const authToken = localStorage.getItem(C.Local.TOKEN);
+    const setItemsAdd = (data) => dispatch(itemActions.setItemsAdd(data));
+    const itemsAdd = useSelector((state) => state.items[C.Action.Type.ITEMS_ADD], null);
 
-        dispatch(itemActions.fetchItems(authToken));
-    }, [dispatch]);
-
-    const setItemsCandidate = (data) => dispatch(itemActions.setItemsCandidate(data));
-    const itemsCandidate = useSelector((state) => state.items[C.Action.Type.ITEMS_CANDIDATE], null);
+    const setItemsAll = (data) => dispatch(itemActions.setItemsAll(data));
+    const itemsAll = useSelector((state) => state.items[C.Action.Type.ITEMS_ALL], null);
 
     const setItemsError = (data) => dispatch(itemActions.setItemsError(data));
-    const itemsError = useSelector((state) => state.items[C.Action.Type.ITEMS_ERROR]);
+    const itemsError = useSelector((state) => state.items[C.Action.Type.ITEMS_ERROR], null);
 
     const setItemsVote = (data) => dispatch(itemActions.setItemsVote(data));
     const itemsVote = useSelector((state) => state.items[C.Action.Type.ITEMS_VOTE], null);
 
     return {
 
-        itemsCandidate,
+        fetchAdd,
+        fetchAll,
+        itemsAdd,
+        itemsAll,
         itemsError,
         itemsVote,
-        setItemsCandidate,
+        setItemsAdd,
+        setItemsAll,
         setItemsError,
         setItemsVote,
     };

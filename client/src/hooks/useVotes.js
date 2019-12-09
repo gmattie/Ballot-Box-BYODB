@@ -42,13 +42,13 @@ const useVotes = () => {
     const fetchOpen = (deadline, quantity) => dispatch(voteActions.fetchOpen(deadline, quantity));
 
     const setVotesActive = (data) => dispatch(voteActions.setVotesActive(data));
-    const votesActive = useSelector((state) => state.votes[C.Action.Type.VOTES_ACTIVE]);
+    const votesActive = useSelector((state) => state.votes[C.Action.Type.VOTES_ACTIVE], null);
 
     const setVotesAll = (data) => dispatch(voteActions.setVotesAll(data));
-    const votesAll = useSelector((state) => state.votes[C.Action.Type.VOTES_ALL]);
+    const votesAll = useSelector((state) => state.votes[C.Action.Type.VOTES_ALL], null);
 
     const setVotesError = (data) => dispatch(voteActions.setVotesError(data));
-    const votesError = useSelector((state) => state.votes[C.Action.Type.VOTES_ERROR]);
+    const votesError = useSelector((state) => state.votes[C.Action.Type.VOTES_ERROR], null);
 
     return {
 

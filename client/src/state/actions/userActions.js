@@ -6,8 +6,8 @@
  * @module
  * 
  */
-import * as C from "../../support/constants";
 import * as authActions from "./authActions";
+import * as C from "../../support/constants";
 
 /**
  * @description Creates an action that sets the "usersEdit" property of the usersReducer state.
@@ -117,7 +117,7 @@ const fetchEdit = (name, password, passwordConfirm, adminUsername, adminPassword
 
         try {
 
-            const authToken = getState().auth.authToken[C.Local.TOKEN];
+            const authToken = getState().auth[C.Action.Type.AUTH_TOKEN][C.Local.TOKEN];
             const url = `${C.Route.API_USERS}${C.Route.EDIT}`;
             const options = {
 
@@ -215,7 +215,7 @@ const fetchLogout = (authToken = null) => {
 
         try {
 
-            authToken = authToken || getState().auth.authToken[C.Local.TOKEN];
+            authToken = authToken || getState().auth[C.Action.Type.AUTH_TOKEN][C.Local.TOKEN];
 
             const url = `${C.Route.API_USERS}${C.Route.LOGOUT}`;
             const options = {

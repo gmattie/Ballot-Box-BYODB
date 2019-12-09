@@ -77,7 +77,7 @@ const fetchActive = () => {
         
         try {
 
-            const authToken = getState().auth.authToken[C.Local.TOKEN];
+            const authToken = getState().auth[C.Action.Type.AUTH_TOKEN][C.Local.TOKEN];
             const url = `${C.Route.API_VOTES}${C.Route.ACTIVE}`;
             const options = {
 
@@ -111,7 +111,7 @@ const fetchAll = () => {
         
         try {
 
-            const authToken = getState().auth.authToken[C.Local.TOKEN];
+            const authToken = getState().auth[C.Action.Type.AUTH_TOKEN][C.Local.TOKEN];
             const url = C.Route.API_VOTES;
             const options = {
 
@@ -151,7 +151,7 @@ const fetchOpen = (deadline, quantity) => {
         
         try {
 
-            const authToken = getState().auth.authToken[C.Local.TOKEN];
+            const authToken = getState().auth[C.Action.Type.AUTH_TOKEN][C.Local.TOKEN];
             const url = `${C.Route.API_VOTES}${C.Route.OPEN}`;
             const options = {
 
@@ -190,7 +190,7 @@ const fetchClose = () => {
         
         try {
 
-            const authToken = getState().auth.authToken[C.Local.TOKEN];
+            const authToken = getState().auth[C.Action.Type.AUTH_TOKEN][C.Local.TOKEN];
             const url = `${C.Route.API_VOTES}${C.Route.CLOSE}`;
             const options = {
 

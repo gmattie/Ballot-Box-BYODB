@@ -16,9 +16,10 @@ import * as C from "../../support/constants";
  */
 const initialState = {
     
-    [C.Action.Type.ITEMS_CANDIDATE]: null,
+    [C.Action.Type.ITEMS_ADD]: null,
+    [C.Action.Type.ITEMS_ALL]: null,
+    [C.Action.Type.ITEMS_ERROR]: null,
     [C.Action.Type.ITEMS_VOTE]: null,
-    [C.Action.Type.ITEMS_ERROR]: null
 };
 
 /**
@@ -35,20 +36,20 @@ const itemsReducer = (state = initialState, action) => {
 
     switch (action.type) {
 
-        case C.Action.Type.ITEMS_CANDIDATE:
+        case C.Action.Type.ITEMS_ADD:
 
             return {
                 
                 ...state,
-                [C.Action.Type.ITEMS_CANDIDATE]: action[C.Action.PAYLOAD],
+                [C.Action.Type.ITEMS_ADD]: action[C.Action.PAYLOAD],
             };
 
-        case C.Action.Type.ITEMS_VOTE:
+        case C.Action.Type.ITEMS_ALL:
 
             return {
-
+                
                 ...state,
-                [C.Action.Type.ITEMS_VOTE]: action[C.Action.PAYLOAD],
+                [C.Action.Type.ITEMS_ALL]: action[C.Action.PAYLOAD],
             };
 
         case C.Action.Type.ITEMS_ERROR:
@@ -57,6 +58,14 @@ const itemsReducer = (state = initialState, action) => {
 
                 ...state,
                 [C.Action.Type.ITEMS_ERROR]: action[C.Action.PAYLOAD]
+            };
+
+        case C.Action.Type.ITEMS_VOTE:
+
+            return {
+
+                ...state,
+                [C.Action.Type.ITEMS_VOTE]: action[C.Action.PAYLOAD],
             };
 
         default:

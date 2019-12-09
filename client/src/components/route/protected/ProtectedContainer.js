@@ -17,7 +17,7 @@
  */
 import { Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
 import * as C from "../../../support/constants";
-import Admin from "./Admin";
+import Admin from "./admin/Admin";
 import Edit from "./Edit";
 import React, { useState } from "react";
 import Results from "./Results";
