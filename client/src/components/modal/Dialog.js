@@ -12,7 +12,7 @@
 import * as C from "../../support/constants";
 import Portal from "./Portal";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useEffect } from "react";
 
 /**
  * @description Renders a dialog modal window inside a React Portal.
@@ -31,6 +31,17 @@ const Dialog = ({
         okCallback,
         cancelCallback
     }) => {
+
+    /**
+     * Deactivates body scrolling while the Dialog component is visible 
+     * 
+     */
+    useEffect(() => {
+
+        document.body.style.overflow = C.Style.HIDDEN;
+
+        return () => document.body.style.overflow = C.Style.VISIBLE;
+    }, []);
 
     /**
      * JSX markup

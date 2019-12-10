@@ -435,6 +435,7 @@ const Route = Object.freeze({
  *     <li> DIALOG </li>
  *     <li> DIALOG_BUTTONS_CONTAINER </li>
  *     <li> DIALOG_MESSAGE_CONTAINER </li>
+ *     <li> HIDDEN </li>
  *     <li> INPUT_PASSWORD </li>
  *     <li> INPUT_PASSWORD_HIDE </li>
  *     <li> INPUT_PASSWORD_SHOW </li>
@@ -453,6 +454,7 @@ const Route = Object.freeze({
  *     <li> PUBLIC_CONTAINER_BUTTON_SELECTED </li>
  *     <li> VIEWPORT_IMAGE_ERROR </li>
  *     <li> VIEWPORT_IMAGE_INTERSECTION </li>
+ *     <li> VISIBLE </li>
  * </ul>
  * 
  * @public
@@ -473,6 +475,7 @@ const Style = Object.freeze({
     DIALOG_BUTTONS_CONTAINER: "dialog-buttonsContainer",
     DIALOG_MESSAGE_CONTAINER: "dialog-messageContainer",
     DIALOG: "dialog",
+    HIDDEN: "hidden",
     INPUT_PASSWORD_HIDE: "inputPassword-hide",
     INPUT_PASSWORD_SHOW: "inputPassword-show",
     INPUT_PASSWORD: "inputPassword",
@@ -492,6 +495,7 @@ const Style = Object.freeze({
     VIEWPORT_IMAGE_ERROR: "viewportImage-error",
     VIEWPORT_IMAGE_INTERSECTION: "viewportImage-intersection",
     VIEWPORT_IMAGE: "viewportImage",
+    VISIBLE: "visible",
 });
 
 /**
