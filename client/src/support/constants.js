@@ -34,6 +34,7 @@ const Access = Object.freeze({
  *         <li> AUTH_TOKEN </li>
  *         <li> ITEMS_ADD </li>
  *         <li> ITEMS_ALL </li>
+ *         <li> ITEMS_CANDIDATE </li>
  *         <li> ITEMS_EDIT </li>
  *         <li> ITEMS_ERROR </li>
  *         <li> ITEMS_VOTE </li>
@@ -44,6 +45,7 @@ const Access = Object.freeze({
  *         <li> USERS_SELF </li>
  *         <li> VOTES_ACTIVE </li>
  *         <li> VOTES_ALL </li>
+ *         <li> VOTES_CAST </li>
  *         <li> VOTES_ERROR </li>
  *         <li> WEBSOCKET_MESSAGE </li>
  *     </ul> 
@@ -63,6 +65,7 @@ const Action = Object.freeze({
         AUTH_TOKEN: "authToken",
         ITEMS_ADD: "itemsAdd",
         ITEMS_ALL: "itemsAll",
+        ITEMS_CANDIDATE: "itemsCandidate",
         ITEMS_EDIT: "itemsEdit",
         ITEMS_ERROR: "itemsError",
         ITEMS_VOTE: "itemsVote",
@@ -73,6 +76,7 @@ const Action = Object.freeze({
         USERS_SELF: "usersSelf",
         VOTES_ACTIVE: "votesActive",
         VOTES_ALL: "votesAll",
+        VOTES_CAST: "votesCast",
         VOTES_ERROR: "votesError",
         WEBSOCKET_MESSAGE: "websocketMessage",
     }
@@ -187,16 +191,21 @@ const HTMLElement = Object.freeze({
  *     <li> ERROR_MESSAGE </li>
  *     <li> ERROR_PARAM </li>
  *     <li> LIST_ITEMS_ALL </li>
+ *     <li> LIST_ITEMS_CANDIDATE </li>
  *     <li> LIST_ITEMS_VOTE </li>
  *     <li> NAME_ADMIN_PASSWORD </li>
  *     <li> NAME_ADMIN_USERNAME </li>
+ *     <li> NAME_CAST </li>
  *     <li> NAME_DEADLINE </li>
  *     <li> NAME_EMAIL </li>
  *     <li> NAME_IMAGE </li>
+ *     <li> NAME_ITEM </li>
  *     <li> NAME_NAME </li>
  *     <li> NAME_PASSWORD </li>
  *     <li> NAME_PASSWORD_CONFIRM </li>
  *     <li> NAME_QUANTITY </li>
+ *     <li> NAME_RANK </li>
+ *     <li> NAME_VOTE </li>
  * </ul>
  * 
  * @public
@@ -208,17 +217,22 @@ const ID = Object.freeze({
     ELEMENT_DIALOG: "dialog",
     ERROR_MESSAGE: "msg",
     ERROR_PARAM: "param",
-    LIST_ITEMS_ALL: "listItemsCandidate",
+    LIST_ITEMS_ALL: "listItemsAll",
+    LIST_ITEMS_CANDIDATE: "listItemsCandidate",
     LIST_ITEMS_VOTE: "listItemsVote",
     NAME_ADMIN_PASSWORD: "adminPassword",
     NAME_ADMIN_USERNAME: "adminUsername",
+    NAME_CAST: "cast",
     NAME_DEADLINE: "deadline",
     NAME_EMAIL: "email",
     NAME_IMAGE: "image",
+    NAME_ITEM: "item",
     NAME_NAME: "name",
     NAME_PASSWORD_CONFIRM: "passwordConfirm",
     NAME_PASSWORD: "password",
     NAME_QUANTITY: "quantity",
+    NAME_RANK: "rank",
+    NAME_VOTE: "vote",
 });
 
 /**
@@ -248,12 +262,14 @@ const Image = Object.freeze({
  *     <li> ADMIN_PASSWORD </li>
  *     <li> ADMIN_USERNAME </li>
  *     <li> CANCEL </li>
+ *     <li> CAST_VOTE </li>
  *     <li> CLOSE_POOLS </li>
  *     <li> CONFIRM_ADD_ITEM </li>
  *     <li> CONFIRM_CLOSE_POLLS </li>
- *     <li> CONFIRM_EDIT_ITEM </li>
  *     <li> CONFIRM_EDIT </li>
+ *     <li> CONFIRM_EDIT_ITEM </li>
  *     <li> CONFIRM_OPEN_POLLS </li>
+ *     <li> CONFIRM_VOTE </li>
  *     <li> DEADLINE </li>
  *     <li> EDIT </li>
  *     <li> EDIT_ITEMS </li>
@@ -286,19 +302,21 @@ const Image = Object.freeze({
  */
 const Label = Object.freeze({
 
-    ADD: "Add",
     ADD_ITEM: "Add Item",
+    ADD: "Add",
     ADMIN_CREDENTIALS: "Admin Credentials",
     ADMIN_PASSWORD: "Admin Password",
     ADMIN_USERNAME: "Admin Username",
     ADMIN: "Admin",
     CANCEL: "Cancel",
+    CAST_VOTE: "Cast Vote",
     CLOSE_POOLS: "Close Pools",
     CONFIRM_ADD_ITEM: "Are you sure you want to add this item?",
     CONFIRM_CLOSE_POLLS: "Are you sure you want to close the polls?",
     CONFIRM_EDIT_ITEM: "Are you sure you want to edit this item?",
     CONFIRM_EDIT: "Are you sure you want to edit your user account?",
     CONFIRM_OPEN_POLLS: "Are you sure you want to open the polls?",
+    CONFIRM_VOTE: "Are you sure you want to cast this vote?",
     DEADLINE: "Deadline",
     EDIT_ITEMS: "Edit Items",
     EDIT: "Edit",
@@ -383,6 +401,7 @@ const Request = Object.freeze({
  *     <li> API_ITEMS </li>
  *     <li> API_USERS </li>
  *     <li> API_VOTES </li>
+ *     <li> CAST </li>
  *     <li> CLOSE </li>
  *     <li> EDIT </li>
  *     <li> LOGIN </li>
@@ -407,6 +426,7 @@ const Route = Object.freeze({
     API_ITEMS: "/api/items",
     API_USERS: "/api/users",
     API_VOTES: "/api/votes",
+    CAST: "/cast",
     CLOSE: "/close",
     EDIT: "/edit",
     LOGIN: "/login",

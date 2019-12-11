@@ -24,8 +24,8 @@ import useItems from "../../../../../hooks/useItems";
 
 /**
  * @description The EditItem component contains UI elements that are required to edit Item documents on the database.
- * The UI elements include text input fields for optionally setting the "name" and/or "image" URL, a button to reset the text fields to their default values
- * and a button for submitting the input data to the server.
+ * The UI elements include text input fields for optionally setting the "name" and/or "image" URL,
+ * a button to reset the text fields to their default values and a button for submitting the input data to the server.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} JSX markup.

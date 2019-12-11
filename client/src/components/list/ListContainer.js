@@ -34,11 +34,10 @@ const ListContainer = () => {
     const {
         
         itemsCandidate,
-        itemsError,
         itemsVote,
         setItemsCandidate,
         setItemsVote,
-     } = useItems();
+    } = useItems();
 
     /**
      * @description Reorders and/or transfers item data between the "itemsCandidate" and "itemsVote" List components according to the results of a drag.
@@ -126,35 +125,24 @@ const ListContainer = () => {
      * JSX markup
      * 
      */
-    if (itemsError) {
+    return (
 
-        return (
+        <div className={C.Style.LIST_CONTAINER}>
+            {(itemsCandidate || itemsVote) &&
+                <DragDropContext onDragEnd={dragEndHandler}>
+                    <List
+                        ID={C.ID.LIST_ITEMS_CANDIDATE}
+                        data={itemsCandidate}
+                    />
 
-            <>{JSON.stringify(itemsError)}</>
-        );
-    }
-
-    if (itemsCandidate || itemsVote) {
-
-        return (
-
-            <DragDropContext
-                onDragEnd={dragEndHandler}
-                style={C.Style.LIST_CONTAINER}
-            >
-                <List
-                    ID={C.ID.LIST_ITEMS_CANDIDATE}
-                    data={itemsCandidate}
-                />
-                <List
-                    ID={C.ID.LIST_ITEMS_VOTE}
-                    data={itemsVote}
-                />
-            </DragDropContext>
-        );
-    }
-
-    return null;
+                    <List
+                        ID={C.ID.LIST_ITEMS_VOTE}
+                        data={itemsVote}
+                    />
+                </DragDropContext>
+            }
+        </div>
+    );
 };
 
 /**

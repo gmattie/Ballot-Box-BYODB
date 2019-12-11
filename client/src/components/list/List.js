@@ -41,6 +41,7 @@ const List = ({ ID, data }) => {
                     {...provided.droppableProps}
                 >
                     <ListItemContainer data={data} />
+                    
                     {provided.placeholder}
                 </div>
             )}
@@ -50,6 +51,7 @@ const List = ({ ID, data }) => {
 
 /**
  * Default Props
+ * 
  */
 List.defaultProps = {
 

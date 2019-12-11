@@ -352,7 +352,9 @@ router.post(C.Route.CAST, [
             
             await vote.save();
 
-            return res.sendStatus(C.Status.OK);
+            return res
+                .status(C.Status.OK)
+                .json({ cast });
         }
         catch (error) {
 

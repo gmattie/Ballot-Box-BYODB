@@ -18,6 +18,7 @@ const initialState = {
     
     [C.Action.Type.ITEMS_ADD]: null,
     [C.Action.Type.ITEMS_ALL]: null,
+    [C.Action.Type.ITEMS_CANDIDATE]: null,
     [C.Action.Type.ITEMS_EDIT]: null,
     [C.Action.Type.ITEMS_ERROR]: null,
     [C.Action.Type.ITEMS_VOTE]: null,
@@ -53,13 +54,21 @@ const itemsReducer = (state = initialState, action) => {
                 [C.Action.Type.ITEMS_ALL]: action[C.Action.PAYLOAD],
             };
 
+        case C.Action.Type.ITEMS_CANDIDATE:
+
+            return {
+                
+                ...state,
+                [C.Action.Type.ITEMS_CANDIDATE]: action[C.Action.PAYLOAD],
+            };
+
         case C.Action.Type.ITEMS_EDIT:
 
-                return {
-                    
-                    ...state,
-                    [C.Action.Type.ITEMS_EDIT]: action[C.Action.PAYLOAD],
-                };
+            return {
+                
+                ...state,
+                [C.Action.Type.ITEMS_EDIT]: action[C.Action.PAYLOAD],
+            };
 
         case C.Action.Type.ITEMS_ERROR:
             

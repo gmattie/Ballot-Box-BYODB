@@ -46,6 +46,24 @@ const setVotesAll = (data) => {
 };
 
 /**
+ * @description Creates an action that sets the "votesCast" property of the voteReducer state.
+ * 
+ * @param {string} data - The value of the payload embedded in the action.
+ * @returns {object|null} The action.
+ * @public
+ * @function
+ *  
+ */
+const setVotesCast = (data) => {
+
+    return {
+
+        type: C.Action.Type.VOTES_CAST,
+        [C.Action.PAYLOAD]: data
+    };
+};
+
+/**
  * @description Creates an action that sets the "votesError" property of the votesReducer state. 
  * 
  * @param {string} error - The value of the payload embedded in the action.
@@ -127,6 +145,58 @@ const fetchAll = () => {
             const data = await response.json();
 
             dispatch((data.error) ? authActions.setAuthError(data) : setVotesAll(data));      
+        }
+        catch (error) {
+
+            dispatch(setVotesError(error.message));
+        }
+    };
+};
+
+/**
+ * @description Posts data to /api/votes/cast and dispatches actions to the votesReducer state or from authActions to the authReducer state.
+ * 
+ * @returns {object} The action.
+ * @public
+ * @function
+ *  
+ */
+const fetchCast = () => {
+
+    return async (dispatch, getState) => {
+        
+        try {
+
+            const authToken = getState().auth[C.Action.Type.AUTH_TOKEN][C.Local.TOKEN];
+            const itemsVote = getState().items[C.Action.Type.ITEMS_VOTE];
+            const url = `${C.Route.API_VOTES}${C.Route.CAST}`;
+
+
+            const options = {
+
+                method: C.Request.METHOD_POST,
+                headers: {
+                    
+                    [C.Request.HEADER_X_AUTH_TOKEN]: authToken,
+                    [C.Request.HEADER_CONTENT_TYPE]: C.Request.APPLICATION_JSON
+                },
+                body: JSON.stringify({
+
+                    [C.ID.NAME_CAST]: itemsVote.map((item, index) => {
+                                
+                        return {
+                    
+                            [C.ID.NAME_ITEM]: item._id,
+                            [C.ID.NAME_RANK]: index
+                        };
+                    })
+                })
+            };
+
+            const response = await fetch(url, options);
+            const data = await response.json();
+
+            dispatch((data.error) ? authActions.setAuthError(data) : setVotesCast(data));      
         }
         catch (error) {
 
@@ -218,9 +288,11 @@ export {
 
     fetchActive,
     fetchAll,
+    fetchCast,
     fetchClose,
     fetchOpen,
     setVotesActive,
     setVotesAll,
+    setVotesCast,
     setVotesError,
 };

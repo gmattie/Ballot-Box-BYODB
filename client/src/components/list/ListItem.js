@@ -39,7 +39,9 @@ const ListItem = ({ data, index }) => {
         >
             {(provided, snapshot) => {
                 
-                const className = snapshot.isDragging ? C.Style.LIST_ITEM_ACTIVE : C.Style.LIST_ITEM;
+                const className = snapshot.isDragging
+                    ? C.Style.LIST_ITEM_ACTIVE
+                    : C.Style.LIST_ITEM;
           
                 return (
 
@@ -57,6 +59,7 @@ const ListItem = ({ data, index }) => {
                             intersectionStyle={C.Style.VIEWPORT_IMAGE_INTERSECTION}
                             errorStyle={C.Style.VIEWPORT_IMAGE_ERROR}
                         />
+
                         <span>{data.name}</span>
                     </div>
                 );

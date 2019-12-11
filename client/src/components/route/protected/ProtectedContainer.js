@@ -7,6 +7,7 @@
  * @requires react
  * @requires react-router-dom
  * @requires Results
+ * @requires useAuth
  * @requires useUsers
  * @requires useWebSocket
  * @requires Vote
@@ -21,6 +22,7 @@ import AdminContainer from "./admin/AdminContainer";
 import Edit from "./Edit";
 import React, { useState } from "react";
 import Results from "./Results";
+import useAuth from "../../../hooks/useAuth";
 import useUsers from "../../../hooks/useUsers";
 import useWebSocket from "../../../hooks/useWebSocket";
 import Vote from "./Vote";
@@ -46,8 +48,9 @@ const ProtectedContainer = () => {
      * Hooks
      * 
      */
-    const { path } = useRouteMatch();
+    const { authToken } = useAuth();
     const { fetchLogout, usersSelf } = useUsers();
+    const { path } = useRouteMatch();
     const { webSocketMessage } = useWebSocket();
     const history = useHistory();
 
@@ -133,7 +136,7 @@ const ProtectedContainer = () => {
     return (
 
         <div className={C.Style.PROTECTED_CONTAINER}>
-            {(usersSelf && !isLoading) &&
+            {(authToken && !isLoading) &&
                 <>
                     <div className={C.Style.PROTECTED_CONTAINER_WEBSOCKET_MESSAGE}>
                         {webSocketMessage}
@@ -153,7 +156,7 @@ const ProtectedContainer = () => {
 
                     <Switch>
                         <Route path={C.Route.VOTE}>
-                            <Vote />
+                            <Vote logout={logout} webSocketMessage={webSocketMessage}/>
                         </Route>
 
                         <Route path={C.Route.RESULTS}>
@@ -171,7 +174,7 @@ const ProtectedContainer = () => {
                 </>
             }
 
-            {(!usersSelf || isLoading) &&
+            {(!authToken || isLoading) &&
                 <>
                     {/* TODO: Replace with style animation */}
                     <div>LOADING...</div>

@@ -23,11 +23,13 @@ import * as itemActions from "../state/actions/itemActions";
  *      fetchEdit: function,
  *      itemsAdd: object,
  *      itemsAll: object,
+ *      itemsCandidate: object,
  *      itemsEdit: object,
  *      itemsError: object,
  *      itemsVote: object,
  *      setItemsAdd: function,
  *      setItemsAll: function,
+ *      setItemsCandidate: function,
  *      setItemsEdit: function,
  *      setItemsError: function,
  *      setItemsVote: function,
@@ -50,6 +52,9 @@ const useItems = () => {
     const setItemsAll = (data) => dispatch(itemActions.setItemsAll(data));
     const itemsAll = useSelector((state) => state.items[C.Action.Type.ITEMS_ALL], null);
 
+    const setItemsCandidate = (data) => dispatch(itemActions.setItemsCandidate(data));
+    const itemsCandidate = useSelector((state) => state.items[C.Action.Type.ITEMS_CANDIDATE], null);
+
     const setItemsEdit = (data) => dispatch(itemActions.setItemsEdit(data));
     const itemsEdit = useSelector((state) => state.items[C.Action.Type.ITEMS_EDIT], null);
 
@@ -66,11 +71,13 @@ const useItems = () => {
         fetchEdit,
         itemsAdd,
         itemsAll,
+        itemsCandidate,
         itemsEdit,
         itemsError,
         itemsVote,
         setItemsAdd,
         setItemsAll,
+        setItemsCandidate,
         setItemsEdit,
         setItemsError,
         setItemsVote,

@@ -46,6 +46,24 @@ const setItemsAll = (data) => {
 };
 
 /**
+ * @description Creates an action that sets the "itemsCandidate" property of the itemsReducer state.
+ * 
+ * @param {string} data - The value of the payload embedded in the action.
+ * @returns {object} The action.
+ * @public
+ * @function
+ *  
+ */
+const setItemsCandidate = (data) => {
+
+    return {
+
+        type: C.Action.Type.ITEMS_CANDIDATE,
+        [C.Action.PAYLOAD]: data
+    };
+};
+
+/**
  * @description Creates an action that sets the "itemsEdit" property of the itemsReducer state.
  * 
  * @param {string} data - The value of the payload embedded in the action.
@@ -125,7 +143,7 @@ const fetchAdd = (name, image) => {
                 },
                 body: JSON.stringify({
                     
-                    item: [{
+                    [C.ID.NAME_ITEM]: [{
                         
                         name, image 
                     }]
@@ -248,6 +266,7 @@ export {
     fetchEdit,
     setItemsAdd,
     setItemsAll,
+    setItemsCandidate,
     setItemsEdit,
     setItemsError,
     setItemsVote,
