@@ -16,8 +16,8 @@ import React, { useEffect } from "react";
 
 /**
  * @description Renders a dialog modal window inside a React Portal.
- * Dialogs must contain textual content and a callback function for the "OK" button.
- * An additional "Cancel" button will only be rendered if a related callback function is supplied.
+ * Dialogs must contain at least a "message" string and an "okCallback" function.
+ * Optional "imageURL" and "cancelCallback" will respectively render either an image or a button when supplied.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} The portal rendered to the DOM.
@@ -27,6 +27,7 @@ import React, { useEffect } from "react";
  */
 const Dialog = ({
 
+        imageURL,
         message,
         okCallback,
         cancelCallback
@@ -51,21 +52,34 @@ const Dialog = ({
 
         <Portal elementID={C.ID.ELEMENT_DIALOG}>
             <div className={C.Style.DIALOG}>
+
+                {imageURL && 
+                    <img
+                        src={imageURL}
+                        alt={message}
+                        onClick={okCallback}
+                    />
+                }
+            
                 <div className={C.Style.DIALOG_MESSAGE_CONTAINER}>
                     {message}
                 </div>
 
-                <div className={C.Style.DIALOG_BUTTONS_CONTAINER}>
-                    <button onClick={okCallback}>
-                        {C.Label.OK}
-                    </button>
-                    
-                    {cancelCallback &&
-                        <button onClick={cancelCallback}>
-                            {C.Label.CANCEL}
-                        </button>
-                    }
-                </div>
+                {!imageURL &&
+                    <>
+                        <div className={C.Style.DIALOG_BUTTONS_CONTAINER}>
+                            <button onClick={okCallback}>
+                                {C.Label.OK}
+                            </button>
+                            
+                            {cancelCallback &&
+                                <button onClick={cancelCallback}>
+                                    {C.Label.CANCEL}
+                                </button>
+                            }
+                        </div>
+                    </>
+                }
             </div>
         </Portal>
     );
@@ -77,6 +91,7 @@ const Dialog = ({
  */
 Dialog.propTypes = {
 
+    imageURL: PropTypes.string,
     message: PropTypes.string.isRequired,
     okCallback: PropTypes.func.isRequired,
     cancelCallback: PropTypes.func

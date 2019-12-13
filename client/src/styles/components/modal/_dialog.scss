@@ -1,16 +1,21 @@
 .dialog {
 
-    width: 50vw;
-    padding: 20px;
-    background-color: gray;
-    
+    img {
+
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+    }
+
     &-messageContainer {
 
-        border: 1px solid black;
+        border: 1px solid gray;
+        text-align: center;
     }
 
     &-buttonsContainer {
 
-        border: 1px solid black;
+        border: 1px solid gray;
+        text-align: right;
     }
 }

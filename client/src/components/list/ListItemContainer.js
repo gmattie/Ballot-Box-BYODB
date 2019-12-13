@@ -4,13 +4,15 @@
  * @requires ListItem
  * @requires prop-types
  * @requires react
+ * @requires Dialog
  * @public
  * @module
  * 
  */
 import ListItem from "./ListItem";
 import PropTypes from "prop-types";
-import React, { memo } from "react";
+import React, { memo, useRef, useState } from "react";
+import Dialog from "../../components/modal/Dialog";
 
 /**
  * @description The memoized ListItemContainer component separates and distributes data from the props array to individual ListItem child components.
@@ -24,23 +26,66 @@ import React, { memo } from "react";
 const ListItemContainer = ({ data }) => {
 
     /**
+     * State
+     * 
+     */
+    const [ showDialog, setShowDialog ] = useState(false);
+
+    /**
+     * Refs
+     * 
+     */
+    const itemName = useRef(null);
+    const itemImageURL = useRef(null);
+
+    /**
+     * @description Displays the name and full size image of an item.
+     * 
+     * @param {string} name - The name of the item. 
+     * @param {string} imageURL - the image URL of the item.
+     * 
+     */
+    const showItemDetails = (name, imageURL) => {
+
+        itemName.current = name;
+        itemImageURL.current = imageURL;
+
+        setShowDialog(true);
+    };
+
+    /**
      * JSX markup
      * 
      */
+    return (
 
-    if (data) {
+        <>
+            {showDialog &&
+                <Dialog 
+                    imageURL={itemImageURL.current}
+                    message={itemName.current}
+                    okCallback={() => setShowDialog(false)}
+                />
+            }
 
-        return data.map((data, index) => (
+            {data &&
+                <>
+                    {data.map((data, index) => {
 
-            <ListItem
-                data={data}
-                index={index}
-                key={data._id}
-            />
-        ));
-    }
-
-    return null;
+                        return (
+                        
+                            <ListItem
+                                data={data}
+                                index={index}
+                                showItemDetails={showItemDetails}
+                                key={data._id}
+                            />
+                        );
+                    })}
+                </>
+            }
+        </>
+    );
 };
 
 /**

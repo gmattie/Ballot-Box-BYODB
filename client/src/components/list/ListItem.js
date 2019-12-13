@@ -13,7 +13,7 @@
 import { Draggable } from "react-beautiful-dnd";
 import * as C from "../../support/constants";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useRef } from "react";
 import ViewportImage from "../ViewportImage";
 
 /**
@@ -25,8 +25,39 @@ import ViewportImage from "../ViewportImage";
  * @function
  * 
  */
-const ListItem = ({ data, index }) => {
+const ListItem = ({ data, index, showItemDetails }) => {
 
+    /**
+     * Refs
+     * 
+     */
+    const previousClick = useRef(null);
+
+    /**
+     * @description Simulates a double-click event on all devices.
+     * A double-click is determined by two clicks occurring within the standard time of 500 milliseconds.
+     * 
+     * @private
+     * @function
+     * 
+     */
+    const doubleClickHandler = () => {
+
+        if (data.image) {
+
+            const currentClick = Date.now();
+
+            if (currentClick - previousClick.current < 500) {
+
+                showItemDetails(data.name, data.image);
+            }
+            else {
+
+                previousClick.current = currentClick;
+            }
+        }
+    };
+ 
     /**
      * JSX markup
      * 
@@ -51,6 +82,7 @@ const ListItem = ({ data, index }) => {
                         {...provided.dragHandleProps}
                         className={className}
                         style={provided.draggableProps.style}
+                        onClick={doubleClickHandler}
                     >
                         <ViewportImage
                             src={data.image}
@@ -85,6 +117,7 @@ ListItem.propTypes = {
     }).isRequired,
 
     index: PropTypes.number.isRequired,
+    showItemDetails: PropTypes.func.isRequired
 };
 
 /**
