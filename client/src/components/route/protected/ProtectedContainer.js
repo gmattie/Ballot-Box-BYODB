@@ -55,6 +55,38 @@ const ProtectedContainer = () => {
     const history = useHistory();
 
     /**
+     * @description Creates a section with relevant textual content extracted from the "usersSelf" state.
+     * 
+     * @private
+     * @function
+     * 
+     */
+    const createVoterCard = () => {
+
+        const infoKeys = [
+
+            C.ID.NAME_NAME,
+            C.ID.NAME_EMAIL,
+            C.ID.NAME_IP
+        ];
+
+        return (
+
+            <>
+                {infoKeys.map((item, index) => {
+
+                    return (
+                    
+                        <div key={index}>
+                            {item}: {usersSelf.user[item]}
+                        </div>
+                    );
+                })}
+            </>
+        );
+    };
+
+    /**
      * @description Retrieves a CSS style based on the hypertext reference link argument.
      * 
      * @param {string} href - A hypertext reference link.
@@ -65,8 +97,8 @@ const ProtectedContainer = () => {
     const getButtonStyle = (href) => {
 
         const style = (href === path)
-            ? C.Style.PROTECTED_CONTAINER_BUTTON_SELECTED
-            : C.Style.PROTECTED_CONTAINER_BUTTON;
+            ? C.Style.PROTECTED_CONTAINER_NAV_BUTTON_SELECTED
+            : C.Style.PROTECTED_CONTAINER_NAV_BUTTON;
 
         return style;
     };
@@ -143,7 +175,7 @@ const ProtectedContainer = () => {
                     </div>
 
                     <div className={C.Style.PROTECTED_CONTAINER_USER_INFO}>
-                        {JSON.stringify(usersSelf)}
+                        {createVoterCard()}
                     </div>
 
                     <div>
@@ -154,23 +186,25 @@ const ProtectedContainer = () => {
                         {createButton(C.Label.LOGOUT, logout, null)}
                     </div>
 
-                    <Switch>
-                        <Route path={C.Route.VOTE}>
-                            <Vote logout={logout} webSocketMessage={webSocketMessage}/>
-                        </Route>
+                    <div className={C.Style.PROTECTED_CONTAINER_CONTENT}>
+                        <Switch>
+                            <Route path={C.Route.VOTE}>
+                                <Vote logout={logout} webSocketMessage={webSocketMessage}/>
+                            </Route>
 
-                        <Route path={C.Route.RESULTS}>
-                            <Results />
-                        </Route>
-                        
-                        <Route path={C.Route.ADMIN}>
-                            <AdminContainer logout={logout} />
-                        </Route>
+                            <Route path={C.Route.RESULTS}>
+                                <Results />
+                            </Route>
+                            
+                            <Route path={C.Route.ADMIN}>
+                                <AdminContainer logout={logout} />
+                            </Route>
 
-                        <Route path={C.Route.EDIT}>
-                            <Edit logout={logout} />
-                        </Route>
-                    </Switch>
+                            <Route path={C.Route.EDIT}>
+                                <Edit logout={logout} />
+                            </Route>
+                        </Switch>
+                    </div>
                 </>
             }
 

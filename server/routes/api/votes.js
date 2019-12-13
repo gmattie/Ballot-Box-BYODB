@@ -410,7 +410,7 @@ router.delete(`${C.Route.DELETE}/:${C.Route.PARAM}`, auth, async (req, res) => {
 
 /**
  * @description (GET) Retrieve the active vote.
- * Only admin users, via admin authentication, are authorized to retrieve the active vote if it exists.
+ * All users are authorized to retrieve are authorized to retrieve the active vote if it exists.
  * 
  * @protected
  * @constant
@@ -420,20 +420,11 @@ router.get(C.Route.ACTIVE, auth, async (req, res) => {
 
     try {
 
-        const user = res.locals[C.Local.USER];
+        const vote = await Vote.findOne({ [C.Model.ACTIVE]: true });
 
-        if (user.admin) {
-
-            const vote = await Vote.findOne({ [C.Model.ACTIVE]: true });
-
-            return res
-                .status(C.Status.OK)
-                .json({ vote });
-        }
-        else {
-
-            throw new Error(C.Error.USER_INVALID_CREDENTIALS);
-        }
+        return res
+            .status(C.Status.OK)
+            .json({ vote });
     }
     catch (error) {
 

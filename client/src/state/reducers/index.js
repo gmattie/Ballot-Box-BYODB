@@ -2,6 +2,7 @@
  * @description The root reducer module.
  * 
  * @requires authReducer
+ * @requires constants
  * @requires itemsReducer
  * @requires redux
  * @requires usersReducer
@@ -11,6 +12,7 @@
  * 
  */
 import { combineReducers } from "redux";
+import * as C from "../../support/constants";
 import auth from "./authReducer";
 import items from "./itemsReducer";
 import users from "./usersReducer";
@@ -20,7 +22,7 @@ import webSocket from "./webSocketReducer";
 /**
  * @description A combination of all included reducers into a single reducer.
  * 
- * @public
+ * @private
  * @constant
  * 
  */
@@ -34,7 +36,24 @@ const reducers = combineReducers({
 });
 
 /**
+ * @description Delegates to the combined reducers.
+ * 
+ * @public
+ * @constant
+ * 
+ */ 
+const rootReducer = (state, action) => {
+
+    if (action.type === C.Action.Type.USERS_LOGOUT) {
+
+        state = undefined;
+    }
+
+    return reducers(state, action);
+};
+
+/**
  * Export module
  * 
  */
-export default reducers;
+export default rootReducer;

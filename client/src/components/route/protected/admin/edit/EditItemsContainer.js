@@ -66,34 +66,36 @@ const EditItemsContainer = ({ logout }) => {
      */
     return (
 
-        <Collapsible
-            title={C.Label.EDIT_ITEMS}
-            headerStyle={C.Style.COLLAPSIBLE_HEADER_SECTION}
-            eventHandler={collapsibleHandler}
-        >
-            {!isMounting &&
-                <>
-                    {itemsAll.map((item) => {
+        <div className={C.Style.EDIT_ITEMS_CONTAINER}>
+            <Collapsible
+                title={C.Label.EDIT_ITEMS}
+                headerStyle={C.Style.COLLAPSIBLE_HEADER_SECTION}
+                eventHandler={collapsibleHandler}
+            >
+                {!isMounting &&
+                    <>
+                        {itemsAll.map((item) => {
 
-                        return (
-                        
-                            <EditItem
-                                key={item._id}
-                                itemID={item._id}
-                                itemName={item.name}
-                                itemImage={item.image}
-                                logout={logout}
-                            />
-                        );
-                    })}
-                </>
-            }
+                            return (
+                            
+                                <EditItem
+                                    key={item._id}
+                                    itemID={item._id}
+                                    itemName={item.name}
+                                    itemImage={item.image}
+                                    logout={logout}
+                                />
+                            );
+                        })}
+                    </>
+                }
 
-            {
-                //TODO: Replace with style animation
-                isMounting && <div>LOADING...</div>
-            }
-        </Collapsible>
+                {
+                    //TODO: Replace with style animation
+                    isMounting && <div>LOADING...</div>
+                }
+            </Collapsible>
+        </div>
     );
 };
 

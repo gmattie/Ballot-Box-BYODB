@@ -9,6 +9,7 @@
  * @requires useAuth
  * @requires useItems
  * @requires useMount
+ * @requires useUsers
  * @requires useVotes
  * @public
  * @module
@@ -22,6 +23,7 @@ import React, { useRef, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useItems from "../../../hooks/useItems";
 import useMount from "../../../hooks/useMount";
+import useUsers from "../../../hooks/useUsers";
 import useVotes from "../../../hooks/useVotes";
 
 /**
@@ -65,7 +67,6 @@ const Vote = ({
      * 
      */
     const { authError, setAuthError } = useAuth();
-    const { onMount } = useMount();
     
     const {
         
@@ -81,10 +82,14 @@ const Vote = ({
         setItemsVote,
     } = useItems();
     
+    const { onMount } = useMount();
+    const { usersSelf } = useUsers();
+
     const {
 
         fetchActive,
         fetchCast,
+        setVotesActive,
         setVotesCast,
         votesActive,
         votesCast
@@ -100,18 +105,20 @@ const Vote = ({
         
         previousWebSocketMessage.current = webSocketMessage;
         
+        setVotesCast(null);
+        resetItemLists();
         fetchActive();
     }
 
     isVotable.current = (
         
-        (votesActive && votesActive[C.ID.NAME_VOTE]) &&
+        (votesActive && votesActive.vote) &&
         (itemsVote && itemsVote.length) &&
-        (votesActive[C.ID.NAME_VOTE][C.ID.NAME_QUANTITY] <= itemsVote.length)
+        (votesActive.vote[C.ID.NAME_QUANTITY] <= itemsVote.length)
     );
 
     /**
-     * @description Retrieves all Item documents if List data is null or if Item documents contain additions and/or updates.
+     * @description Check if there is an active vote and retrieve all Item documents if List data is null or if Item documents contain additions and/or updates.
      * Fetching all Item documents is required to initialize the "itemsCandidate" state.
      * 
      * @private
@@ -120,9 +127,13 @@ const Vote = ({
      */
     const mount = () => {
 
+        responseUpdate.current = true;
+
+        setVotesActive(null);
+        fetchActive();
+
         if (!itemsCandidate) {
 
-            responseUpdate.current = true;
             fetchAll();
         }
         else if (itemsAdd || itemsEdit) {
@@ -130,25 +141,50 @@ const Vote = ({
             setItemsAdd(null);
             setItemsEdit(null);
 
-            responseUpdate.current = true;
             fetchAll();
-        }
-        else {
-
-            setIsMounting(false);
         }
     };
 
     onMount(mount);
 
     /**
-     * Initialize or reset List data
+     * Initialize or reset Item data during mount
      * Sets the "itemsCandidate" and "itemsVote" states to the default values. 
      * 
      */
-    if (isMounting && itemsAll && responseUpdate.current) {
+    if (isMounting &&
+        responseUpdate.current &&
+        votesActive &&
+        itemsAll) {
 
-        resetHandler();
+        if (votesActive && votesActive.vote) {
+
+            const currentUserVote = votesActive.vote[C.ID.NAME_VOTE]
+                .find((vote) => vote.user === usersSelf.user._id);
+
+            if (currentUserVote) {
+
+                const cast = {
+
+                    [C.ID.NAME_CAST]: currentUserVote.cast.map((vote) => {
+
+                        return {
+                    
+                            [C.ID.NAME_ITEM]: vote[C.ID.NAME_ITEM],
+                            [C.ID.NAME_RANK]: vote[C.ID.NAME_RANK]
+                        };
+                    })
+                };
+
+                setVotesCast(cast);
+            }
+            else {
+
+                setVotesCast(null);
+            }
+        }
+
+        resetItemLists();
 
         responseUpdate.current = false;
         setIsMounting(false);
@@ -163,7 +199,7 @@ const Vote = ({
 
         responseUpdate.current = false;
 
-        resetHandler();
+        resetItemLists();
     }
 
     /**
@@ -223,49 +259,32 @@ const Vote = ({
      */
     const submitHandler = async () => {
 
-        if (isVotable.current) {
+        setShowDialog(false);
 
-            setShowDialog(false);
+        setAuthError(null);
+        setVotesCast(null);
 
-            setAuthError(null);
-            setVotesCast(null);
+        setInvalidCast(null);
+        setInvalidItem(null);
+        setInvalidRank(null);
+        
+        setIsLoading(true);
 
-            setInvalidCast(null);
-            setInvalidItem(null);
-            setInvalidRank(null);
-            setIsLoading(true);
+        responseUpdate.current = true;
+        await fetchCast(itemsVote);
 
-            responseUpdate.current = true;
-            await fetchCast(itemsVote);
-
-            setIsLoading(false);
-        }
+        setIsLoading(false);
     };
 
     /**
-     * @description Displays the confirmation dialog.
-     * 
-     * @function
-     * @private
-     * 
-     */
-    const confirmHandler = () => {
-
-        if (isVotable.current) {
-
-            setShowDialog(true);
-        }
-    };
-
-    /**
-     * @description Reset the candidates and votes list to their default values.
+     * @description Sets the "itemsCandidate" and "itemsVote" states to the default values.
      * Written as a function declaration in order to be hoisted and accessible to the custom hooks above.
      * 
      * @function
      * @private
      * 
      */
-    function resetHandler() {
+    function resetItemLists() {
         
         setItemsCandidate(itemsAll);
         setItemsVote(null);
@@ -275,9 +294,19 @@ const Vote = ({
      * JSX markup
      * 
      */
+    if (votesCast) {
+
+        return (
+        
+            <div>
+                {C.Label.VOTE_CAST}
+            </div>
+        );
+    }
+
     return (
 
-        <div>
+        <div className={C.Style.VOTE}>
             {showDialog &&
                 <Dialog 
                     message={C.Label.CONFIRM_VOTE}
@@ -294,19 +323,23 @@ const Vote = ({
 
                     <ListContainer />
 
-                    <button
-                        onClick={confirmHandler}
-                        disabled={isLoading || !isVotable.current}
-                    >
-                        {C.Label.CAST_VOTE.toUpperCase()}
-                    </button>
+                    {(votesActive && votesActive[C.ID.NAME_VOTE]) &&
+                        <>
+                            <button
+                                onClick={() => setShowDialog(true)}
+                                disabled={isLoading || !isVotable.current}
+                            >
+                                {C.Label.CAST_VOTE.toUpperCase()}
+                            </button>
 
-                    <button
-                        onClick={resetHandler}
-                        disabled={isLoading}
-                    >
-                        {C.Label.RESET.toUpperCase()}
-                    </button>
+                            <button
+                                onClick={resetItemLists}
+                                disabled={isLoading}
+                            >
+                                {C.Label.RESET.toUpperCase()}
+                            </button>
+                        </>
+                    }
                 </>
             }
 

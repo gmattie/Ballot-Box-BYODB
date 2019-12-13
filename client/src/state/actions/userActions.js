@@ -227,7 +227,7 @@ const fetchLogout = (authToken = null) => {
             const response = await fetch(url, options);
             await response.json();
             
-            dispatch(setUsersSelf(null));
+            dispatch({type: C.Action.Type.USERS_LOGOUT});
             dispatch(fetchSelf(null));
         }
         catch (error) {

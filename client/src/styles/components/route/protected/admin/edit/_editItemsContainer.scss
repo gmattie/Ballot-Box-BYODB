@@ -1,0 +1,10 @@
+.editItemsContainer {
+
+    overflow-y: auto;
+
+    .collapsible-header-section {
+
+        position: sticky;
+        top: 0;
+    }
+}

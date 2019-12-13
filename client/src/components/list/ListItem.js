@@ -60,7 +60,9 @@ const ListItem = ({ data, index }) => {
                             errorStyle={C.Style.VIEWPORT_IMAGE_ERROR}
                         />
 
-                        <span>{data.name}</span>
+                        <div className={C.Style.LIST_ITEM_TITLE}>
+                            {data.name}
+                        </div>
                     </div>
                 );
             }}

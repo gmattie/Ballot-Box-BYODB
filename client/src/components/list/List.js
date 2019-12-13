@@ -25,7 +25,7 @@ import React from "react";
  * @function
  * 
  */
-const List = ({ ID, data }) => {
+const List = ({ ID, title, data }) => {
 
     /**
      * JSX markup
@@ -40,9 +40,15 @@ const List = ({ ID, data }) => {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                 >
-                    <ListItemContainer data={data} />
-                    
-                    {provided.placeholder}
+                    <div className={C.Style.LIST_TITLE}>
+                        {title}
+                    </div>
+
+                    <div className={C.Style.LIST_CONTENT}>
+                        <ListItemContainer data={data} />
+
+                        {provided.placeholder}
+                    </div>
                 </div>
             )}
         </Droppable>
@@ -65,6 +71,7 @@ List.defaultProps = {
 List.propTypes = {
 
     ID: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
     data: PropTypes.array
 };
 

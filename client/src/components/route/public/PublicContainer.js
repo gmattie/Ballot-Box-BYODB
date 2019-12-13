@@ -52,8 +52,8 @@ const PublicContainer = () => {
     const getButtonStyle = (href) => {
 
         const style = (href === path)
-            ? C.Style.PUBLIC_CONTAINER_BUTTON_SELECTED
-            : C.Style.PUBLIC_CONTAINER_BUTTON;
+            ? C.Style.PUBLIC_CONTAINER_NAV_BUTTON_SELECTED
+            : C.Style.PUBLIC_CONTAINER_NAV_BUTTON;
 
         return style;
     };

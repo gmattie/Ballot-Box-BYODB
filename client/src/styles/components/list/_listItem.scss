@@ -1,22 +1,20 @@
 @mixin listItem {
 
     width: 100%;
-    height: $LIST_ITEM_HEIGHT + $LIST_ITEM_MARGIN * 2;
+    height: $LIST_ITEM_HEIGHT;
     background-color: black;
     list-style: none;
     display: flex;
     align-items: center;
-    position: relative;
+    border: 1px solid gray;
 
-    span {
+    &-title {
 
-        position: absolute;
-        bottom: 0;
-        background-color: rgba(255, 255, 255, 0.6);
-        color: black;
+        color: white;
         font-weight: 700;
         text-align: center;
         width: 100%;
+        margin-right: $LIST_ITEM_MARGIN;
     }
 }
 

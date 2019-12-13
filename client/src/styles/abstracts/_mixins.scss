@@ -37,8 +37,7 @@
 
 @mixin protected-container-header {
 
-    width: 100%;
     border: 1px solid gray;
-    margin: $LIST_ITEM_MARGIN;
+    padding: $LIST_ITEM_MARGIN;
     word-wrap: break-word;
 }

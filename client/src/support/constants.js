@@ -40,6 +40,7 @@ const Access = Object.freeze({
  *         <li> ITEMS_VOTE </li>
  *         <li> USERS_EDIT </li>
  *         <li> USERS_ERROR </li>
+ *         <li> USERS_LOGOUT </li>
  *         <li> USERS_REGISTER </li>
  *         <li> USERS_RESET </li>
  *         <li> USERS_SELF </li>
@@ -71,6 +72,7 @@ const Action = Object.freeze({
         ITEMS_VOTE: "itemsVote",
         USERS_EDIT: "usersEdit",
         USERS_ERROR: "usersError",
+        USERS_LOGOUT: "usersLogout",
         USERS_REGISTER: "usersRegister",
         USERS_RESET: "usersReset",
         USERS_SELF: "usersSelf",
@@ -199,6 +201,7 @@ const HTMLElement = Object.freeze({
  *     <li> NAME_DEADLINE </li>
  *     <li> NAME_EMAIL </li>
  *     <li> NAME_IMAGE </li>
+ *     <li> NAME_IP </li>
  *     <li> NAME_ITEM </li>
  *     <li> NAME_NAME </li>
  *     <li> NAME_PASSWORD </li>
@@ -226,6 +229,7 @@ const ID = Object.freeze({
     NAME_DEADLINE: "deadline",
     NAME_EMAIL: "email",
     NAME_IMAGE: "image",
+    NAME_IP: "ip",
     NAME_ITEM: "item",
     NAME_NAME: "name",
     NAME_PASSWORD_CONFIRM: "passwordConfirm",
@@ -262,6 +266,7 @@ const Image = Object.freeze({
  *     <li> ADMIN_PASSWORD </li>
  *     <li> ADMIN_USERNAME </li>
  *     <li> CANCEL </li>
+ *     <li> CANDIDATES </li>
  *     <li> CAST_VOTE </li>
  *     <li> CLOSE_POOLS </li>
  *     <li> CONFIRM_ADD_ITEM </li>
@@ -294,6 +299,8 @@ const Image = Object.freeze({
  *     <li> RESET </li>
  *     <li> RESULTS </li>
  *     <li> VOTE </li>
+ *     <li> VOTE_CAST </li>
+ *     <li> VOTES </li>
  * </ul>
  * 
  * @public
@@ -309,6 +316,7 @@ const Label = Object.freeze({
     ADMIN_USERNAME: "Admin Username",
     ADMIN: "Admin",
     CANCEL: "Cancel",
+    CANDIDATES: "Candidates",
     CAST_VOTE: "Cast Vote",
     CLOSE_POOLS: "Close Pools",
     CONFIRM_ADD_ITEM: "Are you sure you want to add this item?",
@@ -341,6 +349,8 @@ const Label = Object.freeze({
     RESET: "Reset",
     RESULTS: "Results",
     VOTE: "Vote",
+    VOTE_CAST: "Your vote has been cast for the current poll.",
+    VOTES: "Votes",
 });
 
 /**
@@ -455,26 +465,31 @@ const Route = Object.freeze({
  *     <li> DIALOG </li>
  *     <li> DIALOG_BUTTONS_CONTAINER </li>
  *     <li> DIALOG_MESSAGE_CONTAINER </li>
+ *     <li> EDIT_ITEMS_CONTAINER </li>
  *     <li> HIDDEN </li>
  *     <li> INPUT_PASSWORD </li>
  *     <li> INPUT_PASSWORD_HIDE </li>
  *     <li> INPUT_PASSWORD_SHOW </li>
  *     <li> LIST </li>
  *     <li> LIST_CONTAINER </li>
+ *     <li> LIST_CONTENT </li>
  *     <li> LIST_ITEM </li>
- *     <li> LIST_ITEM_HIDE </li>
+ *     <li> LIST_ITEM_ACTIVE </li>
+ *     <li> LIST_ITEM_TITLE </li>
+ *     <li> LIST_TITLE </li>
  *     <li> PORTAL </li>
  *     <li> PROTECTED_CONTAINER </li>
- *     <li> PROTECTED_CONTAINER_BUTTON </li>
- *     <li> PROTECTED_CONTAINER_BUTTON_SELECTED </li>
+ *     <li> PROTECTED_CONTAINER_NAV_BUTTON </li>
+ *     <li> PROTECTED_CONTAINER_NAV_BUTTON_SELECTED </li>
  *     <li> PROTECTED_CONTAINER_USER_INFO </li>
  *     <li> PROTECTED_CONTAINER_WEBSOCKET_MESSAGE </li>
  *     <li> PUBLIC_CONTAINER </li>
- *     <li> PUBLIC_CONTAINER_BUTTON </li>
- *     <li> PUBLIC_CONTAINER_BUTTON_SELECTED </li>
+ *     <li> PUBLIC_CONTAINER_NAV_BUTTON </li>
+ *     <li> PUBLIC_CONTAINER_NAV_BUTTON_SELECTED </li>
  *     <li> VIEWPORT_IMAGE_ERROR </li>
  *     <li> VIEWPORT_IMAGE_INTERSECTION </li>
  *     <li> VISIBLE </li>
+ *     <li> VOTE </li>
  * </ul>
  * 
  * @public
@@ -495,27 +510,33 @@ const Style = Object.freeze({
     DIALOG_BUTTONS_CONTAINER: "dialog-buttonsContainer",
     DIALOG_MESSAGE_CONTAINER: "dialog-messageContainer",
     DIALOG: "dialog",
+    EDIT_ITEMS_CONTAINER: "editItemsContainer",
     HIDDEN: "hidden",
     INPUT_PASSWORD_HIDE: "inputPassword-hide",
     INPUT_PASSWORD_SHOW: "inputPassword-show",
     INPUT_PASSWORD: "inputPassword",
     LIST_CONTAINER: "listContainer",
+    LIST_CONTENT: "list-content",
     LIST_ITEM_ACTIVE: "listItem-active",
+    LIST_ITEM_TITLE: "listItem-title",
     LIST_ITEM: "listItem",
+    LIST_TITLE: "list-title",
     LIST: "list",
     PORTAL: "portal",
-    PROTECTED_CONTAINER_BUTTON_SELECTED: "protectedContainer-button-selected",
-    PROTECTED_CONTAINER_BUTTON: "protectedContainer-button",
+    PROTECTED_CONTAINER_CONTENT: "protectedContainer-content",
+    PROTECTED_CONTAINER_NAV_BUTTON_SELECTED: "protectedContainer-nav-button-selected",
+    PROTECTED_CONTAINER_NAV_BUTTON: "protectedContainer-nav-button",
     PROTECTED_CONTAINER_USER_INFO: "protectedContainer-userInfo",
     PROTECTED_CONTAINER_WEBSOCKET_MESSAGE: "protectedContainer-webSocketMessage",
     PROTECTED_CONTAINER: "protectedContainer",
-    PUBLIC_CONTAINER_BUTTON_SELECTED: "publicContainer-button-selected",
-    PUBLIC_CONTAINER_BUTTON: "publicContainer-button",
+    PUBLIC_CONTAINER_NAV_BUTTON_SELECTED: "publicContainer-nav-button-selected",
+    PUBLIC_CONTAINER_NAV_BUTTON: "publicContainer-nav-button",
     PUBLIC_CONTAINER: "publicContainer",
     VIEWPORT_IMAGE_ERROR: "viewportImage-error",
     VIEWPORT_IMAGE_INTERSECTION: "viewportImage-intersection",
     VIEWPORT_IMAGE: "viewportImage",
     VISIBLE: "visible",
+    VOTE: "vote",
 });
 
 /**

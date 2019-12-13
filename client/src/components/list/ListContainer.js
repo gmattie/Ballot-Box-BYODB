@@ -6,6 +6,7 @@
  * @requires react
  * @requires react-beautiful-dnd
  * @requires useItems
+ * @requires useVotes
  * @public
  * @module
  * 
@@ -15,6 +16,7 @@ import * as C from "../../support/constants";
 import List from "./List";
 import React from "react";
 import useItems from "../../hooks/useItems";
+import useVotes from "../../hooks/useVotes";
 
 /**
  * @description The ListContainer component contains two separate List components that can both share and reorder ListItem components via drag and drop functionality.
@@ -38,6 +40,8 @@ const ListContainer = () => {
         setItemsCandidate,
         setItemsVote,
     } = useItems();
+
+    const { votesActive } = useVotes();
 
     /**
      * @description Reorders and/or transfers item data between the "itemsCandidate" and "itemsVote" List components according to the results of a drag.
@@ -132,13 +136,17 @@ const ListContainer = () => {
                 <DragDropContext onDragEnd={dragEndHandler}>
                     <List
                         ID={C.ID.LIST_ITEMS_CANDIDATE}
+                        title={C.Label.CANDIDATES}
                         data={itemsCandidate}
                     />
 
-                    <List
-                        ID={C.ID.LIST_ITEMS_VOTE}
-                        data={itemsVote}
-                    />
+                    {(votesActive && votesActive[C.ID.NAME_VOTE]) &&
+                        <List
+                            ID={C.ID.LIST_ITEMS_VOTE}
+                            title={C.Label.VOTES}
+                            data={itemsVote}
+                        />
+                    }
                 </DragDropContext>
             }
         </div>

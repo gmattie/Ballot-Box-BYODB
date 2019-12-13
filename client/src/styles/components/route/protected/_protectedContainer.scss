@@ -3,6 +3,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 100vh;
+    overflow: hidden;
 
     &-webSocketMessage {
 
@@ -14,7 +16,7 @@
         @include protected-container-header;
     }
 
-    &-button {
+    &-nav-button {
 
         @include button;
     
@@ -22,5 +24,12 @@
 
             @include button-selected;
         }
+    }
+
+    &-content {
+
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
     }
 }

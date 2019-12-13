@@ -13,6 +13,8 @@
 @import "./components/list/listItem";
 @import "./components/modal/dialog";
 @import "./components/modal/portal";
+@import "./components/route/protected/admin/edit/editItemsContainer";
 @import "./components/route/protected/protectedContainer";
+@import "./components/route/protected/vote";
 @import "./components/route/public/publicContainer";
 @import "./components/viewportImage";

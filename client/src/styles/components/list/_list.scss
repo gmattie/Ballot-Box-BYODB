@@ -1,8 +1,24 @@
 .list {
 
     display: inline-block;
-    width: $LIST_ITEM_HEIGHT + $LIST_ITEM_MARGIN * 2;
+    width: $LIST_WIDTH;
     max-width: 50vw;
-    height: 80vh;
     overflow-y: scroll;
+
+    &-title {
+
+        position: sticky;
+        top: 0;
+        padding: 10px;
+        left: 20px;
+        background-color: rgba(255, 255, 255, 0.75);
+        color: black;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    &-content {
+
+        border: 1px solid gray;
+    }
 }
