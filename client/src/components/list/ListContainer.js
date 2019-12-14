@@ -35,6 +35,7 @@ const ListContainer = () => {
      */
     const {
         
+        itemsAll,
         itemsCandidate,
         itemsVote,
         setItemsCandidate,
@@ -126,6 +127,21 @@ const ListContainer = () => {
     };
 
     /**
+     * @description Retrieves the title of the "itemsVote" list with updated vote count.
+     * 
+     * @private
+     * @function
+     * 
+     */
+    const getVotesListTitle = () => {
+
+        const quantity = Math.min(itemsAll.length, votesActive[C.ID.NAME_VOTE][C.ID.NAME_QUANTITY]);
+        const count = Math.min((itemsVote) ? itemsVote.length : 0, quantity);
+
+        return `${C.Label.VOTES} (${count}/${quantity})`;
+    };
+
+    /**
      * JSX markup
      * 
      */
@@ -143,7 +159,7 @@ const ListContainer = () => {
                     {(votesActive && votesActive[C.ID.NAME_VOTE]) &&
                         <List
                             ID={C.ID.LIST_ITEMS_VOTE}
-                            title={C.Label.VOTES}
+                            title={getVotesListTitle()}
                             data={itemsVote}
                         />
                     }

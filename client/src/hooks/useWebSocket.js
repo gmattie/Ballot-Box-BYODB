@@ -48,9 +48,9 @@ const useWebSocket = () => {
             }
         };
 
-        const handleOpen = (event) => handleWebSocket(event.type, false);
+        const handleOpen = (event) => handleWebSocket(JSON.stringify({ [C.Event.Type.WEBSOCKET]: event.type }), false);
         const handleMessage = (event) => handleWebSocket(event.data, false);
-        const handleClose = (event) => handleWebSocket(event.type, true);
+        const handleClose = (event) => handleWebSocket(JSON.stringify({ [C.Event.Type.WEBSOCKET]: event.type }), true);
 
         webSocket.addEventListener(C.Event.OPEN, handleOpen);
         webSocket.addEventListener(C.Event.MESSAGE, handleMessage);

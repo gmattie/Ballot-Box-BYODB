@@ -120,6 +120,11 @@ const Error = Object.freeze({
  * <ul>
  *     <li> CLOSE </li>
  *     <li> CONNECTION </li>
+ *     <ul>
+ *         <li> DEADLINE </li>
+ *         <li> VOTE </li>
+ *     </ul>
+ *     <li> VOTE_CAST </li>
  *     <li> VOTE_CLOSED </li>
  *     <li> VOTE_COMPLETE </li>
  *     <li> VOTE_OPENED </li>
@@ -133,9 +138,18 @@ const Event = Object.freeze({
 
     CLOSE: "close",
     CONNECTION: "connection",
+
+    Type: {
+
+        DEADLINE: "deadline",
+        VOTE: "vote",
+    },
+
+    VOTE_CAST: "voteCast",
     VOTE_CLOSED: "voteClosed",
     VOTE_COMPLETE: "voteComplete",
     VOTE_OPENED: "voteOpened",
+
 });
 
 /**

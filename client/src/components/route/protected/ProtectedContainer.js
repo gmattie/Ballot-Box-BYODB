@@ -9,6 +9,7 @@
  * @requires Results
  * @requires useAuth
  * @requires useUsers
+ * @requires useVotes
  * @requires useWebSocket
  * @requires Vote
 
@@ -20,10 +21,11 @@ import { Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
 import * as C from "../../../support/constants";
 import AdminContainer from "./admin/AdminContainer";
 import Edit from "./Edit";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Results from "./Results";
 import useAuth from "../../../hooks/useAuth";
 import useUsers from "../../../hooks/useUsers";
+import useVotes from "../../../hooks/useVotes";
 import useWebSocket from "../../../hooks/useWebSocket";
 import Vote from "./Vote";
 
@@ -42,7 +44,19 @@ const ProtectedContainer = () => {
      * State
      * 
      */
+    const [ deadlineDays, setDeadlineDays ] = useState(null);
+    const [ deadlineHours, setDeadlineHours ] = useState(null);
+    const [ deadlineMinutes, setDeadlineMinutes ] = useState(null);
+    const [ deadlineSeconds, setDeadlineSeconds ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(false);
+    const [ isMounting, setIsMounting ] = useState(true);
+    const [ voteStatus, setVoteStatus ] = useState(null);
+
+    /**
+     * Refs
+     * 
+     */
+    const previousWebSocketMessage = useRef(null);
 
     /**
      * Hooks
@@ -51,8 +65,83 @@ const ProtectedContainer = () => {
     const { authToken } = useAuth();
     const { fetchLogout, usersSelf } = useUsers();
     const { path } = useRouteMatch();
+    const { fetchActive, votesActive } = useVotes();
     const { webSocketMessage } = useWebSocket();
     const history = useHistory();
+
+    /**
+     * Mounting
+     * 
+     */
+    if (isMounting && authToken) {
+        
+        fetchActive();
+    }
+
+    if (isMounting && votesActive) {
+
+        setVoteStatus((votesActive.vote) ? C.Label.OPEN : C.Label.CLOSED);
+
+        setIsMounting(false);
+    }
+
+    /**
+     * @description Extract time data from a JSON stringified websocket "deadline" message.
+     * The websocket "deadline" message string resembles the following:
+     * 
+     *     "{"deadline":{"days":"00","hours":"00","minutes":"00","seconds":"00"}}"
+     * 
+     * @param {string} message - The websocket message to parse.
+     * @private
+     * @function
+     *  
+     */
+    const parseVoteDeadline = (message) => {
+
+        const deadline = JSON.parse(message)[C.Event.Type.DEADLINE];
+
+        setDeadlineDays(deadline[C.ID.DEADLINE_DAYS]);
+        setDeadlineHours(deadline[C.ID.DEADLINE_HOURS]);
+        setDeadlineMinutes(deadline[C.ID.DEADLINE_MINUTES]);
+        setDeadlineSeconds(deadline[C.ID.DEADLINE_SECONDS]);
+    };
+
+    /**
+     * Process webSocketMessage
+     * The webSocketMessage will resemble one of the following:
+     *     
+     *     "{"deadline":{"days":"00","hours":"00","minutes":"00","seconds":"00"}}"
+     *     "{"vote":"voteOpened}"
+     *     "{"vote":"voteClosed"}"
+     * 
+     */
+    if (webSocketMessage && previousWebSocketMessage.current !== webSocketMessage) {
+        
+        const deadline = JSON.parse(webSocketMessage)[C.Event.Type.DEADLINE];
+
+        const messageOpened = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_OPENED });
+        const messageClosed = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED });
+
+        if (deadline) {
+
+            parseVoteDeadline(webSocketMessage);
+        }
+        else if (webSocketMessage === messageOpened) {
+
+            setVoteStatus(C.Label.OPEN);
+        }
+        else if (webSocketMessage === messageClosed) {
+            
+            setVoteStatus(C.Label.CLOSED);
+            
+            setDeadlineDays(null);
+            setDeadlineHours(null);
+            setDeadlineMinutes(null);
+            setDeadlineSeconds(null);
+        }
+
+        previousWebSocketMessage.current = webSocketMessage;
+    }
 
     /**
      * @description Creates a section with relevant textual content extracted from the "usersSelf" state.
@@ -168,10 +257,33 @@ const ProtectedContainer = () => {
     return (
 
         <div className={C.Style.PROTECTED_CONTAINER}>
-            {(authToken && !isLoading) &&
+            {(authToken && !isMounting && !isLoading) &&
                 <>
                     <div className={C.Style.PROTECTED_CONTAINER_WEBSOCKET_MESSAGE}>
-                        {webSocketMessage}
+                        <div>
+                            {C.Label.POLLS_STATUS} {voteStatus}
+                        </div>
+                        
+                        {(deadlineDays || deadlineHours || deadlineMinutes || deadlineSeconds) &&
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <td>{C.Label.DEADLINE_DAYS}</td>
+                                        <td>{C.Label.DEADLINE_HOURS}</td>
+                                        <td>{C.Label.DEADLINE_MINUTES}</td>
+                                        <td>{C.Label.DEADLINE_SECONDS}</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{deadlineDays}</td>
+                                        <td>{deadlineHours}</td>
+                                        <td>{deadlineMinutes}</td>
+                                        <td>{deadlineSeconds}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        }
                     </div>
 
                     <div className={C.Style.PROTECTED_CONTAINER_USER_INFO}>
@@ -189,7 +301,10 @@ const ProtectedContainer = () => {
                     <div className={C.Style.PROTECTED_CONTAINER_CONTENT}>
                         <Switch>
                             <Route path={C.Route.VOTE}>
-                                <Vote logout={logout} webSocketMessage={webSocketMessage}/>
+                                <Vote
+                                    logout={logout}
+                                    webSocketMessage={webSocketMessage}
+                                />
                             </Route>
 
                             <Route path={C.Route.RESULTS}>
@@ -208,7 +323,7 @@ const ProtectedContainer = () => {
                 </>
             }
 
-            {(!authToken || isLoading) &&
+            {(!authToken || isMounting || isLoading) &&
                 <>
                     {/* TODO: Replace with style animation */}
                     <div>LOADING...</div>

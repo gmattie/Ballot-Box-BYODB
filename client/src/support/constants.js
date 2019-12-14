@@ -130,6 +130,11 @@ const Error = Object.freeze({
  *     <li> LOAD </li>
  *     <li> MESSAGE </li>
  *     <li> OPEN </li>
+ *     <ul>
+ *         <li> DEADLINE </li>
+ *         <li> VOTE </li>
+ *         <li> WEBSOCKET </li>
+ *     </ul>
  *     <li> VOTE_CLOSED </li>
  *     <li> VOTE_COMPLETE </li>
  *     <li> VOTE_OPENED </li>
@@ -151,6 +156,15 @@ const Event = Object.freeze({
     LOAD: "load",
     MESSAGE: "message",
     OPEN: "open",
+
+    Type: {
+
+        DEADLINE: "deadline",
+        VOTE: "vote",
+        WEBSOCKET: "webSocket",
+    },
+    
+    VOTE_CAST: "voteCast",
     VOTE_CLOSED: "voteClosed",
     VOTE_COMPLETE: "voteComplete",
     VOTE_OPENED: "voteOpened",
@@ -189,6 +203,10 @@ const HTMLElement = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> DEADLINE_DAYS </li>
+ *     <li> DEADLINE_HOURS </li>
+ *     <li> DEADLINE_MINUTES </li>
+ *     <li> DEADLINE_SECONDS </li>
  *     <li> ELEMENT_DIALOG </li>
  *     <li> ERROR_MESSAGE </li>
  *     <li> ERROR_PARAM </li>
@@ -217,6 +235,10 @@ const HTMLElement = Object.freeze({
  */
 const ID = Object.freeze({
 
+    DEADLINE_DAYS: "days",
+    DEADLINE_HOURS: "hours",
+    DEADLINE_MINUTES: "minutes",
+    DEADLINE_SECONDS: "seconds",
     ELEMENT_DIALOG: "dialog",
     ERROR_MESSAGE: "msg",
     ERROR_PARAM: "param",
@@ -269,6 +291,7 @@ const Image = Object.freeze({
  *     <li> CANDIDATES </li>
  *     <li> CAST_VOTE </li>
  *     <li> CLOSE_POOLS </li>
+ *     <li> CLOSED </li>
  *     <li> CONFIRM_ADD_ITEM </li>
  *     <li> CONFIRM_CLOSE_POLLS </li>
  *     <li> CONFIRM_EDIT </li>
@@ -276,6 +299,10 @@ const Image = Object.freeze({
  *     <li> CONFIRM_OPEN_POLLS </li>
  *     <li> CONFIRM_VOTE </li>
  *     <li> DEADLINE </li>
+ *     <li> DEADLINE_DAYS </li>
+ *     <li> DEADLINE_HOURS </li>
+ *     <li> DEADLINE_MINUTES </li>
+ *     <li> DEADLINE_SECONDS </li>
  *     <li> EDIT </li>
  *     <li> EDIT_ITEMS </li>
  *     <li> EMAIL </li>
@@ -290,10 +317,12 @@ const Image = Object.freeze({
  *     <li> MANAGE_POLLS </li>
  *     <li> NAME </li>
  *     <li> OK </li>
+ *     <li> OPEN </li>
  *     <li> OPEN_POLLS </li>
  *     <li> OPTIONAL </li>
  *     <li> PASSWORD </li>
  *     <li> PASSWORD_CONFIRM </li>
+ *     <li> POLLS_STATUS </li>
  *     <li> QUANTITY </li>
  *     <li> REGISTER </li>
  *     <li> RESET </li>
@@ -319,12 +348,17 @@ const Label = Object.freeze({
     CANDIDATES: "Candidates",
     CAST_VOTE: "Cast Vote",
     CLOSE_POOLS: "Close Pools",
+    CLOSED: "Closed",
     CONFIRM_ADD_ITEM: "Are you sure you want to add this item?",
     CONFIRM_CLOSE_POLLS: "Are you sure you want to close the polls?",
     CONFIRM_EDIT_ITEM: "Are you sure you want to edit this item?",
     CONFIRM_EDIT: "Are you sure you want to edit your user account?",
     CONFIRM_OPEN_POLLS: "Are you sure you want to open the polls?",
     CONFIRM_VOTE: "Are you sure you want to cast this vote?",
+    DEADLINE_DAYS: "Days",
+    DEADLINE_HOURS: "Hours",
+    DEADLINE_MINUTES: "Minutes",
+    DEADLINE_SECONDS: "Seconds",
     DEADLINE: "Deadline",
     EDIT_ITEMS: "Edit Items",
     EDIT: "Edit",
@@ -341,15 +375,17 @@ const Label = Object.freeze({
     NAME: "Name",
     OK: "OK",
     OPEN_POLLS: "Open Polls",
+    OPEN: "Open",
     OPTIONAL: "(Optional)",
     PASSWORD_CONFIRM: "Confirm Password",
     PASSWORD: "Password",
+    POLLS_STATUS: "Polls Status:",
     QUANTITY: "Quantity",
     REGISTER: "Register",
     RESET: "Reset",
     RESULTS: "Results",
-    VOTE: "Vote",
     VOTE_CAST: "Your vote has been cast for the current poll.",
+    VOTE: "Vote",
     VOTES: "Votes",
 });
 

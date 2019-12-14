@@ -22,7 +22,7 @@ const setWebSocketMessage = (message) => {
 
     return (dispatch) => {
         
-        if (message === C.Event.VOTE_CLOSED) {
+        if (message === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED })) {
 
             dispatch(setVotesActive(null));
         }

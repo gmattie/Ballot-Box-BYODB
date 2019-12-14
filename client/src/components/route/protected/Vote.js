@@ -58,9 +58,9 @@ const Vote = ({
      * Refs
      * 
      */
+    const isVotable = useRef(false);
     const previousWebSocketMessage = useRef(null);
     const responseUpdate = useRef(false);
-    const isVotable = useRef(false);
 
     /**
      * Hooks
@@ -100,8 +100,11 @@ const Vote = ({
      * Determines if the present state of both "votesActive" and "itemsVote" are sufficient for allowing users to cast votes to the server.
      * 
      */
-    if ((webSocketMessage === C.Event.VOTE_OPENED && previousWebSocketMessage.current !== C.Event.VOTE_OPENED) || 
-        (webSocketMessage === C.Event.VOTE_CLOSED && previousWebSocketMessage.current !== C.Event.VOTE_CLOSED)) {
+    const voteOpened = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_OPENED });
+    const voteClosed = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED });
+
+    if ((webSocketMessage === voteOpened && previousWebSocketMessage.current !== voteOpened) || 
+        (webSocketMessage === voteClosed && previousWebSocketMessage.current !== voteClosed)) {
         
         previousWebSocketMessage.current = webSocketMessage;
         
@@ -114,12 +117,12 @@ const Vote = ({
         
         (votesActive && votesActive.vote) &&
         (itemsVote && itemsVote.length) &&
-        (votesActive.vote[C.ID.NAME_QUANTITY] <= itemsVote.length)
+        (Math.min(itemsAll.length, votesActive.vote[C.ID.NAME_QUANTITY]) <= itemsVote.length)
     );
 
     /**
-     * @description Check if there is an active vote and retrieve all Item documents if List data is null or if Item documents contain additions and/or updates.
-     * Fetching all Item documents is required to initialize the "itemsCandidate" state.
+     * @description Check if there is an active vote and conditionally update "itemsCandidate" state.
+     * Fetching all Item documents is required to initialize or update the "itemsCandidate" state if there are any additions or edits to the Item documents.
      * 
      * @private
      * @function
@@ -132,14 +135,7 @@ const Vote = ({
         setVotesActive(null);
         fetchActive();
 
-        if (!itemsCandidate) {
-
-            fetchAll();
-        }
-        else if (itemsAdd || itemsEdit) {
-
-            setItemsAdd(null);
-            setItemsEdit(null);
+        if (!itemsCandidate || itemsAdd || itemsEdit) {
 
             fetchAll();
         }
@@ -149,7 +145,7 @@ const Vote = ({
 
     /**
      * Initialize or reset Item data during mount
-     * Sets the "itemsCandidate" and "itemsVote" states to the default values. 
+     * Conditionally populates "votesCast" if a user has already voted and/or resets the "itemsCandidate" and "itemsVote" states to the default values. 
      * 
      */
     if (isMounting &&
@@ -183,8 +179,21 @@ const Vote = ({
                 setVotesCast(null);
             }
         }
+        
+        if (!itemsCandidate || itemsAdd || itemsEdit) {
 
-        resetItemLists();
+            resetItemLists();
+        }
+
+        if (itemsAdd) {
+
+            setItemsAdd(null);
+        }
+
+        if (itemsEdit) {
+
+            setItemsEdit(null);
+        }
 
         responseUpdate.current = false;
         setIsMounting(false);

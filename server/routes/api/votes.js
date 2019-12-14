@@ -74,7 +74,7 @@ const closeVote = async (req) => {
         }
         
         const clients = req.app.locals[C.Local.CLIENTS];
-        broadcast(clients, C.Event.VOTE_CLOSED);
+        broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED }));
 
         if (vote[C.Model.VOTE].length === 0) {
 
@@ -128,7 +128,7 @@ const closeVote = async (req) => {
             
             await vote.save();
 
-            broadcast(clients, C.Event.VOTE_COMPLETE);
+            broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_COMPLETE }));
         }
     }
     catch (error) {
@@ -196,7 +196,7 @@ router.post(C.Route.OPEN, [
                                 seconds: parseTimeUnit(seconds % 60)
                             };
             
-                            broadcast(clients, JSON.stringify(data));
+                            broadcast(clients, JSON.stringify({ [C.Event.Type.DEADLINE]: data }));
                     
                             if (seconds === 0) {
         
@@ -213,7 +213,7 @@ router.post(C.Route.OPEN, [
 
                     await vote.save();
 
-                    broadcast(clients, C.Event.VOTE_OPENED);
+                    broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_OPENED }));
 
                     return res
                         .status(C.Status.OK)
@@ -351,6 +351,9 @@ router.post(C.Route.CAST, [
             }));
             
             await vote.save();
+
+            const clients = req.app.locals[C.Local.CLIENTS];
+            broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CAST }));
 
             return res
                 .status(C.Status.OK)
