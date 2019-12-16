@@ -20,15 +20,18 @@ import * as voteActions from "../state/actions/voteActions";
  *      fetchActive: function,
  *      fetchAll: function,
  *      fetchClose: function,
+ *      fetchOne: function,
  *      fetchOpen: function,
  *      setVotesActive: function,
  *      setVotesAll: function,
  *      setVotesCast: function,
  *      setVotesError: function,
+ *      setVotesOne: function,
  *      votesActive: object,
  *      votesAll: object,
  *      votesCast: object,
  *      votesError: object,
+ *      votesOne: object,
  * }
  * @public
  * @function 
@@ -42,6 +45,7 @@ const useVotes = () => {
     const fetchAll = () => dispatch(voteActions.fetchAll());
     const fetchCast = () => dispatch(voteActions.fetchCast());
     const fetchClose = () => dispatch(voteActions.fetchClose());
+    const fetchOne = (voteID) => dispatch(voteActions.fetchOne(voteID));
     const fetchOpen = (deadline, quantity) => dispatch(voteActions.fetchOpen(deadline, quantity));
 
     const setVotesActive = (data) => dispatch(voteActions.setVotesActive(data));
@@ -56,21 +60,27 @@ const useVotes = () => {
     const setVotesError = (data) => dispatch(voteActions.setVotesError(data));
     const votesError = useSelector((state) => state.votes[C.Action.Type.VOTES_ERROR], null);
 
+    const setVotesOne = (data) => dispatch(voteActions.setVotesOne(data));
+    const votesOne = useSelector((state) => state.votes[C.Action.Type.VOTES_ONE], null);
+
     return {
 
         fetchActive,
         fetchAll,
         fetchCast,
         fetchClose,
+        fetchOne,
         fetchOpen,
         setVotesActive,
         setVotesAll,
         setVotesCast,
         setVotesError,
+        setVotesOne,
         votesActive,
         votesAll,
         votesCast,
         votesError,
+        votesOne,
     };
 };
 

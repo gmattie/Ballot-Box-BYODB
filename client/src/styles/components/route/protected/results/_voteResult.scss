@@ -1,0 +1,12 @@
+.voteResult {
+
+    @include list-item;
+
+    &-active {
+
+        display: inline-block;
+        background-color: limegreen;
+        margin-left: 10px;
+        padding: 0 10px;
+    }
+}

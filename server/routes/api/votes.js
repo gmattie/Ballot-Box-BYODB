@@ -437,8 +437,7 @@ router.get(C.Route.ACTIVE, auth, async (req, res) => {
 
 /**
  * @description (GET) Retrieve an array of either one or all votes.
- * All users are authorized to retrieve either a list of all inactive votes or a single inactive vote by optionally providing a valid vote ID as a request parameter.
- * Admin users, via admin authentication, are authorized to additionally retrieve the active vote, if available.
+ * All users are authorized to retrieve either a list of all votes, both active and inactive, or a single vote by optionally providing a valid vote ID as a request parameter.
  * 
  * @protected
  * @constant
@@ -448,7 +447,6 @@ router.get(`/:${C.Route.PARAM}?`, auth, async (req, res) => {
 
     try {
 
-        const user = res.locals[C.Local.USER];
         const paramVoteID = req.params[C.Route.PARAM];
         
         const popPathVoteUser = `${C.Model.VOTE}.${C.Model.USER}`;
@@ -474,19 +472,15 @@ router.get(`/:${C.Route.PARAM}?`, auth, async (req, res) => {
                 .populate(popPathVoteItem, popFieldsItem)
                 .populate(popPathTotalItem, popFieldsItem);
 
-            if (!result || (result[C.Model.ACTIVE] && !user.admin)) {
+            if (!result) {
 
                 throw new Error(C.Error.VOTE_DOES_NOT_EXIST);
             }
-
-            result = [result];
         }
         else {
 
-            const filter = (user.admin) ? {} : { [C.Model.ACTIVE]: false };
-
             result = await Vote
-                .find(filter)
+                .find({})
                 .sort(`-${C.Model.DATE}`)
                 .populate(popPathVoteUser, popFieldsUser)
                 .populate(popPathVoteItem, popFieldsItem)
@@ -495,7 +489,7 @@ router.get(`/:${C.Route.PARAM}?`, auth, async (req, res) => {
 
         return res
             .status(C.Status.OK)
-            .json({ votes: result });
+            .send(result);
     }
     catch (error) {
 

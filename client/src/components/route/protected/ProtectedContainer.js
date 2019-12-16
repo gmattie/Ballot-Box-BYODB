@@ -12,6 +12,7 @@
  * @requires useVotes
  * @requires useWebSocket
  * @requires Vote
+ * @requires VoteResultsContainer
 
  * @public
  * @module
@@ -21,13 +22,13 @@ import { Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
 import * as C from "../../../support/constants";
 import AdminContainer from "./admin/AdminContainer";
 import Edit from "./Edit";
-import React, { useRef, useState } from "react";
-import Results from "./Results";
+import React, { useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useUsers from "../../../hooks/useUsers";
 import useVotes from "../../../hooks/useVotes";
 import useWebSocket from "../../../hooks/useWebSocket";
 import Vote from "./Vote";
+import VoteResultsContainer from "./results/VoteResultsContainer";
 
 /**
  * @description The ProtectedContainer component groups the UI components of the application that are only accessible via user authentication.
@@ -53,20 +54,14 @@ const ProtectedContainer = () => {
     const [ voteStatus, setVoteStatus ] = useState(null);
 
     /**
-     * Refs
-     * 
-     */
-    const previousWebSocketMessage = useRef(null);
-
-    /**
      * Hooks
      * 
      */
     const { authToken } = useAuth();
+    const { fetchActive, votesActive } = useVotes();
     const { fetchLogout, usersSelf } = useUsers();
     const { path } = useRouteMatch();
-    const { fetchActive, votesActive } = useVotes();
-    const { webSocketMessage } = useWebSocket();
+    const { webSocketMessage } = useWebSocket(true);
     const history = useHistory();
 
     /**
@@ -107,7 +102,9 @@ const ProtectedContainer = () => {
     };
 
     /**
-     * Process webSocketMessage
+     * WebSocket event handling
+     * This component includes the initialized useWebSocket hook and contains child components that also employ the useWebSocket hook.
+     * 
      * The webSocketMessage will resemble one of the following:
      *     
      *     "{"deadline":{"days":"00","hours":"00","minutes":"00","seconds":"00"}}"
@@ -115,14 +112,14 @@ const ProtectedContainer = () => {
      *     "{"vote":"voteClosed"}"
      * 
      */
-    if (webSocketMessage && previousWebSocketMessage.current !== webSocketMessage) {
+    if (webSocketMessage && webSocketMessage !== window[C.Global.WEB_SOCKET_MESSAGE_PROTECTED_CONTAINER]) {
         
-        const deadline = JSON.parse(webSocketMessage)[C.Event.Type.DEADLINE];
+        const messageTypeDeadline = JSON.parse(webSocketMessage)[C.Event.Type.DEADLINE];
 
         const messageOpened = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_OPENED });
         const messageClosed = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED });
 
-        if (deadline) {
+        if (messageTypeDeadline) {
 
             parseVoteDeadline(webSocketMessage);
         }
@@ -140,7 +137,7 @@ const ProtectedContainer = () => {
             setDeadlineSeconds(null);
         }
 
-        previousWebSocketMessage.current = webSocketMessage;
+        window[C.Global.WEB_SOCKET_MESSAGE_PROTECTED_CONTAINER] = webSocketMessage;
     }
 
     /**
@@ -301,14 +298,11 @@ const ProtectedContainer = () => {
                     <div className={C.Style.PROTECTED_CONTAINER_CONTENT}>
                         <Switch>
                             <Route path={C.Route.VOTE}>
-                                <Vote
-                                    logout={logout}
-                                    webSocketMessage={webSocketMessage}
-                                />
+                                <Vote logout={logout} />
                             </Route>
 
                             <Route path={C.Route.RESULTS}>
-                                <Results />
+                                <VoteResultsContainer logout={logout} />
                             </Route>
                             
                             <Route path={C.Route.ADMIN}>

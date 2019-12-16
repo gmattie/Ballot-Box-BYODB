@@ -1,21 +1,23 @@
 .dialog {
 
-    img {
+    $DIALOG_PADDING: 20px;
 
-        width: 100%;
-        height: auto;
-        object-fit: contain;
-    }
+    background-color: gray;
+    padding: $DIALOG_PADDING;
 
     &-messageContainer {
 
-        border: 1px solid gray;
         text-align: center;
     }
 
     &-buttonsContainer {
 
-        border: 1px solid gray;
+        margin-top: $DIALOG_PADDING;
         text-align: right;
+
+        button {
+            
+            margin-left: $DIALOG_PADDING / 2;
+        }
     }
 }

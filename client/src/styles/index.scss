@@ -12,9 +12,13 @@
 @import "./components/list/listContainer";
 @import "./components/list/listItem";
 @import "./components/modal/dialog";
+@import "./components/modal/itemDetail";
 @import "./components/modal/portal";
+@import "./components/modal/voteResultDetail";
 @import "./components/route/protected/admin/edit/editItemsContainer";
 @import "./components/route/protected/protectedContainer";
+@import "./components/route/protected/results/voteResult";
+@import "./components/route/protected/results/voteResultsContainer";
 @import "./components/route/protected/vote";
 @import "./components/route/public/publicContainer";
 @import "./components/viewportImage";

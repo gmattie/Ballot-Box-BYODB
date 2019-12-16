@@ -6,7 +6,6 @@
  * 
  */
 import * as C from "../../support/constants";
-import { setVotesActive } from "./voteActions";
 
 /**
  * @description Dispatches an action that sets the "websocketMessage" property of the webSocketReducer state.
@@ -21,11 +20,6 @@ import { setVotesActive } from "./voteActions";
 const setWebSocketMessage = (message) => {
 
     return (dispatch) => {
-        
-        if (message === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED })) {
-
-            dispatch(setVotesActive(null));
-        }
 
         dispatch({
 

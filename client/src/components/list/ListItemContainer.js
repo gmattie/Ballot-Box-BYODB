@@ -1,18 +1,18 @@
 /**
  * @description ListItemContainer component.
  * 
+ * @requires ItemDetail
  * @requires ListItem
  * @requires prop-types
  * @requires react
- * @requires Dialog
  * @public
  * @module
  * 
  */
+import ItemDetail from "../modal/ItemDetail";
 import ListItem from "./ListItem";
 import PropTypes from "prop-types";
 import React, { memo, useRef, useState } from "react";
-import Dialog from "../../components/modal/Dialog";
 
 /**
  * @description The memoized ListItemContainer component separates and distributes data from the props array to individual ListItem child components.
@@ -43,6 +43,8 @@ const ListItemContainer = ({ data }) => {
      * 
      * @param {string} name - The name of the item. 
      * @param {string} imageURL - the image URL of the item.
+     * @private
+     * @function
      * 
      */
     const showItemDetails = (name, imageURL) => {
@@ -61,9 +63,9 @@ const ListItemContainer = ({ data }) => {
 
         <>
             {showDialog &&
-                <Dialog 
+                <ItemDetail 
                     imageURL={itemImageURL.current}
-                    message={itemName.current}
+                    title={itemName.current}
                     okCallback={() => setShowDialog(false)}
                 />
             }

@@ -11,6 +11,7 @@
  * @requires useMount
  * @requires useUsers
  * @requires useVotes
+ * @requires useWebSocket
  * @public
  * @module
  * 
@@ -25,6 +26,7 @@ import useItems from "../../../hooks/useItems";
 import useMount from "../../../hooks/useMount";
 import useUsers from "../../../hooks/useUsers";
 import useVotes from "../../../hooks/useVotes";
+import useWebSocket from "../../../hooks/useWebSocket";
 
 /**
  * @description The Vote component contains UI elements that are required to browse votable items and/or cast votes.
@@ -37,11 +39,7 @@ import useVotes from "../../../hooks/useVotes";
  * @function
  * 
  */
-const Vote = ({
-    
-        logout,
-        webSocketMessage
-    }) => {
+const Vote = ({ logout }) => {
 
     /**
      * State
@@ -59,7 +57,6 @@ const Vote = ({
      * 
      */
     const isVotable = useRef(false);
-    const previousWebSocketMessage = useRef(null);
     const responseUpdate = useRef(false);
 
     /**
@@ -95,24 +92,39 @@ const Vote = ({
         votesCast
     } = useVotes();
 
+    const { webSocketMessage } = useWebSocket();
+
+    /**
+     * WebSocket event handling
+     * Resets the state of the component when "voteOpened", "voteClosed" or "voteComplete" WebSocket messages are broadcast.
+     * 
+     */
+    
+    if (webSocketMessage && webSocketMessage !== window[C.Global.WEB_SOCKET_MESSAGE_VOTE]) {
+
+        const voteOpened = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_OPENED });
+        const voteClosed = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED });
+        const voteComplete = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_COMPLETE });
+        
+        if (webSocketMessage === voteOpened ||
+            webSocketMessage === voteClosed ||
+            webSocketMessage === voteComplete) {
+
+            setVotesCast(null);
+            resetItemLists();
+            
+            setVotesActive(null);
+            fetchActive();
+
+            window[C.Global.WEB_SOCKET_MESSAGE_VOTE] = webSocketMessage;
+        }
+    }
+    
     /**
      * Set isVotable flag
      * Determines if the present state of both "votesActive" and "itemsVote" are sufficient for allowing users to cast votes to the server.
      * 
      */
-    const voteOpened = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_OPENED });
-    const voteClosed = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED });
-
-    if ((webSocketMessage === voteOpened && previousWebSocketMessage.current !== voteOpened) || 
-        (webSocketMessage === voteClosed && previousWebSocketMessage.current !== voteClosed)) {
-        
-        previousWebSocketMessage.current = webSocketMessage;
-        
-        setVotesCast(null);
-        resetItemLists();
-        fetchActive();
-    }
-
     isVotable.current = (
         
         (votesActive && votesActive.vote) &&
@@ -138,6 +150,11 @@ const Vote = ({
         if (!itemsCandidate || itemsAdd || itemsEdit) {
 
             fetchAll();
+        }
+        else {
+
+            responseUpdate.current = false;
+            setIsMounting(false);
         }
     };
 
@@ -366,8 +383,7 @@ const Vote = ({
  */
 Vote.propTypes = {
 
-    logout: PropTypes.func.isRequired,
-    webSocketMessage: PropTypes.string.isRequired
+    logout: PropTypes.func.isRequired
 };
 
 /**

@@ -27,7 +27,7 @@
 
         &-listItem {
 
-            border: 1px solid gray;
+            @include list-item;
         }
     }
 

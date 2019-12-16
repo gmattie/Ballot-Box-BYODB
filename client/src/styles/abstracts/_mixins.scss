@@ -41,3 +41,8 @@
     padding: $LIST_ITEM_MARGIN;
     word-wrap: break-word;
 }
+
+@mixin list-item {
+
+    border: 1px solid gray;
+}

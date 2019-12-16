@@ -19,7 +19,8 @@ const initialState = {
     [C.Action.Type.VOTES_ACTIVE]: null,
     [C.Action.Type.VOTES_ALL]: null,
     [C.Action.Type.VOTES_CAST]: null,
-    [C.Action.Type.VOTES_ERROR]: null
+    [C.Action.Type.VOTES_ERROR]: null,
+    [C.Action.Type.VOTES_ONE]: null
 };
 
 /**
@@ -66,6 +67,14 @@ const votesReducer = (state = initialState, action) => {
 
                 ...state,
                 [C.Action.Type.VOTES_ERROR]: action[C.Action.PAYLOAD]
+            };
+
+        case C.Action.Type.VOTES_ONE:
+
+            return {
+
+                ...state,
+                [C.Action.Type.VOTES_ONE]: action[C.Action.PAYLOAD]
             };
 
         default:

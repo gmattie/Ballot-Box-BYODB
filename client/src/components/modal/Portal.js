@@ -28,6 +28,23 @@ const Portal = ({ elementID, children }) => {
 
     const childrenContainer = useRef(document.createElement(C.HTMLElement.DIV));
 
+    /**
+     * Pause background scrolling
+     * Temporarily deactivates scrolling on the document body while the Portal component is visible. 
+     * 
+     */
+    useEffect(() => {
+
+        document.body.style.overflow = C.Style.HIDDEN;
+
+        return () => document.body.style.overflow = C.Style.VISIBLE;
+    }, []);
+
+    /**
+     * Portal root element
+     * Creates an element containing the ChildrenContainer to be appended to the DOM as the Portal.
+     * 
+     */
     useEffect(() => {
         
         let portalRoot = document.getElementById(elementID);

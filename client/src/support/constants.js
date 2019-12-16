@@ -48,6 +48,7 @@ const Access = Object.freeze({
  *         <li> VOTES_ALL </li>
  *         <li> VOTES_CAST </li>
  *         <li> VOTES_ERROR </li>
+ *         <li> VOTES_ONE </li>
  *         <li> WEBSOCKET_MESSAGE </li>
  *     </ul> 
  * </ul>
@@ -80,6 +81,7 @@ const Action = Object.freeze({
         VOTES_ALL: "votesAll",
         VOTES_CAST: "votesCast",
         VOTES_ERROR: "votesError",
+        VOTES_ONE: "votesOne",
         WEBSOCKET_MESSAGE: "websocketMessage",
     }
 });
@@ -174,6 +176,26 @@ const Event = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> WEB_SOCKET_PROTECTED_CONTAINER </li>
+ *     <li> WEB_SOCKET_VOTE </li>
+ *     <li> WEB_SOCKET_VOTE_RESULTS_CONTAINER </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const Global = Object.freeze({
+
+    WEB_SOCKET_MESSAGE_PROTECTED_CONTAINER: "webSocketMessageProtectedContainer",
+    WEB_SOCKET_MESSAGE_VOTE_RESULTS_CONTAINER: "webSocketMessageVoteResultsContainer",
+    WEB_SOCKET_MESSAGE_VOTE: "webSocketMessageVote",
+});
+
+/**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
  *     <li> DIV </li>
  *     <ul>
  *         <li> TEXT </li> 
@@ -208,6 +230,8 @@ const HTMLElement = Object.freeze({
  *     <li> DEADLINE_MINUTES </li>
  *     <li> DEADLINE_SECONDS </li>
  *     <li> ELEMENT_DIALOG </li>
+ *     <li> ELEMENT_ITEM_DETAIL </li>
+ *     <li> ELEMENT_VOTE_RESULT_DETAIL </li>
  *     <li> ERROR_MESSAGE </li>
  *     <li> ERROR_PARAM </li>
  *     <li> LIST_ITEMS_ALL </li>
@@ -240,6 +264,8 @@ const ID = Object.freeze({
     DEADLINE_MINUTES: "minutes",
     DEADLINE_SECONDS: "seconds",
     ELEMENT_DIALOG: "dialog",
+    ELEMENT_ITEM_DETAIL: "itemDetail",
+    ELEMENT_VOTE_RESULT_DETAIL: "voteResultDetail",
     ERROR_MESSAGE: "msg",
     ERROR_PARAM: "param",
     LIST_ITEMS_ALL: "listItemsAll",
@@ -312,6 +338,7 @@ const Image = Object.freeze({
  *     <li> EMAIL_SENT </li>
  *     <li> ICON </li>
  *     <li> IMAGE </li>
+ *     <li> LIVE </li>
  *     <li> LOGIN </li>
  *     <li> LOGOUT </li>
  *     <li> MANAGE_POLLS </li>
@@ -369,6 +396,7 @@ const Label = Object.freeze({
     EMAIL: "Email",
     ICON: "Icon",
     IMAGE: "Image",
+    LIVE: "Live",
     LOGIN: "Login",
     LOGOUT: "Logout",
     MANAGE_POOLS: "Manage Polls",
@@ -393,6 +421,7 @@ const Label = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> DATE_TIME_FORMAT </li>
  *     <li> ENV_DEVELOPMENT </li>
  *     <li> PROTOCOL_HTTP </li>
  *     <li> PROTOCOL_WEB_SOCKET </li>
@@ -405,6 +434,7 @@ const Label = Object.freeze({
  */
 const Local = Object.freeze({
 
+    DATE_TIME_FORMAT: "dddd, MMMM Do YYYY, h:mm:ss A",
     ENV_DEVELOPMENT: "development",
     PROTOCOL_HTTP: "http",
     PROTOCOL_WEB_SOCKET: "ws",
@@ -506,6 +536,8 @@ const Route = Object.freeze({
  *     <li> INPUT_PASSWORD </li>
  *     <li> INPUT_PASSWORD_HIDE </li>
  *     <li> INPUT_PASSWORD_SHOW </li>
+ *     <li> ITEM_DETAIL </li>
+ *     <li> ITEM_DETAIL_TITLE </li>
  *     <li> LIST </li>
  *     <li> LIST_CONTAINER </li>
  *     <li> LIST_CONTENT </li>
@@ -526,6 +558,10 @@ const Route = Object.freeze({
  *     <li> VIEWPORT_IMAGE_INTERSECTION </li>
  *     <li> VISIBLE </li>
  *     <li> VOTE </li>
+ *     <li> VOTE_RESULT </li>
+ *     <li> VOTE_RESULT_ACTIVE </li>
+ *     <li> VOTE_RESULT_DETAIL </li>
+ *     <li> VOTE_RESULTS_CONTAINER </li>
  * </ul>
  * 
  * @public
@@ -551,6 +587,8 @@ const Style = Object.freeze({
     INPUT_PASSWORD_HIDE: "inputPassword-hide",
     INPUT_PASSWORD_SHOW: "inputPassword-show",
     INPUT_PASSWORD: "inputPassword",
+    ITEM_DETAIL_TITLE: "itemDetail-title",
+    ITEM_DETAIL: "itemDetail",
     LIST_CONTAINER: "listContainer",
     LIST_CONTENT: "list-content",
     LIST_ITEM_ACTIVE: "listItem-active",
@@ -572,6 +610,10 @@ const Style = Object.freeze({
     VIEWPORT_IMAGE_INTERSECTION: "viewportImage-intersection",
     VIEWPORT_IMAGE: "viewportImage",
     VISIBLE: "visible",
+    VOTE_RESULT_ACTIVE: "voteResult-active",
+    VOTE_RESULT_DETAIL: "voteResultDetail",
+    VOTE_RESULT: "voteResult",
+    VOTE_RESULTS_CONTAINER: "voteResultsContainer",
     VOTE: "vote",
 });
 
@@ -586,6 +628,7 @@ export {
     CharCode,
     Error,
     Event,
+    Global,
     HTMLElement,
     ID,
     Image,

@@ -82,6 +82,24 @@ const setVotesError = (error) => {
 };
 
 /**
+ * @description Creates an action that sets the "votesOne" property of the voteReducer state.
+ * 
+ * @param {string} data - The value of the payload embedded in the action.
+ * @returns {object|null} The action.
+ * @public
+ * @function
+ *  
+ */
+const setVotesOne = (data) => {
+
+    return {
+
+        type: C.Action.Type.VOTES_ONE,
+        [C.Action.PAYLOAD]: data
+    };
+};
+
+/**
  * @description Gets data from /api/votes/active and dispatches actions to the votesReducer state or from authActions to the authReducer state.
  * 
  * @returns {object} The action.
@@ -133,12 +151,8 @@ const fetchAll = () => {
             const url = C.Route.API_VOTES;
             const options = {
 
-                method: C.Request.METHOD_POST,
-                headers: {
-                    
-                    [C.Request.HEADER_X_AUTH_TOKEN]: authToken,
-                    [C.Request.HEADER_CONTENT_TYPE]: C.Request.APPLICATION_JSON
-                }
+                method: C.Request.METHOD_GET,
+                headers: { [C.Request.HEADER_X_AUTH_TOKEN]: authToken }
             };
 
             const response = await fetch(url, options);
@@ -206,6 +220,74 @@ const fetchCast = () => {
 };
 
 /**
+ * @description Posts data to /api/votes/close and dispatches actions to the votesReducer state or from authActions to the authReducer state.
+ * 
+ * @returns {object} The action.
+ * @public
+ * @function
+ *  
+ */
+const fetchClose = () => {
+
+    return async (dispatch, getState) => {
+        
+        try {
+
+            const authToken = getState().auth[C.Action.Type.AUTH_TOKEN][C.Local.TOKEN];
+            const url = `${C.Route.API_VOTES}${C.Route.CLOSE}`;
+            const options = {
+
+                method: C.Request.METHOD_GET,
+                headers: { [C.Request.HEADER_X_AUTH_TOKEN]: authToken }
+            };
+
+            const response = await fetch(url, options);
+            const data = await response;
+
+            dispatch((data.error) ? authActions.setAuthError(data) : setVotesActive(null));      
+        }
+        catch (error) {
+
+            dispatch(setVotesError(error.message));
+        }
+    };
+};
+
+/**
+ * @description Gets data from /api/votes/:voteID and dispatches actions to the votesReducer state or from authActions to the authReducer state.
+ * 
+ * @returns {object} The action.
+ * @public
+ * @function
+ *  
+ */
+const fetchOne = (voteID) => {
+
+    return async (dispatch, getState) => {
+        
+        try {
+
+            const authToken = getState().auth[C.Action.Type.AUTH_TOKEN][C.Local.TOKEN];
+            const url = `${C.Route.API_VOTES}/${voteID}`;
+            const options = {
+
+                method: C.Request.METHOD_GET,
+                headers: { [C.Request.HEADER_X_AUTH_TOKEN]: authToken }
+            };
+
+            const response = await fetch(url, options);
+            const data = await response.json();
+
+            dispatch((data.error) ? authActions.setAuthError(data) : setVotesOne(data));      
+        }
+        catch (error) {
+
+            dispatch(setVotesError(error.message));
+        }
+    };
+};
+
+/**
  * @description Posts data to /api/votes/open and dispatches actions to the votesReducer state or from authActions to the authReducer state.
  * 
  * @param {string} deadline - The duration (in seconds) of the vote.
@@ -247,40 +329,6 @@ const fetchOpen = (deadline, quantity) => {
 };
 
 /**
- * @description Posts data to /api/votes/close and dispatches actions to the votesReducer state or from authActions to the authReducer state.
- * 
- * @returns {object} The action.
- * @public
- * @function
- *  
- */
-const fetchClose = () => {
-
-    return async (dispatch, getState) => {
-        
-        try {
-
-            const authToken = getState().auth[C.Action.Type.AUTH_TOKEN][C.Local.TOKEN];
-            const url = `${C.Route.API_VOTES}${C.Route.CLOSE}`;
-            const options = {
-
-                method: C.Request.METHOD_GET,
-                headers: { [C.Request.HEADER_X_AUTH_TOKEN]: authToken }
-            };
-
-            const response = await fetch(url, options);
-            const data = await response;
-
-            dispatch((data.error) ? authActions.setAuthError(data) : setVotesActive(null));      
-        }
-        catch (error) {
-
-            dispatch(setVotesError(error.message));
-        }
-    };
-};
-
-/**
  * Export module
  * 
  */
@@ -290,9 +338,11 @@ export {
     fetchAll,
     fetchCast,
     fetchClose,
+    fetchOne,
     fetchOpen,
     setVotesActive,
     setVotesAll,
     setVotesCast,
     setVotesError,
+    setVotesOne,
 };
