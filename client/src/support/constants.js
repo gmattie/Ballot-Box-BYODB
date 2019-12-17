@@ -243,14 +243,12 @@ const HTMLElement = Object.freeze({
  *     <li> NAME_DEADLINE </li>
  *     <li> NAME_EMAIL </li>
  *     <li> NAME_IMAGE </li>
- *     <li> NAME_IP </li>
  *     <li> NAME_ITEM </li>
  *     <li> NAME_NAME </li>
  *     <li> NAME_PASSWORD </li>
  *     <li> NAME_PASSWORD_CONFIRM </li>
  *     <li> NAME_QUANTITY </li>
  *     <li> NAME_RANK </li>
- *     <li> NAME_VOTE </li>
  * </ul>
  * 
  * @public
@@ -277,14 +275,12 @@ const ID = Object.freeze({
     NAME_DEADLINE: "deadline",
     NAME_EMAIL: "email",
     NAME_IMAGE: "image",
-    NAME_IP: "ip",
     NAME_ITEM: "item",
     NAME_NAME: "name",
     NAME_PASSWORD_CONFIRM: "passwordConfirm",
     NAME_PASSWORD: "password",
     NAME_QUANTITY: "quantity",
     NAME_RANK: "rank",
-    NAME_VOTE: "vote",
 });
 
 /**
@@ -421,6 +417,7 @@ const Label = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> DATE_FORMAT </li>
  *     <li> DATE_TIME_FORMAT </li>
  *     <li> ENV_DEVELOPMENT </li>
  *     <li> PROTOCOL_HTTP </li>
@@ -434,11 +431,54 @@ const Label = Object.freeze({
  */
 const Local = Object.freeze({
 
+    DATE_FORMAT: "dddd, MMMM Do YYYY",
     DATE_TIME_FORMAT: "dddd, MMMM Do YYYY, h:mm:ss A",
     ENV_DEVELOPMENT: "development",
     PROTOCOL_HTTP: "http",
     PROTOCOL_WEB_SOCKET: "ws",
     TOKEN: "token",
+});
+
+/**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
+ *     <li> ACTIVE </li>
+ *     <li> CAST </li>
+ *     <li> DATE </li>
+ *     <li> EMAIL </li>
+ *     <li> ID </li>
+ *     <li> IP </li>
+ *     <li> ITEM </li>
+ *     <li> NAME </li>
+ *     <li> QUANTITY </li>
+ *     <li> RANK </li>
+ *     <li> TOKEN </li>
+ *     <li> TOTAL </li>
+ *     <li> USER </li>
+ *     <li> VOTE </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const Model = Object.freeze({
+
+    ACTIVE: "active",
+    CAST: "cast",
+    DATE: "date",
+    EMAIL: "email",
+    ID: "_id",
+    IP: "ip",
+    ITEM: "item",
+    NAME: "name",
+    QUANTITY: "quantity",
+    RANK: "rank",
+    TOKEN: "token",
+    TOTAL: "total",
+    USER: "user",
+    VOTE: "vote",
 });
 
 /**
@@ -554,6 +594,15 @@ const Route = Object.freeze({
  *     <li> PUBLIC_CONTAINER </li>
  *     <li> PUBLIC_CONTAINER_NAV_BUTTON </li>
  *     <li> PUBLIC_CONTAINER_NAV_BUTTON_SELECTED </li>
+ *     <li> TABLE_ITEM_ROW </li>
+ *     <li> TABLE_ITEM_ROW_ITEM </li>
+ *     <li> TABLE_ITEM_ROW_RANK </li>
+ *     <li> TABLE_ITEM_ROW_SCORE </li>
+ *     <li> TABLE_USER_HEADER </li>
+ *     <li> TABLE_USER_HEADER_USER </li>
+ *     <li> TABLE_USER_HEADER_USER_EMAIL </li>
+ *     <li> TABLE_USER_HEADER_USER_IP </li>
+ *     <li> TABLE_USER_HEADER_USER_NAME </li>
  *     <li> VIEWPORT_IMAGE_ERROR </li>
  *     <li> VIEWPORT_IMAGE_INTERSECTION </li>
  *     <li> VISIBLE </li>
@@ -561,6 +610,11 @@ const Route = Object.freeze({
  *     <li> VOTE_RESULT </li>
  *     <li> VOTE_RESULT_ACTIVE </li>
  *     <li> VOTE_RESULT_DETAIL </li>
+ *     <li> VOTE_RESULT_DETAIL_TABLE </li>
+ *     <li> VOTE_RESULT_DETAIL_TABLE_INFO </li>
+ *     <li> VOTE_RESULT_DETAIL_TABLE_INFO_ACTIVE </li>
+ *     <li> VOTE_RESULT_DETAIL_TABLE_INFO_DATE </li>
+ *     <li> VOTE_RESULT_DETAIL_TABLE_INFO_QUANTITY </li>
  *     <li> VOTE_RESULTS_CONTAINER </li>
  * </ul>
  * 
@@ -606,11 +660,25 @@ const Style = Object.freeze({
     PUBLIC_CONTAINER_NAV_BUTTON_SELECTED: "publicContainer-nav-button-selected",
     PUBLIC_CONTAINER_NAV_BUTTON: "publicContainer-nav-button",
     PUBLIC_CONTAINER: "publicContainer",
+    TABLE_ITEM_ROW_ITEM: "tableItemRow-item",
+    TABLE_ITEM_ROW_RANK: "tableItemRow-rank",
+    TABLE_ITEM_ROW_SCORE: "tableItemRow-score",
+    TABLE_ITEM_ROW: "tableItemRow",
+    TABLE_USER_HEADER_USER_EMAIL: "tableUserHeader-user-email",
+    TABLE_USER_HEADER_USER_IP: "tableUserHeader-user-ip",
+    TABLE_USER_HEADER_USER_NAME: "tableUserHeader-user-name",
+    TABLE_USER_HEADER_USER: "tableUserHeader-user",
+    TABLE_USER_HEADER: "tableUserHeader",
     VIEWPORT_IMAGE_ERROR: "viewportImage-error",
     VIEWPORT_IMAGE_INTERSECTION: "viewportImage-intersection",
     VIEWPORT_IMAGE: "viewportImage",
     VISIBLE: "visible",
     VOTE_RESULT_ACTIVE: "voteResult-active",
+    VOTE_RESULT_DETAIL_TABLE_INFO_ACTIVE: "voteResultDetail-table-info-active",
+    VOTE_RESULT_DETAIL_TABLE_INFO_DATE: "voteResultDetail-table-info-date",
+    VOTE_RESULT_DETAIL_TABLE_INFO_QUANTITY: "voteResultDetail-table-info-quantity",
+    VOTE_RESULT_DETAIL_TABLE_INFO: "voteResultDetail-table-info",
+    VOTE_RESULT_DETAIL_TABLE: "voteResultDetail-table",
     VOTE_RESULT_DETAIL: "voteResultDetail",
     VOTE_RESULT: "voteResult",
     VOTE_RESULTS_CONTAINER: "voteResultsContainer",
@@ -634,6 +702,7 @@ export {
     Image,
     Label,
     Local,
+    Model,
     Request,
     Route,
     Style

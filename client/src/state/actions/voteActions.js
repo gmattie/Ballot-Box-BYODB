@@ -196,12 +196,12 @@ const fetchCast = () => {
                 },
                 body: JSON.stringify({
 
-                    [C.ID.NAME_CAST]: itemsVote.map((item, index) => {
+                    [C.Model.CAST]: itemsVote.map((item, index) => {
                                 
                         return {
                     
-                            [C.ID.NAME_ITEM]: item._id,
-                            [C.ID.NAME_RANK]: index
+                            [C.Model.ITEM]: item._id,
+                            [C.Model.RANK]: index
                         };
                     })
                 })

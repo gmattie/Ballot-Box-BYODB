@@ -23,7 +23,7 @@ import useMount from "../../../../hooks/useMount";
 import useVotes from "../../../../hooks/useVotes";
 import useWebSocket from "../../../../hooks/useWebSocket";
 import VoteResult from "./VoteResult";
-import VoteResultDetail from "../../../modal/VoteResultDetail";
+import VoteResultDetail from "../../../modal/results/VoteResultDetail";
 
 /**
  * @description The memoized VoteResultsContainer component contains a list of VoteResult components.

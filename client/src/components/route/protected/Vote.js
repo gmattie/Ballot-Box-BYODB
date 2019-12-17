@@ -129,7 +129,7 @@ const Vote = ({ logout }) => {
         
         (votesActive && votesActive.vote) &&
         (itemsVote && itemsVote.length) &&
-        (Math.min(itemsAll.length, votesActive.vote[C.ID.NAME_QUANTITY]) <= itemsVote.length)
+        (Math.min(itemsAll.length, votesActive.vote[C.Model.QUANTITY]) <= itemsVote.length)
     );
 
     /**
@@ -172,19 +172,19 @@ const Vote = ({ logout }) => {
 
         if (votesActive && votesActive.vote) {
 
-            const currentUserVote = votesActive.vote[C.ID.NAME_VOTE]
+            const currentUserVote = votesActive.vote[C.Model.VOTE]
                 .find((vote) => vote.user === usersSelf.user._id);
 
             if (currentUserVote) {
 
                 const cast = {
 
-                    [C.ID.NAME_CAST]: currentUserVote.cast.map((vote) => {
+                    [C.Model.CAST]: currentUserVote.cast.map((vote) => {
 
                         return {
                     
-                            [C.ID.NAME_ITEM]: vote[C.ID.NAME_ITEM],
-                            [C.ID.NAME_RANK]: vote[C.ID.NAME_RANK]
+                            [C.Model.ITEM]: vote[C.Model.ITEM],
+                            [C.Model.RANK]: vote[C.Model.RANK]
                         };
                     })
                 };
@@ -349,7 +349,7 @@ const Vote = ({ logout }) => {
 
                     <ListContainer />
 
-                    {(votesActive && votesActive[C.ID.NAME_VOTE]) &&
+                    {(votesActive && votesActive[C.Model.VOTE]) &&
                         <>
                             <button
                                 onClick={() => setShowDialog(true)}

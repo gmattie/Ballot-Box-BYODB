@@ -1,0 +1,34 @@
+.voteResultDetail {
+
+    background-color: black;
+    overflow: auto;
+    
+    &-table {
+
+        border: 1px solid white;
+
+        &-info {
+
+            overflow: hidden;
+            border: 1px solid yellow;
+            
+            &-date {
+
+                @include table-info-item;
+            }
+
+            &-quantity {
+
+                @include table-info-item;
+
+                color: gray;
+            }
+
+            &-active {
+
+                @include table-info-item;
+                @include live-badge;
+            }
+        }
+    }
+}

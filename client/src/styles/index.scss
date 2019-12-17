@@ -14,7 +14,9 @@
 @import "./components/modal/dialog";
 @import "./components/modal/itemDetail";
 @import "./components/modal/portal";
-@import "./components/modal/voteResultDetail";
+@import "./components/modal/results/tableItemRow";
+@import "./components/modal/results/tableUserHeader";
+@import "./components/modal/results/voteResultDetail";
 @import "./components/route/protected/admin/edit/editItemsContainer";
 @import "./components/route/protected/protectedContainer";
 @import "./components/route/protected/results/voteResult";

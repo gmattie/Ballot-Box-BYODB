@@ -1,0 +1,25 @@
+.tableItemRow {
+
+    &-score {
+
+        text-align: left;
+        width: 100%;
+        border: 1px solid pink;
+    }
+
+    &-item {
+
+        max-width: 240px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: left;
+        border: 1px solid red;
+    }
+
+    &-rank {
+
+        text-align: center;
+        border: 1px solid orange;
+    }
+}

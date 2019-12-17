@@ -1,0 +1,36 @@
+.tableUserHeader {
+
+    &-user {
+
+        display: flex;
+        width: 60px;
+        height: 150px;
+        align-items: flex-end;
+        justify-content: center;
+        overflow: hidden;
+        border: 1px solid cyan;
+
+        &-name {
+            
+            @include table-user-item;
+
+            font-size: 1em;
+        }
+
+        &-email {
+            
+            @include table-user-item;
+
+            color: gray;
+            font-size: 0.75em;
+        }
+
+        &-ip {
+            
+            @include table-user-item;
+
+            color: gray;
+            font-size: 0.75em;
+        }
+    }
+}

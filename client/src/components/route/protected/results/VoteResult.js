@@ -11,7 +11,7 @@
  * 
  */
 import * as C from "../../../../support/constants";
-import moment from "moment";
+import Moment from "moment";
 import PropTypes from "prop-types";
 import React from "react";
 
@@ -55,12 +55,13 @@ const VoteResult = ({
             className={C.Style.VOTE_RESULT}
             onClick={clickHandler}
         >
-            {moment(voteDocument.date).format(C.Local.DATE_TIME_FORMAT)}
+            {Moment(voteDocument[C.Model.DATE]).format(C.Local.DATE_TIME_FORMAT)}
 
-            {voteDocument.active &&
+            {voteDocument[C.Model.ACTIVE] &&
                 <div className={C.Style.VOTE_RESULT_ACTIVE}>
                     {C.Label.LIVE.toUpperCase()}
-                </div>}
+                </div>
+            }
         </div>
     );
 };

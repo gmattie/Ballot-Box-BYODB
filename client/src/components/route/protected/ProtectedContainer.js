@@ -151,9 +151,9 @@ const ProtectedContainer = () => {
 
         const infoKeys = [
 
-            C.ID.NAME_NAME,
-            C.ID.NAME_EMAIL,
-            C.ID.NAME_IP
+            C.Model.NAME,
+            C.Model.EMAIL,
+            C.Model.IP
         ];
 
         return (

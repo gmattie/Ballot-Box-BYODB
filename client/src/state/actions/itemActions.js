@@ -143,7 +143,7 @@ const fetchAdd = (name, image) => {
                 },
                 body: JSON.stringify({
                     
-                    [C.ID.NAME_ITEM]: [{
+                    [C.Model.ITEM]: [{
                         
                         name, image 
                     }]

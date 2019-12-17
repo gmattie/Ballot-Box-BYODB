@@ -135,7 +135,7 @@ const ListContainer = () => {
      */
     const getVotesListTitle = () => {
 
-        const quantity = Math.min(itemsAll.length, votesActive[C.ID.NAME_VOTE][C.ID.NAME_QUANTITY]);
+        const quantity = Math.min(itemsAll.length, votesActive[C.Model.VOTE][C.Model.QUANTITY]);
         const count = Math.min((itemsVote) ? itemsVote.length : 0, quantity);
 
         return `${C.Label.VOTES} (${count}/${quantity})`;
@@ -156,7 +156,7 @@ const ListContainer = () => {
                         data={itemsCandidate}
                     />
 
-                    {(votesActive && votesActive[C.ID.NAME_VOTE]) &&
+                    {(votesActive && votesActive[C.Model.VOTE]) &&
                         <List
                             ID={C.ID.LIST_ITEMS_VOTE}
                             title={getVotesListTitle()}

@@ -4,9 +4,9 @@
 
     &-active {
 
+        @include live-badge;
+
         display: inline-block;
-        background-color: limegreen;
         margin-left: 10px;
-        padding: 0 10px;
     }
 }
