@@ -8,6 +8,10 @@
  * @requires react
  * @requires TableItemRow
  * @requires TableUserHeader
+ * @requires useAuth
+ * @requires useMount
+ * @requires useVotes
+ * @requires useWebSocket
  * @public
  * @module
  * 
@@ -16,14 +20,18 @@ import * as C from "../../../support/constants";
 import Moment from "moment";
 import Portal from "../Portal";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useRef, useState } from "react";
 import TableItemRow from "./TableItemRow";
 import TableUserHeader from "./TableUserHeader";
+import useAuth from "../../../hooks/useAuth";
+import useMount from "../../../hooks/useMount";
+import useVotes from "../../../hooks/useVotes";
+import useWebSocket from "../../../hooks/useWebSocket";
 
 /**
  * @description Renders an modal window inside a React Portal.
- * VoteResultDetails must contain a "voteDocument" object to create visual details based on its data and an "okCallback" that is called when the details are clicked.
- * Vote documents that are still flagged as active will continue to fetch data and create updated visual details as new data is received.
+ * VoteResultDetails must contain a "voteID" to create and display details of the target Vote document and an "okCallback" that is called when the details are clicked.
+ * Vote documents that are flagged as active will continue to fetch data and render when new data is received.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} The portal rendered to the DOM.
@@ -33,9 +41,113 @@ import TableUserHeader from "./TableUserHeader";
  */
 const VoteResultDetail = ({
 
-        voteDocument,
-        okCallback
+        voteID,
+        okCallback,
+        logout
     }) => {
+
+    /**
+     * State
+     * 
+     */
+    const [ isMounting, setIsMounting ] = useState(true);
+
+    /**
+     * Refs
+     * 
+     */
+    const responseUpdate = useRef(false);
+
+    /**
+     * Hooks
+     * 
+     */
+    const { authError } = useAuth();
+    const { onMount } = useMount();
+
+    const {
+        
+        fetchOne,
+        setVotesOne,
+        votesOne
+    } = useVotes();
+
+    const { setWebSocketMessage, webSocketMessage } = useWebSocket();
+
+    /**
+     * WebSocket event handling
+     * Fetches the component data when "voteCast", "voteClosed" or "voteComplete" WebSocket messages are broadcast.
+     * 
+     */
+    if (webSocketMessage) {
+
+        const isMessageTypeVote = JSON.parse(webSocketMessage)[C.Event.Type.VOTE];
+        const voteOpened = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_OPENED });
+
+        if (isMessageTypeVote &&
+            webSocketMessage !== voteOpened &&
+            webSocketMessage !== window[C.Global.WEB_SOCKET_MESSAGE_VOTE_RESULT_DETAIL]) {
+
+            const voteCast = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CAST });
+            const voteClosed = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED });
+            const voteComplete = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_COMPLETE });
+        
+            responseUpdate.current = true;
+
+            if (webSocketMessage === voteCast) {
+
+                setWebSocketMessage(null);
+            }
+            else if (webSocketMessage === voteClosed || webSocketMessage === voteComplete) {
+        
+                window[C.Global.WEB_SOCKET_MESSAGE_VOTE_RESULT_DETAIL] = webSocketMessage;
+            }
+
+            fetchOne(voteID);
+        }
+    }
+
+    /**
+     * @description Fetch the target Vote document to populate the "votesOne" state.
+     * 
+     * @private
+     * @function
+     * 
+     */
+    const mount = () => {
+
+        responseUpdate.current = true;
+
+        setVotesOne(null);
+        fetchOne(voteID);
+    };
+
+    onMount(mount);
+
+    /**
+     * Auth failure
+     * Logout user if authentication fails while fetching data.
+     * 
+     */
+    if (authError) {
+
+        setTimeout(() => logout());
+    }
+
+    /**
+     * Fetch one vote success
+     * Negate the responseUpdate ref and render the component
+     * 
+     */
+    if (votesOne && responseUpdate.current) {
+
+        responseUpdate.current = false;
+
+        if (isMounting) {
+
+            setIsMounting(false);
+        }
+    }
 
     /**
      * @description Retrieves and array of rank values for the target Item document ID per user.
@@ -49,9 +161,9 @@ const VoteResultDetail = ({
     const getCastRanks = (itemID) => {
 
         const result = [];
-        const quantity = voteDocument[C.Model.QUANTITY];
+        const quantity = votesOne[C.Model.QUANTITY];
 
-        voteDocument[C.Model.VOTE].forEach((vote) => {
+        votesOne[C.Model.VOTE].forEach((vote) => {
         
             result.push("");
 
@@ -77,55 +189,62 @@ const VoteResultDetail = ({
 
         <Portal elementID={C.ID.ELEMENT_VOTE_RESULT_DETAIL}>
             <div className={C.Style.VOTE_RESULT_DETAIL} onClick={okCallback}>
-                <table className={C.Style.VOTE_RESULT_DETAIL_TABLE}>
-                    <thead>
-                        <tr>
-                            <td colSpan={2} className={C.Style.VOTE_RESULT_DETAIL_TABLE_INFO}>
-                                <div className={C.Style.VOTE_RESULT_DETAIL_TABLE_INFO_DATE}>
-                                    {Moment(voteDocument[C.Model.DATE]).format(C.Local.DATE_FORMAT)}
-                                </div>
-
-                                <div className={C.Style.VOTE_RESULT_DETAIL_TABLE_INFO_QUANTITY}>
-                                    {`${C.Label.QUANTITY}: ${voteDocument[C.Model.QUANTITY]}`}
-                                </div>
-                                
-                                {voteDocument[C.Model.ACTIVE] &&
-                                    <div className={C.Style.VOTE_RESULT_DETAIL_TABLE_INFO_ACTIVE}>
-                                        {C.Label.LIVE.toUpperCase()}
+                {votesOne && 
+                    <table className={C.Style.VOTE_RESULT_DETAIL_TABLE}>
+                        <thead>
+                            <tr>
+                                <td colSpan={2} className={C.Style.VOTE_RESULT_DETAIL_TABLE_INFO}>
+                                    <div className={C.Style.VOTE_RESULT_DETAIL_TABLE_INFO_DATE}>
+                                        {Moment(votesOne[C.Model.DATE]).format(C.Local.DATE_FORMAT)}
                                     </div>
-                                }
-                            </td>
-                            
-                            {voteDocument[C.Model.VOTE].map((vote) => {
+
+                                    <div className={C.Style.VOTE_RESULT_DETAIL_TABLE_INFO_QUANTITY}>
+                                        {`${C.Label.QUANTITY}: ${votesOne[C.Model.QUANTITY]}`}
+                                    </div>
+                                    
+                                    {votesOne[C.Model.ACTIVE] &&
+                                        <div className={C.Style.VOTE_RESULT_DETAIL_TABLE_INFO_ACTIVE}>
+                                            {C.Label.LIVE.toUpperCase()}
+                                        </div>
+                                    }
+                                </td>
+                                
+                                {votesOne[C.Model.VOTE].map((vote) => {
+
+                                    return (
+
+                                        <TableUserHeader
+                                            key={vote[C.Model.ID]}
+                                            name={vote[C.Model.USER][C.Model.NAME]}
+                                            email={vote[C.Model.USER][C.Model.EMAIL]}
+                                            ip={vote[C.Model.USER][C.Model.IP]}
+                                        />
+                                    );
+                                })}
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {votesOne[C.Model.TOTAL].map((total) => {
 
                                 return (
 
-                                    <TableUserHeader
-                                        key={vote[C.Model.ID]}
-                                        name={vote[C.Model.USER][C.Model.NAME]}
-                                        email={vote[C.Model.USER][C.Model.EMAIL]}
-                                        ip={vote[C.Model.USER][C.Model.IP]}
+                                    <TableItemRow
+                                        key={total[C.Model.ID]}
+                                        score={total[C.Model.RANK]}
+                                        itemName={total[C.Model.ITEM][C.Model.NAME]}
+                                        ranks={getCastRanks(total[C.Model.ITEM][C.Model.ID])}
                                     />
                                 );
                             })}
-                        </tr>
-                    </thead>
+                        </tbody>    
+                    </table>
+                }
 
-                    <tbody>
-                        {voteDocument[C.Model.TOTAL].map((total) => {
-
-                            return (
-
-                                <TableItemRow
-                                    key={total[C.Model.ID]}
-                                    score={total[C.Model.RANK]}
-                                    itemName={total[C.Model.ITEM][C.Model.NAME]}
-                                    ranks={getCastRanks(total[C.Model.ITEM][C.Model.ID])}
-                                />
-                            );
-                        })}
-                    </tbody>    
-                </table>            
+                {
+                    //TODO: Replace with style animation
+                    isMounting && <div>LOADING...</div>
+                }
             </div>
         </Portal>
     );
@@ -137,8 +256,9 @@ const VoteResultDetail = ({
  */
 VoteResultDetail.propTypes = {
 
-    voteDocument: PropTypes.object.isRequired,
+    voteID: PropTypes.string.isRequired,
     okCallback: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
 };
 
 /**

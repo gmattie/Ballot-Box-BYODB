@@ -176,6 +176,7 @@ const Event = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> WEB_SOCKET_MESSAGE_VOTE_RESULT_DETAIL </li>
  *     <li> WEB_SOCKET_PROTECTED_CONTAINER </li>
  *     <li> WEB_SOCKET_VOTE </li>
  *     <li> WEB_SOCKET_VOTE_RESULTS_CONTAINER </li>
@@ -188,6 +189,7 @@ const Event = Object.freeze({
 const Global = Object.freeze({
 
     WEB_SOCKET_MESSAGE_PROTECTED_CONTAINER: "webSocketMessageProtectedContainer",
+    WEB_SOCKET_MESSAGE_VOTE_RESULT_DETAIL: "webSocketMessageVoteResultDetail",
     WEB_SOCKET_MESSAGE_VOTE_RESULTS_CONTAINER: "webSocketMessageVoteResultsContainer",
     WEB_SOCKET_MESSAGE_VOTE: "webSocketMessageVote",
 });

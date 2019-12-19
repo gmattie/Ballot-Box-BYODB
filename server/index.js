@@ -37,7 +37,7 @@ const server = () => {
 
     if (environment === C.Local.ENV_PRODUCTION) {
 
-        app.use(express.static(C.Dir.BUILD));
+        app.use(express.static(path.resolve(__dirname, "..", C.Dir.BUILD)));
 
         app.get("*", (req, res) => res.sendFile(path.resolve(__dirname, "..", C.Dir.BUILD, C.File.INDEX)));
     }

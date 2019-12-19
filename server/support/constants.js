@@ -124,6 +124,7 @@ const Error = Object.freeze({
  *         <li> DEADLINE </li>
  *         <li> VOTE </li>
  *     </ul>
+ *     <li> VOTE_AGGREGATE </li>
  *     <li> VOTE_CAST </li>
  *     <li> VOTE_CLOSED </li>
  *     <li> VOTE_COMPLETE </li>
@@ -145,6 +146,7 @@ const Event = Object.freeze({
         VOTE: "vote",
     },
 
+    VOTE_AGGREGATE: "voteAggregate",
     VOTE_CAST: "voteCast",
     VOTE_CLOSED: "voteClosed",
     VOTE_COMPLETE: "voteComplete",
@@ -261,6 +263,7 @@ const Message = Object.freeze({
  * <ul>
  *     <li> ACTIVE </li>
  *     <li> ADMIN </li>
+ *     <li> AGGREGATE </li>
  *     <li> CAST </li>
  *     <li> DATE </li>
  *     <li> DEADLINE </li>
@@ -288,6 +291,7 @@ const Model = Object.freeze({
 
     ACTIVE: "active",
     ADMIN: "admin",
+    AGGREGATE: "aggregate",
     CAST: "cast",
     DATE: "date",
     DEADLINE: "deadline",

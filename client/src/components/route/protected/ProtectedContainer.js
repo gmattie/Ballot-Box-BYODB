@@ -103,41 +103,45 @@ const ProtectedContainer = () => {
 
     /**
      * WebSocket event handling
-     * This component includes the initialized useWebSocket hook and contains child components that also employ the useWebSocket hook.
-     * 
-     * The webSocketMessage will resemble one of the following:
-     *     
-     *     "{"deadline":{"days":"00","hours":"00","minutes":"00","seconds":"00"}}"
-     *     "{"vote":"voteOpened}"
-     *     "{"vote":"voteClosed"}"
+     * Updates the polling status and deadline information when WebSocket messages "voteOpened", "voteClosed", "voteComplete" or messages of type "deadline" are broadcast.
+     * This component includes the initialized useWebSocket hook.
      * 
      */
-    if (webSocketMessage && webSocketMessage !== window[C.Global.WEB_SOCKET_MESSAGE_PROTECTED_CONTAINER]) {
-        
-        const messageTypeDeadline = JSON.parse(webSocketMessage)[C.Event.Type.DEADLINE];
+    
+    if (webSocketMessage) {
 
-        const messageOpened = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_OPENED });
-        const messageClosed = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED });
+        const isMessageTypeVote = JSON.parse(webSocketMessage)[C.Event.Type.VOTE];
+        const isMessageTypeDeadline = JSON.parse(webSocketMessage)[C.Event.Type.DEADLINE];
+        const voteCast = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CAST });
 
-        if (messageTypeDeadline) {
+        if ((isMessageTypeVote || isMessageTypeDeadline) &&
+            webSocketMessage !== voteCast &&
+            webSocketMessage !== window[C.Global.WEB_SOCKET_MESSAGE_PROTECTED_CONTAINER]) {            
 
-            parseVoteDeadline(webSocketMessage);
+            const voteOpened = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_OPENED });
+            const voteClosed = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED });
+            const voteComplete = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_COMPLETE });
+
+            if (isMessageTypeDeadline) {
+
+                parseVoteDeadline(webSocketMessage);
+            }
+            else if (webSocketMessage === voteOpened) {
+
+                setVoteStatus(C.Label.OPEN);
+            }
+            else if (webSocketMessage === voteClosed || webSocketMessage === voteComplete) {
+                
+                setVoteStatus(C.Label.CLOSED);
+                
+                setDeadlineDays(null);
+                setDeadlineHours(null);
+                setDeadlineMinutes(null);
+                setDeadlineSeconds(null);
+            }
+
+            window[C.Global.WEB_SOCKET_MESSAGE_PROTECTED_CONTAINER] = webSocketMessage;
         }
-        else if (webSocketMessage === messageOpened) {
-
-            setVoteStatus(C.Label.OPEN);
-        }
-        else if (webSocketMessage === messageClosed) {
-            
-            setVoteStatus(C.Label.CLOSED);
-            
-            setDeadlineDays(null);
-            setDeadlineHours(null);
-            setDeadlineMinutes(null);
-            setDeadlineSeconds(null);
-        }
-
-        window[C.Global.WEB_SOCKET_MESSAGE_PROTECTED_CONTAINER] = webSocketMessage;
     }
 
     /**

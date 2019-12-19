@@ -70,6 +70,11 @@ const voteSchema = new mongoose.Schema({
         type: Boolean,
         required: true
     },
+    [C.Model.AGGREGATE]: {
+
+        type: Boolean,
+        default: true
+    },
     [C.Model.DATE]: {
         
         type: Date,

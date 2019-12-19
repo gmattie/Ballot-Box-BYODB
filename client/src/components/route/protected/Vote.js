@@ -100,15 +100,14 @@ const Vote = ({ logout }) => {
      * 
      */
     
-    if (webSocketMessage && webSocketMessage !== window[C.Global.WEB_SOCKET_MESSAGE_VOTE]) {
+    if (webSocketMessage) {
 
-        const voteOpened = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_OPENED });
-        const voteClosed = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED });
-        const voteComplete = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_COMPLETE });
-        
-        if (webSocketMessage === voteOpened ||
-            webSocketMessage === voteClosed ||
-            webSocketMessage === voteComplete) {
+        const isMessageTypeVote = JSON.parse(webSocketMessage)[C.Event.Type.VOTE];
+        const voteCast = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CAST });
+
+        if (isMessageTypeVote &&
+            webSocketMessage !== voteCast &&
+            webSocketMessage !== window[C.Global.WEB_SOCKET_MESSAGE_VOTE]) {
 
             setVotesCast(null);
             resetItemLists();

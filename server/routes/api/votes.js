@@ -48,8 +48,82 @@ const broadcast = (clients, data) => {
 };
 
 /**
+ * @description Cast votes are aggregated and sorted to populate the "total" property of the active Vote document.
+ * Websocket event messages C.Event.VOTE_AGGREGATE is broadcast to all connected clients.  
+ * 
+ * @param {Object} req - An HTTP request object.
+ * @private
+ * @function
+ * 
+ */
+const aggregateVotes = async (req) => {
+
+    try {
+
+        const vote = await Vote
+            .findOne({ [C.Model.ACTIVE]: true })
+            .populate(`${C.Model.VOTE}.${C.Model.CAST}.${C.Model.ITEM}`, `${C.Model.NAME} ${C.Model.IMAGE}`);
+        
+        if (!vote) {
+            
+            throw new Error(C.Error.VOTE_DOES_NOT_EXIST);
+        }
+
+        let total = new Map();
+        const quantity = vote[C.Model.QUANTITY];
+
+        for (const castSchema of vote[C.Model.VOTE]) {
+
+            for (const rankSchema of castSchema[C.Model.CAST]) {
+
+                const item = rankSchema[C.Model.ITEM];
+                const rank = quantity - rankSchema[C.Model.RANK];
+
+                if (total.has(item)) {
+   
+                    total.set(item, total.get(item) + rank);
+                }
+                else {
+
+                    total.set(item, rank);
+                }
+            }
+        }
+
+        total = Array.from([...total.entries()].sort((a, b) => {
+            
+            if (a[1] === b[1]) {
+
+                return a[0].name.localeCompare(b[0].name);
+            }
+
+            return b[1] - a[1];
+        }));
+
+        total = total.map((rankSchema) => {
+
+            return new Rank({
+
+                item: rankSchema[0],
+                rank: rankSchema[1]
+            });
+        });
+
+        vote[C.Model.TOTAL] = total;
+        
+        await vote.save();
+
+        const clients = req.app.locals[C.Local.CLIENTS];
+        broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_AGGREGATE }));
+    }
+    catch (error) {
+
+        throw error;
+    }
+}
+
+/**
  * @description Closing the vote blocks clients from casting votes and, if applicable, stops a running deadline countdown.
- * Cast votes are aggregated and sorted to populate the "total" property of the vote document.
  * Websocket event messages C.Event.VOTE_CLOSED and C.Event.VOTE_COMPLETE are broadcast to all connected clients.  
  * 
  * @param {Object} req - An HTTP request object.
@@ -64,9 +138,7 @@ const closeVote = async (req) => {
         req.app.locals[C.Local.IS_VOTE_OPEN] = false;
         clearInterval(req.app.locals[C.Local.DEADLINE_INTERVAL]);
         
-        const vote = await Vote
-            .findOne({ [C.Model.ACTIVE]: true })
-            .populate(`${C.Model.VOTE}.${C.Model.CAST}.${C.Model.ITEM}`, `${C.Model.NAME} ${C.Model.IMAGE}`);
+        const vote = await Vote.findOne({ [C.Model.ACTIVE]: true });
         
         if (!vote) {
             
@@ -82,49 +154,13 @@ const closeVote = async (req) => {
         }
         else {
 
-            let total = new Map();
-            const quantity = vote[C.Model.QUANTITY];
+            if (!vote[C.Model.AGGREGATE]) {
 
-            for (const castSchema of vote[C.Model.VOTE]) {
-
-                for (const rankSchema of castSchema[C.Model.CAST]) {
-
-                    const item = rankSchema[C.Model.ITEM];
-                    const rank = quantity - rankSchema[C.Model.RANK];
-
-                    if (total.has(item)) {
-                         
-                        total.set(item, total.get(item) + rank);
-                    }
-                    else {
-
-                        total.set(item, rank);
-                    }
-                }
+                await aggregateVotes(req);
             }
-
-            total = Array.from([...total.entries()].sort((a, b) => {
-                
-                if (a[1] === b[1]) {
-
-                    return a[0].name.localeCompare(b[0].name);
-                }
-
-                return b[1] - a[1];
-            }));
-
-            total = total.map((rankSchema) => {
-
-                return new Rank({
-
-                    item: rankSchema[0],
-                    rank: rankSchema[1]
-                });
-            });
 
             vote[C.Model.ACTIVE] = false;
             vote[C.Model.DATE] = Date.now();
-            vote[C.Model.TOTAL] = total;
             
             await vote.save();
 
@@ -354,6 +390,11 @@ router.post(C.Route.CAST, [
 
             const clients = req.app.locals[C.Local.CLIENTS];
             broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CAST }));
+
+            if (vote[C.Model.AGGREGATE]) {
+
+                await aggregateVotes(req);
+            }
 
             return res
                 .status(C.Status.OK)

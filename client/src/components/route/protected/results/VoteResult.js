@@ -34,7 +34,7 @@ const VoteResult = ({
 
     /**
      * @description Handler for dispatched "click" events.
-     * Clicking the component passes the voteID prop back to the clickCallback function prop within the parent component.
+     * Clicking the component passes the ID of the voteDocument prop back to the clickCallback function prop within the parent component.
      * 
      * @private
      * @function
@@ -42,7 +42,7 @@ const VoteResult = ({
      */
     const clickHandler = () => {
 
-        clickCallback(voteDocument);
+        clickCallback(voteDocument[C.Model.ID]);
     };
 
     /**
