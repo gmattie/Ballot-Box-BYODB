@@ -37,6 +37,8 @@ const Dir = Object.freeze({
  *     <li> MESSAGE_RESET </li>
  *     <li> SUBJECT_ACTIVATE </li>
  *     <li> SUBJECT_RESET </li>
+ *     <li> TRANSPORT_AUTH_TYPE </li>
+ *     <li> TRANSPORT_SERVICE </li>
  * </ul>
  * 
  * @public
@@ -62,6 +64,8 @@ const Email = Object.freeze({
     MESSAGE_RESET: "A request to reset your account password has been submitted.  Please press the button below to confirm this request and reset your password.",
     SUBJECT_ACTIVATE: "Account Activation",
     SUBJECT_RESET: "Confirm Reset Password",
+    TRANSPORT_AUTH_TYPE: "OAuth2",
+    TRANSPORT_SERVICE: "gmail",
 });
 
 /**

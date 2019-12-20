@@ -142,18 +142,20 @@ const sendEmail = async (to, name, subject, href) => {
 
         const transporter = nodemailer.createTransport({
                 
-            host: process.env.SMTP_HOST,
-            port: process.env.SMTP_PORT,
+            service: C.Email.TRANSPORT_SERVICE,
             auth: {
         
-                user: process.env.SMTP_EMAIL,
-                pass: process.env.SMTP_PASSWORD
+                type: C.Email.TRANSPORT_AUTH_TYPE,
+                user: process.env.EMAIL_ADDRESS,
+                clientId: process.env.EMAIL_CLIENT_ID,
+                clientSecret: process.env.EMAIL_CLIENT_SECRET,
+                refreshToken: process.env.EMAIL_REFRESH_TOKEN,
             }
         });
 
         await transporter.sendMail({
 
-            from: `${process.env.SMTP_NAME} <${process.env.SMTP_EMAIL}>`,
+            from: `${process.env.EMAIL_NAME} <${process.env.EMAIL_ADDRESS}>`,
             to: to,
             subject: subject,
             html: html
