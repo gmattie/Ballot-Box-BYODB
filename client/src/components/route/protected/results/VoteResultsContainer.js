@@ -41,21 +41,19 @@ const VoteResultsContainer =  ({ logout }) => {
      * State
      * 
      */
-    const [ isMounting, setIsMounting ] = useState(true);
+    const [ isLoading, setIsLoading ] = useState(true);
     const [ showDialog, setShowDialog ] = useState(false);
 
     /**
      * Refs
      * 
      */
-    const responseUpdate = useRef(false);
     const voteResultDetailDocumentID = useRef(null);
 
     /**
      * Hooks
      * 
      */
-    
     const { authError } = useAuth();
     const { onMount } = useMount();
     
@@ -77,7 +75,9 @@ const VoteResultsContainer =  ({ logout }) => {
      */
     const mount = () => {
 
-        responseUpdate.current = true;
+        window[C.Global.WEB_SOCKET_MESSAGE_VOTE_RESULTS_CONTAINER] = null;
+
+        setIsLoading(true);
 
         setVotesAll(null);
         fetchAll();
@@ -87,20 +87,20 @@ const VoteResultsContainer =  ({ logout }) => {
 
     /**
      * WebSocket event handling
-     * Resets the state of the component when "voteOpened", "voteClosed" or "voteComplete" WebSocket messages are broadcast.
+     * Resets the state of the component when "voteOpened" or "voteClosed" WebSocket messages are broadcast.
      * 
      */
-    if (webSocketMessage) {
+    if (webSocketMessage &&
+        webSocketMessage !== window[C.Global.WEB_SOCKET_MESSAGE_VOTE_RESULTS_CONTAINER]) {
         
-        const isMessageTypeVote = JSON.parse(webSocketMessage)[C.Event.Type.VOTE];
-        const voteCast = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CAST });
-        
-        if (isMessageTypeVote &&
-            webSocketMessage !== voteCast &&
-            webSocketMessage !== window[C.Global.WEB_SOCKET_MESSAGE_VOTE_RESULTS_CONTAINER]) {
+        const isMessageVoteOpened = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_OPENED }));
+        const isMessageVoteClosed = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED }));
 
-            responseUpdate.current = true;
+        if (isMessageVoteOpened || isMessageVoteClosed) {
 
+            setIsLoading(true);
+
+            setVotesAll(null);
             fetchAll();
 
             window[C.Global.WEB_SOCKET_MESSAGE_VOTE_RESULTS_CONTAINER] = webSocketMessage;
@@ -119,17 +119,12 @@ const VoteResultsContainer =  ({ logout }) => {
 
     /**
      * Fetch all votes success
-     * Negate the responseUpdate ref and render the component
+     * Negate the isLoading local state and render the component.
      * 
      */
-    if (votesAll && responseUpdate.current) {
+    if (votesAll && isLoading) {
 
-        responseUpdate.current = false;
-
-        if (isMounting) {
-
-            setIsMounting(false);
-        }
+        setIsLoading(false);
     }
 
     /**
@@ -162,9 +157,9 @@ const VoteResultsContainer =  ({ logout }) => {
                 />
             }
 
-            {votesAll &&
+            {!isLoading &&
                 <>
-                    {votesAll.map((vote) => {
+                    {votesAll && votesAll.map((vote) => {
 
                         return (
                         
@@ -180,7 +175,7 @@ const VoteResultsContainer =  ({ logout }) => {
 
             {
                 //TODO: Replace with style animation
-                isMounting && <div>LOADING...</div>
+                isLoading && <div>LOADING...</div>
             }
         </div>
     );

@@ -107,6 +107,7 @@ const CharCode = Object.freeze({
  * 
  * <ul>
  *     <li> DUPLICATE_KEY </li>
+ *     <li> VOTE_DOES_NOT_EXIST </li>
  * </ul>
  * 
  * @public
@@ -116,6 +117,7 @@ const CharCode = Object.freeze({
 const Error = Object.freeze({
 
     DUPLICATE_KEY: "E11000 duplicate key error",
+    VOTE_DOES_NOT_EXIST: "Vote does not exist",
 });
 
 /**

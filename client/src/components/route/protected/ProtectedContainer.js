@@ -103,34 +103,30 @@ const ProtectedContainer = () => {
 
     /**
      * WebSocket event handling
-     * Updates the polling status and deadline information when WebSocket messages "voteOpened", "voteClosed", "voteComplete" or messages of type "deadline" are broadcast.
+     * Updates the polling status and deadline information when WebSocket messages "voteOpened", "voteClosed" or messages of type "deadline" are broadcast.
      * This component includes the initialized useWebSocket hook.
      * 
      */
-    
-    if (webSocketMessage) {
+    if (webSocketMessage &&
+        webSocketMessage !== window[C.Global.WEB_SOCKET_MESSAGE_PROTECTED_CONTAINER]) {
 
-        const isMessageTypeVote = JSON.parse(webSocketMessage)[C.Event.Type.VOTE];
         const isMessageTypeDeadline = JSON.parse(webSocketMessage)[C.Event.Type.DEADLINE];
-        const voteCast = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CAST });
+        const isMessageVoteOpened = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_OPENED }));
+        const isMessageVoteClosed = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED }));
 
-        if ((isMessageTypeVote || isMessageTypeDeadline) &&
-            webSocketMessage !== voteCast &&
-            webSocketMessage !== window[C.Global.WEB_SOCKET_MESSAGE_PROTECTED_CONTAINER]) {            
-
-            const voteOpened = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_OPENED });
-            const voteClosed = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED });
-            const voteComplete = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_COMPLETE });
+        if (isMessageTypeDeadline || isMessageVoteOpened || isMessageVoteClosed) {
 
             if (isMessageTypeDeadline) {
 
                 parseVoteDeadline(webSocketMessage);
             }
-            else if (webSocketMessage === voteOpened) {
+            else if (isMessageVoteOpened) {
 
                 setVoteStatus(C.Label.OPEN);
+                
+                fetchActive();
             }
-            else if (webSocketMessage === voteClosed || webSocketMessage === voteComplete) {
+            else if (isMessageVoteClosed) {
                 
                 setVoteStatus(C.Label.CLOSED);
                 
@@ -138,6 +134,8 @@ const ProtectedContainer = () => {
                 setDeadlineHours(null);
                 setDeadlineMinutes(null);
                 setDeadlineSeconds(null);
+
+                fetchActive();
             }
 
             window[C.Global.WEB_SOCKET_MESSAGE_PROTECTED_CONTAINER] = webSocketMessage;

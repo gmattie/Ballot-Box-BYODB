@@ -278,7 +278,16 @@ const fetchOne = (voteID) => {
             const response = await fetch(url, options);
             const data = await response.json();
 
-            dispatch((data.error) ? authActions.setAuthError(data) : setVotesOne(data));      
+            if (data.error) {
+
+                (data.error === C.Error.VOTE_DOES_NOT_EXIST)
+                    ? dispatch(setVotesError(data))
+                    : dispatch(authActions.setAuthError(data));
+            }
+            else {
+
+                dispatch(setVotesOne(data));
+            }
         }
         catch (error) {
 

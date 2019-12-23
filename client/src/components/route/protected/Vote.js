@@ -48,8 +48,7 @@ const Vote = ({ logout }) => {
     const [ invalidCast, setInvalidCast ] = useState(null);
     const [ invalidItem, setInvalidItem ] = useState(null);
     const [ invalidRank, setInvalidRank ] = useState(null);
-    const [ isLoading, setIsLoading ] = useState(false);
-    const [ isMounting, setIsMounting ] = useState(true);
+    const [ isLoading, setIsLoading ] = useState(true);
     const [ showDialog, setShowDialog ] = useState(false);
 
     /**
@@ -95,25 +94,45 @@ const Vote = ({ logout }) => {
     const { webSocketMessage } = useWebSocket();
 
     /**
-     * WebSocket event handling
-     * Resets the state of the component when "voteOpened", "voteClosed" or "voteComplete" WebSocket messages are broadcast.
+     * @description Check if there is an active vote, nullify the "votesCast" state and conditionally update "itemsCandidate" state.
+     * Fetching all Item documents is required to initialize or update the "itemsCandidate" state if there are any additions or edits to the Item documents.
+     * 
+     * @private
+     * @function
      * 
      */
-    
-    if (webSocketMessage) {
+    const mount = () => {
 
-        const isMessageTypeVote = JSON.parse(webSocketMessage)[C.Event.Type.VOTE];
-        const voteCast = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CAST });
+        setIsLoading(true);
+        
+        setVotesCast(null);
+        setVotesActive(null);
+        fetchActive();
+        
+        if (!itemsCandidate || itemsAdd || itemsEdit) {
 
-        if (isMessageTypeVote &&
-            webSocketMessage !== voteCast &&
-            webSocketMessage !== window[C.Global.WEB_SOCKET_MESSAGE_VOTE]) {
+            fetchAll();
+        }
+    };
+
+    onMount(mount);
+
+    /**
+     * WebSocket event handling
+     * Resets the state of the component when "voteOpened" or "voteClosed" WebSocket messages are broadcast.
+     * 
+     */
+
+    if (webSocketMessage &&
+        webSocketMessage !== window[C.Global.WEB_SOCKET_MESSAGE_VOTE]) {
+
+        const isMessageVoteOpened = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_OPENED }));
+        const isMessageVoteClosed = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED }));
+
+        if (isMessageVoteOpened || isMessageVoteClosed) {
 
             setVotesCast(null);
             resetItemLists();
-            
-            setVotesActive(null);
-            fetchActive();
 
             window[C.Global.WEB_SOCKET_MESSAGE_VOTE] = webSocketMessage;
         }
@@ -132,40 +151,11 @@ const Vote = ({ logout }) => {
     );
 
     /**
-     * @description Check if there is an active vote and conditionally update "itemsCandidate" state.
-     * Fetching all Item documents is required to initialize or update the "itemsCandidate" state if there are any additions or edits to the Item documents.
-     * 
-     * @private
-     * @function
-     * 
-     */
-    const mount = () => {
-
-        responseUpdate.current = true;
-
-        setVotesActive(null);
-        fetchActive();
-
-        if (!itemsCandidate || itemsAdd || itemsEdit) {
-
-            fetchAll();
-        }
-        else {
-
-            responseUpdate.current = false;
-            setIsMounting(false);
-        }
-    };
-
-    onMount(mount);
-
-    /**
      * Initialize or reset Item data during mount
      * Conditionally populates "votesCast" if a user has already voted and/or resets the "itemsCandidate" and "itemsVote" states to the default values. 
      * 
      */
-    if (isMounting &&
-        responseUpdate.current &&
+    if (isLoading &&
         votesActive &&
         itemsAll) {
 
@@ -190,10 +180,6 @@ const Vote = ({ logout }) => {
 
                 setVotesCast(cast);
             }
-            else {
-
-                setVotesCast(null);
-            }
         }
         
         if (!itemsCandidate || itemsAdd || itemsEdit) {
@@ -211,8 +197,7 @@ const Vote = ({ logout }) => {
             setItemsEdit(null);
         }
 
-        responseUpdate.current = false;
-        setIsMounting(false);
+        setIsLoading(false);
     }
 
     /**
@@ -319,16 +304,6 @@ const Vote = ({ logout }) => {
      * JSX markup
      * 
      */
-    if (votesCast) {
-
-        return (
-        
-            <div>
-                {C.Label.VOTE_CAST}
-            </div>
-        );
-    }
-
     return (
 
         <div className={C.Style.VOTE}>
@@ -340,7 +315,13 @@ const Vote = ({ logout }) => {
                 />
             }
             
-            {!isMounting &&
+            {(!isLoading && votesCast) &&
+                <>
+                    {C.Label.VOTE_CAST}
+                </>
+            }
+
+            {(!isLoading && !votesCast) &&
                 <>
                     {invalidCast && <div>{invalidCast}</div>}
                     {invalidItem && <div>{invalidItem}</div>}
@@ -370,7 +351,7 @@ const Vote = ({ logout }) => {
 
             {
                 //TODO: Replace with style animation
-                (isMounting || isLoading) && <div>LOADING...</div>
+                isLoading && <div>LOADING...</div>
             }
         </div>
     );

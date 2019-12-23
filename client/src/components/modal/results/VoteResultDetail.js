@@ -20,7 +20,7 @@ import * as C from "../../../support/constants";
 import Moment from "moment";
 import Portal from "../Portal";
 import PropTypes from "prop-types";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import TableItemRow from "./TableItemRow";
 import TableUserHeader from "./TableUserHeader";
 import useAuth from "../../../hooks/useAuth";
@@ -50,13 +50,7 @@ const VoteResultDetail = ({
      * State
      * 
      */
-    const [ isMounting, setIsMounting ] = useState(true);
-
-    /**
-     * Refs
-     * 
-     */
-    const responseUpdate = useRef(false);
+    const [ isLoading, setIsLoading ] = useState(true);
 
     /**
      * Hooks
@@ -68,44 +62,13 @@ const VoteResultDetail = ({
     const {
         
         fetchOne,
+        setVotesError,
         setVotesOne,
+        votesError,
         votesOne
     } = useVotes();
 
-    const { setWebSocketMessage, webSocketMessage } = useWebSocket();
-
-    /**
-     * WebSocket event handling
-     * Fetches the component data when "voteCast", "voteClosed" or "voteComplete" WebSocket messages are broadcast.
-     * 
-     */
-    if (webSocketMessage) {
-
-        const isMessageTypeVote = JSON.parse(webSocketMessage)[C.Event.Type.VOTE];
-        const voteOpened = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_OPENED });
-
-        if (isMessageTypeVote &&
-            webSocketMessage !== voteOpened &&
-            webSocketMessage !== window[C.Global.WEB_SOCKET_MESSAGE_VOTE_RESULT_DETAIL]) {
-
-            const voteCast = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CAST });
-            const voteClosed = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED });
-            const voteComplete = JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_COMPLETE });
-        
-            responseUpdate.current = true;
-
-            if (webSocketMessage === voteCast) {
-
-                setWebSocketMessage(null);
-            }
-            else if (webSocketMessage === voteClosed || webSocketMessage === voteComplete) {
-        
-                window[C.Global.WEB_SOCKET_MESSAGE_VOTE_RESULT_DETAIL] = webSocketMessage;
-            }
-
-            fetchOne(voteID);
-        }
-    }
+    const { webSocketMessage } = useWebSocket();
 
     /**
      * @description Fetch the target Vote document to populate the "votesOne" state.
@@ -116,13 +79,36 @@ const VoteResultDetail = ({
      */
     const mount = () => {
 
-        responseUpdate.current = true;
+        window[C.Global.WEB_SOCKET_MESSAGE_VOTE_RESULT_DETAIL] = null;
+
+        setIsLoading(true);
 
         setVotesOne(null);
         fetchOne(voteID);
     };
 
     onMount(mount);
+
+    /**
+     * WebSocket event handling
+     * Fetches the component data when "voteCast" or "voteClosed" WebSocket messages are broadcast.
+     * 
+     */
+    if (webSocketMessage &&
+        webSocketMessage !== window[C.Global.WEB_SOCKET_MESSAGE_VOTE_RESULT_DETAIL]) {
+        
+        const isMessageVoteCast = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CAST }));
+        const isMessageVoteClosed = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED }));
+
+        if (isMessageVoteCast || isMessageVoteClosed) {
+
+            fetchOne(voteID);
+
+            window[C.Global.WEB_SOCKET_MESSAGE_VOTE_RESULT_DETAIL] = (isMessageVoteCast)
+                ? null
+                : webSocketMessage;
+        }
+    }
 
     /**
      * Auth failure
@@ -135,18 +121,31 @@ const VoteResultDetail = ({
     }
 
     /**
-     * Fetch one vote success
-     * Negate the responseUpdate ref and render the component
+     * Vote error
+     * Close the component model if the poll is closed without having any cast votes.
      * 
      */
-    if (votesOne && responseUpdate.current) {
+    if (votesError) {
 
-        responseUpdate.current = false;
+        if (votesError.error === C.Error.VOTE_DOES_NOT_EXIST) {
 
-        if (isMounting) {
-
-            setIsMounting(false);
+            setVotesError(null);
+            okCallback();
         }
+        else {
+
+            setTimeout(() => logout());    
+        }
+    }
+
+    /**
+     * Fetch one vote success
+     * Negate the isLoading local state and render the component.
+     * 
+     */
+    if (votesOne && isLoading) {
+
+        setIsLoading(false);
     }
 
     /**
@@ -243,7 +242,7 @@ const VoteResultDetail = ({
 
                 {
                     //TODO: Replace with style animation
-                    isMounting && <div>LOADING...</div>
+                    isLoading && <div>LOADING...</div>
                 }
             </div>
         </Portal>
