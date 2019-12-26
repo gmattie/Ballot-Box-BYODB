@@ -240,7 +240,13 @@ router.get(C.Route.VERIFY, async (req, res) => {
         try {
 
             const { email, password } = req.query;          
-            const user = await User.findOne({ email });
+            const user = await User
+                .findOne({ email })
+                .collation({
+                    
+                    locale: C.Local.ENGLISH,
+                    strength: 2
+                });
 
             if (!user || (user[C.Model.PASSWORD] !== password)) {
                 
@@ -249,7 +255,13 @@ router.get(C.Route.VERIFY, async (req, res) => {
 
             if (!user[C.Model.EXPIRE]) {
 
-                const reset = await Reset.findOne({ email });
+                const reset = await Reset
+                    .findOne({ email })
+                    .collation({
+                    
+                        locale: C.Local.ENGLISH,
+                        strength: 2
+                    });
 
                 if (!reset) {
 
@@ -301,7 +313,13 @@ router.post(C.Route.LOGIN, [
         try {
 
             const { email, password } = req.body;
-            const user = await User.findOne({ email });
+            const user = await User
+                .findOne({ email })
+                .collation({
+                    
+                    locale: C.Local.ENGLISH,
+                    strength: 2
+                });
 
             if (!user || user[C.Model.EXPIRE]) {
 
@@ -407,14 +425,26 @@ router.post(C.Route.RESET, [
         try {
 
             const { email, password } = req.body;
-            const user = await User.findOne({ email });
+            const user = await User
+                .findOne({ email })
+                .collation({
+                    
+                    locale: C.Local.ENGLISH,
+                    strength: 2
+                });
 
             if (!user || user[C.Model.EXPIRE]) {
 
                 throw new Error(C.Error.USER_DOES_NOT_EXIST);
             }
 
-            let reset = await Reset.findOne({ email });
+            let reset = await Reset
+                .findOne({ email })
+                .collation({
+                    
+                    locale: C.Local.ENGLISH,
+                    strength: 2
+                });
 
             if (reset) {
 
