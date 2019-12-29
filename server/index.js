@@ -6,6 +6,7 @@
  * @requires http
  * @requires mongoose
  * @requires path
+ * @requires utils
  * @requires ws
  * @module
  * 
@@ -15,6 +16,7 @@ const C = require("./support/constants");
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
+const utils = require("./support/utilities");
 const WebSocket = require("ws");
 
 /**
@@ -57,6 +59,9 @@ const server = () => {
 
         webSocket.on(C.Event.CLOSE, logClients);
     });
+
+    const heartbeat = () => utils.broadcast(app.locals[C.Local.CLIENTS], JSON.stringify({ [C.Event.Type.WEBSOCKET]: C.Event.HEARTBEAT }));
+    setInterval(heartbeat, 30000);
 };
 
 /**

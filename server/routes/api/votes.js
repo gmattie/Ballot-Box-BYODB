@@ -9,7 +9,6 @@
  * @requires utils
  * @requires validation
  * @requires Vote
- * @requires ws
  * @public
  * @module
  * 
@@ -22,30 +21,6 @@ const mongoose = require("mongoose");
 const router = require("express").Router();
 const utils = require("../../support/utilities");
 const validation = require("../../middleware/validation");
-const WebSocket = require("ws");
-
-/**
- * @description Broadcasts a message to all connected clients.
- * 
- * @param {Set} clients - A set of all connected clients. 
- * @param {*} data - What is sent to each connected client.
- * @private
- * @function
- * 
- */
-const broadcast = (clients, data) => {
-
-    if (clients) {
-
-        clients.forEach((client) => {
-
-            if (client.readyState === WebSocket.OPEN) {
-
-                client.send(data);
-            }
-        });
-    }
-};
 
 /**
  * @description Cast votes are aggregated and sorted to populate the "total" property of the active Vote document.
@@ -114,7 +89,7 @@ const aggregateVotes = async (req) => {
         await vote.save();
 
         const clients = req.app.locals[C.Local.CLIENTS];
-        broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_AGGREGATE }));
+        utils.broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_AGGREGATE }));
     }
     catch (error) {
 
@@ -146,7 +121,7 @@ const closeVote = async (req) => {
         }
         
         const clients = req.app.locals[C.Local.CLIENTS];
-        broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED }));
+        utils.broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED }));
 
         if (vote[C.Model.VOTE].length === 0) {
 
@@ -164,7 +139,7 @@ const closeVote = async (req) => {
             
             await vote.save();
 
-            broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_COMPLETE }));
+            utils.broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_COMPLETE }));
         }
     }
     catch (error) {
@@ -232,7 +207,7 @@ router.post(C.Route.OPEN, [
                                 seconds: parseTimeUnit(seconds % 60)
                             };
             
-                            broadcast(clients, JSON.stringify({ [C.Event.Type.DEADLINE]: data }));
+                            utils.broadcast(clients, JSON.stringify({ [C.Event.Type.DEADLINE]: data }));
                     
                             if (seconds === 0) {
         
@@ -249,7 +224,7 @@ router.post(C.Route.OPEN, [
 
                     await vote.save();
 
-                    broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_OPENED }));
+                    utils.broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_OPENED }));
 
                     return res
                         .status(C.Status.OK)
@@ -389,7 +364,7 @@ router.post(C.Route.CAST, [
             await vote.save();
 
             const clients = req.app.locals[C.Local.CLIENTS];
-            broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CAST }));
+            utils.broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CAST }));
 
             if (vote[C.Model.AGGREGATE]) {
 

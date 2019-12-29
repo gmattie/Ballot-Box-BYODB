@@ -2,11 +2,36 @@
  * @description Common and reusable functions 
  * 
  * @requires constants
+ * @requires ws
  * @public
  * @module
  * 
  */
 const C = require("./constants");
+const WebSocket = require("ws");
+
+/**
+ * @description Broadcasts a WebSocket message to all connected clients.
+ * 
+ * @param {Set} clients - A set of all connected clients. 
+ * @param {*} data - What is sent to each connected client.
+ * @private
+ * @function
+ * 
+ */
+const broadcast = (clients, data) => {
+
+    if (clients) {
+
+        clients.forEach((client) => {
+
+            if (client.readyState === WebSocket.OPEN) {
+
+                client.send(data);
+            }
+        });
+    }
+};
 
 /**
  * @description Retrieve the signature partition of a JSON Web Token.
@@ -81,6 +106,7 @@ const sendErrorResponse = (error, response) => {
  */
 module.exports = {
 
+    broadcast,
     getTokenSignature,
     sendErrorResponse
 };
