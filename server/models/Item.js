@@ -41,6 +41,10 @@ const itemSchema = new mongoose.Schema({
             }
         }
     },
+    [C.Model.THUMBNAIL]: {
+
+        type: String
+    },
 }, { versionKey: false });
 
 /**

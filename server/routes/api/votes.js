@@ -95,7 +95,7 @@ const aggregateVotes = async (req) => {
 
         throw error;
     }
-}
+};
 
 /**
  * @description Closing the vote blocks clients from casting votes and, if applicable, stops a running deadline countdown.

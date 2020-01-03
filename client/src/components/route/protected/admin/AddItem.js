@@ -24,7 +24,7 @@ import useItems from "../../../../hooks/useItems";
 
 /**
  * @description The AddItem component contains UI elements that are required to add Item documents to the database.
- * The UI elements include text input fields for setting the "name" and optional "image" URL and a button for submitting the input data to the server.
+ * The UI elements include text input fields for setting the "name" with optional "thumbnail" and "image" URLs and a button for submitting the input data to the server.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} JSX markup.
@@ -39,6 +39,7 @@ const AddItem = ({ logout }) => {
      * 
      */
     const [ invalidName, setInvalidName ] = useState(false);
+    const [ invalidThumbnail, setInvalidThumbnail ] = useState(false);
     const [ invalidImage, setInvalidImage ] = useState(false);
     const [ isLoading, setIsLoading ] = useState(false);
     const [ showDialog, setShowDialog ] = useState(false);
@@ -72,6 +73,13 @@ const AddItem = ({ logout }) => {
 
     const {
 
+        binding: bindThumbnail,
+        clearValue: clearThumbnail,
+        value: thumbnail
+    } = useInputText();
+
+    const {
+
         binding: bindImage,
         clearValue: clearImage,
         value: image
@@ -94,6 +102,7 @@ const AddItem = ({ logout }) => {
         responseUpdate.current = false;
 
         clearName();
+        clearThumbnail();
         clearImage();
     }
     
@@ -114,6 +123,11 @@ const AddItem = ({ logout }) => {
 
                     case C.ID.NAME_NAME:
                         setInvalidName(error[C.ID.ERROR_MESSAGE]);
+
+                        break;
+
+                    case C.ID.NAME_THUMBNAIL:
+                        setInvalidThumbnail(error[C.ID.ERROR_MESSAGE]);
 
                         break;
 
@@ -159,10 +173,11 @@ const AddItem = ({ logout }) => {
         setItemsAdd(null);
 
         setInvalidName(null);
+        setInvalidThumbnail(null);
         setInvalidImage(null);
 
         responseUpdate.current = true;
-        await fetchAdd(name, image);
+        await fetchAdd(name, thumbnail, image);
 
         setIsLoading(false);
     };
@@ -196,6 +211,19 @@ const AddItem = ({ logout }) => {
                                 name={C.ID.NAME_NAME}
                                 disabled={isLoading}
                                 {...bindName}
+                            />
+                        </label>
+                    </div>
+
+                    <div>
+                        {invalidThumbnail && <div>{invalidThumbnail}</div>}
+                        <label>
+                            {C.Label.THUMBNAIL}
+                            <input 
+                                type={C.HTMLElement.InputType.TEXT}
+                                name={C.ID.NAME_THUMBNAIL}
+                                disabled={isLoading}
+                                {...bindThumbnail}
                             />
                         </label>
                     </div>

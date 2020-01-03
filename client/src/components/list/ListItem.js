@@ -43,13 +43,13 @@ const ListItem = ({ data, index, showItemDetails }) => {
      */
     const doubleClickHandler = () => {
 
-        if (data.image) {
+        if (data[C.Model.IMAGE]) {
 
             const currentClick = Date.now();
 
             if (currentClick - previousClick.current < 500) {
 
-                showItemDetails(data.name, data.image);
+                showItemDetails(data[C.Model.NAME], data[C.Model.IMAGE]);
             }
             else {
 
@@ -65,7 +65,7 @@ const ListItem = ({ data, index, showItemDetails }) => {
     return (
     
         <Draggable
-            draggableId={data._id}
+            draggableId={data[C.Model.ID]}
             index={index}
         >
             {(provided, snapshot) => {
@@ -85,15 +85,15 @@ const ListItem = ({ data, index, showItemDetails }) => {
                         onClick={doubleClickHandler}
                     >
                         <ViewportImage
-                            src={data.image}
-                            alt={data.name}
+                            src={data[C.Model.THUMBNAIL]}
+                            alt={data[C.Model.NAME]}
                             style={C.Style.VIEWPORT_IMAGE}
                             intersectionStyle={C.Style.VIEWPORT_IMAGE_INTERSECTION}
                             errorStyle={C.Style.VIEWPORT_IMAGE_ERROR}
                         />
 
                         <div className={C.Style.LIST_ITEM_TITLE}>
-                            {data.name}
+                            {data[C.Model.NAME]}
                         </div>
                     </div>
                 );

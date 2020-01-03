@@ -31,8 +31,12 @@ const itemAdd = [
         .not()
         .isEmpty({ ignore_whitespace: true })
         .trim(),
+        
+    check(`${C.Request.ITEM}.*.${C.Request.THUMBNAIL}`, C.Error.URL)
+        .optional({checkFalsy: true})
+        .isURL(),
 
-    check(`${C.Request.ITEM}.*.${C.Request.IMAGE}`, C.Error.IMAGE)
+    check(`${C.Request.ITEM}.*.${C.Request.IMAGE}`, C.Error.URL)
         .optional({checkFalsy: true})
         .isURL()
 ];
@@ -51,6 +55,7 @@ const itemEdit = [
         const allowedKeys = [
 
             C.Request.NAME,
+            C.Request.THUMBNAIL,
             C.Request.IMAGE
         ];
 
@@ -69,7 +74,11 @@ const itemEdit = [
         .optional({checkFalsy: true})
         .trim(),
 
-    check(C.Request.IMAGE, C.Error.IMAGE)
+    check(C.Request.THUMBNAIL, C.Error.URL)
+        .optional({checkFalsy: true})
+        .isURL(),
+
+    check(C.Request.IMAGE, C.Error.URL)
         .optional({checkFalsy: true})
         .isURL()
 ];

@@ -253,6 +253,7 @@ const HTMLElement = Object.freeze({
  *     <li> NAME_PASSWORD_CONFIRM </li>
  *     <li> NAME_QUANTITY </li>
  *     <li> NAME_RANK </li>
+ *     <li> NAME_THUMBNAIL </li>
  * </ul>
  * 
  * @public
@@ -285,6 +286,7 @@ const ID = Object.freeze({
     NAME_PASSWORD: "password",
     NAME_QUANTITY: "quantity",
     NAME_RANK: "rank",
+    NAME_THUMBNAIL: "thumbnail",
 });
 
 /**
@@ -354,6 +356,7 @@ const Image = Object.freeze({
  *     <li> REGISTER </li>
  *     <li> RESET </li>
  *     <li> RESULTS </li>
+ *     <li> THUMBNAIL </li>
  *     <li> VOTE </li>
  *     <li> VOTE_CAST </li>
  *     <li> VOTES </li>
@@ -412,6 +415,7 @@ const Label = Object.freeze({
     REGISTER: "Register",
     RESET: "Reset",
     RESULTS: "Results",
+    THUMBNAIL: "Thumbnail",
     VOTE_CAST: "Your vote has been cast for the current poll.",
     VOTE: "Vote",
     VOTES: "Votes",
@@ -452,11 +456,13 @@ const Local = Object.freeze({
  *     <li> DATE </li>
  *     <li> EMAIL </li>
  *     <li> ID </li>
+ *     <li> IMAGE </li>
  *     <li> IP </li>
  *     <li> ITEM </li>
  *     <li> NAME </li>
  *     <li> QUANTITY </li>
  *     <li> RANK </li>
+ *     <li> THUMBNAIL </li>
  *     <li> TOKEN </li>
  *     <li> TOTAL </li>
  *     <li> USER </li>
@@ -474,11 +480,13 @@ const Model = Object.freeze({
     DATE: "date",
     EMAIL: "email",
     ID: "_id",
+    IMAGE: "image",
     IP: "ip",
     ITEM: "item",
     NAME: "name",
     QUANTITY: "quantity",
     RANK: "rank",
+    THUMBNAIL: "thumbnail",
     TOKEN: "token",
     TOTAL: "total",
     USER: "user",

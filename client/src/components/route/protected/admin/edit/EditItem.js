@@ -24,7 +24,7 @@ import useItems from "../../../../../hooks/useItems";
 
 /**
  * @description The EditItem component contains UI elements that are required to edit Item documents on the database.
- * The UI elements include text input fields for optionally setting the "name" and/or "image" URL,
+ * The UI elements include text input fields for optionally updating "name", "thumbnail" and "image",
  * a button to reset the text fields to their default values and a button for submitting the input data to the server.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
@@ -37,6 +37,7 @@ const EditItem = ({
 
         itemID,
         itemName,
+        itemThumbnail,
         itemImage,
         logout,
     }) => {
@@ -46,6 +47,7 @@ const EditItem = ({
      * 
      */
     const [ invalidName, setInvalidName ] = useState(false);
+    const [ invalidThumbnail, setInvalidThumbnail ] = useState(false);
     const [ invalidImage, setInvalidImage ] = useState(false);
     const [ isLoading, setIsLoading ] = useState(false);
     const [ showDialog, setShowDialog ] = useState(false);
@@ -79,6 +81,13 @@ const EditItem = ({
 
     const {
 
+        binding: bindThumbnail,
+        clearValue: clearThumbnail,
+        value: thumbnail
+    } = useInputText(null, null, itemThumbnail);
+
+    const {
+
         binding: bindImage,
         clearValue: clearImage,
         value: image
@@ -91,11 +100,9 @@ const EditItem = ({
      */
     isSubmittable.current = (
         
-        (name || image) && (
-
-            (name !== itemName) ||
-            (image !== itemImage)
-        )
+        (name && name !== itemName) ||
+        (thumbnail && thumbnail !== itemThumbnail) ||
+        (image && image !== itemImage)
     );
 
     /**
@@ -125,6 +132,11 @@ const EditItem = ({
 
                     case C.ID.NAME_NAME:
                         setInvalidName(error[C.ID.ERROR_MESSAGE]);
+
+                        break;
+
+                    case C.ID.NAME_THUMBNAIL:
+                        setInvalidThumbnail(error[C.ID.ERROR_MESSAGE]);
 
                         break;
 
@@ -170,16 +182,17 @@ const EditItem = ({
         setItemsEdit(null);
 
         setInvalidName(null);
+        setInvalidThumbnail(null);
         setInvalidImage(null);
 
         responseUpdate.current = true;
-        await fetchEdit(itemID, name, image);
+        await fetchEdit(itemID, name, thumbnail, image);
 
         setIsLoading(false);
     };
 
     /**
-     * @description Resets the "name" and "image" text fields back to their default values.
+     * @description Resets the "name", "thumbnail" and "image" text fields back to their default values.
      * 
      * @private
      * @function
@@ -188,6 +201,7 @@ const EditItem = ({
     const resetHandler = () => {
 
         clearName();
+        clearThumbnail();
         clearImage();
     };
 
@@ -220,6 +234,19 @@ const EditItem = ({
                                 name={C.ID.NAME_NAME}
                                 disabled={isLoading}
                                 {...bindName}
+                            />
+                        </label>
+                    </div>
+
+                    <div>
+                        {invalidThumbnail && <div>{invalidThumbnail}</div>}
+                        <label>
+                            {C.Label.THUMBNAIL}
+                            <input 
+                                type={C.HTMLElement.InputType.TEXT}
+                                name={C.ID.NAME_THUMBNAIL}
+                                disabled={isLoading}
+                                {...bindThumbnail}
                             />
                         </label>
                     </div>

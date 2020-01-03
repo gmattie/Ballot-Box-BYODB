@@ -125,7 +125,7 @@ const setItemsVote = (data) => {
  * @function
  *  
  */
-const fetchAdd = (name, image) => {
+const fetchAdd = (name, thumbnail, image) => {
 
     return async (dispatch, getState) => {
 
@@ -145,7 +145,7 @@ const fetchAdd = (name, image) => {
                     
                     [C.Model.ITEM]: [{
                         
-                        name, image 
+                        name, thumbnail, image 
                     }]
                 })
             };
@@ -216,7 +216,7 @@ const fetchAll = () => {
  * @function
  *  
  */
-const fetchEdit = (itemID, name, image) => {
+const fetchEdit = (itemID, name, thumbnail, image) => {
 
     return async (dispatch, getState) => {
 
@@ -232,7 +232,7 @@ const fetchEdit = (itemID, name, image) => {
                     [C.Request.HEADER_X_AUTH_TOKEN]: authToken,
                     [C.Request.HEADER_CONTENT_TYPE]: C.Request.APPLICATION_JSON
                 },
-                body: JSON.stringify({ name, image })
+                body: JSON.stringify({ name, thumbnail, image })
             };
 
             const response = await fetch(url, options);

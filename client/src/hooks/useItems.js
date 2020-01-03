@@ -42,9 +42,9 @@ const useItems = () => {
 
     const dispatch = useDispatch();
 
-    const fetchAdd = (name, image) => dispatch(itemActions.fetchAdd(name, image));
+    const fetchAdd = (name, thumbnail, image) => dispatch(itemActions.fetchAdd(name, thumbnail, image));
     const fetchAll = () => dispatch(itemActions.fetchAll());
-    const fetchEdit = (itemID, name, image) => dispatch(itemActions.fetchEdit(itemID, name, image));
+    const fetchEdit = (itemID, name, thumbnail, image) => dispatch(itemActions.fetchEdit(itemID, name, thumbnail, image));
 
     const setItemsAdd = (data) => dispatch(itemActions.setItemsAdd(data));
     const itemsAdd = useSelector((state) => state.items[C.Action.Type.ITEMS_ADD], null);

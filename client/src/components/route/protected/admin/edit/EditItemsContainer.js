@@ -82,6 +82,7 @@ const EditItemsContainer = ({ logout }) => {
                                     key={item._id}
                                     itemID={item._id}
                                     itemName={item.name}
+                                    itemThumbnail={item.thumbnail}
                                     itemImage={item.image}
                                     logout={logout}
                                 />
