@@ -1,12 +1,4 @@
 .voteResult {
 
     @include list-item;
-
-    &-active {
-
-        @include live-badge;
-
-        display: inline-block;
-        margin-left: 10px;
-    }
 }

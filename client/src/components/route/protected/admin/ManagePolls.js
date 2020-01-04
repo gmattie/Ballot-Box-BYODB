@@ -43,6 +43,7 @@ const ManagePolls = ({ logout }) => {
     const [ isLoading, setIsLoading ] = useState(false);
     const [ isMounting, setIsMounting ] = useState(true);
     const [ showDialog, setShowDialog ] = useState(false);
+    const [ aggregate, setAggregate ] = useState(false);
 
     /**
      * Refs
@@ -203,7 +204,7 @@ const ManagePolls = ({ logout }) => {
             setInvalidQuantity(null);
 
             responseUpdate.current = true;
-            await fetchOpen(deadline, quantity);
+            await fetchOpen(deadline, quantity, aggregate);
         }
 
         if (submitTarget.current === C.Label.CLOSE_POOLS) {
@@ -268,6 +269,32 @@ const ManagePolls = ({ logout }) => {
                                         />
                                     </label>
                                 </div>
+
+                                <fieldset>
+                                    <legend>
+                                        {C.Label.RESULTS}
+                                    </legend>
+
+                                    <label>
+                                        {C.Label.PENDING}
+                                        <input
+                                            type={C.HTMLElement.InputType.RADIO}
+                                            name={C.ID.NAME_RESULTS}
+                                            checked={!aggregate}
+                                            onChange={() => setAggregate(false)}
+                                        />
+                                    </label>
+
+                                    <label>
+                                        {C.Label.LIVE}
+                                        <input
+                                            type={C.HTMLElement.InputType.RADIO}
+                                            name={C.ID.NAME_RESULTS}
+                                            checked={aggregate}
+                                            onChange={() => setAggregate(true)}
+                                        />
+                                    </label>
+                                </fieldset>
 
                                 <button
                                     id={C.Label.OPEN_POLLS}

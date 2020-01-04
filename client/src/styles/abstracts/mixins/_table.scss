@@ -1,0 +1,15 @@
+@mixin table-info-item {
+
+    text-align: center;
+}
+
+@mixin table-user-item {
+
+    height: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    writing-mode: vertical-rl;
+    text-overflow: ellipsis;
+    text-align: left;
+    transform: rotate(180deg);
+}

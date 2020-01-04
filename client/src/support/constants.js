@@ -204,6 +204,7 @@ const Global = Object.freeze({
  *     <ul>
  *         <li> TEXT </li> 
  *         <li> PASSWORD </li> 
+ *         <li> RADIO </li> 
  *     </ul>
  *     <li> ROOT </li>
  * </ul>
@@ -219,7 +220,8 @@ const HTMLElement = Object.freeze({
     InputType: {
         
         TEXT: "text",
-        PASSWORD: "password"
+        PASSWORD: "password",
+        RADIO: "radio"
     },
 
     ROOT: "root",
@@ -253,6 +255,7 @@ const HTMLElement = Object.freeze({
  *     <li> NAME_PASSWORD_CONFIRM </li>
  *     <li> NAME_QUANTITY </li>
  *     <li> NAME_RANK </li>
+ *     <li> NAME_RESULTS </li>
  *     <li> NAME_THUMBNAIL </li>
  * </ul>
  * 
@@ -286,6 +289,7 @@ const ID = Object.freeze({
     NAME_PASSWORD: "password",
     NAME_QUANTITY: "quantity",
     NAME_RANK: "rank",
+    NAME_RESULTS: "results",
     NAME_THUMBNAIL: "thumbnail",
 });
 
@@ -351,6 +355,7 @@ const Image = Object.freeze({
  *     <li> OPTIONAL </li>
  *     <li> PASSWORD </li>
  *     <li> PASSWORD_CONFIRM </li>
+ *     <li> PENDING </li>
  *     <li> POLLS_STATUS </li>
  *     <li> QUANTITY </li>
  *     <li> REGISTER </li>
@@ -410,6 +415,7 @@ const Label = Object.freeze({
     OPTIONAL: "(Optional)",
     PASSWORD_CONFIRM: "Confirm Password",
     PASSWORD: "Password",
+    PENDING: "Pending",
     POLLS_STATUS: "Polls Status:",
     QUANTITY: "Quantity",
     REGISTER: "Register",
@@ -452,6 +458,7 @@ const Local = Object.freeze({
  * 
  * <ul>
  *     <li> ACTIVE </li>
+ *     <li> AGGREGATE </li>
  *     <li> CAST </li>
  *     <li> DATE </li>
  *     <li> EMAIL </li>
@@ -476,6 +483,7 @@ const Local = Object.freeze({
 const Model = Object.freeze({
 
     ACTIVE: "active",
+    AGGREGATE: "aggregate",
     CAST: "cast",
     DATE: "date",
     EMAIL: "email",
@@ -685,7 +693,9 @@ const Style = Object.freeze({
     VIEWPORT_IMAGE_INTERSECTION: "viewportImage-intersection",
     VIEWPORT_IMAGE: "viewportImage",
     VISIBLE: "visible",
-    VOTE_RESULT_ACTIVE: "voteResult-active",
+    VOTE_ACTIVE_BADGE: "voteActiveBadge",
+    VOTE_ACTIVE_BADGE_LIVE: "voteActiveBadge-live",
+    VOTE_ACTIVE_BADGE_PENDING: "voteActiveBadge-pending",
     VOTE_RESULT_DETAIL_TABLE_INFO_ACTIVE: "voteResultDetail-table-info-active",
     VOTE_RESULT_DETAIL_TABLE_INFO_DATE: "voteResultDetail-table-info-date",
     VOTE_RESULT_DETAIL_TABLE_INFO_QUANTITY: "voteResultDetail-table-info-quantity",

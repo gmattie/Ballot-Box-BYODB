@@ -27,7 +27,6 @@
             &-active {
 
                 @include table-info-item;
-                @include live-badge;
             }
         }
     }

@@ -1,0 +1,12 @@
+.voteActiveBadge {
+
+    &-live {
+
+        @include active-badge(limegreen);
+    }
+
+    &-pending {
+
+        @include active-badge(darkorange);
+    }
+}

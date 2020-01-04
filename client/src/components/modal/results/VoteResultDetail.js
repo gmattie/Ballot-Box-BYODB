@@ -12,6 +12,7 @@
  * @requires useMount
  * @requires useVotes
  * @requires useWebSocket
+ * @requires VoteActiveBadge
  * @public
  * @module
  * 
@@ -27,6 +28,7 @@ import useAuth from "../../../hooks/useAuth";
 import useMount from "../../../hooks/useMount";
 import useVotes from "../../../hooks/useVotes";
 import useWebSocket from "../../../hooks/useWebSocket";
+import VoteActiveBadge from "../../route/protected/results/VoteActiveBadge";
 
 /**
  * @description Renders an modal window inside a React Portal.
@@ -200,26 +202,28 @@ const VoteResultDetail = ({
                                     <div className={C.Style.VOTE_RESULT_DETAIL_TABLE_INFO_QUANTITY}>
                                         {`${C.Label.QUANTITY}: ${votesOne[C.Model.QUANTITY]}`}
                                     </div>
-                                    
+
                                     {votesOne[C.Model.ACTIVE] &&
                                         <div className={C.Style.VOTE_RESULT_DETAIL_TABLE_INFO_ACTIVE}>
-                                            {C.Label.LIVE.toUpperCase()}
+                                            <VoteActiveBadge aggregate={votesOne[C.Model.AGGREGATE]} />
                                         </div>
                                     }
                                 </td>
-                                
-                                {votesOne[C.Model.VOTE].map((vote) => {
 
-                                    return (
+                                {(votesOne[C.Model.AGGREGATE] || !votesOne[C.Model.ACTIVE]) &&
+                                    votesOne[C.Model.VOTE].map((vote) => {
 
-                                        <TableUserHeader
-                                            key={vote[C.Model.ID]}
-                                            name={vote[C.Model.USER][C.Model.NAME]}
-                                            email={vote[C.Model.USER][C.Model.EMAIL]}
-                                            ip={vote[C.Model.USER][C.Model.IP]}
-                                        />
-                                    );
-                                })}
+                                        return (
+
+                                            <TableUserHeader
+                                                key={vote[C.Model.ID]}
+                                                name={vote[C.Model.USER][C.Model.NAME]}
+                                                email={vote[C.Model.USER][C.Model.EMAIL]}
+                                                ip={vote[C.Model.USER][C.Model.IP]}
+                                            />
+                                        );
+                                    })
+                                }
                             </tr>
                         </thead>
 

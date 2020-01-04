@@ -1,6 +1,10 @@
 @import "./abstracts/constants";
 @import "./abstracts/animations";
-@import "./abstracts/mixins";
+@import "./abstracts/mixins/badge";
+@import "./abstracts/mixins/button";
+@import "./abstracts/mixins/header";
+@import "./abstracts/mixins/list";
+@import "./abstracts/mixins/table";
 
 @import "./base/reset";
 @import "./base/root";
@@ -19,6 +23,7 @@
 @import "./components/modal/results/voteResultDetail";
 @import "./components/route/protected/admin/edit/editItemsContainer";
 @import "./components/route/protected/protectedContainer";
+@import "./components/route/protected/results/voteActiveBadge";
 @import "./components/route/protected/results/voteResult";
 @import "./components/route/protected/results/voteResultsContainer";
 @import "./components/route/protected/vote";

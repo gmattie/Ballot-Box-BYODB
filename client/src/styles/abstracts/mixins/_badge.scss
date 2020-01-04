@@ -1,0 +1,8 @@
+@mixin active-badge($background-color) {
+
+    display: inline-block;
+    padding: 0 10px;
+    margin-left: 10px;
+    background-color: $background-color;
+    animation: blink 2s linear infinite alternate;
+}

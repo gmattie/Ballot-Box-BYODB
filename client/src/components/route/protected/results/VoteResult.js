@@ -5,6 +5,7 @@
  * @requires moment
  * @requires prop-types
  * @requires react
+ * @requires VoteActiveBadge
 
  * @public
  * @module
@@ -14,6 +15,7 @@ import * as C from "../../../../support/constants";
 import Moment from "moment";
 import PropTypes from "prop-types";
 import React from "react";
+import VoteActiveBadge from "./VoteActiveBadge";
 
 /**
  * @description The VoteResult component is a clickable list item representing a Vote document.
@@ -58,9 +60,7 @@ const VoteResult = ({
             {Moment(voteDocument[C.Model.DATE]).format(C.Local.DATE_TIME_FORMAT)}
 
             {voteDocument[C.Model.ACTIVE] &&
-                <div className={C.Style.VOTE_RESULT_ACTIVE}>
-                    {C.Label.LIVE.toUpperCase()}
-                </div>
+                <VoteActiveBadge aggregate={voteDocument[C.Model.AGGREGATE]} />
             }
         </div>
     );

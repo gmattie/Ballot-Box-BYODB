@@ -1,0 +1,36 @@
+@mixin button-base {
+
+    border: none;
+    color: white;
+    cursor: pointer;
+    outline: none;
+    padding: 10px;
+    user-select: none;
+
+    &:active {
+        
+        color: black;
+    }
+    
+    @media (hover: hover) {
+        
+        &:hover {
+            
+            background-color: gray;
+        }
+    }
+}
+
+@mixin button {
+
+    @include button-base;
+
+    background-color: black;
+}
+
+@mixin button-selected {
+
+    @include button-base;
+
+    background-color: gray;
+}

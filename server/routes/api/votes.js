@@ -150,8 +150,8 @@ const closeVote = async (req) => {
 
 /**
  * @description (POST) Opens voting to allow clients to cast their votes before an optional deadline.
- * Admin users, via admin authentication, are authorized to open voting with a vote deadline and ranking quantity properties.
- * The properties are set by providing a "deadline" value (in seconds) and a "quantity" value within the HTTP request body.
+ * Admin users, via admin authentication, are authorized to open voting with a vote deadline, ranking quantity and results aggregation properties.
+ * The properties are set by providing "deadline" (number), "quantity" (number) and "aggregate" (boolean) values within the HTTP request body.
  * Websocket event message C.Event.VOTE_OPENED is broadcast to all connected clients. 
  * 
  * @protected
@@ -176,12 +176,13 @@ router.post(C.Route.OPEN, [
                     
                     req.app.locals[C.Local.IS_VOTE_OPEN] = true;
                     
-                    const { deadline, quantity } = req.body;
+                    const { deadline, quantity, aggregate } = req.body;
                     const vote = new Vote({
 
                         [C.Model.ACTIVE]: true,
                         [C.Model.DEADLINE]: deadline,
                         [C.Model.QUANTITY]: quantity,
+                        [C.Model.AGGREGATE]: aggregate
                     });
 
                     const clients = req.app.locals[C.Local.CLIENTS];
@@ -362,13 +363,13 @@ router.post(C.Route.CAST, [
             }));
             
             await vote.save();
-
-            const clients = req.app.locals[C.Local.CLIENTS];
-            utils.broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CAST }));
-
+            
             if (vote[C.Model.AGGREGATE]) {
 
                 await aggregateVotes(req);
+
+                const clients = req.app.locals[C.Local.CLIENTS];
+                utils.broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CAST }));
             }
 
             return res
