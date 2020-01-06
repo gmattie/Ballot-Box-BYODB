@@ -4,6 +4,7 @@
  * @requires Collapsible
  * @requires constants
  * @requires Dialog
+ * @requires ms
  * @requires prop-types
  * @requires react
  * @requires useAuth
@@ -16,6 +17,7 @@
 import * as C from "../../../../support/constants";
 import Collapsible from "../../../Collapsible";
 import Dialog from "../../../modal/Dialog";
+import ms from "ms";
 import PropTypes from "prop-types";
 import React, { useRef, useState } from "react";
 import useAuth from "../../../../hooks/useAuth";
@@ -24,7 +26,8 @@ import useVotes from "../../../../hooks/useVotes";
 
 /**
  * @description The ManagePolls component contains UI elements that are required to open and close voting polls.
- * The UI elements include text input fields for setting the "deadline" (in seconds) and "quantity" and buttons for opening and closing the polls.
+ * The UI elements include text input fields for setting the "deadline" and "quantity" and buttons for opening and closing the polls.
+ * The "deadline" field accepts a string describing either milliseconds or a time span (https://github.com/zeit/ms).  Example:  "10000", "1h", "2.5 days", etc.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} JSX markup.
@@ -204,7 +207,7 @@ const ManagePolls = ({ logout }) => {
             setInvalidQuantity(null);
 
             responseUpdate.current = true;
-            await fetchOpen(deadline, quantity, aggregate);
+            await fetchOpen(ms(deadline), quantity, aggregate);
         }
 
         if (submitTarget.current === C.Label.CLOSE_POOLS) {

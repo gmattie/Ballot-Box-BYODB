@@ -281,7 +281,7 @@ const voteCast = [
 const voteOpen = [
 
     check(C.Request.DEADLINE, C.Error.DEADLINE)
-        .isInt({ min: 0, max: 31622400 }),
+        .isInt({ min: 0, max: 31557600000 }),
 
     check(C.Request.QUANTITY, C.Error.QUANTITY)
         .isInt({ min: 1 })

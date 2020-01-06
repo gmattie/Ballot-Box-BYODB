@@ -151,7 +151,7 @@ const closeVote = async (req) => {
 /**
  * @description (POST) Opens voting to allow clients to cast their votes before an optional deadline.
  * Admin users, via admin authentication, are authorized to open voting with a vote deadline, ranking quantity and results aggregation properties.
- * The properties are set by providing "deadline" (number), "quantity" (number) and "aggregate" (boolean) values within the HTTP request body.
+ * The properties are set by providing "deadline" (milliseconds number), "quantity" (amount number) and "aggregate" (boolean) values within the HTTP request body.
  * Websocket event message C.Event.VOTE_OPENED is broadcast to all connected clients. 
  * 
  * @protected
@@ -187,7 +187,7 @@ router.post(C.Route.OPEN, [
 
                     const clients = req.app.locals[C.Local.CLIENTS];
 
-                    let seconds = deadline;
+                    let seconds = deadline / 1000;
 
                     if (seconds > 0) {
 
