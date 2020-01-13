@@ -1,0 +1,17 @@
+.managePolls {
+
+    fieldset {
+        
+        padding: $LIST_ITEM_MARGIN;
+
+        label {
+
+            display: block;
+
+            &:last-of-type {
+
+                padding-top: $LIST_ITEM_MARGIN;
+            }
+        }
+    }
+}

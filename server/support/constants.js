@@ -271,6 +271,7 @@ const Message = Object.freeze({
  *     <li> ACTIVE </li>
  *     <li> ADMIN </li>
  *     <li> AGGREGATE </li>
+ *     <li> ANONYMOUS </li>
  *     <li> CAST </li>
  *     <li> DATE </li>
  *     <li> DEADLINE </li>
@@ -300,6 +301,7 @@ const Model = Object.freeze({
     ACTIVE: "active",
     ADMIN: "admin",
     AGGREGATE: "aggregate",
+    ANONYMOUS: "anonymous",
     CAST: "cast",
     DATE: "date",
     DEADLINE: "deadline",

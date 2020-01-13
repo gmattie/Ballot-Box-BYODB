@@ -154,12 +154,17 @@ const VoteResultDetail = ({
      * @description Retrieves and array of rank values for the target Item document ID per user.
      * 
      * @param {string} itemID - The ID of the target Item document.
-     * @returns {array} An array of rank values.
+     * @returns {array|null} An array of rank values.
      * @private
      * @function
      *  
      */
     const getCastRanks = (itemID) => {
+
+        if (votesOne[C.Model.ANONYMOUS]) {
+
+            return null;
+        }
 
         const result = [];
         const quantity = votesOne[C.Model.QUANTITY];
@@ -203,6 +208,16 @@ const VoteResultDetail = ({
                                         {`${C.Label.QUANTITY}: ${votesOne[C.Model.QUANTITY]}`}
                                     </div>
 
+                                    <div className={C.Style.VOTE_RESULT_DETAIL_TABLE_INFO_TOTAL}>
+                                        {`${C.Label.TOTAL_VOTES_CAST} ${votesOne[C.Model.VOTE].length}`}
+                                    </div>
+
+                                    {votesOne[C.Model.ANONYMOUS] &&
+                                        <div className={C.Style.VOTE_RESULT_DETAIL_TABLE_INFO_ANONYMOUS}>
+                                            {C.Label.ANONYMOUS}
+                                        </div>
+                                    }
+
                                     {votesOne[C.Model.ACTIVE] &&
                                         <div className={C.Style.VOTE_RESULT_DETAIL_TABLE_INFO_ACTIVE}>
                                             <VoteActiveBadge aggregate={votesOne[C.Model.AGGREGATE]} />
@@ -211,6 +226,7 @@ const VoteResultDetail = ({
                                 </td>
 
                                 {(votesOne[C.Model.AGGREGATE] || !votesOne[C.Model.ACTIVE]) &&
+                                 !votesOne[C.Model.ANONYMOUS] &&
                                     votesOne[C.Model.VOTE].map((vote) => {
 
                                         return (

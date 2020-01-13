@@ -46,7 +46,7 @@ const useVotes = () => {
     const fetchCast = () => dispatch(voteActions.fetchCast());
     const fetchClose = () => dispatch(voteActions.fetchClose());
     const fetchOne = (voteID) => dispatch(voteActions.fetchOne(voteID));
-    const fetchOpen = (deadline, quantity, aggregate) => dispatch(voteActions.fetchOpen(deadline, quantity, aggregate));
+    const fetchOpen = (deadline, quantity, aggregate, anonymous) => dispatch(voteActions.fetchOpen(deadline, quantity, aggregate, anonymous));
 
     const setVotesActive = (data) => dispatch(voteActions.setVotesActive(data));
     const votesActive = useSelector((state) => state.votes[C.Action.Type.VOTES_ACTIVE], null);

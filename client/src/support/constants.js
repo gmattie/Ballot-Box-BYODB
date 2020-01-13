@@ -202,9 +202,10 @@ const Global = Object.freeze({
  * <ul>
  *     <li> DIV </li>
  *     <ul>
- *         <li> TEXT </li> 
+ *         <li> CHECKBOX </li> 
  *         <li> PASSWORD </li> 
  *         <li> RADIO </li> 
+ *         <li> TEXT </li> 
  *     </ul>
  *     <li> ROOT </li>
  * </ul>
@@ -219,9 +220,10 @@ const HTMLElement = Object.freeze({
 
     InputType: {
         
-        TEXT: "text",
+        CHECKBOX: "checkbox",
         PASSWORD: "password",
-        RADIO: "radio"
+        RADIO: "radio",
+        TEXT: "text",
     },
 
     ROOT: "root",
@@ -245,6 +247,7 @@ const HTMLElement = Object.freeze({
  *     <li> LIST_ITEMS_VOTE </li>
  *     <li> NAME_ADMIN_PASSWORD </li>
  *     <li> NAME_ADMIN_USERNAME </li>
+ *     <li> NAME_ANONYMOUS </li>
  *     <li> NAME_CAST </li>
  *     <li> NAME_DEADLINE </li>
  *     <li> NAME_EMAIL </li>
@@ -279,6 +282,7 @@ const ID = Object.freeze({
     LIST_ITEMS_VOTE: "listItemsVote",
     NAME_ADMIN_PASSWORD: "adminPassword",
     NAME_ADMIN_USERNAME: "adminUsername",
+    NAME_ANONYMOUS: "anonymous",
     NAME_CAST: "cast",
     NAME_DEADLINE: "deadline",
     NAME_EMAIL: "email",
@@ -319,6 +323,7 @@ const Image = Object.freeze({
  *     <li> ADMIN_CREDENTIALS </li>
  *     <li> ADMIN_PASSWORD </li>
  *     <li> ADMIN_USERNAME </li>
+ *     <li> ANONYMOUS </li>
  *     <li> CANCEL </li>
  *     <li> CANDIDATES </li>
  *     <li> CAST_VOTE </li>
@@ -362,6 +367,7 @@ const Image = Object.freeze({
  *     <li> RESET </li>
  *     <li> RESULTS </li>
  *     <li> THUMBNAIL </li>
+ *     <li> TOTAL_VOTES_CAST </li>
  *     <li> VOTE </li>
  *     <li> VOTE_CAST </li>
  *     <li> VOTES </li>
@@ -379,6 +385,7 @@ const Label = Object.freeze({
     ADMIN_PASSWORD: "Admin Password",
     ADMIN_USERNAME: "Admin Username",
     ADMIN: "Admin",
+    ANONYMOUS: "Anonymous",
     CANCEL: "Cancel",
     CANDIDATES: "Candidates",
     CAST_VOTE: "Cast Vote",
@@ -422,6 +429,7 @@ const Label = Object.freeze({
     RESET: "Reset",
     RESULTS: "Results",
     THUMBNAIL: "Thumbnail",
+    TOTAL_VOTES_CAST: "Total Votes Cast:",
     VOTE_CAST: "Your vote has been cast for the current poll.",
     VOTE: "Vote",
     VOTES: "Votes",
@@ -458,6 +466,7 @@ const Local = Object.freeze({
  * 
  * <ul>
  *     <li> ACTIVE </li>
+ *     <li> ANONYMOUS </li>
  *     <li> AGGREGATE </li>
  *     <li> CAST </li>
  *     <li> DATE </li>
@@ -483,6 +492,7 @@ const Local = Object.freeze({
 const Model = Object.freeze({
 
     ACTIVE: "active",
+    ANONYMOUS: "anonymous",
     AGGREGATE: "aggregate",
     CAST: "cast",
     DATE: "date",
@@ -605,6 +615,7 @@ const Route = Object.freeze({
  *     <li> LIST_ITEM_ACTIVE </li>
  *     <li> LIST_ITEM_TITLE </li>
  *     <li> LIST_TITLE </li>
+ *     <li> MANAGE_POLLS </li>
  *     <li> PORTAL </li>
  *     <li> PROTECTED_CONTAINER </li>
  *     <li> PROTECTED_CONTAINER_NAV_BUTTON </li>
@@ -633,8 +644,10 @@ const Route = Object.freeze({
  *     <li> VOTE_RESULT_DETAIL_TABLE </li>
  *     <li> VOTE_RESULT_DETAIL_TABLE_INFO </li>
  *     <li> VOTE_RESULT_DETAIL_TABLE_INFO_ACTIVE </li>
+ *     <li> VOTE_RESULT_DETAIL_TABLE_INFO_ANONYMOUS </li>
  *     <li> VOTE_RESULT_DETAIL_TABLE_INFO_DATE </li>
  *     <li> VOTE_RESULT_DETAIL_TABLE_INFO_QUANTITY </li>
+ *     <li> VOTE_RESULT_DETAIL_TABLE_INFO_TOTAL </li>
  *     <li> VOTE_RESULTS_CONTAINER </li>
  * </ul>
  * 
@@ -670,6 +683,7 @@ const Style = Object.freeze({
     LIST_ITEM: "listItem",
     LIST_TITLE: "list-title",
     LIST: "list",
+    MANAGE_POLLS: "managePolls",
     PORTAL: "portal",
     PROTECTED_CONTAINER_CONTENT: "protectedContainer-content",
     PROTECTED_CONTAINER_NAV_BUTTON_SELECTED: "protectedContainer-nav-button-selected",
@@ -697,8 +711,10 @@ const Style = Object.freeze({
     VOTE_ACTIVE_BADGE_LIVE: "voteActiveBadge-live",
     VOTE_ACTIVE_BADGE_PENDING: "voteActiveBadge-pending",
     VOTE_RESULT_DETAIL_TABLE_INFO_ACTIVE: "voteResultDetail-table-info-active",
+    VOTE_RESULT_DETAIL_TABLE_INFO_ANONYMOUS: "voteResultDetail-table-info-anonymous",
     VOTE_RESULT_DETAIL_TABLE_INFO_DATE: "voteResultDetail-table-info-date",
     VOTE_RESULT_DETAIL_TABLE_INFO_QUANTITY: "voteResultDetail-table-info-quantity",
+    VOTE_RESULT_DETAIL_TABLE_INFO_TOTAL: "voteResultDetail-table-info-total",
     VOTE_RESULT_DETAIL_TABLE_INFO: "voteResultDetail-table-info",
     VOTE_RESULT_DETAIL_TABLE: "voteResultDetail-table",
     VOTE_RESULT_DETAIL: "voteResultDetail",

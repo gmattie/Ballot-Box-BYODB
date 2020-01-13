@@ -9,7 +9,9 @@
 
         &-info {
 
-            overflow: hidden;
+            height: $RESULTS_TABLE_HEADER_HEIGHT;
+            min-width: $RESULTS_TABLE_ITEM_MAX_WIDTH;
+
             border: 1px solid yellow;
             
             &-date {
@@ -18,6 +20,20 @@
             }
 
             &-quantity {
+
+                @include table-info-item;
+
+                color: gray;
+            }
+
+            &-total {
+
+                @include table-info-item;
+
+                color: gray;
+            }
+
+            &-anonymous {
 
                 @include table-info-item;
 

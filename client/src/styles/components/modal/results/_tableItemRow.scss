@@ -9,7 +9,7 @@
 
     &-item {
 
-        max-width: 240px;
+        max-width: $RESULTS_TABLE_ITEM_MAX_WIDTH;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;

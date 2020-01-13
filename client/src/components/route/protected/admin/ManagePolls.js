@@ -26,7 +26,7 @@ import useVotes from "../../../../hooks/useVotes";
 
 /**
  * @description The ManagePolls component contains UI elements that are required to open and close voting polls.
- * The UI elements include text input fields for setting the "deadline" and "quantity" and buttons for opening and closing the polls.
+ * The UI elements include text input fields for setting the "deadline" and "quantity", radio and checkbox inputs for setting the "aggregate" and "anonymous" values, and buttons for opening and closing the polls.
  * The "deadline" field accepts a string describing either milliseconds or a time span (https://github.com/zeit/ms).  Example:  "10000", "1h", "2.5 days", etc.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
@@ -47,6 +47,7 @@ const ManagePolls = ({ logout }) => {
     const [ isMounting, setIsMounting ] = useState(true);
     const [ showDialog, setShowDialog ] = useState(false);
     const [ aggregate, setAggregate ] = useState(false);
+    const [ anonymous, setAnonymous ] = useState(false);
 
     /**
      * Refs
@@ -207,7 +208,7 @@ const ManagePolls = ({ logout }) => {
             setInvalidQuantity(null);
 
             responseUpdate.current = true;
-            await fetchOpen(ms(deadline), quantity, aggregate);
+            await fetchOpen(ms(deadline), quantity, aggregate, anonymous);
         }
 
         if (submitTarget.current === C.Label.CLOSE_POOLS) {
@@ -224,7 +225,7 @@ const ManagePolls = ({ logout }) => {
      */
     return (
 
-        <>
+        <div className={C.Style.MANAGE_POLLS}>
             {showDialog &&
                 <Dialog 
                     message={
@@ -279,23 +280,33 @@ const ManagePolls = ({ logout }) => {
                                     </legend>
 
                                     <label>
-                                        {C.Label.PENDING}
                                         <input
                                             type={C.HTMLElement.InputType.RADIO}
                                             name={C.ID.NAME_RESULTS}
                                             checked={!aggregate}
                                             onChange={() => setAggregate(false)}
                                         />
+                                        {C.Label.PENDING}
                                     </label>
 
                                     <label>
-                                        {C.Label.LIVE}
                                         <input
                                             type={C.HTMLElement.InputType.RADIO}
                                             name={C.ID.NAME_RESULTS}
                                             checked={aggregate}
                                             onChange={() => setAggregate(true)}
                                         />
+                                        {C.Label.LIVE}
+                                    </label>
+
+                                    <label>
+                                        <input
+                                            type={C.HTMLElement.InputType.CHECKBOX}
+                                            name={C.ID.NAME_ANONYMOUS}
+                                            checked={anonymous}
+                                            onChange={() => setAnonymous(!anonymous)}
+                                        />
+                                        {C.Label.ANONYMOUS}
                                     </label>
                                 </fieldset>
 
@@ -326,7 +337,7 @@ const ManagePolls = ({ logout }) => {
                     (isMounting || isLoading) && <div>LOADING...</div>
                 }
             </Collapsible>
-        </>
+        </div>
     );
 };
 

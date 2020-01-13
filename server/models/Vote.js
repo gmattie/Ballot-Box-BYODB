@@ -75,6 +75,11 @@ const voteSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
+    [C.Model.ANONYMOUS]: {
+
+        type: Boolean,
+        default: false
+    },
     [C.Model.DATE]: {
         
         type: Date,

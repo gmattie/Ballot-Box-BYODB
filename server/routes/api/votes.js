@@ -176,13 +176,14 @@ router.post(C.Route.OPEN, [
                     
                     req.app.locals[C.Local.IS_VOTE_OPEN] = true;
                     
-                    const { deadline, quantity, aggregate } = req.body;
+                    const { deadline, quantity, aggregate, anonymous } = req.body;
                     const vote = new Vote({
 
                         [C.Model.ACTIVE]: true,
                         [C.Model.DEADLINE]: deadline,
                         [C.Model.QUANTITY]: quantity,
-                        [C.Model.AGGREGATE]: aggregate
+                        [C.Model.AGGREGATE]: aggregate,
+                        [C.Model.ANONYMOUS]: anonymous
                     });
 
                     const clients = req.app.locals[C.Local.CLIENTS];
@@ -367,10 +368,10 @@ router.post(C.Route.CAST, [
             if (vote[C.Model.AGGREGATE]) {
 
                 await aggregateVotes(req);
-
-                const clients = req.app.locals[C.Local.CLIENTS];
-                utils.broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CAST }));
             }
+            
+            const clients = req.app.locals[C.Local.CLIENTS];
+            utils.broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CAST }));
 
             return res
                 .status(C.Status.OK)

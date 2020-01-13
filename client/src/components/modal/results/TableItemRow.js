@@ -48,7 +48,7 @@ const TableItemRow = ({
                 </div>
             </th>
 
-            {ranks.map((rank, index) => {
+            {ranks && ranks.map((rank, index) => {
 
                 return (
 
@@ -72,7 +72,7 @@ TableItemRow.propTypes = {
 
     score: PropTypes.number.isRequired,
     itemName: PropTypes.string.isRequired,
-    ranks: PropTypes.array.isRequired
+    ranks: PropTypes.array
 };
 
 /**

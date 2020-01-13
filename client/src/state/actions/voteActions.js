@@ -302,12 +302,13 @@ const fetchOne = (voteID) => {
  * @param {string} deadline - The duration (in seconds) of the vote.
  * @param {string} quantity - The maximum number of items that a user may cast in their vote.
  * @param {boolean} aggregate - Determines if cast votes should be aggregated during the open poll.
+ * @param {boolean} anonymous - Determines if cast votes should be publicized with the vote results.
  * @returns {object} The action.
  * @public
  * @function
  *  
  */
-const fetchOpen = (deadline, quantity, aggregate) => {
+const fetchOpen = (deadline, quantity, aggregate, anonymous) => {
 
     return async (dispatch, getState) => {
         
@@ -323,7 +324,7 @@ const fetchOpen = (deadline, quantity, aggregate) => {
                     [C.Request.HEADER_X_AUTH_TOKEN]: authToken,
                     [C.Request.HEADER_CONTENT_TYPE]: C.Request.APPLICATION_JSON
                 },
-                body: JSON.stringify({ deadline, quantity, aggregate })
+                body: JSON.stringify({ deadline, quantity, aggregate, anonymous })
             };
 
             const response = await fetch(url, options);
