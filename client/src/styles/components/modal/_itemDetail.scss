@@ -1,14 +1,26 @@
 .itemDetail {
 
+    $TITLE-HEIGHT: 40px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+
     img {
 
-        width: 100%;
-        height: auto;
+        max-width: 100%;
+        max-height: calc(100% - #{$TITLE-HEIGHT});
         object-fit: contain;
     }
 
     &-title {
 
+        @include list-item-title;
+
         text-align: center;
+        line-height: $TITLE-HEIGHT;
     }
 }

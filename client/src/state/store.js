@@ -14,15 +14,6 @@ import reducers from "./reducers";
 import thunk from "redux-thunk";
 
 /**
- * @description Reference to the Redux development tools browser extension.
- * 
- * @private
- * @constant
- * 
- */
-const reduxDevToolsExtension = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
-
-/**
  * @description Redux store enhancers conditionally composed of middleware and developer tools.
  * 
  * @private
@@ -30,10 +21,11 @@ const reduxDevToolsExtension = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__R
  * 
  */
 const enhancers = () => {
-
+    
     const middleware = applyMiddleware(thunk);
+    const reduxDevToolsExtension = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
 
-    if (process.env.NODE_ENV === C.Local.ENV_DEVELOPMENT) {
+    if (process.env.NODE_ENV === C.Local.ENV_DEVELOPMENT && reduxDevToolsExtension) {
 
         return compose(
 
