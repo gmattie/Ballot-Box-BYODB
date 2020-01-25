@@ -1,25 +1,50 @@
 .tableItemRow {
 
-    &-score {
+    &-header {
 
-        text-align: left;
-        width: 100%;
-        border: 1px solid pink;
-    }
+        display: flex;
+        position: sticky;
+        left: 0;
+        background-color: $RESULTS_TABLE_ITEM_MAX_WIDTH;
+        background-color: #666666;
 
-    &-item {
+        &-item {
+            
+            @include table-cell-border($top: false);
 
-        max-width: $RESULTS_TABLE_ITEM_MAX_WIDTH;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        text-align: left;
-        border: 1px solid red;
+            width: 100%;
+            max-width: $RESULTS_TABLE_ITEM_MAX_WIDTH;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: left;
+
+            &::before {
+
+                display: inline-block;
+                width: 22px;
+                text-align: right;
+                margin-right: 6px;
+                font-size: 0.75rem;
+                counter-increment: item-index;
+                content: counter(item-index) ":";
+            }
+        }
+
+        &-score {
+
+            @include table-cell-border($top: false, $left: false);
+
+            width: $RESULTS_TABLE_USER_WIDTH;
+            text-align: center;
+            background-color: gray;
+        }
     }
 
     &-rank {
 
+        @include table-cell-border($top: false, $left: false);
+
         text-align: center;
-        border: 1px solid orange;
     }
 }

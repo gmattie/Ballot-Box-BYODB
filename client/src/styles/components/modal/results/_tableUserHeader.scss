@@ -1,33 +1,33 @@
 .tableUserHeader {
 
+    position: sticky;
+    top: 0;
+    background-color: $RESULTS_TABLE_BACKGROUND_COLOR;
+
     &-user {
 
+        @include table-cell-border($left: false);
+
         display: flex;
-        width: 60px;
-        height: $RESULTS_TABLE_HEADER_HEIGHT;
+        width: $RESULTS_TABLE_USER_WIDTH;
+        height: $RESULTS_TABLE_USER_HEIGHT;
         align-items: flex-end;
         justify-content: center;
         overflow: hidden;
-        border: 1px solid cyan;
+        background-color: #666666;
+        padding: 10px 0;
 
         &-name {
             
-            @include table-user-item;
+            @include table-header-user;
         }
 
-        &-email {
-            
-            @include table-user-item;
-
-            color: gray;
-            font-size: 0.75rem;
-        }
-
+        &-email,
         &-ip {
             
-            @include table-user-item;
+            @include table-header-user;
 
-            color: gray;
+            color: black;
             font-size: 0.75rem;
         }
     }

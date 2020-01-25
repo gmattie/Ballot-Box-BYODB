@@ -626,9 +626,10 @@ const Route = Object.freeze({
  *     <li> PUBLIC_CONTAINER_NAV_BUTTON </li>
  *     <li> PUBLIC_CONTAINER_NAV_BUTTON_SELECTED </li>
  *     <li> TABLE_ITEM_ROW </li>
- *     <li> TABLE_ITEM_ROW_ITEM </li>
+ *     <li> TABLE_ITEM_ROW_HEADER </li>
+ *     <li> TABLE_ITEM_ROW_HEADER_ITEM </li>
+ *     <li> TABLE_ITEM_ROW_HEADER_SCORE </li>
  *     <li> TABLE_ITEM_ROW_RANK </li>
- *     <li> TABLE_ITEM_ROW_SCORE </li>
  *     <li> TABLE_USER_HEADER </li>
  *     <li> TABLE_USER_HEADER_USER </li>
  *     <li> TABLE_USER_HEADER_USER_EMAIL </li>
@@ -641,13 +642,14 @@ const Route = Object.freeze({
  *     <li> VOTE_RESULT </li>
  *     <li> VOTE_RESULT_ACTIVE </li>
  *     <li> VOTE_RESULT_DETAIL </li>
- *     <li> VOTE_RESULT_DETAIL_TABLE </li>
- *     <li> VOTE_RESULT_DETAIL_TABLE_INFO </li>
- *     <li> VOTE_RESULT_DETAIL_TABLE_INFO_ACTIVE </li>
- *     <li> VOTE_RESULT_DETAIL_TABLE_INFO_ANONYMOUS </li>
- *     <li> VOTE_RESULT_DETAIL_TABLE_INFO_DATE </li>
- *     <li> VOTE_RESULT_DETAIL_TABLE_INFO_QUANTITY </li>
- *     <li> VOTE_RESULT_DETAIL_TABLE_INFO_TOTAL </li>
+ *     <li> VOTE_RESULT_DETAIL_CONTAINER </li>
+ *     <li> VOTE_RESULT_DETAIL_CONTAINER_TABLE </li>
+ *     <li> VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO </li>
+ *     <li> VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_ACTIVE </li>
+ *     <li> VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_ANONYMOUS </li>
+ *     <li> VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_DATE </li>
+ *     <li> VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_QUANTITY </li>
+ *     <li> VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_TOTAL </li>
  *     <li> VOTE_RESULTS_CONTAINER </li>
  * </ul>
  * 
@@ -694,9 +696,10 @@ const Style = Object.freeze({
     PUBLIC_CONTAINER_NAV_BUTTON_SELECTED: "publicContainer-nav-button-selected",
     PUBLIC_CONTAINER_NAV_BUTTON: "publicContainer-nav-button",
     PUBLIC_CONTAINER: "publicContainer",
-    TABLE_ITEM_ROW_ITEM: "tableItemRow-item",
+    TABLE_ITEM_ROW_HEADER_ITEM: "tableItemRow-header-item",
+    TABLE_ITEM_ROW_HEADER_SCORE: "tableItemRow-header-score",
+    TABLE_ITEM_ROW_HEADER: "tableItemRow-header",
     TABLE_ITEM_ROW_RANK: "tableItemRow-rank",
-    TABLE_ITEM_ROW_SCORE: "tableItemRow-score",
     TABLE_ITEM_ROW: "tableItemRow",
     TABLE_USER_HEADER_USER_EMAIL: "tableUserHeader-user-email",
     TABLE_USER_HEADER_USER_IP: "tableUserHeader-user-ip",
@@ -710,13 +713,14 @@ const Style = Object.freeze({
     VOTE_ACTIVE_BADGE: "voteActiveBadge",
     VOTE_ACTIVE_BADGE_LIVE: "voteActiveBadge-live",
     VOTE_ACTIVE_BADGE_PENDING: "voteActiveBadge-pending",
-    VOTE_RESULT_DETAIL_TABLE_INFO_ACTIVE: "voteResultDetail-table-info-active",
-    VOTE_RESULT_DETAIL_TABLE_INFO_ANONYMOUS: "voteResultDetail-table-info-anonymous",
-    VOTE_RESULT_DETAIL_TABLE_INFO_DATE: "voteResultDetail-table-info-date",
-    VOTE_RESULT_DETAIL_TABLE_INFO_QUANTITY: "voteResultDetail-table-info-quantity",
-    VOTE_RESULT_DETAIL_TABLE_INFO_TOTAL: "voteResultDetail-table-info-total",
-    VOTE_RESULT_DETAIL_TABLE_INFO: "voteResultDetail-table-info",
-    VOTE_RESULT_DETAIL_TABLE: "voteResultDetail-table",
+    VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_ACTIVE: "voteResultDetail-container-table-info-active",
+    VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_ANONYMOUS: "voteResultDetail-container-table-info-anonymous",
+    VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_DATE: "voteResultDetail-container-table-info-date",
+    VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_QUANTITY: "voteResultDetail-container-table-info-quantity",
+    VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_TOTAL: "voteResultDetail-container-table-info-total",
+    VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO: "voteResultDetail-container-table-info",
+    VOTE_RESULT_DETAIL_CONTAINER_TABLE: "voteResultDetail-container-table",
+    VOTE_RESULT_DETAIL_CONTAINER: "voteResultDetail-container",
     VOTE_RESULT_DETAIL: "voteResultDetail",
     VOTE_RESULT: "voteResult",
     VOTE_RESULTS_CONTAINER: "voteResultsContainer",

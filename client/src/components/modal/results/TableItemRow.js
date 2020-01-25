@@ -36,15 +36,13 @@ const TableItemRow = ({
     return (
 
         <tr className={C.Style.TABLE_ITEM_ROW}>
-            <th>
-                <div className={C.Style.TABLE_ITEM_ROW_SCORE}>
-                    {score}
-                </div>
-            </th>
-            
-            <th>
-                <div className={C.Style.TABLE_ITEM_ROW_ITEM}>
+            <th className={C.Style.TABLE_ITEM_ROW_HEADER}>
+                <div className={C.Style.TABLE_ITEM_ROW_HEADER_ITEM}>
                     {itemName}
+                </div>
+
+                <div className={C.Style.TABLE_ITEM_ROW_HEADER_SCORE}>
+                    {score}
                 </div>
             </th>
 

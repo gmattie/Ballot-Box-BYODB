@@ -195,71 +195,73 @@ const VoteResultDetail = ({
 
         <Portal elementID={C.ID.ELEMENT_VOTE_RESULT_DETAIL}>
             <div className={C.Style.VOTE_RESULT_DETAIL} onClick={okCallback}>
-                {votesOne && 
-                    <table className={C.Style.VOTE_RESULT_DETAIL_TABLE}>
-                        <thead>
-                            <tr>
-                                <td colSpan={2} className={C.Style.VOTE_RESULT_DETAIL_TABLE_INFO}>
-                                    <div className={C.Style.VOTE_RESULT_DETAIL_TABLE_INFO_DATE}>
-                                        {Moment(votesOne[C.Model.DATE]).format(C.Local.DATE_FORMAT)}
-                                    </div>
-
-                                    <div className={C.Style.VOTE_RESULT_DETAIL_TABLE_INFO_QUANTITY}>
-                                        {`${C.Label.QUANTITY}: ${votesOne[C.Model.QUANTITY]}`}
-                                    </div>
-
-                                    <div className={C.Style.VOTE_RESULT_DETAIL_TABLE_INFO_TOTAL}>
-                                        {`${C.Label.TOTAL_VOTES_CAST} ${votesOne[C.Model.VOTE].length}`}
-                                    </div>
-
-                                    {votesOne[C.Model.ANONYMOUS] &&
-                                        <div className={C.Style.VOTE_RESULT_DETAIL_TABLE_INFO_ANONYMOUS}>
-                                            {C.Label.ANONYMOUS}
+                <div className={C.Style.VOTE_RESULT_DETAIL_CONTAINER}>
+                    {votesOne && 
+                        <table className={C.Style.VOTE_RESULT_DETAIL_CONTAINER_TABLE}>
+                            <thead>
+                                <tr>
+                                    <td className={C.Style.VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO}>
+                                        <div className={C.Style.VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_DATE}>
+                                            {Moment(votesOne[C.Model.DATE]).format(C.Local.DATE_FORMAT)}
                                         </div>
-                                    }
 
-                                    {votesOne[C.Model.ACTIVE] &&
-                                        <div className={C.Style.VOTE_RESULT_DETAIL_TABLE_INFO_ACTIVE}>
-                                            <VoteActiveBadge aggregate={votesOne[C.Model.AGGREGATE]} />
+                                        <div className={C.Style.VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_QUANTITY}>
+                                            {`${C.Label.QUANTITY}: ${votesOne[C.Model.QUANTITY]}`}
                                         </div>
+
+                                        <div className={C.Style.VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_TOTAL}>
+                                            {`${C.Label.TOTAL_VOTES_CAST} ${votesOne[C.Model.VOTE].length}`}
+                                        </div>
+
+                                        {votesOne[C.Model.ANONYMOUS] &&
+                                            <div className={C.Style.VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_ANONYMOUS}>
+                                                {C.Label.ANONYMOUS}
+                                            </div>
+                                        }
+
+                                        {votesOne[C.Model.ACTIVE] &&
+                                            <div className={C.Style.VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_ACTIVE}>
+                                                <VoteActiveBadge aggregate={votesOne[C.Model.AGGREGATE]} />
+                                            </div>
+                                        }
+                                    </td>
+
+                                    {(votesOne[C.Model.AGGREGATE] || !votesOne[C.Model.ACTIVE]) &&
+                                    !votesOne[C.Model.ANONYMOUS] &&
+                                        votesOne[C.Model.VOTE].map((vote) => {
+
+                                            return (
+
+                                                <TableUserHeader
+                                                    key={vote[C.Model.ID]}
+                                                    name={vote[C.Model.USER][C.Model.NAME]}
+                                                    email={vote[C.Model.USER][C.Model.EMAIL]}
+                                                    ip={vote[C.Model.USER][C.Model.IP]}
+                                                />
+                                            );
+                                        })
                                     }
-                                </td>
+                                </tr>
+                            </thead>
 
-                                {(votesOne[C.Model.AGGREGATE] || !votesOne[C.Model.ACTIVE]) &&
-                                 !votesOne[C.Model.ANONYMOUS] &&
-                                    votesOne[C.Model.VOTE].map((vote) => {
+                            <tbody>
+                                {votesOne[C.Model.TOTAL].map((total) => {
 
-                                        return (
+                                    return (
 
-                                            <TableUserHeader
-                                                key={vote[C.Model.ID]}
-                                                name={vote[C.Model.USER][C.Model.NAME]}
-                                                email={vote[C.Model.USER][C.Model.EMAIL]}
-                                                ip={vote[C.Model.USER][C.Model.IP]}
-                                            />
-                                        );
-                                    })
-                                }
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {votesOne[C.Model.TOTAL].map((total) => {
-
-                                return (
-
-                                    <TableItemRow
-                                        key={total[C.Model.ID]}
-                                        score={total[C.Model.RANK]}
-                                        itemName={total[C.Model.ITEM][C.Model.NAME]}
-                                        ranks={getCastRanks(total[C.Model.ITEM][C.Model.ID])}
-                                    />
-                                );
-                            })}
-                        </tbody>    
-                    </table>
-                }
-
+                                        <TableItemRow
+                                            key={total[C.Model.ID]}
+                                            score={total[C.Model.RANK]}
+                                            itemName={total[C.Model.ITEM][C.Model.NAME]}
+                                            ranks={getCastRanks(total[C.Model.ITEM][C.Model.ID])}
+                                        />
+                                    );
+                                })}
+                            </tbody>    
+                        </table>
+                    }
+                </div>
+                
                 {
                     //TODO: Replace with style animation
                     isLoading && <div>LOADING...</div>
