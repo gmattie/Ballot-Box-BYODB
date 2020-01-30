@@ -1,8 +1,8 @@
 .list {
 
     display: inline-block;
-    width: $LIST_WIDTH;
-    max-width: 50vw;
+    width: 50vw;
+    max-width: 250px;
     overflow-y: scroll;
 
     &-title {

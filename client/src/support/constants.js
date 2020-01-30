@@ -178,6 +178,7 @@ const Event = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> LIST_ITEM_DRAG_TARGET </li>
  *     <li> WEB_SOCKET_MESSAGE_VOTE_RESULT_DETAIL </li>
  *     <li> WEB_SOCKET_PROTECTED_CONTAINER </li>
  *     <li> WEB_SOCKET_VOTE </li>
@@ -190,6 +191,7 @@ const Event = Object.freeze({
  */
 const Global = Object.freeze({
 
+    LIST_ITEM_DRAG_TARGET: "listItemDragTarget",
     WEB_SOCKET_MESSAGE_PROTECTED_CONTAINER: "webSocketMessageProtectedContainer",
     WEB_SOCKET_MESSAGE_VOTE_RESULT_DETAIL: "webSocketMessageVoteResultDetail",
     WEB_SOCKET_MESSAGE_VOTE_RESULTS_CONTAINER: "webSocketMessageVoteResultsContainer",
@@ -613,6 +615,9 @@ const Route = Object.freeze({
  *     <li> LIST_CONTENT </li>
  *     <li> LIST_ITEM </li>
  *     <li> LIST_ITEM_ACTIVE </li>
+ *     <li> LIST_ITEM_VIEWPORT_IMAGE </li>
+ *     <li> LIST_ITEM_VIEWPORT_IMAGE_ERROR </li>
+ *     <li> LIST_ITEM_VIEWPORT_IMAGE_INTERSECTION </li>
  *     <li> LIST_ITEM_TITLE </li>
  *     <li> LIST_TITLE </li>
  *     <li> MANAGE_POLLS </li>
@@ -635,8 +640,6 @@ const Route = Object.freeze({
  *     <li> TABLE_USER_HEADER_USER_EMAIL </li>
  *     <li> TABLE_USER_HEADER_USER_IP </li>
  *     <li> TABLE_USER_HEADER_USER_NAME </li>
- *     <li> VIEWPORT_IMAGE_ERROR </li>
- *     <li> VIEWPORT_IMAGE_INTERSECTION </li>
  *     <li> VISIBLE </li>
  *     <li> VOTE </li>
  *     <li> VOTE_RESULT </li>
@@ -681,6 +684,9 @@ const Style = Object.freeze({
     LIST_CONTAINER: "listContainer",
     LIST_CONTENT: "list-content",
     LIST_ITEM_ACTIVE: "listItem-active",
+    LIST_ITEM_VIEWPORT_IMAGE_ERROR: "listItem-viewportImage-error",
+    LIST_ITEM_VIEWPORT_IMAGE_INTERSECTION: "listItem-viewportImage-intersection",
+    LIST_ITEM_VIEWPORT_IMAGE: "listItem-viewportImage",
     LIST_ITEM_TITLE: "listItem-title",
     LIST_ITEM: "listItem",
     LIST_TITLE: "list-title",
@@ -706,9 +712,6 @@ const Style = Object.freeze({
     TABLE_USER_HEADER_USER_NAME: "tableUserHeader-user-name",
     TABLE_USER_HEADER_USER: "tableUserHeader-user",
     TABLE_USER_HEADER: "tableUserHeader",
-    VIEWPORT_IMAGE_ERROR: "viewportImage-error",
-    VIEWPORT_IMAGE_INTERSECTION: "viewportImage-intersection",
-    VIEWPORT_IMAGE: "viewportImage",
     VISIBLE: "visible",
     VOTE_ACTIVE_BADGE: "voteActiveBadge",
     VOTE_ACTIVE_BADGE_LIVE: "voteActiveBadge-live",

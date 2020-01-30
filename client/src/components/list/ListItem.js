@@ -70,10 +70,23 @@ const ListItem = ({ data, index, showItemDetails }) => {
         >
             {(provided, snapshot) => {
                 
+                if (snapshot.isDragging && window[C.Global.LIST_ITEM_DRAG_TARGET] !== data[C.Model.NAME]) {
+                    
+                    window[C.Global.LIST_ITEM_DRAG_TARGET] = data[C.Model.NAME];
+                }
+
                 const className = snapshot.isDragging
                     ? C.Style.LIST_ITEM_ACTIVE
                     : C.Style.LIST_ITEM;
-          
+
+                const placeholder = (window[C.Global.LIST_ITEM_DRAG_TARGET] === data[C.Model.NAME])
+                    ? data[C.Model.THUMBNAIL]
+                    : C.Image.TRANSPARENT_PLACEHOLDER;
+
+                const intersectionStyle = (window[C.Global.LIST_ITEM_DRAG_TARGET] === data[C.Model.NAME])
+                    ? null
+                    : C.Style.LIST_ITEM_VIEWPORT_IMAGE_INTERSECTION;
+
                 return (
 
                     <div
@@ -87,9 +100,10 @@ const ListItem = ({ data, index, showItemDetails }) => {
                         <ViewportImage
                             src={data[C.Model.THUMBNAIL]}
                             alt={data[C.Model.NAME]}
-                            style={C.Style.VIEWPORT_IMAGE}
-                            intersectionStyle={C.Style.VIEWPORT_IMAGE_INTERSECTION}
-                            errorStyle={C.Style.VIEWPORT_IMAGE_ERROR}
+                            placeholder={placeholder}
+                            style={C.Style.LIST_ITEM_VIEWPORT_IMAGE}
+                            intersectionStyle={intersectionStyle}
+                            errorStyle={C.Style.LIST_ITEM_VIEWPORT_IMAGE_ERROR}
                         />
 
                         <div className={C.Style.LIST_ITEM_TITLE}>

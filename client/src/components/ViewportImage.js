@@ -13,8 +13,9 @@ import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 
 /**
- * @description The ViewportImage component extends an HTMLImageElement with lazy-loading functionality for performance optimization.
- * The IntersectionObserver API is employed to facilitate loading the image only when it intersects with the viewport.
+ * @description The ViewportImage component extends an HTMLImageElement with visual loading indication and/or lazy-loading functionality for performance optimization.
+ * The HTMLImageElement source is assigned the "placeholder" property until the "src" property is fully loaded. 
+ * The IntersectionObserver API is employed to facilitate loading the image only when its bounding box area is observed within the viewport.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} JSX markup.
@@ -26,6 +27,7 @@ const ViewportImage = ({
         
         src,
         alt,
+        placeholder,
         style,
         intersectionStyle,
         errorStyle
@@ -35,7 +37,7 @@ const ViewportImage = ({
      * State and references
      * 
      */
-    const [ imageSrc, setImageSrc ] = useState(C.Image.TRANSPARENT_PLACEHOLDER);
+    const [ imageSrc, setImageSrc ] = useState(placeholder);
     const image = useRef(null);
 
     /**
@@ -66,13 +68,17 @@ const ViewportImage = ({
 
         const imageElement = image.current;
         
-        if (imageElement.src !== C.Image.TRANSPARENT_PLACEHOLDER) {
+        if (imageElement.src !== placeholder) {
 
             imageElement.removeEventListener(C.Event.LOAD, loadHandler);
-            imageElement.addEventListener(C.Event.ANIMATION_END, animationEndHandler);
-            imageElement.classList.add(intersectionStyle);
+
+            if (intersectionStyle) {
+
+                imageElement.addEventListener(C.Event.ANIMATION_END, animationEndHandler);
+                imageElement.classList.add(intersectionStyle);
+            }
         }
-    }, [animationEndHandler, intersectionStyle]);
+    }, [placeholder, animationEndHandler, intersectionStyle]);
 
     /**
      * @description Handler for dispatched "error" events.
@@ -166,8 +172,9 @@ ViewportImage.propTypes = {
 
     src: PropTypes.string.isRequired,
     alt: PropTypes.string.isRequired,
+    placeholder: PropTypes.string.isRequired,
     style: PropTypes.string.isRequired,
-    intersectionStyle: PropTypes.string.isRequired,
+    intersectionStyle: PropTypes.string,
     errorStyle: PropTypes.string.isRequired
 };
 

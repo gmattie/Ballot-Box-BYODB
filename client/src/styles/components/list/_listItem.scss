@@ -13,7 +13,11 @@
 
         @include list-item-title;
 
+        $LINE_HEIGHT: 1.3rem;
+
         margin-right: $LIST_ITEM_MARGIN;
+        line-height: $LINE_HEIGHT;
+        max-height: calc(#{$LINE_HEIGHT} * 3);
     }
 }
 
@@ -26,5 +30,27 @@
         @include listItem;
 
         background-color: gray;
+    }
+
+    &-viewportImage {
+
+        width: $LIST_ITEM_HEIGHT;
+        height: #{100%} - $LIST_ITEM_MARGIN * 2;
+        max-height: $LIST_ITEM_HEIGHT - $LIST_ITEM_MARGIN * 2;
+        max-width: $LIST_ITEM_HEIGHT - $LIST_ITEM_MARGIN * 2;
+        object-fit: contain;
+        object-position: center;
+        margin: auto $LIST_ITEM_MARGIN;
+        pointer-events: none;
+        
+        &-intersection {
+    
+            animation: fade 500ms ease-out;
+        }
+    
+        &-error {
+    
+            opacity: 0;
+        }
     }
 }
