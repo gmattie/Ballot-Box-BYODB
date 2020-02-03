@@ -85,7 +85,7 @@ const ListItem = ({ data, index, showItemDetails }) => {
 
                 const intersectionStyle = (window[C.Global.LIST_ITEM_DRAG_TARGET] === data[C.Model.NAME])
                     ? null
-                    : C.Style.LIST_ITEM_VIEWPORT_IMAGE_INTERSECTION;
+                    : C.Style.LIST_ITEM_IMAGE_INTERSECTION;
 
                 return (
 
@@ -101,9 +101,9 @@ const ListItem = ({ data, index, showItemDetails }) => {
                             src={data[C.Model.THUMBNAIL]}
                             alt={data[C.Model.NAME]}
                             placeholder={placeholder}
-                            style={C.Style.LIST_ITEM_VIEWPORT_IMAGE}
+                            imageStyle={C.Style.LIST_ITEM_IMAGE}
                             intersectionStyle={intersectionStyle}
-                            errorStyle={C.Style.LIST_ITEM_VIEWPORT_IMAGE_ERROR}
+                            errorStyle={C.Style.LIST_ITEM_IMAGE_ERROR}
                         />
 
                         <div className={C.Style.LIST_ITEM_TITLE}>

@@ -312,7 +312,7 @@ const ID = Object.freeze({
  */
 const Image = Object.freeze({
 
-    TRANSPARENT_PLACEHOLDER: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==",
+    TRANSPARENT_PLACEHOLDER: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="
 });
 
 /**
@@ -609,15 +609,19 @@ const Route = Object.freeze({
  *     <li> INPUT_PASSWORD_HIDE </li>
  *     <li> INPUT_PASSWORD_SHOW </li>
  *     <li> ITEM_DETAIL </li>
+ *     <li> ITEM_DETAIL_IMAGE </li>
+ *     <li> ITEM_DETAIL_IMAGE_ERROR </li>
+ *     <li> ITEM_DETAIL_IMAGE_INTERSECTION </li>
+ *     <li> ITEM_DETAIL_IMAGE_PRELOADER </li>
  *     <li> ITEM_DETAIL_TITLE </li>
  *     <li> LIST </li>
  *     <li> LIST_CONTAINER </li>
  *     <li> LIST_CONTENT </li>
  *     <li> LIST_ITEM </li>
  *     <li> LIST_ITEM_ACTIVE </li>
- *     <li> LIST_ITEM_VIEWPORT_IMAGE </li>
- *     <li> LIST_ITEM_VIEWPORT_IMAGE_ERROR </li>
- *     <li> LIST_ITEM_VIEWPORT_IMAGE_INTERSECTION </li>
+ *     <li> LIST_ITEM_IMAGE </li>
+ *     <li> LIST_ITEM_IMAGE_ERROR </li>
+ *     <li> LIST_ITEM_IMAGE_INTERSECTION </li>
  *     <li> LIST_ITEM_TITLE </li>
  *     <li> LIST_TITLE </li>
  *     <li> MANAGE_POLLS </li>
@@ -679,14 +683,18 @@ const Style = Object.freeze({
     INPUT_PASSWORD_HIDE: "inputPassword-hide",
     INPUT_PASSWORD_SHOW: "inputPassword-show",
     INPUT_PASSWORD: "inputPassword",
+    ITEM_DETAIL_IMAGE_ERROR: "itemDetail-image-error",
+    ITEM_DETAIL_IMAGE_INTERSECTION: "itemDetail-image-intersection",
+    ITEM_DETAIL_IMAGE_PRELOADER: "itemDetail-image-preloader",
+    ITEM_DETAIL_IMAGE: "itemDetail-image",
     ITEM_DETAIL_TITLE: "itemDetail-title",
     ITEM_DETAIL: "itemDetail",
     LIST_CONTAINER: "listContainer",
     LIST_CONTENT: "list-content",
     LIST_ITEM_ACTIVE: "listItem-active",
-    LIST_ITEM_VIEWPORT_IMAGE_ERROR: "listItem-viewportImage-error",
-    LIST_ITEM_VIEWPORT_IMAGE_INTERSECTION: "listItem-viewportImage-intersection",
-    LIST_ITEM_VIEWPORT_IMAGE: "listItem-viewportImage",
+    LIST_ITEM_IMAGE_ERROR: "listItem-image-error",
+    LIST_ITEM_IMAGE_INTERSECTION: "listItem-image-intersection",
+    LIST_ITEM_IMAGE: "listItem-image",
     LIST_ITEM_TITLE: "listItem-title",
     LIST_ITEM: "listItem",
     LIST_TITLE: "list-title",
@@ -713,9 +721,9 @@ const Style = Object.freeze({
     TABLE_USER_HEADER_USER: "tableUserHeader-user",
     TABLE_USER_HEADER: "tableUserHeader",
     VISIBLE: "visible",
-    VOTE_ACTIVE_BADGE: "voteActiveBadge",
     VOTE_ACTIVE_BADGE_LIVE: "voteActiveBadge-live",
     VOTE_ACTIVE_BADGE_PENDING: "voteActiveBadge-pending",
+    VOTE_ACTIVE_BADGE: "voteActiveBadge",
     VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_ACTIVE: "voteResultDetail-container-table-info-active",
     VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_ANONYMOUS: "voteResultDetail-container-table-info-anonymous",
     VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_DATE: "voteResultDetail-container-table-info-date",

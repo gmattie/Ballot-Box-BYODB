@@ -32,7 +32,7 @@
         background-color: gray;
     }
 
-    &-viewportImage {
+    &-image {
 
         width: $LIST_ITEM_HEIGHT;
         height: #{100%} - $LIST_ITEM_MARGIN * 2;
@@ -42,10 +42,11 @@
         object-position: center;
         margin: auto $LIST_ITEM_MARGIN;
         pointer-events: none;
+        opacity: 0;
         
         &-intersection {
     
-            animation: fade 500ms ease-out;
+            animation: fade $ANIMATION_FADE ease-out forwards;
         }
     
         &-error {

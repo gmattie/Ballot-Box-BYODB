@@ -5,6 +5,7 @@
  * @requires Portal
  * @requires prop-types
  * @requires react
+ * @requires ViewportImage
  * @public
  * @module
  * 
@@ -13,6 +14,7 @@ import * as C from "../../support/constants";
 import Portal from "./Portal";
 import PropTypes from "prop-types";
 import React from "react";
+import ViewportImage from "../ViewportImage";
 
 /**
  * @description Renders an modal window inside a React Portal.
@@ -38,14 +40,20 @@ const ItemDetail = ({
     return (
 
         <Portal elementID={C.ID.ELEMENT_ITEM_DETAIL}>
-            <div className={C.Style.ITEM_DETAIL}>
-
-                <img
+            <div
+                className={C.Style.ITEM_DETAIL}
+                onClick={okCallback}
+            >
+                <ViewportImage
                     src={imageURL}
                     alt={title}
-                    onClick={okCallback}
+                    placeholder={C.Image.TRANSPARENT_PLACEHOLDER}
+                    imageStyle={C.Style.ITEM_DETAIL_IMAGE}
+                    intersectionStyle={C.Style.ITEM_DETAIL_IMAGE_INTERSECTION}
+                    errorStyle={C.Style.ITEM_DETAIL_IMAGE_ERROR}
+                    preloaderStyle={C.Style.ITEM_DETAIL_IMAGE_PRELOADER}
                 />
-            
+
                 <div className={C.Style.ITEM_DETAIL_TITLE}>
                     {title}
                 </div>

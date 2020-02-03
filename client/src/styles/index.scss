@@ -1,13 +1,14 @@
-@import "./abstracts/constants";
+@import "./base/reset";
+@import "./base/root";
+
 @import "./abstracts/animations";
+@import "./abstracts/constants";
 @import "./abstracts/mixins/badge";
 @import "./abstracts/mixins/button";
 @import "./abstracts/mixins/header";
 @import "./abstracts/mixins/list";
+@import "./abstracts/mixins/preloader";
 @import "./abstracts/mixins/table";
-
-@import "./base/reset";
-@import "./base/root";
 
 @import "./components/app";
 @import "./components/collapsible";

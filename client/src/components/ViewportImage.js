@@ -13,7 +13,7 @@ import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 
 /**
- * @description The ViewportImage component extends an HTMLImageElement with visual loading indication and/or lazy-loading functionality for performance optimization.
+ * @description The ViewportImage component extends an HTMLImageElement with visual preloader and/or lazy-loading functionality for performance optimization.
  * The HTMLImageElement source is assigned the "placeholder" property until the "src" property is fully loaded. 
  * The IntersectionObserver API is employed to facilitate loading the image only when its bounding box area is observed within the viewport.
  * 
@@ -28,9 +28,10 @@ const ViewportImage = ({
         src,
         alt,
         placeholder,
-        style,
+        imageStyle,
         intersectionStyle,
-        errorStyle
+        errorStyle,
+        preloaderStyle,
     }) => {
 
     /**
@@ -38,11 +39,29 @@ const ViewportImage = ({
      * 
      */
     const [ imageSrc, setImageSrc ] = useState(placeholder);
+    const [ isLoading, setIsLoading ] = useState(true);
+
     const image = useRef(null);
 
     /**
+     * @description Handler for ending the preloader.
+     * Sets the component's "isLoading" state to false so that the preloader is no longer rendered.
+     * 
+     * @private
+     * @function
+     * 
+     */
+    const preloaderEndHandler = useCallback(() => {
+
+        if (preloaderStyle && isLoading) {
+
+            setIsLoading(false);
+        }
+    }, [preloaderStyle, isLoading]);
+
+    /**
      * @description Handler for a dispatched "animationend" event.
-     * Removes the "intersectionStyle" class from the HTMLImageElement.
+     * Removes the "intersectionStyle" class from the HTMLImageElement and ends the preloader.
      * 
      * @private
      * @function
@@ -53,12 +72,14 @@ const ViewportImage = ({
         const imageElement = image.current;
 
         imageElement.removeEventListener(C.Event.ANIMATION_END, animationEndHandler);
-        imageElement.classList.remove(intersectionStyle);
-    }, [intersectionStyle]);
+
+        preloaderEndHandler();
+
+    }, [preloaderEndHandler]);
 
     /**
      * @description Handler for a dispatched "load" event.
-     * Adds the "intersectionStyle" class to the HTMLImageElement.
+     * Conditionally adds the "intersectionStyle" class to the HTMLImageElement or ends the preloader.
      * 
      * @private
      * @function
@@ -67,7 +88,7 @@ const ViewportImage = ({
     const loadHandler = useCallback(() => {
 
         const imageElement = image.current;
-        
+
         if (imageElement.src !== placeholder) {
 
             imageElement.removeEventListener(C.Event.LOAD, loadHandler);
@@ -77,8 +98,12 @@ const ViewportImage = ({
                 imageElement.addEventListener(C.Event.ANIMATION_END, animationEndHandler);
                 imageElement.classList.add(intersectionStyle);
             }
+            else {
+
+                preloaderEndHandler();
+            }
         }
-    }, [placeholder, animationEndHandler, intersectionStyle]);
+    }, [placeholder, animationEndHandler, intersectionStyle, preloaderEndHandler]);
 
     /**
      * @description Handler for dispatched "error" events.
@@ -140,6 +165,8 @@ const ViewportImage = ({
 
             imageElement.removeEventListener(C.Event.LOAD, loadHandler);
             imageElement.removeEventListener(C.Event.ERROR, errorHandler);
+            imageElement.removeEventListener(C.Event.ANIMATION_END, animationEndHandler);
+
             window.removeEventListener(C.Event.ERROR, errorHandler);
             
             if (observer) {
@@ -147,7 +174,7 @@ const ViewportImage = ({
                 observer.unobserve(imageElement);
             }
         };
-    }, [imageSrc, src, loadHandler, errorHandler]);
+    }, [imageSrc, src, loadHandler, errorHandler, animationEndHandler]);
 
     /**
      * JSX markup
@@ -155,12 +182,18 @@ const ViewportImage = ({
      */
     return (
         
-        <img
-            ref={image}
-            src={imageSrc}
-            alt={alt}
-            className={style}
-        />
+        <>
+            {preloaderStyle && isLoading &&
+                <div className={preloaderStyle} />
+            }
+
+            <img
+                ref={image}
+                src={imageSrc}
+                alt={alt}
+                className={imageStyle}
+            />
+        </>
     );
 };
 
@@ -173,9 +206,10 @@ ViewportImage.propTypes = {
     src: PropTypes.string.isRequired,
     alt: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
-    style: PropTypes.string.isRequired,
+    imageStyle: PropTypes.string.isRequired,
     intersectionStyle: PropTypes.string,
-    errorStyle: PropTypes.string.isRequired
+    errorStyle: PropTypes.string.isRequired,
+    preloaderStyle: PropTypes.string
 };
 
 /**
