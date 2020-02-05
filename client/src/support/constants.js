@@ -644,6 +644,7 @@ const Route = Object.freeze({
  *     <li> TABLE_USER_HEADER_USER_EMAIL </li>
  *     <li> TABLE_USER_HEADER_USER_IP </li>
  *     <li> TABLE_USER_HEADER_USER_NAME </li>
+ *     <li> TRANSPARENT </li>
  *     <li> VISIBLE </li>
  *     <li> VOTE </li>
  *     <li> VOTE_RESULT </li>
@@ -720,6 +721,7 @@ const Style = Object.freeze({
     TABLE_USER_HEADER_USER_NAME: "tableUserHeader-user-name",
     TABLE_USER_HEADER_USER: "tableUserHeader-user",
     TABLE_USER_HEADER: "tableUserHeader",
+    TRANSPARENT: "transparent",
     VISIBLE: "visible",
     VOTE_ACTIVE_BADGE_LIVE: "voteActiveBadge-live",
     VOTE_ACTIVE_BADGE_PENDING: "voteActiveBadge-pending",

@@ -14,7 +14,10 @@ import PropTypes from "prop-types";
 
 /**
  * @description The ViewportImage component extends an HTMLImageElement with visual preloader and/or lazy-loading functionality for performance optimization.
- * The HTMLImageElement source is assigned the "placeholder" property until the "src" property is fully loaded. 
+ * The HTMLImageElement source is assigned the "placeholder" property until the "src" property is fully loaded.
+ * The optional "preIntersectionStyle" property is added to the class list immediately before both the "placeholder" is replaced by the "src" and the "intersectionStyle" is added to the class list.
+ * A "preIntersectionStyle" argument must be accompanied by an "intersectionStyle" argument or it will be ignored.  However, an "intersectionStyle" argument may function on its own.
+ * Both "preIntersectionStyle" and "intersectionStyle" are removed from the class list after the "intersectionStyle" animation is complete. 
  * The IntersectionObserver API is employed to facilitate loading the image only when its bounding box area is observed within the viewport.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
@@ -29,6 +32,7 @@ const ViewportImage = ({
         alt,
         placeholder,
         imageStyle,
+        preIntersectionStyle,
         intersectionStyle,
         errorStyle,
         preloaderStyle,
@@ -70,12 +74,13 @@ const ViewportImage = ({
     const animationEndHandler = useCallback(() => {
 
         const imageElement = image.current;
-
         imageElement.removeEventListener(C.Event.ANIMATION_END, animationEndHandler);
+        image.current.classList.remove(preIntersectionStyle);
+        imageElement.classList.remove(intersectionStyle);
 
         preloaderEndHandler();
 
-    }, [preloaderEndHandler]);
+    }, [preIntersectionStyle, intersectionStyle, preloaderEndHandler]);
 
     /**
      * @description Handler for a dispatched "load" event.
@@ -115,8 +120,13 @@ const ViewportImage = ({
      */
     const errorHandler = useCallback(() => {
 
+        if (preIntersectionStyle && intersectionStyle) {
+
+            image.current.classList.add(preIntersectionStyle);
+        }
+        
         image.current.classList.add(errorStyle);
-    }, [errorStyle]);
+    }, [preIntersectionStyle, intersectionStyle, errorStyle]);
 
     /**
      * @description Initializes an IntersectionObserver object with relevant subscriptions.
@@ -144,6 +154,11 @@ const ViewportImage = ({
         
                     if (entry.isIntersecting) {
           
+                        if (preIntersectionStyle && intersectionStyle) {
+
+                            image.current.classList.add(preIntersectionStyle);
+                        }
+
                         setImageSrc(src);
                         
                         observer.unobserve(imageElement);
@@ -174,7 +189,7 @@ const ViewportImage = ({
                 observer.unobserve(imageElement);
             }
         };
-    }, [imageSrc, src, loadHandler, errorHandler, animationEndHandler]);
+    }, [imageSrc, src, loadHandler, errorHandler, animationEndHandler, preIntersectionStyle, intersectionStyle]);
 
     /**
      * JSX markup
@@ -207,6 +222,7 @@ ViewportImage.propTypes = {
     alt: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
     imageStyle: PropTypes.string.isRequired,
+    preIntersectionStyle: PropTypes.string,
     intersectionStyle: PropTypes.string,
     errorStyle: PropTypes.string.isRequired,
     preloaderStyle: PropTypes.string

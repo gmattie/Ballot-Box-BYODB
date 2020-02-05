@@ -49,6 +49,7 @@ const ItemDetail = ({
                     alt={title}
                     placeholder={C.Image.TRANSPARENT_PLACEHOLDER}
                     imageStyle={C.Style.ITEM_DETAIL_IMAGE}
+                    preIntersectionStyle={C.Style.TRANSPARENT}
                     intersectionStyle={C.Style.ITEM_DETAIL_IMAGE_INTERSECTION}
                     errorStyle={C.Style.ITEM_DETAIL_IMAGE_ERROR}
                     preloaderStyle={C.Style.ITEM_DETAIL_IMAGE_PRELOADER}

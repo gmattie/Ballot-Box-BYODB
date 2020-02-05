@@ -76,14 +76,16 @@ const ListItem = ({ data, index, showItemDetails }) => {
                 }
 
                 const className = snapshot.isDragging
-                    ? C.Style.LIST_ITEM_ACTIVE
-                    : C.Style.LIST_ITEM;
+                ? C.Style.LIST_ITEM_ACTIVE
+                : C.Style.LIST_ITEM;
 
-                const placeholder = (window[C.Global.LIST_ITEM_DRAG_TARGET] === data[C.Model.NAME])
+                const isDragTarget = (window[C.Global.LIST_ITEM_DRAG_TARGET] === data[C.Model.NAME]);
+
+                const placeholder = (isDragTarget)
                     ? data[C.Model.THUMBNAIL]
                     : C.Image.TRANSPARENT_PLACEHOLDER;
 
-                const intersectionStyle = (window[C.Global.LIST_ITEM_DRAG_TARGET] === data[C.Model.NAME])
+                const intersectionStyle = (isDragTarget)
                     ? null
                     : C.Style.LIST_ITEM_IMAGE_INTERSECTION;
 
@@ -102,6 +104,7 @@ const ListItem = ({ data, index, showItemDetails }) => {
                             alt={data[C.Model.NAME]}
                             placeholder={placeholder}
                             imageStyle={C.Style.LIST_ITEM_IMAGE}
+                            preIntersectionStyle={C.Style.TRANSPARENT}
                             intersectionStyle={intersectionStyle}
                             errorStyle={C.Style.LIST_ITEM_IMAGE_ERROR}
                         />
