@@ -131,6 +131,7 @@ const Error = Object.freeze({
  *     <li> DRAG_START </li>
  *     <li> DROP </li>
  *     <li> ERROR </li>
+ *     <li> HEARTBEAT </li>
  *     <li> LOAD </li>
  *     <li> MESSAGE </li>
  *     <li> OPEN </li>
@@ -157,6 +158,7 @@ const Event = Object.freeze({
     DRAG_START: "dragstart",
     DROP: "drop",
     ERROR: "error",
+    HEARTBEAT: "heartbeat",
     LOAD: "load",
     MESSAGE: "message",
     OPEN: "open",

@@ -46,7 +46,10 @@ const useWebSocket = (init) => {
 
             const handleWebSocket = (message, close) => {
 
-                dispatch(webSocketActions.setWebSocketMessage(message));
+                if (message !== JSON.stringify({[C.Event.Type.WEBSOCKET]: C.Event.HEARTBEAT})) {
+
+                    dispatch(webSocketActions.setWebSocketMessage(message));
+                }
 
                 if (close) {
 

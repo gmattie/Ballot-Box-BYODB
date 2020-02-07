@@ -124,6 +124,7 @@ const Error = Object.freeze({
  * <ul>
  *     <li> CLOSE </li>
  *     <li> CONNECTION </li>
+ *     <li> HEARTBEAT </li>
  *     <ul>
  *         <li> DEADLINE </li>
  *         <li> VOTE </li>
