@@ -28,7 +28,7 @@
             @include table-header-user;
 
             color: black;
-            font-size: 0.75rem;
+            font-size: $FONT_SIZE_SMALL;
         }
     }
 }

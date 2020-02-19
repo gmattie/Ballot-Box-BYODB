@@ -52,8 +52,8 @@ const PublicContainer = () => {
     const getButtonStyle = (href) => {
 
         const style = (href === path)
-            ? C.Style.PUBLIC_CONTAINER_NAV_BUTTON_SELECTED
-            : C.Style.PUBLIC_CONTAINER_NAV_BUTTON;
+            ? C.Style.PUBLIC_CONTAINER_CONTENT_NAV_BUTTON_SELECTED
+            : C.Style.PUBLIC_CONTAINER_CONTENT_NAV_BUTTON;
 
         return style;
     };
@@ -89,27 +89,33 @@ const PublicContainer = () => {
         return (
         
             <div className={C.Style.PUBLIC_CONTAINER}>
-                <img src={Icon} alt={C.Label.ICON} />
+                <img
+                    className={C.Style.PUBLIC_CONTAINER_ICON}
+                    src={Icon}
+                    alt={C.Label.ICON}
+                />
 
-                <div>
-                    {createButton(C.Label.LOGIN, C.Route.LOGIN)}
-                    {createButton(C.Label.REGISTER, C.Route.REGISTER)}
-                    {createButton(C.Label.RESET, C.Route.RESET)}
-                </div>
-                
-                <Switch>
-                    <Route path={C.Route.LOGIN}>
-                        <Login />
-                    </Route>
-
-                    <Route path={C.Route.REGISTER}>
-                        <Register />
-                    </Route>
+                <div className={C.Style.PUBLIC_CONTAINER_CONTENT}>
+                    <nav className={C.Style.PUBLIC_CONTAINER_CONTENT_NAV}>
+                        {createButton(C.Label.LOGIN, C.Route.LOGIN)}
+                        {createButton(C.Label.REGISTER, C.Route.REGISTER)}
+                        {createButton(C.Label.RESET, C.Route.RESET)}
+                    </nav>
                     
-                    <Route path={C.Route.RESET}>
-                        <Reset />
-                    </Route>
-                </Switch>
+                    <Switch>
+                        <Route path={C.Route.LOGIN}>
+                            <Login />
+                        </Route>
+
+                        <Route path={C.Route.REGISTER}>
+                            <Register />
+                        </Route>
+                        
+                        <Route path={C.Route.RESET}>
+                            <Reset />
+                        </Route>
+                    </Switch>
+                </div>
             </div>
         );
     }

@@ -1,20 +1,27 @@
-@mixin button-base {
+@mixin button-reset {
 
-    font-size: 1rem;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
     border: none;
-    color: white;
-    cursor: pointer;
     outline: none;
-    padding: 10px;
     user-select: none;
+    cursor: pointer;
+}
+
+@mixin nav-button-base {
+
+    @include button-reset;
+
+    padding: 10px;
 
     &:active {
         
         color: black;
     }
     
-    @media (hover: hover) {
-        
+    @include mq-hover {
+
         &:hover {
             
             background-color: gray;
@@ -22,16 +29,16 @@
     }
 }
 
-@mixin button {
+@mixin nav-button {
 
-    @include button-base;
+    @include nav-button-base;
 
     background-color: black;
 }
 
-@mixin button-selected {
+@mixin nav-button-selected {
 
-    @include button-base;
+    @include nav-button-base;
 
     background-color: gray;
 }

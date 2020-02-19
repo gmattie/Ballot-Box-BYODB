@@ -19,11 +19,11 @@
 
     &-nav-button {
 
-        @include button;
+        @include nav-button;
     
         &-selected {
 
-            @include button-selected;
+            @include nav-button-selected;
         }
     }
 

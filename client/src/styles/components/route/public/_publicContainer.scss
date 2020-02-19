@@ -1,22 +1,53 @@
 .publicContainer {
 
+    $SIZE: 50%;
+    $SIZE_MIN: 256px;
+    $SIZE_MAX: 384px;
+
+    @include mq-orientation-landscape { flex-direction: row; }
+    @include mq-orientation-portrait  { flex-direction: column; }
+
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    position: fixed;
+    width: 100%;
+    height: 100%;
 
-    img {
+    &-icon {
 
-        width: 25vw;
-        min-width: 200px;
+        @include mq-orientation-portrait {
+
+            width: $SIZE;
+            min-width: $SIZE_MIN;
+            max-width: $SIZE_MAX;
+        }
+
+        @include mq-orientation-landscape {
+
+            height: $SIZE;
+            min-height: $SIZE_MIN;
+            max-height: $SIZE_MAX;
+        }
     }
 
-    &-nav-button {
+    &-content {
 
-        @include button;
-    
-        &-selected {
+        width: $SIZE;
+        min-width: $SIZE_MIN;
+        max-width: $SIZE_MAX;
 
-            @include button-selected;
+        &-nav {
+
+            &-button {
+
+                @include nav-button;
+            
+                &-selected {
+
+                    @include nav-button-selected;
+                }
+            }
         }
     }
 }

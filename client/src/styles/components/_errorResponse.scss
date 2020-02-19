@@ -1,0 +1,32 @@
+.errorResponse {
+
+    display: flex;
+    align-items: center;
+    height: $ERROR_RESPONSE_HEIGHT;
+
+    &-icon {
+
+        $SIZE: 13px;
+
+        width: $SIZE;
+        height: $SIZE;
+        margin-right: 3px;
+        filter:
+            invert(15%) 
+            sepia(42%)
+            saturate(6648%)
+            hue-rotate(353deg)
+            brightness(101%)
+            contrast(119%);
+    }
+
+    &-text {
+
+        color: red;
+        font-size: $FONT_SIZE_TINY;
+        font-weight: $FONT_WEIGHT_BOLD;
+        text-transform: capitalize;
+        text-shadow: 0 0;
+        backface-visibility: hidden;
+    }
+}

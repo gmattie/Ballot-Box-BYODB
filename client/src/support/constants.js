@@ -346,11 +346,13 @@ const Image = Object.freeze({
  *     <li> DEADLINE_SECONDS </li>
  *     <li> EDIT </li>
  *     <li> EDIT_ITEMS </li>
+ *     <li> ERROR </li>
  *     <li> EMAIL </li>
  *     <li> EMAIL_REFER </li>
  *     <li> EMAIL_REGISTRATION </li>
  *     <li> EMAIL_RESET </li>
  *     <li> EMAIL_SENT </li>
+ *     <li> HIDE </li>
  *     <li> ICON </li>
  *     <li> IMAGE </li>
  *     <li> LIVE </li>
@@ -370,6 +372,7 @@ const Image = Object.freeze({
  *     <li> REGISTER </li>
  *     <li> RESET </li>
  *     <li> RESULTS </li>
+ *     <li> SHOW </li>
  *     <li> THUMBNAIL </li>
  *     <li> TOTAL_VOTES_CAST </li>
  *     <li> VOTE </li>
@@ -408,11 +411,13 @@ const Label = Object.freeze({
     DEADLINE: "Deadline",
     EDIT_ITEMS: "Edit Items",
     EDIT: "Edit",
+    ERROR: "Error",
     EMAIL_REFER: "Please refer to the email in order to",
     EMAIL_REGISTRATION: "complete your registration and activate your account.",
     EMAIL_RESET: "confirm the request to reset your password.",
     EMAIL_SENT: "An email has been sent to:",
     EMAIL: "Email",
+    HIDE: "Hide",
     ICON: "Icon",
     IMAGE: "Image",
     LIVE: "Live",
@@ -432,6 +437,7 @@ const Label = Object.freeze({
     REGISTER: "Register",
     RESET: "Reset",
     RESULTS: "Results",
+    SHOW: "Show",
     THUMBNAIL: "Thumbnail",
     TOTAL_VOTES_CAST: "Total Votes Cast:",
     VOTE_CAST: "Your vote has been cast for the current poll.",
@@ -593,7 +599,6 @@ const Route = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
- *     <li> APP </li>
  *     <li> COLLAPSIBLE </li>
  *     <li> COLLAPSIBLE_CONTENT </li>
  *     <li> COLLAPSIBLE_CONTENT_HIDE </li>
@@ -606,10 +611,19 @@ const Route = Object.freeze({
  *     <li> DIALOG_BUTTONS_CONTAINER </li>
  *     <li> DIALOG_MESSAGE_CONTAINER </li>
  *     <li> EDIT_ITEMS_CONTAINER </li>
+ *     <li> ERROR_RESPONSE </li>
+ *     <li> ERROR_RESPONSE_ICON </li>
+ *     <li> ERROR_RESPONSE_TEXT </li>
  *     <li> HIDDEN </li>
  *     <li> INPUT_PASSWORD </li>
- *     <li> INPUT_PASSWORD_HIDE </li>
- *     <li> INPUT_PASSWORD_SHOW </li>
+ *     <li> INPUT_PASSWORD_BUTTON </li>
+ *     <li> INPUT_TEXT </li>
+ *     <li> INPUT_TEXT_ERROR </li>
+ *     <li> INPUT_TEXT_ERROR_SHOW </li>
+ *     <li> INPUT_TEXT_INPUT </li>
+ *     <li> INPUT_TEXT_INPUT_MAXIMIZE </li>
+ *     <li> INPUT_TEXT_PLACEHOLDER </li>
+ *     <li> INPUT_TEXT_PLACEHOLDER_MAXIMIZE </li>
  *     <li> ITEM_DETAIL </li>
  *     <li> ITEM_DETAIL_IMAGE </li>
  *     <li> ITEM_DETAIL_IMAGE_ERROR </li>
@@ -626,6 +640,10 @@ const Route = Object.freeze({
  *     <li> LIST_ITEM_IMAGE_INTERSECTION </li>
  *     <li> LIST_ITEM_TITLE </li>
  *     <li> LIST_TITLE </li>
+ *     <li> LOGIN </li>
+ *     <li> LOGIN_EMAIL </li>
+ *     <li> LOGIN_ERROR </li>
+ *     <li> LOGIN_PASSWORD </li>
  *     <li> MANAGE_POLLS </li>
  *     <li> PORTAL </li>
  *     <li> PROTECTED_CONTAINER </li>
@@ -634,8 +652,11 @@ const Route = Object.freeze({
  *     <li> PROTECTED_CONTAINER_USER_INFO </li>
  *     <li> PROTECTED_CONTAINER_WEBSOCKET_MESSAGE </li>
  *     <li> PUBLIC_CONTAINER </li>
- *     <li> PUBLIC_CONTAINER_NAV_BUTTON </li>
- *     <li> PUBLIC_CONTAINER_NAV_BUTTON_SELECTED </li>
+ *     <li> PUBLIC_CONTAINER_ICON </li>
+ *     <li> PUBLIC_CONTAINER_CONTENT </li>
+ *     <li> PUBLIC_CONTAINER_CONTENT_NAV </li>
+ *     <li> PUBLIC_CONTAINER_CONTENT_NAV_BUTTON </li>
+ *     <li> PUBLIC_CONTAINER_CONTENT_NAV_BUTTON_SELECTED </li>
  *     <li> TABLE_ITEM_ROW </li>
  *     <li> TABLE_ITEM_ROW_HEADER </li>
  *     <li> TABLE_ITEM_ROW_HEADER_ITEM </li>
@@ -669,7 +690,6 @@ const Route = Object.freeze({
  */
 const Style = Object.freeze({
 
-    APP: "app",
     COLLAPSIBLE_CONTENT_HIDE: "collapsible-content-hide",
     COLLAPSIBLE_CONTENT_SHOW: "collapsible-content-show",
     COLLAPSIBLE_CONTENT: "collapsible-content",
@@ -682,10 +702,19 @@ const Style = Object.freeze({
     DIALOG_MESSAGE_CONTAINER: "dialog-messageContainer",
     DIALOG: "dialog",
     EDIT_ITEMS_CONTAINER: "editItemsContainer",
+    ERROR_RESPONSE_ICON: "errorResponse-icon",
+    ERROR_RESPONSE_TEXT: "errorResponse-text",
+    ERROR_RESPONSE: "errorResponse",
     HIDDEN: "hidden",
-    INPUT_PASSWORD_HIDE: "inputPassword-hide",
-    INPUT_PASSWORD_SHOW: "inputPassword-show",
+    INPUT_PASSWORD_BUTTON: "inputPassword-button",
     INPUT_PASSWORD: "inputPassword",
+    INPUT_TEXT_ERROR_SHOW: "inputText-error-show",
+    INPUT_TEXT_ERROR: "inputText-error",
+    INPUT_TEXT_INPUT_MAXIMIZE: "inputText-input-maximize",
+    INPUT_TEXT_INPUT: "inputText-input",
+    INPUT_TEXT_PLACEHOLDER_MAXIMIZE: "inputText-placeholder-maximize",
+    INPUT_TEXT_PLACEHOLDER: "inputText-placeholder",
+    INPUT_TEXT: "inputText",
     ITEM_DETAIL_IMAGE_ERROR: "itemDetail-image-error",
     ITEM_DETAIL_IMAGE_INTERSECTION: "itemDetail-image-intersection",
     ITEM_DETAIL_IMAGE_PRELOADER: "itemDetail-image-preloader",
@@ -702,6 +731,10 @@ const Style = Object.freeze({
     LIST_ITEM: "listItem",
     LIST_TITLE: "list-title",
     LIST: "list",
+    LOGIN_EMAIL: "login-email",
+    LOGIN_ERROR: "login-error",
+    LOGIN_PASSWORD: "login-password",
+    LOGIN: "login",
     MANAGE_POLLS: "managePolls",
     PORTAL: "portal",
     PROTECTED_CONTAINER_CONTENT: "protectedContainer-content",
@@ -710,8 +743,11 @@ const Style = Object.freeze({
     PROTECTED_CONTAINER_USER_INFO: "protectedContainer-userInfo",
     PROTECTED_CONTAINER_WEBSOCKET_MESSAGE: "protectedContainer-webSocketMessage",
     PROTECTED_CONTAINER: "protectedContainer",
-    PUBLIC_CONTAINER_NAV_BUTTON_SELECTED: "publicContainer-nav-button-selected",
-    PUBLIC_CONTAINER_NAV_BUTTON: "publicContainer-nav-button",
+    PUBLIC_CONTAINER_CONTENT_NAV_BUTTON_SELECTED: "publicContainer-content-nav-button-selected",
+    PUBLIC_CONTAINER_CONTENT_NAV_BUTTON: "publicContainer-content-nav-button",
+    PUBLIC_CONTAINER_CONTENT_NAV: "publicContainer-content-nav",
+    PUBLIC_CONTAINER_CONTENT: "publicContainer-content",
+    PUBLIC_CONTAINER_ICON: "publicContainer-icon",
     PUBLIC_CONTAINER: "publicContainer",
     TABLE_ITEM_ROW_HEADER_ITEM: "tableItemRow-header-item",
     TABLE_ITEM_ROW_HEADER_SCORE: "tableItemRow-header-score",

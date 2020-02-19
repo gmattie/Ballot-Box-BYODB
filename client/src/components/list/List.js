@@ -25,7 +25,12 @@ import React from "react";
  * @function
  * 
  */
-const List = ({ ID, title, data }) => {
+const List = ({
+    
+        ID,
+        title,
+        data
+    }) => {
 
     /**
      * JSX markup

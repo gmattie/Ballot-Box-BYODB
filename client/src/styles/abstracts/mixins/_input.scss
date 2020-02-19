@@ -1,0 +1,16 @@
+@mixin input-text-reset {
+
+    font-family: inherit;
+    font-size: inherit;
+    border: none;
+    outline: none;
+}
+
+@mixin input-text {
+
+    @include input-text-reset;
+
+    width: 100%;
+    padding: $INPUT_PADDING_TOP $INPUT_PADDING_LEFT;
+    box-shadow: 0 0 4px 2px black;
+}

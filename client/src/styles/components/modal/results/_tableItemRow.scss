@@ -25,7 +25,7 @@
                 width: 22px;
                 text-align: right;
                 margin-right: 6px;
-                font-size: 0.75rem;
+                font-size: $FONT_SIZE_SMALL;
                 counter-increment: item-index;
                 content: counter(item-index) ":";
             }

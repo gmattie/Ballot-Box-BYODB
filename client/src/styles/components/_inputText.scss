@@ -1,0 +1,50 @@
+.inputText {
+
+    position: relative;
+    transition: all $DURATION_TRANSITION_INPUT linear;
+    width: 100%;
+
+    &-input {
+        
+        @include input-text;
+
+        transition: inherit;
+        
+        &-maximize {
+
+            padding-top: calc(#{$INPUT_PADDING_TOP} + 16px);
+        }
+    }
+
+    &-placeholder {
+
+        position: absolute;
+        top: 0;
+        color: #AAAAAA;
+        padding: $INPUT_PADDING_TOP $INPUT_PADDING_LEFT;
+        pointer-events: none;
+        transition: inherit;
+
+        &-maximize {
+
+            color: #BBBBBB;
+            font-size: $FONT_SIZE_TINY;
+            font-weight: $FONT_WEIGHT_BOLD;
+        }
+    }
+
+    &-error {
+
+        position: absolute;
+        top: 3px;
+        right: $INPUT_PADDING_LEFT;
+        pointer-events: none;
+        opacity: 0;
+        transition: inherit;
+
+        &-show {
+
+            opacity: 1;
+        }
+    }
+}

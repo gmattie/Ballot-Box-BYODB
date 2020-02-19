@@ -24,13 +24,20 @@ import ReactDOM from "react-dom";
  * @function
  * 
  */
-const Portal = ({ elementID, children }) => {
+const Portal = ({
+    
+        elementID,
+        children
+    }) => {
 
     const childrenContainer = useRef(document.createElement(C.HTMLElement.DIV));
 
     /**
      * Pause background scrolling
      * Temporarily deactivates scrolling on the document body while the Portal component is visible. 
+     * 
+     * @private
+     * @function
      * 
      */
     useEffect(() => {
@@ -43,6 +50,9 @@ const Portal = ({ elementID, children }) => {
     /**
      * Portal root element
      * Creates an element containing the ChildrenContainer to be appended to the DOM as the Portal.
+     * 
+     * @private
+     * @function
      * 
      */
     useEffect(() => {

@@ -32,20 +32,18 @@ const App = () => {
      */
     return (
 
-        <div className={C.Style.APP}>
-            <Switch>
-                <RouteDiverter access={C.Access.PUBLIC} path={C.Route.LOGIN} component={PublicContainer} />
-                <RouteDiverter access={C.Access.PUBLIC} path={C.Route.REGISTER} component={PublicContainer} />
-                <RouteDiverter access={C.Access.PUBLIC} path={C.Route.RESET} component={PublicContainer} />
+        <Switch>
+            <RouteDiverter access={C.Access.PUBLIC} path={C.Route.LOGIN} component={PublicContainer} />
+            <RouteDiverter access={C.Access.PUBLIC} path={C.Route.REGISTER} component={PublicContainer} />
+            <RouteDiverter access={C.Access.PUBLIC} path={C.Route.RESET} component={PublicContainer} />
 
-                <RouteDiverter access={C.Access.PROTECTED} path={C.Route.VOTE} component={ProtectedContainer} />
-                <RouteDiverter access={C.Access.PROTECTED} path={C.Route.RESULTS} component={ProtectedContainer} />
-                <RouteDiverter access={C.Access.PROTECTED} path={C.Route.ADMIN} component={ProtectedContainer} />
-                <RouteDiverter access={C.Access.PROTECTED} path={C.Route.EDIT} component={ProtectedContainer} />
+            <RouteDiverter access={C.Access.PROTECTED} path={C.Route.VOTE} component={ProtectedContainer} />
+            <RouteDiverter access={C.Access.PROTECTED} path={C.Route.RESULTS} component={ProtectedContainer} />
+            <RouteDiverter access={C.Access.PROTECTED} path={C.Route.ADMIN} component={ProtectedContainer} />
+            <RouteDiverter access={C.Access.PROTECTED} path={C.Route.EDIT} component={ProtectedContainer} />
 
-                <Redirect to={C.Route.VOTE} />
-            </Switch>
-        </div>
+            <Redirect to={C.Route.VOTE} />
+        </Switch>
     );
 };
 

@@ -25,7 +25,12 @@ import ViewportImage from "../ViewportImage";
  * @function
  * 
  */
-const ListItem = ({ data, index, showItemDetails }) => {
+const ListItem = ({
+    
+        data,
+        index,
+        showItemDetails
+     }) => {
 
     /**
      * Refs

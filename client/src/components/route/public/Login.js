@@ -2,7 +2,9 @@
  * @description Login component
  * 
  * @requires constants
+ * @requires ErrorResponse
  * @requires InputPassword
+ * @requires InputText
  * @requires react
  * @requires react-router-dom
  * @requires useAuth
@@ -14,7 +16,9 @@
  */
 import { useHistory } from "react-router-dom";
 import * as C from "../../../support/constants";
+import ErrorResponse from "../../ErrorResponse";
 import InputPassword from "../../InputPassword";
+import InputText from "../../InputText";
 import React, { useRef, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useInputText from "../../../hooks/useInputText";
@@ -66,14 +70,14 @@ const Login = () => {
         binding: bindEmail,
         clearValue: clearEmail,
         value: email
-    } = useInputText(null, submitHandler);
+    } = useInputText(C.Label.EMAIL, submitHandler);
     
     const { 
         
         binding: bindPassword,
         clearValue: clearPassword,
         value: password
-    } = useInputText(null, submitHandler);
+    } = useInputText(C.Label.PASSWORD, submitHandler);
 
     /**
      * Login success
@@ -160,34 +164,31 @@ const Login = () => {
      */
     return (
 
-        <div>
-            {invalidCredentials && <div>{invalidCredentials}</div>}
+        <div className={C.Style.LOGIN}>
+            {invalidCredentials &&
+                <div className={C.Style.LOGIN_ERROR}>
+                    <ErrorResponse message={invalidCredentials} />
+                </div>
+            }
 
-            <div>
-                {invalidEmail && <div>{invalidEmail}</div>}
-                <label>
-                    {C.Label.EMAIL}
-                    <input 
-                        type={C.HTMLElement.InputType.TEXT}
-                        name={C.ID.NAME_EMAIL}
-                        disabled={isLoading}
-                        {...bindEmail}
-                    />
-                </label>
+            <div className={C.Style.LOGIN_EMAIL}>
+                <InputText 
+                    name={C.ID.NAME_EMAIL}
+                    disabled={isLoading}
+                    errorMessage={invalidEmail}
+                    {...bindEmail}
+                />
             </div>
 
-            <div>
-                {invalidPassword && <div>{invalidPassword}</div>}
-                <label>
-                    {C.Label.PASSWORD}
-                    <InputPassword
-                        name={C.ID.NAME_PASSWORD}
-                        disabled={isLoading}
-                        {...bindPassword}
-                    />
-                </label>
+            <div className={C.Style.LOGIN_PASSWORD}>
+                <InputPassword
+                    name={C.ID.NAME_PASSWORD}
+                    disabled={isLoading}
+                    errorMessage={invalidPassword}
+                    {...bindPassword}
+                />
             </div>
-            
+
             <button
                 onClick={submitHandler}
                 disabled={isLoading}

@@ -1,0 +1,15 @@
+@mixin mq-orientation-landscape {
+
+    @media screen and (orientation: landscape) {
+        
+        @content;
+    }
+}
+
+@mixin mq-orientation-portrait {
+
+    @media screen and (orientation: portrait) {
+        
+        @content;
+    }
+}
