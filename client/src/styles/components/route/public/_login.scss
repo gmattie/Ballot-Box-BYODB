@@ -7,21 +7,20 @@
 
         align-self: flex-end;
         position: relative;
-        top: $INPUT_GAP;
+        top: $FORM_GAP;
     }
 
     &-email,
     &-password {
 
-        display: flex;
-        flex-direction: column;
-        margin-top: $INPUT_GAP;
+        margin-top: $FORM_GAP;
     }
 
     button {
         
-        margin-top: $INPUT_GAP;
+        margin-top: $FORM_GAP;
         width: 100px;
+        text-transform: uppercase;
         align-self: flex-end;
         border: 1px solid cyan;
     }

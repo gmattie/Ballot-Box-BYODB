@@ -99,7 +99,7 @@ const PublicContainer = () => {
                     <nav className={C.Style.PUBLIC_CONTAINER_CONTENT_NAV}>
                         {createButton(C.Label.LOGIN, C.Route.LOGIN)}
                         {createButton(C.Label.REGISTER, C.Route.REGISTER)}
-                        {createButton(C.Label.RESET, C.Route.RESET)}
+                        {createButton(`${C.Label.RESET} ${C.Label.PASSWORD}`, C.Route.RESET)}
                     </nav>
                     
                     <Switch>

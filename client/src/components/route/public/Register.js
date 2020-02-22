@@ -3,7 +3,9 @@
  * 
  * @requires Collapsible
  * @requires constants
+ * @requires ErrorResponse
  * @requires InputPassword
+ * @requires InputText
  * @requires react
  * @requires useAuth
  * @requires useInputText
@@ -14,7 +16,9 @@
  */
 import * as C from "../../../support/constants";
 import Collapsible from "../../Collapsible";
+import ErrorResponse from "../../ErrorResponse";
 import InputPassword from "../../InputPassword";
+import InputText from "../../InputText";
 import React, { useRef, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useInputText from "../../../hooks/useInputText";
@@ -67,42 +71,42 @@ const Register = () => {
         binding: bindName,
         clearValue: clearName,
         value: name
-    } = useInputText(null, submitHandler);
+    } = useInputText(C.Label.NAME, submitHandler);
 
     const {
         
         binding: bindEmail,
         clearValue: clearEmail,
         value: email
-    } = useInputText(null, submitHandler);
+    } = useInputText(C.Label.EMAIL, submitHandler);
     
     const { 
         
         binding: bindPassword,
         clearValue: clearPassword,
         value: password
-    } = useInputText(null, submitHandler);
+    } = useInputText(C.Label.PASSWORD, submitHandler);
 
     const { 
         
         binding: bindPasswordConfirm,
         clearValue: clearPasswordConfirm,
         value: passwordConfirm
-    } = useInputText(null, submitHandler);
+    } = useInputText(C.Label.PASSWORD_CONFIRM, submitHandler);
 
     const {
         
         binding: bindAdminUsername,
         clearValue: clearAdminName,
         value: adminUsername
-    } = useInputText(C.Label.OPTIONAL, submitHandler);
+    } = useInputText(C.Label.ADMIN_USERNAME, submitHandler);
 
     const {
         
         binding: bindAdminPassword,
         clearValue: clearAdminPassword,
         value: adminPassword
-    } = useInputText(C.Label.OPTIONAL, submitHandler);
+    } = useInputText(C.Label.ADMIN_PASSWORD, submitHandler);
 
     /**
      * Register success
@@ -231,95 +235,77 @@ const Register = () => {
 
     return (
 
-        <div>
-            <div>
-                {invalidName && <div>{invalidName}</div>}
-                <label>
-                    {C.Label.NAME}
-                    <input 
-                        type={C.HTMLElement.InputType.TEXT}
-                        name={C.ID.NAME_NAME}
-                        disabled={isLoading}
-                        {...bindName}
-                    />
-                </label>
+        <div className={C.Style.REGISTER}>
+            <div className={C.Style.REGISTER_NAME}>
+                <InputText
+                    name={C.ID.NAME_NAME}
+                    disabled={isLoading}
+                    errorMessage={invalidName}
+                    {...bindName}
+                />
             </div>
 
-            <div>
-                {emailAlreadyRegistered && <div>{emailAlreadyRegistered}</div>}
-                {invalidEmail && <div>{invalidEmail}</div>}
-                <label>
-                    {C.Label.EMAIL}
-                    <input 
-                        type={C.HTMLElement.InputType.TEXT}
-                        name={C.ID.NAME_EMAIL}
-                        disabled={isLoading}
-                        {...bindEmail}
-                    />
-                </label>
+            <div className={C.Style.REGISTER_EMAIL}>
+                <InputText
+                    name={C.ID.NAME_EMAIL}
+                    disabled={isLoading}
+                    errorMessage={emailAlreadyRegistered || invalidEmail}
+                    {...bindEmail}
+                />
             </div>
 
-            <div>
-                {invalidPassword && <div>{invalidPassword}</div>}
-                <label>
-                    {C.Label.PASSWORD}
-                    <InputPassword
-                        name={C.ID.NAME_PASSWORD}
-                        disabled={isLoading}
-                        {...bindPassword}
-                    />
-                </label>
+            <div className={C.Style.REGISTER_PASSWORD}>
+                <InputPassword
+                    name={C.ID.NAME_PASSWORD}
+                    disabled={isLoading}
+                    errorMessage={invalidPassword}
+                    {...bindPassword}
+                />
             </div>
 
-            {password && 
-                <div>
-                    {invalidPasswordConfirm && <div>{invalidPasswordConfirm}</div>}
-                    <label>
-                        {C.Label.PASSWORD_CONFIRM}
-                        <InputPassword
-                            name={C.ID.NAME_PASSWORD_CONFIRM}
-                            disabled={isLoading}
-                            {...bindPasswordConfirm}
-                        />
-                    </label>
-                </div>
-            }
+            <div className={C.Style.REGISTER_PASSWORD_CONFIRM}>
+                <InputPassword
+                    name={C.ID.NAME_PASSWORD_CONFIRM}
+                    disabled={isLoading}
+                    errorMessage={invalidPasswordConfirm}
+                    {...bindPasswordConfirm}
+                />
+            </div>
 
-            <Collapsible
-                title={C.Label.ADMIN_CREDENTIALS}
-                headerStyle={C.Style.COLLAPSIBLE_HEADER_SECTION}
-            >
-                {invalidAdminCredentials && <div>{invalidAdminCredentials}</div>}
+            <div className={C.Style.REGISTER_ADMIN}>
+                {invalidAdminCredentials &&
+                    <div className={C.Style.REGISTER_ADMIN_ERROR}>
+                        <ErrorResponse message={invalidAdminCredentials} />
+                    </div>
+                }
 
-                <div>
-                    <label>
-                        {C.Label.ADMIN_USERNAME}
-                        <input
-                            type={C.HTMLElement.InputType.TEXT}
+                <Collapsible
+                    title={`${C.Label.ADMIN_CREDENTIALS} ${C.Label.OPTIONAL}`}
+                    headerStyle={C.Style.COLLAPSIBLE_HEADER_SECTION}
+                >
+                    <div className={C.Style.REGISTER_ADMIN_USERNAME}>
+                        <InputText
                             name={C.ID.NAME_ADMIN_USERNAME}
                             disabled={isLoading}
                             {...bindAdminUsername}
                         />
-                    </label>
-                </div>
+                    </div>
 
-                <div>
-                    <label>
-                        {C.Label.ADMIN_PASSWORD}
+                    <div className={C.Style.REGISTER_ADMIN_PASSWORD}>
                         <InputPassword
                             name={C.ID.NAME_ADMIN_PASSWORD}
                             disabled={isLoading}
                             {...bindAdminPassword}
                         />
-                    </label>
-                </div>
-            </Collapsible>
+                    </div>
+                </Collapsible>
+            </div>
             
             <button
                 onClick={submitHandler}
                 disabled={isLoading}
             >
-                {C.Label.REGISTER.toUpperCase()}
+                {C.Label.REGISTER}
             </button>
 
             {

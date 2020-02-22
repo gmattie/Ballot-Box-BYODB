@@ -33,7 +33,7 @@ const Portal = ({
     const childrenContainer = useRef(document.createElement(C.HTMLElement.DIV));
 
     /**
-     * Pause background scrolling
+     * @description Pause background scrolling
      * Temporarily deactivates scrolling on the document body while the Portal component is visible. 
      * 
      * @private
@@ -48,7 +48,7 @@ const Portal = ({
     }, []);
 
     /**
-     * Portal root element
+     * @description Portal root element
      * Creates an element containing the ChildrenContainer to be appended to the DOM as the Portal.
      * 
      * @private

@@ -12,12 +12,12 @@
 import * as C from "../../support/constants";
 import Portal from "./Portal";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState } from "react";
 
 /**
  * @description Renders a modal window inside a React Portal.
- * Dialogs must contain at least a "message" to display and an "okCallback" function
- * Supplying a "cancelCallback" function is optional.
+ * Dialogs must contain at least a "message" to display and an "okCallback" function while supplying a "cancelCallback" function and "preloader" boolean optional.
+ * A supplied truthy value for the "preloader" prop will display a loading indicator and disable all buttons when the OK button is pressed.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} The portal rendered to the DOM.
@@ -29,8 +29,32 @@ const Dialog = ({
 
         message,
         okCallback,
-        cancelCallback
+        cancelCallback,
+        preloader
     }) => {
+
+    /**
+     * State
+     * 
+     */
+    const [ isLoading, setIsLoading ] = useState(false);
+
+    /**
+     * @description Handler for a dispatched "click" event on the OK button.
+     * 
+     * @function
+     * @private
+     *  
+     */
+    const okButtonHandler = () => {
+
+        if (preloader) {
+
+            setIsLoading(true);
+        }
+        
+        okCallback();
+    };
 
     /**
      * JSX markup
@@ -45,13 +69,24 @@ const Dialog = ({
                     {message}
                 </div>
 
+                {
+                    //TODO: Replace with style animation
+                    isLoading && <div>LOADING...</div>
+                }
+
                 <div className={C.Style.DIALOG_BUTTONS_CONTAINER}>
-                    <button onClick={okCallback}>
+                    <button
+                        onClick={okButtonHandler}
+                        disabled={isLoading}
+                    >
                         {C.Label.OK}
                     </button>
                     
                     {cancelCallback &&
-                        <button onClick={cancelCallback}>
+                        <button
+                            onClick={cancelCallback}
+                            disabled={isLoading}
+                        >
                             {C.Label.CANCEL}
                         </button>
                     }
@@ -69,7 +104,8 @@ Dialog.propTypes = {
 
     message: PropTypes.string.isRequired,
     okCallback: PropTypes.func.isRequired,
-    cancelCallback: PropTypes.func
+    cancelCallback: PropTypes.func,
+    preloader: PropTypes.bool
 };
 
 /**

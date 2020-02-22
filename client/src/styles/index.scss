@@ -37,9 +37,12 @@
 
 @import "./components/route/public/publicContainer";
 @import "./components/route/public/login";
+@import "./components/route/public/register";
+@import "./components/route/public/reset";
 
 @import "./components/route/protected/admin/edit/editItemsContainer";
 @import "./components/route/protected/admin/managePolls";
+@import "./components/route/protected/edit";
 @import "./components/route/protected/protectedContainer";
 @import "./components/route/protected/results/voteActiveBadge";
 @import "./components/route/protected/results/voteResult";

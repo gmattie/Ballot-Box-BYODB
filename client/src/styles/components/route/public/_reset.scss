@@ -1,0 +1,39 @@
+.reset {
+
+    display: flex;
+    flex-direction: column;
+
+    &-email,
+    &-password,
+    &-passwordConfirm {
+
+        margin-top: $FORM_GAP;
+    }
+
+    button {
+        
+        margin-top: $FORM_GAP;
+        width: 100px;
+        text-transform: uppercase;
+        align-self: flex-end;
+        border: 1px solid cyan;
+    }
+
+    &-confirmation {
+        
+        color: gray;
+        text-align: center;
+
+        p {
+
+            margin-top: $FORM_GAP;
+        }
+
+        span {
+
+            display: inline-block;
+            color: white;
+            margin: 0 $FORM_GAP;
+        }
+    }
+}

@@ -1,7 +1,7 @@
 .inputText {
 
     position: relative;
-    transition: all $DURATION_TRANSITION_INPUT linear;
+    transition: all $DURATION_TRANSITION_INPUT ease-in-out;
     width: 100%;
 
     &-input {

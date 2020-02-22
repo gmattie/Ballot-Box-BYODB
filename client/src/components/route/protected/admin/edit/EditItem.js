@@ -56,7 +56,7 @@ const EditItem = ({
      * Refs
      * 
      */
-    const isSubmittable = useRef(false);
+    const isEditable = useRef(false);
     const responseUpdate = useRef(false);
 
     /**
@@ -77,28 +77,28 @@ const EditItem = ({
         binding: bindName,
         clearValue: clearName,
         value: name
-    } = useInputText(null, null, itemName);
+    } = useInputText(null, confirmHandler, itemName);
 
     const {
 
         binding: bindThumbnail,
         clearValue: clearThumbnail,
         value: thumbnail
-    } = useInputText(null, null, itemThumbnail);
+    } = useInputText(null, confirmHandler, itemThumbnail);
 
     const {
 
         binding: bindImage,
         clearValue: clearImage,
         value: image
-    } = useInputText(null, null, itemImage);
+    } = useInputText(null, confirmHandler, itemImage);
 
     /**
-     * Set isSubmittable flag
+     * Set isEditable flag
      * Determines if the present state of text field data is sufficient for submitting to the server.
      * 
      */
-    isSubmittable.current = (
+    isEditable.current = (
         
         (name && name !== itemName) ||
         (thumbnail && thumbnail !== itemThumbnail) ||
@@ -175,20 +175,29 @@ const EditItem = ({
      */
     const submitHandler = async () => {
 
-        setShowDialog(false);
-        setIsLoading(true);
+        if (isEditable.current) {
 
-        setAuthError(null);
-        setItemsEdit(null);
+            setShowDialog(false);
+            setIsLoading(true);
 
-        setInvalidName(null);
-        setInvalidThumbnail(null);
-        setInvalidImage(null);
+            setAuthError(null);
+            setItemsEdit(null);
 
-        responseUpdate.current = true;
-        await fetchEdit(itemID, name, thumbnail, image);
+            setInvalidName(null);
+            setInvalidThumbnail(null);
+            setInvalidImage(null);
 
-        setIsLoading(false);
+            responseUpdate.current = true;
+            await fetchEdit(
+                
+                itemID,
+                name,
+                thumbnail,
+                image
+            );
+
+            setIsLoading(false);
+        }
     };
 
     /**
@@ -204,6 +213,22 @@ const EditItem = ({
         clearThumbnail();
         clearImage();
     };
+
+    /**
+     * @description Displays the confirmation dialog.
+     * Written as a function declaration in order to be hoisted and accessible to the custom hooks above.
+     * 
+     * @function
+     * @private
+     * 
+     */
+    function confirmHandler() {
+
+        if (isEditable.current) {
+
+            setShowDialog(true);
+        }
+    }
 
     /**
      * JSX markup
@@ -265,15 +290,15 @@ const EditItem = ({
                     </div>
 
                     <button
-                        onClick={() => setShowDialog(true)}
-                        disabled={isLoading || !isSubmittable.current}
+                        onClick={confirmHandler}
+                        disabled={isLoading || !isEditable.current}
                     >
                         {C.Label.EDIT.toUpperCase()}
                     </button>
 
                     <button
                         onClick={resetHandler}
-                        disabled={isLoading || !isSubmittable.current}
+                        disabled={isLoading || !isEditable.current}
                     >
                         {C.Label.RESET.toUpperCase()}
                     </button>

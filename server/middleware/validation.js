@@ -144,8 +144,7 @@ const userEdit = [
         .custom((value) => !/\s/.test(value)),
     
     check(C.Request.PASSWORD_CONFIRM, C.Error.PASSWORDS_DO_NOT_MATCH)
-        .optional({checkFalsy: true})
-        .custom((value, { req }) => value !== "" && value === req.body[C.Request.PASSWORD]),
+        .custom((value, { req }) => value === req.body[C.Request.PASSWORD]),
 
     check(C.Request.ADMIN_USERNAME, C.Error.USER_INVALID_CREDENTIALS)
         .optional({checkFalsy: true})

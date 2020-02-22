@@ -3,6 +3,7 @@
  * 
  * @requires constants
  * @requires InputPassword
+ * @requires InputText
  * @requires react
  * @requires useAuth
  * @requires useInputText
@@ -13,6 +14,7 @@
  */
 import * as C from "../../../support/constants";
 import InputPassword from "../../InputPassword";
+import InputText from "../../InputText";
 import React, { useRef, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useInputText from "../../../hooks/useInputText";
@@ -64,21 +66,21 @@ const Reset = () => {
         binding: bindEmail,
         clearValue: clearEmail,
         value: email
-    } = useInputText(null, submitHandler);
+    } = useInputText(C.Label.EMAIL, submitHandler);
     
     const { 
         
         binding: bindPassword,
         clearValue: clearPassword,
         value: password
-    } = useInputText(null, submitHandler);
+    } = useInputText(C.Label.PASSWORD, submitHandler);
 
     const { 
         
         binding: bindPasswordConfirm,
         clearValue: clearPasswordConfirm,
         value: passwordConfirm
-    } = useInputText(null, submitHandler);
+    } = useInputText(C.Label.PASSWORD_CONFIRM, submitHandler);
 
     /**
      * Reset success
@@ -174,7 +176,7 @@ const Reset = () => {
 
         return (
         
-            <div>
+            <div className={C.Style.RESET_CONFIRMATION}>
                 <p>{C.Label.EMAIL_SENT} <span>{usersReset.email}</span></p>
                 <p>{C.Label.EMAIL_REFER} {C.Label.EMAIL_RESET}</p>
             </div>
@@ -183,51 +185,39 @@ const Reset = () => {
 
     return (
 
-        <div>
-            {userDoesNotExist && <div>{userDoesNotExist}</div>}
-
-            <div>
-                {invalidEmail && <div>{invalidEmail}</div>}
-                <label>
-                    {C.Label.EMAIL}
-                    <input 
-                        type={C.HTMLElement.InputType.TEXT}
-                        name={C.ID.NAME_EMAIL}
-                        disabled={isLoading}
-                        {...bindEmail}
-                    />
-                </label>
+        <div className={C.Style.RESET}>
+            <div className={C.Style.RESET_EMAIL}>
+                <InputText 
+                    name={C.ID.NAME_EMAIL}
+                    disabled={isLoading}
+                    errorMessage={invalidEmail || userDoesNotExist}
+                    {...bindEmail}
+                />
             </div>
 
-            <div>
-                {invalidPassword && <div>{invalidPassword}</div>}
-                <label>
-                    {C.Label.PASSWORD}
-                    <InputPassword
-                        name={C.ID.NAME_PASSWORD}
-                        disabled={isLoading}
-                        {...bindPassword}
-                    />
-                </label>
+            <div className={C.Style.RESET_PASSWORD}>
+                <InputPassword
+                    name={C.ID.NAME_PASSWORD}
+                    disabled={isLoading}
+                    errorMessage={invalidPassword}
+                    {...bindPassword}
+                />
             </div>
 
-            <div>
-                {invalidPasswordConfirm && <div>{invalidPasswordConfirm}</div>}
-                <label>
-                    {C.Label.PASSWORD_CONFIRM}
-                    <InputPassword
-                        name={C.ID.NAME_PASSWORD_CONFIRM}
-                        disabled={isLoading}
-                        {...bindPasswordConfirm}
-                    />
-                </label>
+            <div className={C.Style.RESET_PASSWORD_CONFIRM}>
+                <InputPassword
+                    name={C.ID.NAME_PASSWORD_CONFIRM}
+                    disabled={isLoading}
+                    errorMessage={invalidPasswordConfirm}
+                    {...bindPasswordConfirm}
+                />
             </div>
             
             <button
                 onClick={submitHandler}
                 disabled={isLoading}
             >
-                {C.Label.RESET.toUpperCase()}
+                {`${C.Label.RESET} ${C.Label.PASSWORD}`}
             </button>
 
             {

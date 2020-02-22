@@ -193,7 +193,7 @@ const Login = () => {
                 onClick={submitHandler}
                 disabled={isLoading}
             >
-                {C.Label.LOGIN.toUpperCase()}
+                {C.Label.LOGIN}
             </button>
 
             {

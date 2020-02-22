@@ -4,7 +4,9 @@
  * @requires Collapsible
  * @requires constants
  * @requires Dialog
+ * @requires ErrorResponse
  * @requires InputPassword
+ * @requires InputText
  * @requires prop-types
  * @requires react
  * @requires useAuth
@@ -17,9 +19,11 @@
 import * as C from "../../../support/constants";
 import Collapsible from "../../Collapsible";
 import Dialog from "../../modal/Dialog";
+import ErrorResponse from "../../ErrorResponse";
 import InputPassword from "../../InputPassword";
+import InputText from "../../InputText";
 import PropTypes from "prop-types";
-import React, { useRef, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useInputText from "../../../hooks/useInputText";
 import useUsers from "../../../hooks/useUsers";
@@ -52,6 +56,7 @@ const Edit = ({ logout }) => {
      * 
      */
     const responseUpdate = useRef(false);
+    const awaitUsersSelfUpdate = useRef(false);
     const isEditable = useRef(false);
 
     /**
@@ -73,58 +78,69 @@ const Edit = ({ logout }) => {
         binding: bindName,
         clearValue: clearName,
         value: name
-    } = useInputText(null, confirmHandler);
+    } = useInputText(`${C.Label.NAME} ${C.Label.OPTIONAL}`, confirmHandler, usersSelf[C.Model.USER][C.Model.NAME]);
     
     const { 
         
         binding: bindPassword,
         clearValue: clearPassword,
         value: password
-    } = useInputText(null, confirmHandler);
+    } = useInputText(`${C.Label.PASSWORD} ${C.Label.OPTIONAL}`, confirmHandler);
 
     const { 
         
         binding: bindPasswordConfirm,
         clearValue: clearPasswordConfirm,
         value: passwordConfirm
-    } = useInputText(null, confirmHandler);
+    } = useInputText(`${C.Label.PASSWORD_CONFIRM} ${C.Label.OPTIONAL}`, confirmHandler);
 
     const {
         
         binding: bindAdminUsername,
-        clearValue: clearAdminName,
+        clearValue: clearAdminUsername,
         value: adminUsername
-    } = useInputText(null, confirmHandler);
+    } = useInputText(C.Label.ADMIN_USERNAME, confirmHandler);
 
     const {
         
         binding: bindAdminPassword,
         clearValue: clearAdminPassword,
         value: adminPassword
-    } = useInputText(null, confirmHandler);
-    
+    } = useInputText(C.Label.ADMIN_PASSWORD, confirmHandler);
+
     /**
      * Set isEditable flag
      * Determines if the present state of text field data is sufficient for submitting to the server.
      * 
      */
     isEditable.current = (
-        
-        name ||
-        (password && passwordConfirm) ||
+
+        (name && name !== usersSelf[C.Model.USER][C.Model.NAME]) ||
+        password ||
+        passwordConfirm ||
         adminUsername ||
         adminPassword
     );
 
     /**
-     * Synchronize cleared passwords
-     * Clears the passwordConfirm field when the password field has been cleared.
+     * @description The "usersSelf" prop is updated after a successful edit.
+     * An update to the "usersSelf" prop occurs after a new authentication token has been successfully set in Local Storage.  
+     * Therefore, to avoid authentication errors while mounting other components, the user may only regain control of the UI when the modal Dialog component is unmounted.
+     * 
+     * @private
+     * @function
      * 
      */
-    if (!password && passwordConfirm) {
-        
-        clearPasswordConfirm();
-    }
+    useEffect(() => {
+
+        if (awaitUsersSelfUpdate.current) {
+
+            awaitUsersSelfUpdate.current = false;
+
+            setIsLoading(false);
+            setShowDialog(false);
+        }
+    }, [usersSelf]);
 
     /**
      * Edit success
@@ -134,12 +150,8 @@ const Edit = ({ logout }) => {
     if (usersEdit && responseUpdate.current) {
 
         responseUpdate.current = false;
-
-        clearName();
-        clearPassword();
-        clearPasswordConfirm();
-        clearAdminName();
-        clearAdminPassword();
+        
+        resetHandler(false);
     }
 
     /**
@@ -150,6 +162,10 @@ const Edit = ({ logout }) => {
     if (authError && responseUpdate.current) {
 
         responseUpdate.current = false;
+        awaitUsersSelfUpdate.current = false;
+
+        setIsLoading(false);
+        setShowDialog(false);
 
         if (Array.isArray(authError.error)) {
             
@@ -182,6 +198,8 @@ const Edit = ({ logout }) => {
                         throw new Error(error[C.ID.ERROR_MESSAGE]);
                 }
             });
+
+            setAuthError(null);
         }
         else {
 
@@ -203,8 +221,6 @@ const Edit = ({ logout }) => {
 
         if (isEditable.current) {
 
-            setShowDialog(false);
-
             setAuthError(null);
             setUsersEdit(null);
 
@@ -216,6 +232,8 @@ const Edit = ({ logout }) => {
             setIsLoading(true);
 
             responseUpdate.current = true;
+            awaitUsersSelfUpdate.current = true;
+
             await fetchEdit(
                 
                 name,
@@ -224,10 +242,31 @@ const Edit = ({ logout }) => {
                 adminUsername,
                 adminPassword
             );
-
-            setIsLoading(false);
         }
     };
+
+    /**
+     * @description Resets the "name", "password", "passwordConfirm", "adminUsername" and "adminPassword" text fields back to their default values.
+     * This function is called either after clicking the "Reset" button or after data as been posted to the server.
+     * Written as a function declaration in order to be hoisted and accessible to the code above.
+     * 
+     * @param {object|null} event - The event object. 
+     * @private
+     * @function
+     * 
+     */
+    function resetHandler(event = null) {
+
+        if (event) {
+            
+            clearName();
+        }
+
+        clearPassword();
+        clearPasswordConfirm();
+        clearAdminUsername();
+        clearAdminPassword();
+    }
 
     /**
      * @description Displays the confirmation dialog.
@@ -251,97 +290,90 @@ const Edit = ({ logout }) => {
      */
     return (
 
-        <div>
+        <>
             {showDialog &&
                 <Dialog 
                     message={C.Label.CONFIRM_EDIT}
                     okCallback={submitHandler}
                     cancelCallback={() => setShowDialog(false)}
+                    preloader={true}
                 />
             }
 
-            <div>
-                {invalidName && <div>{invalidName}</div>}
-                <label>
-                    {C.Label.NAME}
-                    <input 
-                        type={C.HTMLElement.InputType.TEXT}
+            <div className={C.Style.EDIT}>
+                <div className={C.Style.EDIT_NAME}>
+                    <InputText
                         name={C.ID.NAME_NAME}
                         disabled={isLoading}
+                        errorMessage={invalidName}
                         {...bindName}
                     />
-                </label>
-            </div>
+                </div>
 
-            <div>
-                {invalidPassword && <div>{invalidPassword}</div>}
-                <label>
-                    {C.Label.PASSWORD}
+                <div className={C.Style.EDIT_PASSWORD}>
                     <InputPassword
                         name={C.ID.NAME_PASSWORD}
                         disabled={isLoading}
+                        errorMessage={invalidPassword}
                         {...bindPassword}
                     />
-                </label>
-            </div>
-
-            {password && 
-                <div>
-                    {invalidPasswordConfirm && <div>{invalidPasswordConfirm}</div>}
-                    <label>
-                        {C.Label.PASSWORD_CONFIRM}
-                        <InputPassword
-                            name={C.ID.NAME_PASSWORD_CONFIRM}
-                            disabled={isLoading}
-                            {...bindPasswordConfirm}
-                        />
-                    </label>
                 </div>
-            }
 
-            {!usersSelf.user.admin &&
-                <Collapsible
-                    title={C.Label.ADMIN_CREDENTIALS}
-                    headerStyle={C.Style.COLLAPSIBLE_HEADER_SECTION}
+                <div className={C.Style.EDIT_PASSWORD_CONFIRM}>
+                    <InputPassword
+                        name={C.ID.NAME_PASSWORD_CONFIRM}
+                        disabled={isLoading}
+                        errorMessage={invalidPasswordConfirm}
+                        {...bindPasswordConfirm}
+                    />
+                </div>
+
+                {!usersSelf[C.Model.USER][C.Model.ADMIN] &&
+                    <div className={C.Style.EDIT_ADMIN}>
+                        {invalidAdminCredentials &&
+                            <div className={C.Style.EDIT_ADMIN_ERROR}>
+                                <ErrorResponse message={invalidAdminCredentials} />
+                            </div>
+                        }
+
+                        <Collapsible
+                            title={`${C.Label.ADMIN_CREDENTIALS} ${C.Label.OPTIONAL}`}
+                            headerStyle={C.Style.COLLAPSIBLE_HEADER_SECTION}
+                        >
+                            <div className={C.Style.EDIT_ADMIN_USERNAME}>
+                                <InputText
+                                    name={C.ID.NAME_ADMIN_USERNAME}
+                                    disabled={isLoading}
+                                    {...bindAdminUsername}
+                                />
+                            </div>
+
+                            <div className={C.Style.EDIT_ADMIN_PASSWORD}>
+                                <InputPassword
+                                    name={C.ID.NAME_ADMIN_PASSWORD}
+                                    disabled={isLoading}
+                                    {...bindAdminPassword}
+                                />
+                            </div>
+                        </Collapsible>
+                    </div>
+                }
+                
+                <button
+                    onClick={confirmHandler}
+                    disabled={isLoading || !isEditable.current}
                 >
-                    {invalidAdminCredentials && <div>{invalidAdminCredentials}</div>}
-                    <div>
-                        <label>
-                            {C.Label.ADMIN_USERNAME}
-                            <input
-                                type={C.HTMLElement.InputType.TEXT}
-                                name={C.ID.NAME_ADMIN_USERNAME}
-                                disabled={isLoading}
-                                {...bindAdminUsername}
-                            />
-                        </label>
-                    </div>
+                    {C.Label.EDIT}
+                </button>
 
-                    <div>
-                        <label>
-                            {C.Label.ADMIN_PASSWORD}
-                            <InputPassword
-                                name={C.ID.NAME_ADMIN_PASSWORD}
-                                disabled={isLoading}
-                                {...bindAdminPassword}
-                            />
-                        </label>
-                    </div>
-                </Collapsible>
-            }
-            
-            <button
-                onClick={confirmHandler}
-                disabled={isLoading || !isEditable.current}
-            >
-                {C.Label.EDIT.toUpperCase()}
-            </button>
-
-            {
-                //TODO: Replace with style animation
-                isLoading && <div>LOADING...</div>
-            }
-        </div>
+                <button
+                    onClick={resetHandler}
+                    disabled={isLoading || !isEditable.current}
+                >
+                    {C.Label.RESET}
+                </button>
+            </div>
+        </>
     );
 };
 

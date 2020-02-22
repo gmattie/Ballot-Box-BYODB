@@ -1,0 +1,39 @@
+.edit {
+
+    display: flex;
+    flex-direction: column;
+
+    &-name,
+    &-password,
+    &-passwordConfirm {
+
+        margin-top: $FORM_GAP;
+    }
+
+    &-admin {
+
+        display: inherit;
+        flex-direction: inherit;
+        margin-top: $FORM_GAP;
+
+        &-error {
+
+            align-self: flex-end;
+            position: relative;
+        }
+
+        &-password {
+
+            margin-top: $FORM_GAP;
+        }
+    }
+
+    button {
+        
+        margin-top: $FORM_GAP;
+        width: 100px;
+        text-transform: uppercase;
+        align-self: flex-end;
+        border: 1px solid cyan;
+    }
+}

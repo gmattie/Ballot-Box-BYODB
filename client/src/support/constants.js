@@ -414,7 +414,7 @@ const Label = Object.freeze({
     ERROR: "Error",
     EMAIL_REFER: "Please refer to the email in order to",
     EMAIL_REGISTRATION: "complete your registration and activate your account.",
-    EMAIL_RESET: "confirm the request to reset your password.",
+    EMAIL_RESET: "confirm the request to reset your account password.",
     EMAIL_SENT: "An email has been sent to:",
     EMAIL: "Email",
     HIDE: "Hide",
@@ -476,6 +476,7 @@ const Local = Object.freeze({
  * 
  * <ul>
  *     <li> ACTIVE </li>
+ *     <li> ADMIN </li>
  *     <li> ANONYMOUS </li>
  *     <li> AGGREGATE </li>
  *     <li> CAST </li>
@@ -502,6 +503,7 @@ const Local = Object.freeze({
 const Model = Object.freeze({
 
     ACTIVE: "active",
+    ADMIN: "admin",
     ANONYMOUS: "anonymous",
     AGGREGATE: "aggregate",
     CAST: "cast",
@@ -610,7 +612,15 @@ const Route = Object.freeze({
  *     <li> DIALOG </li>
  *     <li> DIALOG_BUTTONS_CONTAINER </li>
  *     <li> DIALOG_MESSAGE_CONTAINER </li>
+ *     <li> EDIT </li>
+ *     <li> EDIT_ADMIN </li>
+ *     <li> EDIT_ADMIN_ERROR </li>
+ *     <li> EDIT_ADMIN_PASSWORD </li>
+ *     <li> EDIT_ADMIN_USERNAME </li>
  *     <li> EDIT_ITEMS_CONTAINER </li>
+ *     <li> EDIT_NAME </li>
+ *     <li> EDIT_PASSWORD </li>
+ *     <li> EDIT_PASSWORD_CONFIRM </li>
  *     <li> ERROR_RESPONSE </li>
  *     <li> ERROR_RESPONSE_ICON </li>
  *     <li> ERROR_RESPONSE_TEXT </li>
@@ -652,11 +662,25 @@ const Route = Object.freeze({
  *     <li> PROTECTED_CONTAINER_USER_INFO </li>
  *     <li> PROTECTED_CONTAINER_WEBSOCKET_MESSAGE </li>
  *     <li> PUBLIC_CONTAINER </li>
- *     <li> PUBLIC_CONTAINER_ICON </li>
  *     <li> PUBLIC_CONTAINER_CONTENT </li>
  *     <li> PUBLIC_CONTAINER_CONTENT_NAV </li>
  *     <li> PUBLIC_CONTAINER_CONTENT_NAV_BUTTON </li>
  *     <li> PUBLIC_CONTAINER_CONTENT_NAV_BUTTON_SELECTED </li>
+ *     <li> PUBLIC_CONTAINER_ICON </li>
+ *     <li> REGISTER </li>
+ *     <li> REGISTER_ADMIN </li>
+ *     <li> REGISTER_ADMIN_ERROR </li>
+ *     <li> REGISTER_ADMIN_PASSWORD </li>
+ *     <li> REGISTER_ADMIN_USERNAME </li>
+ *     <li> REGISTER_EMAIL </li>
+ *     <li> REGISTER_NAME </li>
+ *     <li> REGISTER_PASSWORD </li>
+ *     <li> REGISTER_PASSWORD_CONFIRM </li>
+ *     <li> RESET </li>
+ *     <li> RESET_CONFIRMATION </li>
+ *     <li> RESET_EMAIL </li>
+ *     <li> RESET_PASSWORD </li>
+ *     <li> RESET_PASSWORD_CONFIRM </li>
  *     <li> TABLE_ITEM_ROW </li>
  *     <li> TABLE_ITEM_ROW_HEADER </li>
  *     <li> TABLE_ITEM_ROW_HEADER_ITEM </li>
@@ -701,7 +725,15 @@ const Style = Object.freeze({
     DIALOG_BUTTONS_CONTAINER: "dialog-buttonsContainer",
     DIALOG_MESSAGE_CONTAINER: "dialog-messageContainer",
     DIALOG: "dialog",
+    EDIT_ADMIN_ERROR: "edit-admin-error",
+    EDIT_ADMIN_PASSWORD: "edit-admin-password",
+    EDIT_ADMIN_USERNAME: "edit-admin-username",
+    EDIT_ADMIN: "edit-admin",
     EDIT_ITEMS_CONTAINER: "editItemsContainer",
+    EDIT_NAME: "edit-name",
+    EDIT_PASSWORD_CONFIRM: "edit-passwordConfirm",
+    EDIT_PASSWORD: "edit-password",
+    EDIT: "edit",
     ERROR_RESPONSE_ICON: "errorResponse-icon",
     ERROR_RESPONSE_TEXT: "errorResponse-text",
     ERROR_RESPONSE: "errorResponse",
@@ -749,6 +781,20 @@ const Style = Object.freeze({
     PUBLIC_CONTAINER_CONTENT: "publicContainer-content",
     PUBLIC_CONTAINER_ICON: "publicContainer-icon",
     PUBLIC_CONTAINER: "publicContainer",
+    REGISTER_ADMIN_ERROR: "register-admin-error",
+    REGISTER_ADMIN_PASSWORD: "register-admin-password",
+    REGISTER_ADMIN_USERNAME: "register-admin-username",
+    REGISTER_ADMIN: "register-admin",
+    REGISTER_EMAIL: "register-email",
+    REGISTER_NAME: "register-name",
+    REGISTER_PASSWORD_CONFIRM: "register-passwordConfirm",
+    REGISTER_PASSWORD: "register-password",
+    REGISTER: "register",
+    RESET_CONFIRMATION: "reset-confirmation",
+    RESET_EMAIL: "reset-email",
+    RESET_PASSWORD_CONFIRM: "reset-passwordConfirm",
+    RESET_PASSWORD: "reset-password",
+    RESET: "reset",
     TABLE_ITEM_ROW_HEADER_ITEM: "tableItemRow-header-item",
     TABLE_ITEM_ROW_HEADER_SCORE: "tableItemRow-header-score",
     TABLE_ITEM_ROW_HEADER: "tableItemRow-header",
