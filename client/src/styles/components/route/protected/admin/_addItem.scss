@@ -1,27 +1,12 @@
-.managePolls {
+.addItem {
 
     display: flex;
     flex-direction: column;
-
-    &-quantity {
-
-        margin-top: $FORM_GAP;
-    }
-
-    &-results {
+    
+    &-thumbnail,
+    &-image {
 
         margin-top: $FORM_GAP;
-        padding: $FORM_GAP;
-
-        input {
-
-            margin-right: $FORM_GAP;
-        }
-        
-        &-anonymous {
-
-            margin-top: $FORM_GAP;
-        }
     }
 
     button {

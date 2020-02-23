@@ -4,6 +4,7 @@
  * @requires Collapsible
  * @requires constants
  * @requires Dialog
+ * @requires InputText
  * @requires prop-types
  * @requires react
  * @requires useAuth
@@ -16,6 +17,7 @@
 import * as C from "../../../../support/constants";
 import Collapsible from "../../../Collapsible";
 import Dialog from "../../../modal/Dialog";
+import InputText from "../../../InputText";
 import PropTypes from "prop-types";
 import React, { useRef, useState } from "react";
 import useAuth from "../../../../hooks/useAuth";
@@ -38,9 +40,9 @@ const AddItem = ({ logout }) => {
      * State
      * 
      */
-    const [ invalidName, setInvalidName ] = useState(false);
-    const [ invalidThumbnail, setInvalidThumbnail ] = useState(false);
-    const [ invalidImage, setInvalidImage ] = useState(false);
+    const [ invalidName, setInvalidName ] = useState(null);
+    const [ invalidThumbnail, setInvalidThumbnail ] = useState(null);
+    const [ invalidImage, setInvalidImage ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(false);
     const [ showDialog, setShowDialog ] = useState(false);
 
@@ -69,21 +71,21 @@ const AddItem = ({ logout }) => {
         binding: bindName,
         clearValue: clearName,
         value: name
-    } = useInputText();
+    } = useInputText(C.Label.NAME, confirmHandler);
 
     const {
 
         binding: bindThumbnail,
         clearValue: clearThumbnail,
         value: thumbnail
-    } = useInputText();
+    } = useInputText(C.Label.THUMBNAIL, confirmHandler);
 
     const {
 
         binding: bindImage,
         clearValue: clearImage,
         value: image
-    } = useInputText();
+    } = useInputText(C.Label.IMAGE, confirmHandler);
 
     /**
      * Set isSubmittable flag
@@ -140,6 +142,8 @@ const AddItem = ({ logout }) => {
                         throw new Error(error[C.ID.ERROR_MESSAGE]);
                 }
             });
+
+            setAuthError(null);
         }
         else {
 
@@ -151,6 +155,22 @@ const AddItem = ({ logout }) => {
 
                 setTimeout(() => logout());
             }
+        }
+    }
+
+    /**
+     * @description Displays the confirmation dialog.
+     * Written as a function declaration in order to be hoisted and accessible to the custom hooks above.
+     * 
+     * @function
+     * @private
+     * 
+     */
+    function confirmHandler() {
+
+        if (isSubmittable.current) {
+
+            setShowDialog(true);
         }
     }
 
@@ -201,58 +221,46 @@ const AddItem = ({ logout }) => {
                 title={C.Label.ADD_ITEM}
                 headerStyle={C.Style.COLLAPSIBLE_HEADER_SECTION}
             >
-                <>
-                    <div>
-                        {invalidName && <div>{invalidName}</div>}
-                        <label>
-                            {C.Label.NAME}
-                            <input 
-                                type={C.HTMLElement.InputType.TEXT}
-                                name={C.ID.NAME_NAME}
-                                disabled={isLoading}
-                                {...bindName}
-                            />
-                        </label>
+                <div className={C.Style.ADD_ITEM}>
+                    <div className={C.Style.ADD_ITEM_NAME}>
+                        <InputText
+                            name={C.ID.NAME_NAME}
+                            disabled={isLoading}
+                            errorMessage={invalidName}
+                            {...bindName}
+                        />
                     </div>
 
-                    <div>
-                        {invalidThumbnail && <div>{invalidThumbnail}</div>}
-                        <label>
-                            {C.Label.THUMBNAIL}
-                            <input 
-                                type={C.HTMLElement.InputType.TEXT}
-                                name={C.ID.NAME_THUMBNAIL}
-                                disabled={isLoading}
-                                {...bindThumbnail}
-                            />
-                        </label>
+                    <div className={C.Style.ADD_ITEM_THUMBNAIL}>
+                        <InputText
+                            name={C.ID.NAME_THUMBNAIL}
+                            disabled={isLoading}
+                            errorMessage={invalidThumbnail} 
+                            {...bindThumbnail}
+                        />
                     </div>
 
-                    <div>
-                        {invalidImage && <div>{invalidImage}</div>}
-                        <label>
-                            {C.Label.IMAGE}
-                            <input 
-                                type={C.HTMLElement.InputType.TEXT}
-                                name={C.ID.NAME_IMAGE}
-                                disabled={isLoading}
-                                {...bindImage}
-                            />
-                        </label>
+                    <div className={C.Style.ADD_ITEM_IMAGE}>
+                        <InputText
+                            name={C.ID.NAME_IMAGE}
+                            disabled={isLoading}
+                            errorMessage={invalidImage}
+                            {...bindImage}
+                        />
                     </div>
 
                     <button
-                        onClick={() => setShowDialog(true)}
+                        onClick={confirmHandler}
                         disabled={isLoading || !isSubmittable.current}
                     >
-                        {C.Label.ADD.toUpperCase()}
+                        {C.Label.ADD}
                     </button>
-                </>
 
-                {
-                    //TODO: Replace with style animation
-                    isLoading && <div>LOADING...</div>
-                }
+                    {
+                        //TODO: Replace with style animation
+                        isLoading && <div>LOADING...</div>
+                    }
+                </div>
             </Collapsible>
         </>
     );

@@ -40,7 +40,9 @@
 @import "./components/route/public/register";
 @import "./components/route/public/reset";
 
+@import "./components/route/protected/admin/edit/editItem";
 @import "./components/route/protected/admin/edit/editItemsContainer";
+@import "./components/route/protected/admin/addItem";
 @import "./components/route/protected/admin/managePolls";
 @import "./components/route/protected/edit";
 @import "./components/route/protected/protectedContainer";

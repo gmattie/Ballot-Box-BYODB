@@ -4,6 +4,7 @@
  * @requires Collapsible
  * @requires constants
  * @requires Dialog
+ * @requires InputText
  * @requires prop-types
  * @requires react
  * @requires useAuth
@@ -16,6 +17,7 @@
 import * as C from "../../../../../support/constants";
 import Collapsible from "../../../../Collapsible";
 import Dialog from "../../../../modal/Dialog";
+import InputText from "../../../../InputText";
 import PropTypes from "prop-types";
 import React, { useRef, useState } from "react";
 import useAuth from "../../../../../hooks/useAuth";
@@ -46,9 +48,9 @@ const EditItem = ({
      * State
      * 
      */
-    const [ invalidName, setInvalidName ] = useState(false);
-    const [ invalidThumbnail, setInvalidThumbnail ] = useState(false);
-    const [ invalidImage, setInvalidImage ] = useState(false);
+    const [ invalidName, setInvalidName ] = useState(null);
+    const [ invalidThumbnail, setInvalidThumbnail ] = useState(null);
+    const [ invalidImage, setInvalidImage ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(false);
     const [ showDialog, setShowDialog ] = useState(false);
 
@@ -77,21 +79,21 @@ const EditItem = ({
         binding: bindName,
         clearValue: clearName,
         value: name
-    } = useInputText(null, confirmHandler, itemName);
+    } = useInputText(C.Label.NAME, confirmHandler, itemName);
 
     const {
 
         binding: bindThumbnail,
         clearValue: clearThumbnail,
         value: thumbnail
-    } = useInputText(null, confirmHandler, itemThumbnail);
+    } = useInputText(C.Label.THUMBNAIL, confirmHandler, itemThumbnail);
 
     const {
 
         binding: bindImage,
         clearValue: clearImage,
         value: image
-    } = useInputText(null, confirmHandler, itemImage);
+    } = useInputText(C.Label.IMAGE, confirmHandler, itemImage);
 
     /**
      * Set isEditable flag
@@ -149,6 +151,8 @@ const EditItem = ({
                         throw new Error(error[C.ID.ERROR_MESSAGE]);
                 }
             });
+
+            setAuthError(null);
         }
         else {
 
@@ -249,65 +253,53 @@ const EditItem = ({
                 title={itemName}
                 headerStyle={C.Style.COLLAPSIBLE_HEADER_LIST_ITEM}
             >
-                <>
-                    <div>
-                        {invalidName && <div>{invalidName}</div>}
-                        <label>
-                            {C.Label.NAME}
-                            <input 
-                                type={C.HTMLElement.InputType.TEXT}
-                                name={C.ID.NAME_NAME}
-                                disabled={isLoading}
-                                {...bindName}
-                            />
-                        </label>
+                <div className={C.Style.EDIT_ITEM}>
+                    <div className={C.Style.EDIT_ITEM_NAME}>
+                        <InputText
+                            name={C.ID.NAME_NAME}
+                            disabled={isLoading}
+                            errorMessage={invalidName}
+                            {...bindName}
+                        />
                     </div>
 
-                    <div>
-                        {invalidThumbnail && <div>{invalidThumbnail}</div>}
-                        <label>
-                            {C.Label.THUMBNAIL}
-                            <input 
-                                type={C.HTMLElement.InputType.TEXT}
-                                name={C.ID.NAME_THUMBNAIL}
-                                disabled={isLoading}
-                                {...bindThumbnail}
-                            />
-                        </label>
+                    <div className={C.Style.EDIT_ITEM_THUMBNAIL}>
+                        <InputText
+                            name={C.ID.NAME_THUMBNAIL}
+                            disabled={isLoading}
+                            errorMessage={invalidThumbnail}
+                            {...bindThumbnail}
+                        />
                     </div>
 
-                    <div>
-                        {invalidImage && <div>{invalidImage}</div>}
-                        <label>
-                            {C.Label.IMAGE}
-                            <input 
-                                type={C.HTMLElement.InputType.TEXT}
-                                name={C.ID.NAME_IMAGE}
-                                disabled={isLoading}
-                                {...bindImage}
-                            />
-                        </label>
+                    <div className={C.Style.EDIT_ITEM_IMAGE}>
+                        <InputText
+                            name={C.ID.NAME_IMAGE}
+                            disabled={isLoading}
+                            errorMessage={invalidImage}
+                            {...bindImage}
+                        />
                     </div>
 
                     <button
                         onClick={confirmHandler}
                         disabled={isLoading || !isEditable.current}
                     >
-                        {C.Label.EDIT.toUpperCase()}
+                        {C.Label.EDIT}
                     </button>
 
                     <button
                         onClick={resetHandler}
                         disabled={isLoading || !isEditable.current}
                     >
-                        {C.Label.RESET.toUpperCase()}
+                        {C.Label.RESET}
                     </button>
 
                     {
                         //TODO: Replace with style animation
                         isLoading && <div>LOADING...</div>
                     }
-                </>
+                </div>
             </Collapsible>
         </>
     );

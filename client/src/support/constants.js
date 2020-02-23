@@ -601,6 +601,10 @@ const Route = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> ADD_ITEM </li>
+ *     <li> ADD_ITEM_IMAGE </li>
+ *     <li> ADD_ITEM_NAME </li>
+ *     <li> ADD_ITEM_THUMBNAIL </li>
  *     <li> COLLAPSIBLE </li>
  *     <li> COLLAPSIBLE_CONTENT </li>
  *     <li> COLLAPSIBLE_CONTENT_HIDE </li>
@@ -617,6 +621,10 @@ const Route = Object.freeze({
  *     <li> EDIT_ADMIN_ERROR </li>
  *     <li> EDIT_ADMIN_PASSWORD </li>
  *     <li> EDIT_ADMIN_USERNAME </li>
+ *     <li> EDIT_ITEM </li>
+ *     <li> EDIT_ITEM_IMAGE </li>
+ *     <li> EDIT_ITEM_NAME </li>
+ *     <li> EDIT_ITEM_THUMBNAIL </li>
  *     <li> EDIT_ITEMS_CONTAINER </li>
  *     <li> EDIT_NAME </li>
  *     <li> EDIT_PASSWORD </li>
@@ -655,6 +663,12 @@ const Route = Object.freeze({
  *     <li> LOGIN_ERROR </li>
  *     <li> LOGIN_PASSWORD </li>
  *     <li> MANAGE_POLLS </li>
+ *     <li> MANAGE_POLLS_DEADLINE </li>
+ *     <li> MANAGE_POLLS_QUANTITY </li>
+ *     <li> MANAGE_POLLS_RESULTS </li>
+ *     <li> MANAGE_POLLS_RESULTS_ANONYMOUS </li>
+ *     <li> MANAGE_POLLS_RESULTS_LIVE </li>
+ *     <li> MANAGE_POLLS_RESULTS_PENDING </li>
  *     <li> PORTAL </li>
  *     <li> PROTECTED_CONTAINER </li>
  *     <li> PROTECTED_CONTAINER_NAV_BUTTON </li>
@@ -714,6 +728,10 @@ const Route = Object.freeze({
  */
 const Style = Object.freeze({
 
+    ADD_ITEM_IMAGE: "addItem-image",
+    ADD_ITEM_NAME: "addItem-name",
+    ADD_ITEM_THUMBNAIL: "addItem-thumbnail",
+    ADD_ITEM: "addItem",
     COLLAPSIBLE_CONTENT_HIDE: "collapsible-content-hide",
     COLLAPSIBLE_CONTENT_SHOW: "collapsible-content-show",
     COLLAPSIBLE_CONTENT: "collapsible-content",
@@ -729,6 +747,10 @@ const Style = Object.freeze({
     EDIT_ADMIN_PASSWORD: "edit-admin-password",
     EDIT_ADMIN_USERNAME: "edit-admin-username",
     EDIT_ADMIN: "edit-admin",
+    EDIT_ITEM_IMAGE: "editItem-image",
+    EDIT_ITEM_NAME: "editItem-name",
+    EDIT_ITEM_THUMBNAIL: "editItem-thumbnail",
+    EDIT_ITEM: "editItem",
     EDIT_ITEMS_CONTAINER: "editItemsContainer",
     EDIT_NAME: "edit-name",
     EDIT_PASSWORD_CONFIRM: "edit-passwordConfirm",
@@ -768,6 +790,12 @@ const Style = Object.freeze({
     LOGIN_PASSWORD: "login-password",
     LOGIN: "login",
     MANAGE_POLLS: "managePolls",
+    MANAGE_POLLS_DEADLINE: "managePolls-deadline",
+    MANAGE_POLLS_QUANTITY: "managePolls-quantity",
+    MANAGE_POLLS_RESULTS: "managePolls-results",
+    MANAGE_POLLS_RESULTS_PENDING: "managePolls-results-pending",
+    MANAGE_POLLS_RESULTS_LIVE: "managePolls-results-live",
+    MANAGE_POLLS_RESULTS_ANONYMOUS: "managePolls-results-anonymous",
     PORTAL: "portal",
     PROTECTED_CONTAINER_CONTENT: "protectedContainer-content",
     PROTECTED_CONTAINER_NAV_BUTTON_SELECTED: "protectedContainer-nav-button-selected",

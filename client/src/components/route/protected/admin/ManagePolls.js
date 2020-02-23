@@ -4,6 +4,7 @@
  * @requires Collapsible
  * @requires constants
  * @requires Dialog
+ * @requires InputText
  * @requires ms
  * @requires prop-types
  * @requires react
@@ -17,6 +18,7 @@
 import * as C from "../../../../support/constants";
 import Collapsible from "../../../Collapsible";
 import Dialog from "../../../modal/Dialog";
+import InputText from "../../../InputText";
 import ms from "ms";
 import PropTypes from "prop-types";
 import React, { useRef, useState } from "react";
@@ -41,8 +43,8 @@ const ManagePolls = ({ logout }) => {
      * State
      * 
      */
-    const [ invalidDeadline, setInvalidDeadline ] = useState(false);
-    const [ invalidQuantity, setInvalidQuantity ] = useState(false);
+    const [ invalidDeadline, setInvalidDeadline ] = useState(null);
+    const [ invalidQuantity, setInvalidQuantity ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(false);
     const [ isMounting, setIsMounting ] = useState(true);
     const [ showDialog, setShowDialog ] = useState(false);
@@ -77,14 +79,14 @@ const ManagePolls = ({ logout }) => {
         binding: bindDeadline,
         clearValue: clearDeadline,
         value: deadline
-    } = useInputText();
+    } = useInputText(C.Label.DEADLINE, confirmHandler);
 
     const {
 
         binding: bindQuantity,
         clearValue: clearQuantity,
         value: quantity
-    } = useInputText();
+    } = useInputText(C.Label.QUANTITY, confirmHandler);
 
     /**
      * Set isSubmittable flag
@@ -139,6 +141,8 @@ const ManagePolls = ({ logout }) => {
                         throw new Error(error[C.ID.ERROR_MESSAGE]);
                 }
             });
+
+            setAuthError(null);
         }
         else {
 
@@ -167,22 +171,26 @@ const ManagePolls = ({ logout }) => {
 
     /**
      * @description Displays the confirmation dialog.
-     * The ID of the event's target is assigned to the "submitTarget" reference that is used in the dialog's "submitHandler" callback.
+     * The event target's text content is assigned to the "submitTarget" reference that is used in the "submitHandler" callback.
+     * This function is also assigned to the "keyPressEnterCallback" from UseInputText hooks that do not supply an "event" argument.
+     * Written as a function declaration in order to be hoisted and accessible to the custom hooks above.
      * 
-     * @param {object} event - The event object. 
+     * @param {object|null} event - The event object. 
      * @function
      * @private
      * 
      */
-    const confirmHandler = (event) => {
+    function confirmHandler(event = null) {
 
         if (isSubmittable.current) {
 
-            submitTarget.current = event.target.id;
+            submitTarget.current = (event)
+                ? event.target.textContent
+                : C.Label.OPEN_POLLS;
 
             setShowDialog(true);
         }
-    };
+    }
 
     /**
      * @description Posts the request body to the server.
@@ -208,7 +216,14 @@ const ManagePolls = ({ logout }) => {
             setInvalidQuantity(null);
 
             responseUpdate.current = true;
-            await fetchOpen(ms(deadline), quantity, aggregate, anonymous);
+
+            await fetchOpen(
+                
+                ms(deadline),
+                quantity,
+                aggregate,
+                anonymous
+            );
         }
 
         if (submitTarget.current === C.Label.CLOSE_POOLS) {
@@ -225,7 +240,7 @@ const ManagePolls = ({ logout }) => {
      */
     return (
 
-        <div className={C.Style.MANAGE_POLLS}>
+        <>
             {showDialog &&
                 <Dialog 
                     message={
@@ -244,100 +259,98 @@ const ManagePolls = ({ logout }) => {
                 headerStyle={C.Style.COLLAPSIBLE_HEADER_SECTION}
                 eventHandler={collapsibleHandler}
             >
-                {!isMounting &&
-                    <>
-                        {!(votesActive && votesActive.vote) &&
-                            <>
-                                <div>
-                                    {invalidDeadline && <div>{invalidDeadline}</div>}
-                                    <label>
-                                        {C.Label.DEADLINE}
-                                        <input 
-                                            type={C.HTMLElement.InputType.TEXT}
+                <div className={C.Style.MANAGE_POLLS}>
+                    {!isMounting &&
+                        <>
+                            {!(votesActive && votesActive.vote) &&
+                                <>
+                                    <div className={C.Style.MANAGE_POLLS_DEADLINE}>
+                                        <InputText
                                             name={C.ID.NAME_DEADLINE}
                                             disabled={isLoading}
+                                            errorMessage={invalidDeadline}
                                             {...bindDeadline}
                                         />
-                                    </label>
-                                </div>
+                                    </div>
 
-                                <div>
-                                    {invalidQuantity && <div>{invalidQuantity}</div>}
-                                    <label>
-                                        {C.Label.QUANTITY}
-                                        <input 
-                                            type={C.HTMLElement.InputType.TEXT}
+                                    <div className={C.Style.MANAGE_POLLS_QUANTITY}>
+                                        <InputText
                                             name={C.ID.NAME_QUANTITY}
                                             disabled={isLoading}
+                                            errorMessage={invalidQuantity}
                                             {...bindQuantity}
                                         />
-                                    </label>
-                                </div>
+                                    </div>
 
-                                <fieldset>
-                                    <legend>
-                                        {C.Label.RESULTS}
-                                    </legend>
+                                    <fieldset className={C.Style.MANAGE_POLLS_RESULTS}>
+                                        <legend>
+                                            {C.Label.RESULTS}
+                                        </legend>
 
-                                    <label>
-                                        <input
-                                            type={C.HTMLElement.InputType.RADIO}
-                                            name={C.ID.NAME_RESULTS}
-                                            checked={!aggregate}
-                                            onChange={() => setAggregate(false)}
-                                        />
-                                        {C.Label.PENDING}
-                                    </label>
+                                        <div className={C.Style.MANAGE_POLLS_RESULTS_PENDING}>
+                                            <label>
+                                                <input
+                                                    type={C.HTMLElement.InputType.RADIO}
+                                                    name={C.ID.NAME_RESULTS}
+                                                    checked={!aggregate}
+                                                    onChange={() => setAggregate(false)}
+                                                />
+                                                {C.Label.PENDING}
+                                            </label>
+                                        </div>
 
-                                    <label>
-                                        <input
-                                            type={C.HTMLElement.InputType.RADIO}
-                                            name={C.ID.NAME_RESULTS}
-                                            checked={aggregate}
-                                            onChange={() => setAggregate(true)}
-                                        />
-                                        {C.Label.LIVE}
-                                    </label>
+                                        <div className={C.Style.MANAGE_POLLS_RESULTS_LIVE}>
+                                            <label>
+                                                <input
+                                                    type={C.HTMLElement.InputType.RADIO}
+                                                    name={C.ID.NAME_RESULTS}
+                                                    checked={aggregate}
+                                                    onChange={() => setAggregate(true)}
+                                                />
+                                                {C.Label.LIVE}
+                                            </label>
+                                        </div>
 
-                                    <label>
-                                        <input
-                                            type={C.HTMLElement.InputType.CHECKBOX}
-                                            name={C.ID.NAME_ANONYMOUS}
-                                            checked={anonymous}
-                                            onChange={() => setAnonymous(!anonymous)}
-                                        />
-                                        {C.Label.ANONYMOUS}
-                                    </label>
-                                </fieldset>
+                                        <div className={C.Style.MANAGE_POLLS_RESULTS_ANONYMOUS}>
+                                            <label>
+                                                <input
+                                                    type={C.HTMLElement.InputType.CHECKBOX}
+                                                    name={C.ID.NAME_ANONYMOUS}
+                                                    checked={anonymous}
+                                                    onChange={() => setAnonymous(!anonymous)}
+                                                />
+                                                {C.Label.ANONYMOUS}
+                                            </label>
+                                        </div>
+                                    </fieldset>
 
+                                    <button
+                                        onClick={confirmHandler}
+                                        disabled={isLoading || !isSubmittable.current}
+                                    >
+                                        {C.Label.OPEN_POLLS}
+                                    </button>
+                                </>
+                            }
+
+                            {(votesActive && votesActive.vote) &&
                                 <button
-                                    id={C.Label.OPEN_POLLS}
                                     onClick={confirmHandler}
-                                    disabled={isLoading || !isSubmittable.current}
+                                    disabled={isLoading}
                                 >
-                                    {C.Label.OPEN_POLLS.toUpperCase()}
+                                    {C.Label.CLOSE_POOLS}
                                 </button>
-                            </>
-                        }
+                            }
+                        </>
+                    }
 
-                        {(votesActive && votesActive.vote) &&
-                            <button
-                                id={C.Label.CLOSE_POOLS}
-                                onClick={confirmHandler}
-                                disabled={isLoading}
-                            >
-                                {C.Label.CLOSE_POOLS.toUpperCase()}
-                            </button>
-                        }
-                    </>
-                }
-
-                {
-                    //TODO: Replace with style animation
-                    (isMounting || isLoading) && <div>LOADING...</div>
-                }
+                    {
+                        //TODO: Replace with style animation
+                        (isMounting || isLoading) && <div>LOADING...</div>
+                    }
+                </div>
             </Collapsible>
-        </div>
+        </>
     );
 };
 
