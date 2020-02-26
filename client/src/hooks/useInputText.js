@@ -3,11 +3,13 @@
  * 
  * @requires constants
  * @requires react
+ * @requires utilities
  * @public
  * @module
  * 
  */
-import { useState } from "react";
+import { setNativeValue } from "../support/utilities";
+import { useRef, useState } from "react";
 import * as C from "../support/constants";
 
 /**
@@ -46,6 +48,12 @@ const useInputText = (
     const [ value, setValue ] = useState(defaultValue || "");
 
     /**
+     * Refs
+     * 
+     */
+    const inputElement = useRef(null);
+
+    /**
      * @description Called when the value of the text input element is changed.
      * 
      * @param {object} event - The event object
@@ -54,6 +62,11 @@ const useInputText = (
      *  
      */
     const onChangeHandler = (event) => {
+
+        if (!inputElement.current) {
+
+            inputElement.current = event.target;
+        }
 
         setValue(event.target.value);
     };
@@ -67,7 +80,14 @@ const useInputText = (
      */
     const clearValue = () => {
 
-        setValue(defaultValue || "");
+        const value = defaultValue || "";
+
+        setValue(value);
+
+        if (inputElement.current) {
+
+            setNativeValue(inputElement.current, value);
+        }
     };
 
     /**

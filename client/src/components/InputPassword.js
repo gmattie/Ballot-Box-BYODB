@@ -6,6 +6,7 @@
  * @requires EyeSlash.svg
  * @requires InputText
  * @requires react
+ * @requires prop-types
  * @public
  * @module
  * 
@@ -15,6 +16,7 @@ import Eye from "../assets/Eye.svg";
 import EyeSlash from "../assets/EyeSlash.svg";
 import InputText from "./InputText";
 import React, { memo, useState } from "react";
+import PropTypes from "prop-types";
 
 /**
  * @description The InputPassword component extends the functionality of InputText component with an additional button for toggling between plain and obscured text.
@@ -26,7 +28,15 @@ import React, { memo, useState } from "react";
  * @function
  * 
  */
-const InputPassword = (props) => {
+const InputPassword = ({
+    
+        placeholder,
+        errorMessage,
+        value,
+        disabled,
+        onChange,
+        onKeyPress,
+    }) => {
 
     /**
      * State
@@ -52,6 +62,7 @@ const InputPassword = (props) => {
      * Preventing default behavior on the button ensures that it will not intercept focus from the input element.
      * 
      * @param {object} event - The event object.
+     * 
      */
     const buttonMouseDownHandler = (event) => {
 
@@ -69,22 +80,43 @@ const InputPassword = (props) => {
                 type={(isVisible)
                     ? C.HTMLElement.InputType.TEXT
                     : C.HTMLElement.InputType.PASSWORD}
-                {...props}
+                placeholder={placeholder}
+                errorMessage={errorMessage}
+                value={value}
+                disabled={disabled}
+                onChange={onChange}
+                onKeyPress={onKeyPress}
             />
 
-            <img
+            <input 
                 className={C.Style.INPUT_PASSWORD_BUTTON}
+                type={C.HTMLElement.InputType.IMAGE}
                 src={(isVisible)
                     ? Eye
                     : EyeSlash}
                 alt={(isVisible)
                     ? C.Label.HIDE
                     : C.Label.SHOW}
+                disabled={disabled}
                 onClick={toggleInputTypeHandler}
                 onMouseDown={buttonMouseDownHandler}
             />
         </div>
     );
+};
+
+/**
+ * Prop Types
+ * 
+ */
+InputPassword.propTypes = {
+
+    placeholder: PropTypes.string,
+    errorMessage: PropTypes.string,
+    value: PropTypes.string,
+    disabled: PropTypes.bool,
+    onChange: PropTypes.func,
+    onKeyPress: PropTypes.func,
 };
 
 /**

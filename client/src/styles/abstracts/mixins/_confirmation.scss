@@ -1,0 +1,17 @@
+@mixin confirmation {
+
+    color: gray;
+    text-align: center;
+
+    p {
+
+        margin-top: $FORM_GAP;
+    }
+
+    span {
+
+        display: inline-block;
+        color: white;
+        margin: 0 $FORM_GAP;
+    }
+}

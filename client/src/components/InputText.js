@@ -33,6 +33,7 @@ const InputText = ({
         placeholder,
         errorMessage,
         value,
+        disabled,
         onChange,
         onKeyPress,
     }) => {
@@ -104,6 +105,7 @@ const InputText = ({
                 }
                 type={type || C.HTMLElement.InputType.TEXT}
                 value={value}
+                disabled={disabled}
                 onChange={inputChangeHandler}
                 onKeyPress={onKeyPress}
                 onFocus={() => setIsFocused(true)}
@@ -149,6 +151,7 @@ InputText.propTypes = {
     placeholder: PropTypes.string,
     errorMessage: PropTypes.string,
     value: PropTypes.string,
+    disabled: PropTypes.bool,
     onChange: PropTypes.func,
     onKeyPress: PropTypes.func,
 };

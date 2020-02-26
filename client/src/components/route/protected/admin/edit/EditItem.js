@@ -97,7 +97,7 @@ const EditItem = ({
 
     /**
      * Set isEditable flag
-     * Determines if the present state of text field data is sufficient for submitting to the server.
+     * Determines if the present state of text data is sufficient for submitting to the server.
      * 
      */
     isEditable.current = (

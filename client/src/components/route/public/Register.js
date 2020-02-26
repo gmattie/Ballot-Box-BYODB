@@ -1,9 +1,8 @@
 /**
  * @description Register component
  * 
- * @requires Collapsible
+ * @requires AdminCredentials
  * @requires constants
- * @requires ErrorResponse
  * @requires InputPassword
  * @requires InputText
  * @requires react
@@ -15,8 +14,7 @@
  * 
  */
 import * as C from "../../../support/constants";
-import Collapsible from "../../Collapsible";
-import ErrorResponse from "../../ErrorResponse";
+import AdminCredentials from "../../AdminCredentials";
 import InputPassword from "../../InputPassword";
 import InputText from "../../InputText";
 import React, { useRef, useState } from "react";
@@ -52,6 +50,7 @@ const Register = () => {
      * 
      */
     const responseUpdate = useRef(false);
+    const isSubmittable = useRef(false);
 
     /**
      * Hooks
@@ -69,44 +68,51 @@ const Register = () => {
     const {
         
         binding: bindName,
-        clearValue: clearName,
         value: name
     } = useInputText(C.Label.NAME, submitHandler);
 
     const {
         
         binding: bindEmail,
-        clearValue: clearEmail,
         value: email
     } = useInputText(C.Label.EMAIL, submitHandler);
     
     const { 
         
         binding: bindPassword,
-        clearValue: clearPassword,
         value: password
     } = useInputText(C.Label.PASSWORD, submitHandler);
 
     const { 
         
         binding: bindPasswordConfirm,
-        clearValue: clearPasswordConfirm,
         value: passwordConfirm
     } = useInputText(C.Label.PASSWORD_CONFIRM, submitHandler);
 
     const {
         
         binding: bindAdminUsername,
-        clearValue: clearAdminName,
         value: adminUsername
     } = useInputText(C.Label.ADMIN_USERNAME, submitHandler);
 
     const {
         
         binding: bindAdminPassword,
-        clearValue: clearAdminPassword,
         value: adminPassword
     } = useInputText(C.Label.ADMIN_PASSWORD, submitHandler);
+
+    /**
+     * Set isSubmittable flag
+     * Determines if the present state of text data is sufficient for submitting to the server.
+     * 
+     */
+    isSubmittable.current = (
+
+        name && 
+        email &&
+        password &&
+        passwordConfirm
+    );
 
     /**
      * Register success
@@ -116,13 +122,6 @@ const Register = () => {
     if (usersRegister && responseUpdate.current) {
 
         responseUpdate.current = false;
-
-        clearName();
-        clearEmail();
-        clearPassword();
-        clearPasswordConfirm();
-        clearAdminName();
-        clearAdminPassword();
 
         setEmailSent(true);
     }
@@ -226,7 +225,7 @@ const Register = () => {
 
         return (
         
-            <div>
+            <div className={C.Style.REGISTER_CONFIRMATION}>
                 <p>{C.Label.EMAIL_SENT} <span>{usersRegister.email}</span></p>
                 <p>{C.Label.EMAIL_REFER} {C.Label.EMAIL_REGISTRATION}</p>
             </div>
@@ -273,37 +272,17 @@ const Register = () => {
             </div>
 
             <div className={C.Style.REGISTER_ADMIN}>
-                {invalidAdminCredentials &&
-                    <div className={C.Style.REGISTER_ADMIN_ERROR}>
-                        <ErrorResponse message={invalidAdminCredentials} />
-                    </div>
-                }
-
-                <Collapsible
-                    title={`${C.Label.ADMIN_CREDENTIALS} ${C.Label.OPTIONAL}`}
-                    headerStyle={C.Style.COLLAPSIBLE_HEADER_SECTION}
-                >
-                    <div className={C.Style.REGISTER_ADMIN_USERNAME}>
-                        <InputText
-                            name={C.ID.NAME_ADMIN_USERNAME}
-                            disabled={isLoading}
-                            {...bindAdminUsername}
-                        />
-                    </div>
-
-                    <div className={C.Style.REGISTER_ADMIN_PASSWORD}>
-                        <InputPassword
-                            name={C.ID.NAME_ADMIN_PASSWORD}
-                            disabled={isLoading}
-                            {...bindAdminPassword}
-                        />
-                    </div>
-                </Collapsible>
+                <AdminCredentials
+                    bindAdminUsername={bindAdminUsername}
+                    bindAdminPassword={bindAdminPassword}
+                    isLoading={isLoading}
+                    errorMessage={invalidAdminCredentials}
+                />
             </div>
             
             <button
                 onClick={submitHandler}
-                disabled={isLoading}
+                disabled={isLoading || !isSubmittable.current}
             >
                 {C.Label.REGISTER}
             </button>

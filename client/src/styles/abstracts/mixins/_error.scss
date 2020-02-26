@@ -1,0 +1,16 @@
+@mixin error-invalid-credentials {
+
+    position: relative;
+    top: calc(-1rem / 2);
+    align-self: flex-end;
+    pointer-events: none;
+    opacity: 0;
+    height: 0;
+    transition: all $DURATION_TRANSITION_INPUT ease-in-out;
+}
+
+@mixin error-invalid-credentials-show {
+
+    height: $ERROR_RESPONSE_HEIGHT;
+    opacity: 1;
+}

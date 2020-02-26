@@ -12,20 +12,7 @@
 
     &-admin {
 
-        display: inherit;
-        flex-direction: inherit;
         margin-top: $FORM_GAP;
-
-        &-error {
-
-            align-self: flex-end;
-            position: relative;
-        }
-
-        &-password {
-
-            margin-top: $FORM_GAP;
-        }
     }
 
     button {

@@ -207,6 +207,7 @@ const Global = Object.freeze({
  *     <li> DIV </li>
  *     <ul>
  *         <li> CHECKBOX </li> 
+ *         <li> IMAGE </li> 
  *         <li> PASSWORD </li> 
  *         <li> RADIO </li> 
  *         <li> TEXT </li> 
@@ -225,6 +226,7 @@ const HTMLElement = Object.freeze({
     InputType: {
         
         CHECKBOX: "checkbox",
+        IMAGE: "image",
         PASSWORD: "password",
         RADIO: "radio",
         TEXT: "text",
@@ -605,6 +607,11 @@ const Route = Object.freeze({
  *     <li> ADD_ITEM_IMAGE </li>
  *     <li> ADD_ITEM_NAME </li>
  *     <li> ADD_ITEM_THUMBNAIL </li>
+ *     <li> ADMIN_CREDENTIALS </li>
+ *     <li> ADMIN_CREDENTIALS_ERROR </li>
+ *     <li> ADMIN_CREDENTIALS_ERROR_SHOW </li>
+ *     <li> ADMIN_CREDENTIALS_PASSWORD </li>
+ *     <li> ADMIN_CREDENTIALS_USERNAME </li>
  *     <li> COLLAPSIBLE </li>
  *     <li> COLLAPSIBLE_CONTENT </li>
  *     <li> COLLAPSIBLE_CONTENT_HIDE </li>
@@ -618,9 +625,6 @@ const Route = Object.freeze({
  *     <li> DIALOG_MESSAGE_CONTAINER </li>
  *     <li> EDIT </li>
  *     <li> EDIT_ADMIN </li>
- *     <li> EDIT_ADMIN_ERROR </li>
- *     <li> EDIT_ADMIN_PASSWORD </li>
- *     <li> EDIT_ADMIN_USERNAME </li>
  *     <li> EDIT_ITEM </li>
  *     <li> EDIT_ITEM_IMAGE </li>
  *     <li> EDIT_ITEM_NAME </li>
@@ -686,6 +690,7 @@ const Route = Object.freeze({
  *     <li> REGISTER_ADMIN_ERROR </li>
  *     <li> REGISTER_ADMIN_PASSWORD </li>
  *     <li> REGISTER_ADMIN_USERNAME </li>
+ *     <li> REGISTER_CONFIRMATION </li>
  *     <li> REGISTER_EMAIL </li>
  *     <li> REGISTER_NAME </li>
  *     <li> REGISTER_PASSWORD </li>
@@ -732,6 +737,11 @@ const Style = Object.freeze({
     ADD_ITEM_NAME: "addItem-name",
     ADD_ITEM_THUMBNAIL: "addItem-thumbnail",
     ADD_ITEM: "addItem",
+    ADMIN_CREDENTIALS_ERROR_SHOW: "adminCredentials-error-show",
+    ADMIN_CREDENTIALS_ERROR: "adminCredentials-error",
+    ADMIN_CREDENTIALS_PASSWORD: "adminCredentials-password",
+    ADMIN_CREDENTIALS_USERNAME: "adminCredentials-username",
+    ADMIN_CREDENTIALS: "adminCredentials",
     COLLAPSIBLE_CONTENT_HIDE: "collapsible-content-hide",
     COLLAPSIBLE_CONTENT_SHOW: "collapsible-content-show",
     COLLAPSIBLE_CONTENT: "collapsible-content",
@@ -743,9 +753,6 @@ const Style = Object.freeze({
     DIALOG_BUTTONS_CONTAINER: "dialog-buttonsContainer",
     DIALOG_MESSAGE_CONTAINER: "dialog-messageContainer",
     DIALOG: "dialog",
-    EDIT_ADMIN_ERROR: "edit-admin-error",
-    EDIT_ADMIN_PASSWORD: "edit-admin-password",
-    EDIT_ADMIN_USERNAME: "edit-admin-username",
     EDIT_ADMIN: "edit-admin",
     EDIT_ITEM_IMAGE: "editItem-image",
     EDIT_ITEM_NAME: "editItem-name",
@@ -813,6 +820,7 @@ const Style = Object.freeze({
     REGISTER_ADMIN_PASSWORD: "register-admin-password",
     REGISTER_ADMIN_USERNAME: "register-admin-username",
     REGISTER_ADMIN: "register-admin",
+    REGISTER_CONFIRMATION: "register-confirmation",
     REGISTER_EMAIL: "register-email",
     REGISTER_NAME: "register-name",
     REGISTER_PASSWORD_CONFIRM: "register-passwordConfirm",

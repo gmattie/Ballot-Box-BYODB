@@ -47,6 +47,7 @@ const Reset = () => {
      * 
      */
     const responseUpdate = useRef(false);
+    const isSubmittable = useRef(false);
 
     /**
      * Hooks
@@ -64,23 +65,32 @@ const Reset = () => {
     const {
         
         binding: bindEmail,
-        clearValue: clearEmail,
         value: email
     } = useInputText(C.Label.EMAIL, submitHandler);
     
     const { 
         
         binding: bindPassword,
-        clearValue: clearPassword,
         value: password
     } = useInputText(C.Label.PASSWORD, submitHandler);
 
     const { 
         
         binding: bindPasswordConfirm,
-        clearValue: clearPasswordConfirm,
         value: passwordConfirm
     } = useInputText(C.Label.PASSWORD_CONFIRM, submitHandler);
+
+    /**
+     * Set isSubmittable flag
+     * Determines if the present state of text data is sufficient for submitting to the server.
+     * 
+     */
+    isSubmittable.current = (
+
+        email &&
+        password &&
+        passwordConfirm
+    );
 
     /**
      * Reset success
@@ -90,10 +100,6 @@ const Reset = () => {
     if (usersReset && responseUpdate.current) {
 
         responseUpdate.current = false;
-
-        clearEmail();
-        clearPassword();
-        clearPasswordConfirm();
 
         setEmailSent(true);
     }
@@ -215,7 +221,7 @@ const Reset = () => {
             
             <button
                 onClick={submitHandler}
-                disabled={isLoading}
+                disabled={isLoading || !isSubmittable.current}
             >
                 {`${C.Label.RESET} ${C.Label.PASSWORD}`}
             </button>

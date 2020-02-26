@@ -11,13 +11,17 @@
 
 @import "./abstracts/mixins/badge";
 @import "./abstracts/mixins/button";
+@import "./abstracts/mixins/confirmation";
+@import "./abstracts/mixins/error";
 @import "./abstracts/mixins/header";
 @import "./abstracts/mixins/input";
 @import "./abstracts/mixins/list";
-@import "./abstracts/mixins/miscellaneous";
 @import "./abstracts/mixins/preloader";
 @import "./abstracts/mixins/table";
 
+@import "./miscellaneous/transparent";
+
+@import "./components/adminCredentials";
 @import "./components/collapsible";
 @import "./components/errorResponse";
 @import "./components/inputPassword";

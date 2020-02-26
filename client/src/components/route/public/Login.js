@@ -10,10 +10,12 @@
  * @requires useAuth
  * @requires useInputText
  * @requires useUsers
+ * @requires utilities
  * @public
  * @module
  * 
  */
+import { concatClassNames } from "../../../support/utilities";
 import { useHistory } from "react-router-dom";
 import * as C from "../../../support/constants";
 import ErrorResponse from "../../ErrorResponse";
@@ -49,6 +51,8 @@ const Login = () => {
      * 
      */
     const responseUpdate = useRef(false);
+    const isSubmittable = useRef(false);
+    const showInvalidCredentials = useRef(true);
 
     /**
      * Hooks
@@ -68,16 +72,21 @@ const Login = () => {
     const {
         
         binding: bindEmail,
-        clearValue: clearEmail,
         value: email
     } = useInputText(C.Label.EMAIL, submitHandler);
     
     const { 
         
         binding: bindPassword,
-        clearValue: clearPassword,
         value: password
     } = useInputText(C.Label.PASSWORD, submitHandler);
+
+    /**
+     * Set isSubmittable flag
+     * Determines if the present state of text data is sufficient for submitting to the server.
+     * 
+     */
+    isSubmittable.current = email && password;
 
     /**
      * Login success
@@ -88,10 +97,7 @@ const Login = () => {
 
         responseUpdate.current = false;
 
-        clearEmail();
-        clearPassword();
         setIsLoading(false);
-
         setTimeout(() => history.push(C.Route.VOTE));
     }
 
@@ -127,6 +133,7 @@ const Login = () => {
         }
         else {
 
+            showInvalidCredentials.current = true;
             setInvalidCredentials(authError.error);
         }
 
@@ -158,6 +165,27 @@ const Login = () => {
         fetchLogin(email, password);
     }
 
+        /**
+     * @description Callback for a dispatched "change" event from an HTMLInputElement.
+     * Intercepts the target's "onChange" binding from its UseInputText hook.
+     * 
+     * @param {object} target - The object that dispatched the event.
+     * @param {object} event - The event object.
+     * 
+     * @private
+     * @function
+     *  
+     */
+    const credentialsChangeHandler = (target, event) => {
+
+        if (showInvalidCredentials.current) {
+
+            showInvalidCredentials.current = false;
+        }
+
+        target.onChange(event);
+    };
+
     /**
      * JSX markup
      * 
@@ -165,11 +193,16 @@ const Login = () => {
     return (
 
         <div className={C.Style.LOGIN}>
-            {invalidCredentials &&
-                <div className={C.Style.LOGIN_ERROR}>
+            <div className={
+                concatClassNames(
+                    C.Style.LOGIN_ERROR,
+                    (invalidCredentials && showInvalidCredentials.current && "login-error-show")
+                )
+            }>
+                {invalidCredentials &&
                     <ErrorResponse message={invalidCredentials} />
-                </div>
-            }
+                }
+            </div>
 
             <div className={C.Style.LOGIN_EMAIL}>
                 <InputText 
@@ -177,6 +210,7 @@ const Login = () => {
                     disabled={isLoading}
                     errorMessage={invalidEmail}
                     {...bindEmail}
+                    onChange={credentialsChangeHandler.bind(null, bindEmail)}
                 />
             </div>
 
@@ -186,12 +220,13 @@ const Login = () => {
                     disabled={isLoading}
                     errorMessage={invalidPassword}
                     {...bindPassword}
+                    onChange={credentialsChangeHandler.bind(null, bindPassword)}
                 />
             </div>
 
             <button
                 onClick={submitHandler}
-                disabled={isLoading}
+                disabled={isLoading || !isSubmittable.current}
             >
                 {C.Label.LOGIN}
             </button>

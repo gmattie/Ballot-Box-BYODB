@@ -89,7 +89,7 @@ const AddItem = ({ logout }) => {
 
     /**
      * Set isSubmittable flag
-     * Determines if the present state of text field data is sufficient for submitting to the server.
+     * Determines if the present state of text data is sufficient for submitting to the server.
      * 
      */
     isSubmittable.current = name;

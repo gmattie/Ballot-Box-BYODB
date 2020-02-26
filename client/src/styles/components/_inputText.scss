@@ -1,5 +1,7 @@
 .inputText {
 
+    $PLACEHOLDER_COLOR: #AAAAAA;
+
     position: relative;
     transition: all $DURATION_TRANSITION_INPUT ease-in-out;
     width: 100%;
@@ -14,13 +16,18 @@
 
             padding-top: calc(#{$INPUT_PADDING_TOP} + 16px);
         }
+
+        &:disabled {
+
+            color: $PLACEHOLDER_COLOR;
+        }
     }
 
     &-placeholder {
 
         position: absolute;
         top: 0;
-        color: #AAAAAA;
+        color: $PLACEHOLDER_COLOR;
         padding: $INPUT_PADDING_TOP $INPUT_PADDING_LEFT;
         pointer-events: none;
         transition: inherit;
