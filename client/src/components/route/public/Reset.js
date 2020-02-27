@@ -13,8 +13,8 @@
  * 
  */
 import * as C from "../../../support/constants";
-import InputPassword from "../../InputPassword";
-import InputText from "../../InputText";
+import InputPassword from "../../controls/InputPassword";
+import InputText from "../../controls/InputText";
 import React, { useRef, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useInputText from "../../../hooks/useInputText";
@@ -158,20 +158,23 @@ const Reset = () => {
      */
     async function submitHandler() {
 
-        setAuthError(null);
-        setUsersReset(null);
+        if (isSubmittable.current) {
+        
+            setAuthError(null);
+            setUsersReset(null);
 
-        setUserDoesNotExist(null);
-        setInvalidEmail(null);
-        setInvalidPassword(null);
-        setInvalidPasswordConfirm(null);
+            setUserDoesNotExist(null);
+            setInvalidEmail(null);
+            setInvalidPassword(null);
+            setInvalidPasswordConfirm(null);
 
-        setIsLoading(true);
+            setIsLoading(true);
 
-        responseUpdate.current = true;
-        await fetchReset(email, password, passwordConfirm);
+            responseUpdate.current = true;
+            await fetchReset(email, password, passwordConfirm);
 
-        setIsLoading(false);
+            setIsLoading(false);
+        }
     }
 
     /**

@@ -15,8 +15,8 @@
  */
 import * as C from "../../../support/constants";
 import AdminCredentials from "../../AdminCredentials";
-import InputPassword from "../../InputPassword";
-import InputText from "../../InputText";
+import InputPassword from "../../controls/InputPassword";
+import InputText from "../../controls/InputText";
 import React, { useRef, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useInputText from "../../../hooks/useInputText";
@@ -191,30 +191,33 @@ const Register = () => {
      */
     async function submitHandler() {
 
-        setAuthError(null);
-        setUsersRegister(null);
+        if (isSubmittable.current) {
 
-        setEmailAlreadyRegistered(null);
-        setInvalidAdminCredentials(null);
-        setInvalidName(null);
-        setInvalidEmail(null);
-        setInvalidPassword(null);
-        setInvalidPasswordConfirm(null);
+            setAuthError(null);
+            setUsersRegister(null);
 
-        setIsLoading(true);
+            setEmailAlreadyRegistered(null);
+            setInvalidAdminCredentials(null);
+            setInvalidName(null);
+            setInvalidEmail(null);
+            setInvalidPassword(null);
+            setInvalidPasswordConfirm(null);
 
-        responseUpdate.current = true;
-        await fetchRegister(
-            
-            name,
-            email,
-            password,
-            passwordConfirm,
-            adminUsername,
-            adminPassword
-        );
+            setIsLoading(true);
 
-        setIsLoading(false);
+            responseUpdate.current = true;
+            await fetchRegister(
+                
+                name,
+                email,
+                password,
+                passwordConfirm,
+                adminUsername,
+                adminPassword
+            );
+
+            setIsLoading(false);
+        }
     }
 
     /**

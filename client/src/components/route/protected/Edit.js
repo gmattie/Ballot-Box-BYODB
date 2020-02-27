@@ -18,8 +18,8 @@
 import * as C from "../../../support/constants";
 import AdminCredentials from "../../AdminCredentials";
 import Dialog from "../../modal/Dialog";
-import InputPassword from "../../InputPassword";
-import InputText from "../../InputText";
+import InputPassword from "../../controls/InputPassword";
+import InputText from "../../controls/InputText";
 import PropTypes from "prop-types";
 import React, { useRef, useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
@@ -56,6 +56,7 @@ const Edit = ({ logout }) => {
     const responseUpdate = useRef(false);
     const awaitUsersSelfUpdate = useRef(false);
     const isEditable = useRef(false);
+    const isResettable = useRef(false);
 
     /**
      * Hooks
@@ -112,6 +113,18 @@ const Edit = ({ logout }) => {
      * 
      */
     isEditable.current = (
+
+        (name && name !== usersSelf[C.Model.USER][C.Model.NAME]) ||
+        (password && passwordConfirm) ||
+        (adminUsername && adminPassword)
+    );
+
+    /**
+     * Set isResettable flag
+     * Determines if the present state of text data is sufficient for enabling the "Reset" button and clearing the form.
+     * 
+     */
+    isResettable.current = (
 
         (name && name !== usersSelf[C.Model.USER][C.Model.NAME]) ||
         password ||
@@ -348,7 +361,7 @@ const Edit = ({ logout }) => {
 
                 <button
                     onClick={resetHandler}
-                    disabled={isLoading || !isEditable.current}
+                    disabled={isLoading || !isResettable.current}
                 >
                     {C.Label.RESET}
                 </button>

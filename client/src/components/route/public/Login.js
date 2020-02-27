@@ -19,8 +19,8 @@ import { concatClassNames } from "../../../support/utilities";
 import { useHistory } from "react-router-dom";
 import * as C from "../../../support/constants";
 import ErrorResponse from "../../ErrorResponse";
-import InputPassword from "../../InputPassword";
-import InputText from "../../InputText";
+import InputPassword from "../../controls/InputPassword";
+import InputText from "../../controls/InputText";
 import React, { useRef, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useInputText from "../../../hooks/useInputText";
@@ -152,17 +152,20 @@ const Login = () => {
      */
     function submitHandler() {
 
-        setAuthError(null);
-        setAuthToken(null);
+        if (isSubmittable.current) {
+            
+            setAuthError(null);
+            setAuthToken(null);
 
-        setInvalidCredentials(null);
-        setInvalidEmail(null);
-        setInvalidPassword(null);
+            setInvalidCredentials(null);
+            setInvalidEmail(null);
+            setInvalidPassword(null);
 
-        setIsLoading(true);
+            setIsLoading(true);
 
-        responseUpdate.current = true;
-        fetchLogin(email, password);
+            responseUpdate.current = true;
+            fetchLogin(email, password);
+        }
     }
 
         /**

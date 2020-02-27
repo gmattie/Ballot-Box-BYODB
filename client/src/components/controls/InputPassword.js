@@ -11,9 +11,9 @@
  * @module
  * 
  */
-import * as C from "../support/constants";
-import Eye from "../assets/Eye.svg";
-import EyeSlash from "../assets/EyeSlash.svg";
+import * as C from "../../support/constants";
+import Eye from "../../assets/Eye.svg";
+import EyeSlash from "../../assets/EyeSlash.svg";
 import InputText from "./InputText";
 import React, { memo, useState } from "react";
 import PropTypes from "prop-types";

@@ -10,9 +10,9 @@
  * @module
  * 
  */
-import { concatClassNames } from "../support/utilities";
-import * as C from "../support/constants";
-import ErrorResponse from "../components/ErrorResponse";
+import { concatClassNames } from "../../support/utilities";
+import * as C from "../../support/constants";
+import ErrorResponse from "../ErrorResponse";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 

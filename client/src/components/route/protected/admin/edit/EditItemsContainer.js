@@ -11,7 +11,7 @@
  * 
  */
 import * as C from "../../../../../support/constants";
-import Collapsible from "../../../../Collapsible";
+import Collapsible from "../../../../controls/Collapsible";
 import EditItem from "./EditItem";
 import PropTypes from "prop-types";
 import React, { memo, useState } from "react";

@@ -6,3 +6,6 @@ todo
 
 # Ignore environment variables
 .env
+
+# Ignore VSCode configuration files
+jsconfig.json

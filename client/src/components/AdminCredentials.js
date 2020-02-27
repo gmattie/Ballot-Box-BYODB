@@ -16,10 +16,10 @@
  */
 import { concatClassNames } from "../support/utilities";
 import * as C from "../support/constants";
-import Collapsible from "./Collapsible";
+import Collapsible from "./controls/Collapsible";
 import ErrorResponse from "./ErrorResponse";
-import InputPassword from "./InputPassword";
-import InputText from "./InputText";
+import InputPassword from "./controls/InputPassword";
+import InputText from "./controls/InputText";
 import PropTypes from "prop-types";
 import React, { useEffect, useRef } from "react";
 

@@ -15,9 +15,9 @@
  * 
  */
 import * as C from "../../../../support/constants";
-import Collapsible from "../../../Collapsible";
+import Collapsible from "../../../controls/Collapsible";
 import Dialog from "../../../modal/Dialog";
-import InputText from "../../../InputText";
+import InputText from "../../../controls/InputText";
 import PropTypes from "prop-types";
 import React, { useRef, useState } from "react";
 import useAuth from "../../../../hooks/useAuth";

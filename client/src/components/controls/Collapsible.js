@@ -8,7 +8,7 @@
  * @module
  * 
  */
-import * as C from "../support/constants";
+import * as C from "../../support/constants";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 

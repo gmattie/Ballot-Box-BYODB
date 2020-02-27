@@ -15,9 +15,9 @@
  * 
  */
 import * as C from "../../../../../support/constants";
-import Collapsible from "../../../../Collapsible";
+import Collapsible from "../../../../controls/Collapsible";
 import Dialog from "../../../../modal/Dialog";
-import InputText from "../../../../InputText";
+import InputText from "../../../../controls/InputText";
 import PropTypes from "prop-types";
 import React, { useRef, useState } from "react";
 import useAuth from "../../../../../hooks/useAuth";
@@ -59,6 +59,7 @@ const EditItem = ({
      * 
      */
     const isEditable = useRef(false);
+    const isResettable = useRef(false);
     const responseUpdate = useRef(false);
 
     /**
@@ -105,6 +106,18 @@ const EditItem = ({
         (name && name !== itemName) ||
         (thumbnail && thumbnail !== itemThumbnail) ||
         (image && image !== itemImage)
+    );
+
+    /**
+     * Set isResettable flag
+     * Determines if the present state of text data is sufficient for enabling the "Reset" button and clearing the form.
+     * 
+     */
+    isResettable.current = (
+
+        (name !== itemName) ||
+        (thumbnail !== itemThumbnail) ||
+        (image !== itemImage)
     );
 
     /**
@@ -290,7 +303,7 @@ const EditItem = ({
 
                     <button
                         onClick={resetHandler}
-                        disabled={isLoading || !isEditable.current}
+                        disabled={isLoading || !isResettable.current}
                     >
                         {C.Label.RESET}
                     </button>
