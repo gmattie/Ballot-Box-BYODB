@@ -1,6 +1,7 @@
 /**
  * @description Login component
  * 
+ * @requires Button
  * @requires constants
  * @requires ErrorResponse
  * @requires InputPassword
@@ -18,6 +19,7 @@
 import { concatClassNames } from "../../../support/utilities";
 import { useHistory } from "react-router-dom";
 import * as C from "../../../support/constants";
+import Button from "../../controls/Button";
 import ErrorResponse from "../../ErrorResponse";
 import InputPassword from "../../controls/InputPassword";
 import InputText from "../../controls/InputText";
@@ -227,12 +229,15 @@ const Login = () => {
                 />
             </div>
 
-            <button
-                onClick={submitHandler}
-                disabled={isLoading || !isSubmittable.current}
-            >
-                {C.Label.LOGIN}
-            </button>
+            <div className={C.Style.LOGIN_BUTTON}>
+                <Button
+                    style={C.Style.BUTTON_SUBMIT_EMPHASIS}
+                    onClick={submitHandler}
+                    disabled={isLoading || !isSubmittable.current}
+                >
+                    {C.Label.LOGIN}
+                </Button>
+            </div>
 
             {
                 //TODO: Replace with style animation

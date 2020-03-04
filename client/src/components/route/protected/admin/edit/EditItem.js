@@ -1,6 +1,7 @@
 /**
- * @description AddItem component.
+ * @description EditItem component.
  * 
+ * @requires Button
  * @requires Collapsible
  * @requires constants
  * @requires Dialog
@@ -15,11 +16,12 @@
  * 
  */
 import * as C from "../../../../../support/constants";
+import Button from "../../../../controls/Button";
 import Collapsible from "../../../../controls/Collapsible";
 import Dialog from "../../../../modal/Dialog";
 import InputText from "../../../../controls/InputText";
 import PropTypes from "prop-types";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useAuth from "../../../../../hooks/useAuth";
 import useInputText from "../../../../../hooks/useInputText";
 import useItems from "../../../../../hooks/useItems";
@@ -58,8 +60,9 @@ const EditItem = ({
      * Refs
      * 
      */
-    const isEditable = useRef(false);
+    const isSubmittable = useRef(false);
     const isResettable = useRef(false);
+    const isUpdating = useRef(false);
     const responseUpdate = useRef(false);
 
     /**
@@ -97,11 +100,23 @@ const EditItem = ({
     } = useInputText(C.Label.IMAGE, confirmHandler, itemImage);
 
     /**
-     * Set isEditable flag
+     * @description Negate the "isUpdating" flag after the Items state updates and triggers a refresh of the component props. 
+     * 
+     * @private
+     * @function
+     * 
+     */
+    useEffect(() => {
+
+        isUpdating.current = false;
+    }, [itemName, itemThumbnail, itemImage]);
+
+    /**
+     * Set isSubmittable flag
      * Determines if the present state of text data is sufficient for submitting to the server.
      * 
      */
-    isEditable.current = (
+    isSubmittable.current = (
         
         (name && name !== itemName) ||
         (thumbnail && thumbnail !== itemThumbnail) ||
@@ -122,7 +137,6 @@ const EditItem = ({
 
     /**
      * Edit item success
-     * Clear appropriate text input elements.
      * 
      */
     if (itemsEdit && responseUpdate.current) {
@@ -165,6 +179,7 @@ const EditItem = ({
                 }
             });
 
+            isUpdating.current = false;
             setAuthError(null);
         }
         else {
@@ -192,7 +207,7 @@ const EditItem = ({
      */
     const submitHandler = async () => {
 
-        if (isEditable.current) {
+        if (isSubmittable.current) {
 
             setShowDialog(false);
             setIsLoading(true);
@@ -204,6 +219,7 @@ const EditItem = ({
             setInvalidThumbnail(null);
             setInvalidImage(null);
 
+            isUpdating.current = true;
             responseUpdate.current = true;
             await fetchEdit(
                 
@@ -212,7 +228,7 @@ const EditItem = ({
                 thumbnail,
                 image
             );
-
+                
             setIsLoading(false);
         }
     };
@@ -241,7 +257,7 @@ const EditItem = ({
      */
     function confirmHandler() {
 
-        if (isEditable.current) {
+        if (isSubmittable.current && !isUpdating.current) {
 
             setShowDialog(true);
         }
@@ -294,19 +310,23 @@ const EditItem = ({
                         />
                     </div>
 
-                    <button
-                        onClick={confirmHandler}
-                        disabled={isLoading || !isEditable.current}
-                    >
-                        {C.Label.EDIT}
-                    </button>
+                    <div className={C.Style.EDIT_ITEM_BUTTONS_CONTAINER}>
+                        <Button
+                            style={C.Style.BUTTON_SUBMIT_EMPHASIS}
+                            onClick={confirmHandler}
+                            disabled={isLoading || isUpdating.current || !isSubmittable.current}
+                        >
+                            {C.Label.EDIT}
+                        </Button>
 
-                    <button
-                        onClick={resetHandler}
-                        disabled={isLoading || !isResettable.current}
-                    >
-                        {C.Label.RESET}
-                    </button>
+                        <Button
+                            style={C.Style.BUTTON_SUBMIT}
+                            onClick={resetHandler}
+                            disabled={isLoading || isUpdating.current || !isResettable.current}
+                        >
+                            {C.Label.RESET}
+                        </Button>
+                    </div>
 
                     {
                         //TODO: Replace with style animation

@@ -40,12 +40,12 @@
         &-nav {
 
             &-button {
-
-                @include nav-button;
             
+                background-color: gray;
+                
                 &-selected {
 
-                    @include nav-button-selected;
+                    background-color: white;
                 }
             }
         }

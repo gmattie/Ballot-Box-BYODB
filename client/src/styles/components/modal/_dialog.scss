@@ -1,23 +1,26 @@
 .dialog {
 
-    $DIALOG_PADDING: 20px;
-
-    background-color: gray;
-    padding: $DIALOG_PADDING;
+    display: flex;
+    flex-direction: column;
+    background-color: $APP_BACKGROUND_COLOR;
+    padding: $FORM_GAP * 2;
 
     &-messageContainer {
 
-        text-align: center;
+        margin-bottom: $FORM_GAP;
     }
 
     &-buttonsContainer {
 
-        margin-top: $DIALOG_PADDING;
-        text-align: right;
+        align-self: flex-end;
+        
+        display: flex;
+        flex-direction: row;
+        margin-top: $FORM_GAP;
 
-        button {
-            
-            margin-left: $DIALOG_PADDING / 2;
+        button:not(:nth-of-type(1)) {
+
+            margin-left: $FORM_GAP;
         }
     }
 }

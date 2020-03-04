@@ -1,6 +1,7 @@
 /**
  * @description ManagePolls component.
  * 
+ * @requires Button
  * @requires Collapsible
  * @requires constants
  * @requires Dialog
@@ -16,6 +17,7 @@
  * 
  */
 import * as C from "../../../../support/constants";
+import Button from "../../../controls/Button";
 import Collapsible from "../../../controls/Collapsible";
 import Dialog from "../../../modal/Dialog";
 import InputText from "../../../controls/InputText";
@@ -186,7 +188,7 @@ const ManagePolls = ({ logout }) => {
 
             submitTarget.current = (event)
                 ? event.target.textContent
-                : C.Label.OPEN_POLLS;
+                : C.Label.OPEN;
 
             setShowDialog(true);
         }
@@ -207,7 +209,7 @@ const ManagePolls = ({ logout }) => {
         setShowDialog(false);
         setIsLoading(true);
 
-        if (submitTarget.current === C.Label.OPEN_POLLS) {
+        if (submitTarget.current === C.Label.OPEN) {
 
             setAuthError(null);
             setVotesActive(null);
@@ -226,7 +228,7 @@ const ManagePolls = ({ logout }) => {
             );
         }
 
-        if (submitTarget.current === C.Label.CLOSE_POOLS) {
+        if (submitTarget.current === C.Label.CLOSE) {
 
             await fetchClose();
         }
@@ -245,7 +247,7 @@ const ManagePolls = ({ logout }) => {
                 <Dialog 
                     message={
                         
-                        (submitTarget.current === C.Label.OPEN_POLLS)
+                        (submitTarget.current === C.Label.OPEN)
                             ? C.Label.CONFIRM_OPEN_POLLS
                             : C.Label.CONFIRM_CLOSE_POLLS
                     }
@@ -324,22 +326,28 @@ const ManagePolls = ({ logout }) => {
                                         </div>
                                     </fieldset>
 
-                                    <button
-                                        onClick={confirmHandler}
-                                        disabled={isLoading || !isSubmittable.current}
-                                    >
-                                        {C.Label.OPEN_POLLS}
-                                    </button>
+                                    <div className={C.Style.MANAGE_POLLS_BUTTON_OPEN}>
+                                        <Button
+                                            style={C.Style.BUTTON_SUBMIT_EMPHASIS}
+                                            onClick={confirmHandler}
+                                            disabled={isLoading || !isSubmittable.current}
+                                        >
+                                            {C.Label.OPEN}
+                                        </Button>
+                                    </div>
                                 </>
                             }
 
                             {(votesActive && votesActive.vote) &&
-                                <button
-                                    onClick={confirmHandler}
-                                    disabled={isLoading}
-                                >
-                                    {C.Label.CLOSE_POOLS}
-                                </button>
+                                <div className={C.Style.MANAGE_POLLS_BUTTON_CLOSE}>
+                                    <Button
+                                        style={C.Style.BUTTON_SUBMIT_EMPHASIS}
+                                        onClick={confirmHandler}
+                                        disabled={isLoading}
+                                    >
+                                        {C.Label.CLOSE}
+                                    </Button>
+                                </div>
                             }
                         </>
                     }

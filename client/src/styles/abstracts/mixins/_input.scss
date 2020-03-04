@@ -11,6 +11,6 @@
     @include input-text-reset;
 
     width: 100%;
-    padding: $INPUT_PADDING_TOP $INPUT_PADDING_LEFT;
-    box-shadow: 0 0 4px 2px black;
+    padding: $CONTROL_PADDING_TOP $CONTROL_PADDING_LEFT;
+    box-shadow: $CONTROL_DROP_SHADOW;
 }

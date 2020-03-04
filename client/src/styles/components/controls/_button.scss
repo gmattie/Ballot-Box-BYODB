@@ -1,0 +1,49 @@
+.button {
+
+    width: 100%;
+    padding: $CONTROL_PADDING_TOP $CONTROL_PADDING_LEFT;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: $FONT_WEIGHT_BOLD;
+    color: white;
+    white-space: nowrap;
+    text-transform: uppercase;
+    border: none;
+    outline: none;
+    user-select: none;
+    box-shadow: $CONTROL_DROP_SHADOW;
+    cursor: pointer;
+    transition: all $DURATION_TRANSITION_BUTTON ease-in-out;
+
+    &:disabled {
+
+        cursor: default;
+        filter: brightness(75%);
+    }
+
+    &:not(:disabled) {
+
+        @include mq-hover {
+            
+            &:hover {
+                
+                filter: brightness(112%);
+            }
+        }
+
+        &:active {
+
+            filter: brightness(88%);
+        }
+    }
+
+    &-submit {
+
+        background-color: #707070;
+
+        &-emphasis {
+
+            background-color: rgb(110, 110, 150);
+        }
+    }
+}

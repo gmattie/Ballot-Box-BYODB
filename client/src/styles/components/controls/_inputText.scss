@@ -14,7 +14,7 @@
         
         &-maximize {
 
-            padding-top: calc(#{$INPUT_PADDING_TOP} + 16px);
+            padding-top: calc(#{$CONTROL_PADDING_TOP} + 16px);
         }
 
         &:disabled {
@@ -28,7 +28,7 @@
         position: absolute;
         top: 0;
         color: $PLACEHOLDER_COLOR;
-        padding: $INPUT_PADDING_TOP $INPUT_PADDING_LEFT;
+        padding: $CONTROL_PADDING_TOP $CONTROL_PADDING_LEFT;
         pointer-events: none;
         transition: inherit;
 
@@ -44,7 +44,7 @@
 
         position: absolute;
         top: 3px;
-        right: $INPUT_PADDING_LEFT;
+        right: $CONTROL_PADDING_LEFT;
         pointer-events: none;
         opacity: 0;
         transition: inherit;

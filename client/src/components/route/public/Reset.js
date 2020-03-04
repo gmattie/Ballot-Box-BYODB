@@ -1,6 +1,7 @@
 /**
  * @description Reset component
  * 
+ * @requires Button
  * @requires constants
  * @requires InputPassword
  * @requires InputText
@@ -13,6 +14,7 @@
  * 
  */
 import * as C from "../../../support/constants";
+import Button from "../../controls/Button";
 import InputPassword from "../../controls/InputPassword";
 import InputText from "../../controls/InputText";
 import React, { useRef, useState } from "react";
@@ -222,12 +224,15 @@ const Reset = () => {
                 />
             </div>
             
-            <button
-                onClick={submitHandler}
-                disabled={isLoading || !isSubmittable.current}
-            >
-                {`${C.Label.RESET} ${C.Label.PASSWORD}`}
-            </button>
+            <div className={C.Style.RESET_BUTTON}>
+                <Button
+                    style={C.Style.BUTTON_SUBMIT_EMPHASIS}
+                    onClick={submitHandler}
+                    disabled={isLoading || !isSubmittable.current}
+                >
+                    {`${C.Label.RESET} ${C.Label.PASSWORD}`}
+                </Button>
+            </div>
 
             {
                 //TODO: Replace with style animation

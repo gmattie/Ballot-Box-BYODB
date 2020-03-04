@@ -1,6 +1,7 @@
 /**
  * @description Vote component
  * 
+ * @requires Button
  * @requires constants
  * @requires Dialog
  * @requires ListContainer
@@ -17,6 +18,7 @@
  * 
  */
 import * as C from "../../../support/constants";
+import Button from "../../controls/Button";
 import Dialog from "../../modal/Dialog";
 import ListContainer from "../../list/ListContainer";
 import PropTypes from "prop-types";
@@ -330,21 +332,23 @@ const Vote = ({ logout }) => {
                     <ListContainer />
 
                     {(votesActive && votesActive[C.Model.VOTE]) &&
-                        <>
-                            <button
+                        <div className={C.Style.VOTE_BUTTONS_CONTAINER}>
+                            <Button
+                                style={C.Style.BUTTON_SUBMIT_EMPHASIS}
                                 onClick={() => setShowDialog(true)}
                                 disabled={isLoading || !isVotable.current}
                             >
-                                {C.Label.CAST_VOTE.toUpperCase()}
-                            </button>
-
-                            <button
+                                {C.Label.VOTE}
+                            </Button>
+                            
+                            <Button
+                                style={C.Style.BUTTON_SUBMIT}
                                 onClick={resetItemLists}
                                 disabled={isLoading}
                             >
-                                {C.Label.RESET.toUpperCase()}
-                            </button>
-                        </>
+                                {C.Label.RESET}
+                            </Button>
+                        </div>
                     }
                 </>
             }

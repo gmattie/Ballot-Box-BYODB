@@ -1,6 +1,7 @@
 /**
  * @description Dialog component.
  * 
+ * @requires Button
  * @requires constants
  * @requires Portal
  * @requires prop-types
@@ -10,6 +11,7 @@
  * 
  */
 import * as C from "../../support/constants";
+import Button from "../controls/Button";
 import Portal from "./Portal";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
@@ -75,20 +77,22 @@ const Dialog = ({
                 }
 
                 <div className={C.Style.DIALOG_BUTTONS_CONTAINER}>
-                    <button
+                    <Button
+                        style={C.Style.BUTTON_SUBMIT_EMPHASIS}
                         onClick={okButtonHandler}
                         disabled={isLoading}
                     >
                         {C.Label.OK}
-                    </button>
-                    
+                    </Button>
+
                     {cancelCallback &&
-                        <button
+                        <Button
+                            style={C.Style.BUTTON_SUBMIT}
                             onClick={cancelCallback}
                             disabled={isLoading}
                         >
                             {C.Label.CANCEL}
-                        </button>
+                        </Button>
                     }
                 </div>
             </div>

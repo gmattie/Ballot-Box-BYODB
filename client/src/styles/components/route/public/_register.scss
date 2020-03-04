@@ -16,13 +16,10 @@
         margin-top: $FORM_GAP;
     }
 
-    button {
-        
-        margin-top: $FORM_GAP;
-        width: 100px;
-        text-transform: uppercase;
+    &-button {
+
         align-self: flex-end;
-        border: 1px solid cyan;
+        margin-top: $FORM_GAP;
     }
 
     &-confirmation {

@@ -1,6 +1,7 @@
 /**
  * @description AddItem component.
  * 
+ * @requires Button
  * @requires Collapsible
  * @requires constants
  * @requires Dialog
@@ -15,6 +16,7 @@
  * 
  */
 import * as C from "../../../../support/constants";
+import Button from "../../../controls/Button";
 import Collapsible from "../../../controls/Collapsible";
 import Dialog from "../../../modal/Dialog";
 import InputText from "../../../controls/InputText";
@@ -249,12 +251,15 @@ const AddItem = ({ logout }) => {
                         />
                     </div>
 
-                    <button
-                        onClick={confirmHandler}
-                        disabled={isLoading || !isSubmittable.current}
-                    >
-                        {C.Label.ADD}
-                    </button>
+                    <div className={C.Style.ADD_ITEM_BUTTON}>
+                        <Button
+                            style={C.Style.BUTTON_SUBMIT_EMPHASIS}
+                            onClick={confirmHandler}
+                            disabled={isLoading || !isSubmittable.current}
+                        >
+                            {C.Label.ADD}
+                        </Button>
+                    </div>
 
                     {
                         //TODO: Replace with style animation

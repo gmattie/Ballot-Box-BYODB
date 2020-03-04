@@ -2,6 +2,7 @@
  * @description Register component
  * 
  * @requires AdminCredentials
+ * @requires Button
  * @requires constants
  * @requires InputPassword
  * @requires InputText
@@ -15,6 +16,7 @@
  */
 import * as C from "../../../support/constants";
 import AdminCredentials from "../../AdminCredentials";
+import Button from "../../controls/Button";
 import InputPassword from "../../controls/InputPassword";
 import InputText from "../../controls/InputText";
 import React, { useRef, useState } from "react";
@@ -283,12 +285,15 @@ const Register = () => {
                 />
             </div>
             
-            <button
-                onClick={submitHandler}
-                disabled={isLoading || !isSubmittable.current}
-            >
-                {C.Label.REGISTER}
-            </button>
+            <div className={C.Style.REGISTER_BUTTON}>
+                <Button
+                    style={C.Style.BUTTON_SUBMIT_EMPHASIS}
+                    onClick={submitHandler}
+                    disabled={isLoading || !isSubmittable.current}
+                >
+                    {C.Label.REGISTER}
+                </Button>
+            </div>
 
             {
                 //TODO: Replace with style animation

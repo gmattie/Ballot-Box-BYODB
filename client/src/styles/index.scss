@@ -10,7 +10,6 @@
 @import "./abstracts/animations/spin";
 
 @import "./abstracts/mixins/badge";
-@import "./abstracts/mixins/button";
 @import "./abstracts/mixins/confirmation";
 @import "./abstracts/mixins/error";
 @import "./abstracts/mixins/header";
@@ -22,10 +21,12 @@
 @import "./miscellaneous/transparent";
 
 @import "./components/adminCredentials";
-@import "./components/collapsible";
 @import "./components/errorResponse";
-@import "./components/inputPassword";
-@import "./components/inputText";
+
+@import "./components/controls/button";
+@import "./components/controls/collapsible";
+@import "./components/controls/inputPassword";
+@import "./components/controls/inputText";
 
 @import "./components/list/list";
 @import "./components/list/listContainer";

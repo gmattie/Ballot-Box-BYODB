@@ -332,8 +332,7 @@ const Image = Object.freeze({
  *     <li> ANONYMOUS </li>
  *     <li> CANCEL </li>
  *     <li> CANDIDATES </li>
- *     <li> CAST_VOTE </li>
- *     <li> CLOSE_POOLS </li>
+ *     <li> CLOSE </li>
  *     <li> CLOSED </li>
  *     <li> CONFIRM_ADD_ITEM </li>
  *     <li> CONFIRM_CLOSE_POLLS </li>
@@ -364,7 +363,6 @@ const Image = Object.freeze({
  *     <li> NAME </li>
  *     <li> OK </li>
  *     <li> OPEN </li>
- *     <li> OPEN_POLLS </li>
  *     <li> OPTIONAL </li>
  *     <li> PASSWORD </li>
  *     <li> PASSWORD_CONFIRM </li>
@@ -397,8 +395,7 @@ const Label = Object.freeze({
     ANONYMOUS: "Anonymous",
     CANCEL: "Cancel",
     CANDIDATES: "Candidates",
-    CAST_VOTE: "Cast Vote",
-    CLOSE_POOLS: "Close Pools",
+    CLOSE: "Close",
     CLOSED: "Closed",
     CONFIRM_ADD_ITEM: "Are you sure you want to add this item?",
     CONFIRM_CLOSE_POLLS: "Are you sure you want to close the polls?",
@@ -428,7 +425,6 @@ const Label = Object.freeze({
     MANAGE_POOLS: "Manage Polls",
     NAME: "Name",
     OK: "OK",
-    OPEN_POLLS: "Open Polls",
     OPEN: "Open",
     OPTIONAL: "(Optional)",
     PASSWORD_CONFIRM: "Confirm Password",
@@ -604,6 +600,7 @@ const Route = Object.freeze({
  * 
  * <ul>
  *     <li> ADD_ITEM </li>
+ *     <li> ADD_ITEM_BUTTON </li>
  *     <li> ADD_ITEM_IMAGE </li>
  *     <li> ADD_ITEM_NAME </li>
  *     <li> ADD_ITEM_THUMBNAIL </li>
@@ -612,6 +609,9 @@ const Route = Object.freeze({
  *     <li> ADMIN_CREDENTIALS_ERROR_SHOW </li>
  *     <li> ADMIN_CREDENTIALS_PASSWORD </li>
  *     <li> ADMIN_CREDENTIALS_USERNAME </li>
+ *     <li> BUTTON </li>
+ *     <li> BUTTON_SUBMIT </li>
+ *     <li> BUTTON_SUBMIT_EMPHASIS </li>
  *     <li> COLLAPSIBLE </li>
  *     <li> COLLAPSIBLE_CONTENT </li>
  *     <li> COLLAPSIBLE_CONTENT_HIDE </li>
@@ -625,7 +625,9 @@ const Route = Object.freeze({
  *     <li> DIALOG_MESSAGE_CONTAINER </li>
  *     <li> EDIT </li>
  *     <li> EDIT_ADMIN </li>
+ *     <li> EDIT_BUTTONS_CONTAINER </li>
  *     <li> EDIT_ITEM </li>
+ *     <li> EDIT_ITEM_BUTTONS_CONTAINER </li>
  *     <li> EDIT_ITEM_IMAGE </li>
  *     <li> EDIT_ITEM_NAME </li>
  *     <li> EDIT_ITEM_THUMBNAIL </li>
@@ -663,10 +665,13 @@ const Route = Object.freeze({
  *     <li> LIST_ITEM_TITLE </li>
  *     <li> LIST_TITLE </li>
  *     <li> LOGIN </li>
+ *     <li> LOGIN_BUTTON </li>
  *     <li> LOGIN_EMAIL </li>
  *     <li> LOGIN_ERROR </li>
  *     <li> LOGIN_PASSWORD </li>
  *     <li> MANAGE_POLLS </li>
+ *     <li> MANAGE_POLLS_BUTTON_CLOSE </li>
+ *     <li> MANAGE_POLLS_BUTTON_OPEN </li>
  *     <li> MANAGE_POLLS_DEADLINE </li>
  *     <li> MANAGE_POLLS_QUANTITY </li>
  *     <li> MANAGE_POLLS_RESULTS </li>
@@ -690,12 +695,14 @@ const Route = Object.freeze({
  *     <li> REGISTER_ADMIN_ERROR </li>
  *     <li> REGISTER_ADMIN_PASSWORD </li>
  *     <li> REGISTER_ADMIN_USERNAME </li>
+ *     <li> REGISTER_BUTTON </li>
  *     <li> REGISTER_CONFIRMATION </li>
  *     <li> REGISTER_EMAIL </li>
  *     <li> REGISTER_NAME </li>
  *     <li> REGISTER_PASSWORD </li>
  *     <li> REGISTER_PASSWORD_CONFIRM </li>
  *     <li> RESET </li>
+ *     <li> RESET_BUTTON </li>
  *     <li> RESET_CONFIRMATION </li>
  *     <li> RESET_EMAIL </li>
  *     <li> RESET_PASSWORD </li>
@@ -713,6 +720,7 @@ const Route = Object.freeze({
  *     <li> TRANSPARENT </li>
  *     <li> VISIBLE </li>
  *     <li> VOTE </li>
+ *     <li> VOTE_BUTTONS_CONTAINER </li>
  *     <li> VOTE_RESULT </li>
  *     <li> VOTE_RESULT_ACTIVE </li>
  *     <li> VOTE_RESULT_DETAIL </li>
@@ -733,6 +741,7 @@ const Route = Object.freeze({
  */
 const Style = Object.freeze({
 
+    ADD_ITEM_BUTTON: "addItem-button",
     ADD_ITEM_IMAGE: "addItem-image",
     ADD_ITEM_NAME: "addItem-name",
     ADD_ITEM_THUMBNAIL: "addItem-thumbnail",
@@ -742,6 +751,9 @@ const Style = Object.freeze({
     ADMIN_CREDENTIALS_PASSWORD: "adminCredentials-password",
     ADMIN_CREDENTIALS_USERNAME: "adminCredentials-username",
     ADMIN_CREDENTIALS: "adminCredentials",
+    BUTTON_SUBMIT_EMPHASIS: "button-submit-emphasis",
+    BUTTON_SUBMIT: "button-submit",
+    BUTTON: "button",
     COLLAPSIBLE_CONTENT_HIDE: "collapsible-content-hide",
     COLLAPSIBLE_CONTENT_SHOW: "collapsible-content-show",
     COLLAPSIBLE_CONTENT: "collapsible-content",
@@ -754,6 +766,8 @@ const Style = Object.freeze({
     DIALOG_MESSAGE_CONTAINER: "dialog-messageContainer",
     DIALOG: "dialog",
     EDIT_ADMIN: "edit-admin",
+    EDIT_BUTTONS_CONTAINER: "edit-buttonsContainer",
+    EDIT_ITEM_BUTTONS_CONTAINER: "editItem-buttonsContainer",
     EDIT_ITEM_IMAGE: "editItem-image",
     EDIT_ITEM_NAME: "editItem-name",
     EDIT_ITEM_THUMBNAIL: "editItem-thumbnail",
@@ -792,17 +806,20 @@ const Style = Object.freeze({
     LIST_ITEM: "listItem",
     LIST_TITLE: "list-title",
     LIST: "list",
+    LOGIN_BUTTON: "login-button",
     LOGIN_EMAIL: "login-email",
     LOGIN_ERROR: "login-error",
     LOGIN_PASSWORD: "login-password",
     LOGIN: "login",
-    MANAGE_POLLS: "managePolls",
+    MANAGE_POLLS_BUTTON_CLOSE: "managePolls-button-close",
+    MANAGE_POLLS_BUTTON_OPEN: "managePolls-button-open",
     MANAGE_POLLS_DEADLINE: "managePolls-deadline",
     MANAGE_POLLS_QUANTITY: "managePolls-quantity",
-    MANAGE_POLLS_RESULTS: "managePolls-results",
-    MANAGE_POLLS_RESULTS_PENDING: "managePolls-results-pending",
-    MANAGE_POLLS_RESULTS_LIVE: "managePolls-results-live",
     MANAGE_POLLS_RESULTS_ANONYMOUS: "managePolls-results-anonymous",
+    MANAGE_POLLS_RESULTS_LIVE: "managePolls-results-live",
+    MANAGE_POLLS_RESULTS_PENDING: "managePolls-results-pending",
+    MANAGE_POLLS_RESULTS: "managePolls-results",
+    MANAGE_POLLS: "managePolls",
     PORTAL: "portal",
     PROTECTED_CONTAINER_CONTENT: "protectedContainer-content",
     PROTECTED_CONTAINER_NAV_BUTTON_SELECTED: "protectedContainer-nav-button-selected",
@@ -820,12 +837,14 @@ const Style = Object.freeze({
     REGISTER_ADMIN_PASSWORD: "register-admin-password",
     REGISTER_ADMIN_USERNAME: "register-admin-username",
     REGISTER_ADMIN: "register-admin",
+    REGISTER_BUTTON: "register-button",
     REGISTER_CONFIRMATION: "register-confirmation",
     REGISTER_EMAIL: "register-email",
     REGISTER_NAME: "register-name",
     REGISTER_PASSWORD_CONFIRM: "register-passwordConfirm",
     REGISTER_PASSWORD: "register-password",
     REGISTER: "register",
+    RESET_BUTTON: "reset-button",
     RESET_CONFIRMATION: "reset-confirmation",
     RESET_EMAIL: "reset-email",
     RESET_PASSWORD_CONFIRM: "reset-passwordConfirm",
@@ -846,6 +865,7 @@ const Style = Object.freeze({
     VOTE_ACTIVE_BADGE_LIVE: "voteActiveBadge-live",
     VOTE_ACTIVE_BADGE_PENDING: "voteActiveBadge-pending",
     VOTE_ACTIVE_BADGE: "voteActiveBadge",
+    VOTE_BUTTONS_CONTAINER: "vote-buttonsContainer",
     VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_ACTIVE: "voteResultDetail-container-table-info-active",
     VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_ANONYMOUS: "voteResultDetail-container-table-info-anonymous",
     VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_DATE: "voteResultDetail-container-table-info-date",

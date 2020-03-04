@@ -2,6 +2,7 @@
  * @description Edit component
  * 
  * @requires AdminCredentials
+ * @requires Button
  * @requires constants
  * @requires Dialog
  * @requires InputPassword
@@ -17,6 +18,7 @@
  */
 import * as C from "../../../support/constants";
 import AdminCredentials from "../../AdminCredentials";
+import Button from "../../controls/Button";
 import Dialog from "../../modal/Dialog";
 import InputPassword from "../../controls/InputPassword";
 import InputText from "../../controls/InputText";
@@ -55,7 +57,7 @@ const Edit = ({ logout }) => {
      */
     const responseUpdate = useRef(false);
     const awaitUsersSelfUpdate = useRef(false);
-    const isEditable = useRef(false);
+    const isSubmittable = useRef(false);
     const isResettable = useRef(false);
 
     /**
@@ -108,11 +110,11 @@ const Edit = ({ logout }) => {
     } = useInputText(C.Label.ADMIN_PASSWORD, confirmHandler);
 
     /**
-     * Set isEditable flag
+     * Set isSubmittable flag
      * Determines if the present state of text data is sufficient for submitting to the server.
      * 
      */
-    isEditable.current = (
+    isSubmittable.current = (
 
         (name && name !== usersSelf[C.Model.USER][C.Model.NAME]) ||
         (password && passwordConfirm) ||
@@ -230,7 +232,7 @@ const Edit = ({ logout }) => {
      */
     const submitHandler = async () => {
 
-        if (isEditable.current) {
+        if (isSubmittable.current) {
 
             setAuthError(null);
             setUsersEdit(null);
@@ -291,7 +293,7 @@ const Edit = ({ logout }) => {
      */
     function confirmHandler() {
 
-        if (isEditable.current) {
+        if (isSubmittable.current) {
 
             setShowDialog(true);
         }
@@ -352,19 +354,23 @@ const Edit = ({ logout }) => {
                     </div>
                 }
                 
-                <button
-                    onClick={confirmHandler}
-                    disabled={isLoading || !isEditable.current}
-                >
-                    {C.Label.EDIT}
-                </button>
+                <div className={C.Style.EDIT_BUTTONS_CONTAINER}>
+                    <Button
+                        style={C.Style.BUTTON_SUBMIT_EMPHASIS}
+                        onClick={confirmHandler}
+                        disabled={isLoading || !isSubmittable.current}
+                    >
+                        {C.Label.EDIT}
+                    </Button>
 
-                <button
-                    onClick={resetHandler}
-                    disabled={isLoading || !isResettable.current}
-                >
-                    {C.Label.RESET}
-                </button>
+                    <Button
+                        style={C.Style.BUTTON_SUBMIT}
+                        onClick={resetHandler}
+                        disabled={isLoading || !isResettable.current}
+                    >
+                        {C.Label.RESET}
+                    </Button>
+                </div>
             </div>
         </>
     );

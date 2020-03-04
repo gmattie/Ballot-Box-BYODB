@@ -24,12 +24,17 @@
         }
     }
 
-    button {
-        
-        margin-top: $FORM_GAP;
-        width: 100px;
-        text-transform: uppercase;
-        align-self: flex-end;
-        border: 1px solid cyan;
+    &-button {
+
+        &-open {
+
+            align-self: flex-end;
+            margin-top: $FORM_GAP;
+        }
+
+        &-close {
+
+            align-self: center;
+        }
     }
 }
