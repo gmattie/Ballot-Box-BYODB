@@ -1,0 +1,16 @@
+.resultDetail {
+
+    margin: auto;
+    max-height: 100%;
+    overflow: auto;
+    counter-reset: item-index;
+    
+    &-container {
+        
+        &-table {
+
+            background-color: $RESULTS_TABLE_BACKGROUND_COLOR;
+            border-spacing: 0;
+        }
+    }
+}

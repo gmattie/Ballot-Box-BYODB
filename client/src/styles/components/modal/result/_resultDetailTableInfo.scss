@@ -1,0 +1,27 @@
+.resultDetailTableInfo {
+
+    @include table-cell-border;
+    
+    position: sticky;
+    top: 0;
+    left: 0;
+    height: $RESULTS_TABLE_USER_HEIGHT;
+    min-width: $RESULTS_TABLE_ITEM_MAX_WIDTH;
+    background-color: $RESULTS_TABLE_BACKGROUND_COLOR;
+    z-index: 1;
+
+    &-date,
+    &-active {
+
+        @include table-header-info;
+    }
+
+    &-quantity,
+    &-total,
+    &-anonymous {
+
+        @include table-header-info;
+
+        color: gray;
+    }
+}

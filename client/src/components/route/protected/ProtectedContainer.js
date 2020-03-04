@@ -7,12 +7,12 @@
  * @requires react
  * @requires react-router-dom
  * @requires Results
+ * @requires ResultsContainer
  * @requires useAuth
  * @requires useUsers
  * @requires useVotes
  * @requires useWebSocket
  * @requires Vote
- * @requires VoteResultsContainer
 
  * @public
  * @module
@@ -23,12 +23,12 @@ import * as C from "../../../support/constants";
 import AdminContainer from "./admin/AdminContainer";
 import Edit from "./Edit";
 import React, { useState } from "react";
+import ResultsContainer from "./results/ResultsContainer";
 import useAuth from "../../../hooks/useAuth";
 import useUsers from "../../../hooks/useUsers";
 import useVotes from "../../../hooks/useVotes";
 import useWebSocket from "../../../hooks/useWebSocket";
 import Vote from "./Vote";
-import VoteResultsContainer from "./results/VoteResultsContainer";
 
 /**
  * @description The ProtectedContainer component groups the UI components of the application that are only accessible via user authentication.
@@ -304,7 +304,7 @@ const ProtectedContainer = () => {
                             </Route>
 
                             <Route path={C.Route.RESULTS}>
-                                <VoteResultsContainer logout={logout} />
+                                <ResultsContainer logout={logout} />
                             </Route>
                             
                             <Route path={C.Route.ADMIN}>

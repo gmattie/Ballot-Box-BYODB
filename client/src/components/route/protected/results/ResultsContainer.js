@@ -1,15 +1,15 @@
 /**
- * @description VoteResultsContainer component.
+ * @description ResultsContainer component.
  * 
  * @requires constants
  * @requires prop-types
  * @requires react
+ * @requires Result
+ * @requires ResultDetail
  * @requires useAuth
  * @requires useMount
  * @requires useVotes
  * @requires useWebSocket
- * @requires voteResult
- * @requires VoteResultDetail
 
  * @public
  * @module
@@ -18,16 +18,16 @@
 import * as C from "../../../../support/constants";
 import PropTypes from "prop-types";
 import React, { memo, useRef, useState } from "react";
+import Result from "./Result";
+import ResultDetail from "../../../modal/result/ResultDetail";
 import useAuth from "../../../../hooks/useAuth";
 import useMount from "../../../../hooks/useMount";
 import useVotes from "../../../../hooks/useVotes";
 import useWebSocket from "../../../../hooks/useWebSocket";
-import VoteResult from "./VoteResult";
-import VoteResultDetail from "../../../modal/results/VoteResultDetail";
 
 /**
- * @description The memoized VoteResultsContainer component contains a list of VoteResult components.
- * This component facilitates fetching all Vote documents from the database in order to populate the list of VoteResult components.
+ * @description The memoized ResultsContainer component contains a list of Result components.
+ * This component facilitates fetching all Vote documents from the database in order to populate the list of Result components.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} JSX markup.
@@ -35,7 +35,7 @@ import VoteResultDetail from "../../../modal/results/VoteResultDetail";
  * @function
  * 
  */
-const VoteResultsContainer =  ({ logout }) => {
+const ResultsContainer =  ({ logout }) => {
 
     /**
      * State
@@ -48,7 +48,7 @@ const VoteResultsContainer =  ({ logout }) => {
      * Refs
      * 
      */
-    const voteResultDetailDocumentID = useRef(null);
+    const resultDetailDocumentID = useRef(null);
 
     /**
      * Hooks
@@ -75,7 +75,7 @@ const VoteResultsContainer =  ({ logout }) => {
      */
     const mount = () => {
 
-        window[C.Global.WEB_SOCKET_MESSAGE_VOTE_RESULTS_CONTAINER] = null;
+        window[C.Global.WEB_SOCKET_MESSAGE_RESULTS_CONTAINER] = null;
 
         setIsLoading(true);
 
@@ -91,7 +91,7 @@ const VoteResultsContainer =  ({ logout }) => {
      * 
      */
     if (webSocketMessage &&
-        webSocketMessage !== window[C.Global.WEB_SOCKET_MESSAGE_VOTE_RESULTS_CONTAINER]) {
+        webSocketMessage !== window[C.Global.WEB_SOCKET_MESSAGE_RESULTS_CONTAINER]) {
         
         const isMessageVoteOpened = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_OPENED }));
         const isMessageVoteClosed = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED }));
@@ -103,7 +103,7 @@ const VoteResultsContainer =  ({ logout }) => {
             setVotesAll(null);
             fetchAll();
 
-            window[C.Global.WEB_SOCKET_MESSAGE_VOTE_RESULTS_CONTAINER] = webSocketMessage;
+            window[C.Global.WEB_SOCKET_MESSAGE_RESULTS_CONTAINER] = webSocketMessage;
         }
     }
 
@@ -128,16 +128,16 @@ const VoteResultsContainer =  ({ logout }) => {
     }
 
     /**
-     * @description Displays details based on the Vote document data.
+     * @description Displays a ResultDetail modal dialog component.
      * 
      * @param {string} voteID - The ID of the target Vote document.
      * @private
      * @function
      * 
      */
-    const showVoteResultDetails = (voteID) => {
+    const showResultDetails = (voteID) => {
 
-        voteResultDetailDocumentID.current = voteID;
+        resultDetailDocumentID.current = voteID;
 
         setShowDialog(true);
     };
@@ -148,10 +148,10 @@ const VoteResultsContainer =  ({ logout }) => {
      */
     return (
 
-        <div className={C.Style.VOTE_RESULTS_CONTAINER}>
+        <div className={C.Style.RESULTS_CONTAINER}>
             {showDialog &&
-                <VoteResultDetail 
-                    voteID={voteResultDetailDocumentID.current}
+                <ResultDetail 
+                    voteID={resultDetailDocumentID.current}
                     okCallback={() => setShowDialog(false)}
                     logout={logout}
                 />
@@ -163,10 +163,10 @@ const VoteResultsContainer =  ({ logout }) => {
 
                         return (
                         
-                            <VoteResult
+                            <Result
                                 key={vote._id}
                                 voteDocument={vote}
-                                clickCallback={showVoteResultDetails}
+                                clickCallback={showResultDetails}
                             />
                         );
                     })}
@@ -185,7 +185,7 @@ const VoteResultsContainer =  ({ logout }) => {
  * Prop Types
  * 
  */
-VoteResultsContainer.propTypes = {
+ResultsContainer.propTypes = {
 
     logout: PropTypes.func.isRequired
 };
@@ -194,4 +194,4 @@ VoteResultsContainer.propTypes = {
  * Export module
  * 
  */
-export default memo(VoteResultsContainer);
+export default memo(ResultsContainer);

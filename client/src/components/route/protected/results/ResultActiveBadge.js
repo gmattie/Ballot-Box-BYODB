@@ -1,5 +1,5 @@
 /**
- * @description VoteActiveBadge component.
+ * @description ResultActiveBadge component.
  * 
  * @requires constants
  * @requires prop-types
@@ -14,7 +14,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 /**
- * @description The VoteActiveBadge component denotes either "live" or "pending" results for the active vote.
+ * @description The ResultActiveBadge component displays either "live" or "pending" results for an active vote.
  * During an open poll, the "live" results option will aggregate cast votes and display updated results in real time
  * while the "pending" results option will aggregate cast votes and display results when the poll is closed.
  * 
@@ -24,11 +24,11 @@ import PropTypes from "prop-types";
  * @function
  * 
  */
-const VoteActiveBadge = ({ aggregate }) => {
+const ResultActiveBadge = ({ aggregate }) => {
 
     const style = (aggregate)
-        ? C.Style.VOTE_ACTIVE_BADGE_LIVE
-        : C.Style.VOTE_ACTIVE_BADGE_PENDING;
+        ? C.Style.RESULT_ACTIVE_BADGE_LIVE
+        : C.Style.RESULT_ACTIVE_BADGE_PENDING;
     
     const label = (aggregate)
         ? C.Label.LIVE
@@ -36,8 +36,8 @@ const VoteActiveBadge = ({ aggregate }) => {
 
     return (
 
-        <div className={`${C.Style.VOTE_ACTIVE_LABEL} ${style}`}>
-            {label.toUpperCase()}
+        <div className={`${C.Style.RESULT_ACTIVE_BADGE} ${style}`}>
+            {label}
         </div>
     );
 };
@@ -46,7 +46,7 @@ const VoteActiveBadge = ({ aggregate }) => {
  * Prop Types
  * 
  */
-VoteActiveBadge.propTypes = {
+ResultActiveBadge.propTypes = {
 
     aggregate: PropTypes.bool.isRequired
 };
@@ -55,4 +55,4 @@ VoteActiveBadge.propTypes = {
  * Export module
  * 
  */
-export default VoteActiveBadge;
+export default ResultActiveBadge;

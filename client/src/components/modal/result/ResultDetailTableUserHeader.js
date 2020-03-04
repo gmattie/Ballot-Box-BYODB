@@ -1,5 +1,5 @@
 /**
- * @description TableUserHeader component.
+ * @description ResultDetailTableUserHeader component.
  * 
  * @requires constants
  * @requires prop-types
@@ -13,8 +13,7 @@ import PropTypes from "prop-types";
 import React from "react";
 
 /**
- * @description The header cells displayed within the table of the VoteResultDetail.
- * This table cell displays user information including name, email and IP address.
+ * @description The table header displayed within the ResultDetail component that displays user information including name, email and IP address.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} The portal rendered to the DOM.
@@ -22,7 +21,7 @@ import React from "react";
  * @function
  * 
  */
-const TableUserHeader = ({
+const ResultDetailTableUserHeader = ({
 
         name,
         email,
@@ -35,15 +34,15 @@ const TableUserHeader = ({
      */
     return (
 
-        <th className={C.Style.TABLE_USER_HEADER}>
-            <div className={C.Style.TABLE_USER_HEADER_USER}>
-                <span className={C.Style.TABLE_USER_HEADER_USER_NAME}>
+        <th className={C.Style.RESULT_DETAIL_TABLE_USER_HEADER}>
+            <div className={C.Style.RESULT_DETAIL_TABLE_USER_HEADER_USER}>
+                <span className={C.Style.RESULT_DETAIL_TABLE_USER_HEADER_USER_NAME}>
                     {name}
                 </span>
-                <span className={C.Style.TABLE_USER_HEADER_USER_EMAIL}>
+                <span className={C.Style.RESULT_DETAIL_TABLE_USER_HEADER_USER_EMAIL}>
                     {email}
                 </span>
-                <span className={C.Style.TABLE_USER_HEADER_USER_IP}>
+                <span className={C.Style.RESULT_DETAIL_TABLE_USER_HEADER_USER_IP}>
                     {ip}
                 </span>
             </div>
@@ -55,7 +54,7 @@ const TableUserHeader = ({
  * Prop Types
  * 
  */
-TableUserHeader.propTypes = {
+ResultDetailTableUserHeader.propTypes = {
 
     name: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
@@ -66,4 +65,4 @@ TableUserHeader.propTypes = {
  * Export module
  * 
  */
-export default TableUserHeader;
+export default ResultDetailTableUserHeader;

@@ -1,38 +1,36 @@
 /**
- * @description VoteResultDetail component.
+ * @description ResultDetail component.
  * 
  * @requires constants
- * @requires moment
  * @requires Portal
  * @requires prop-types
  * @requires react
- * @requires TableItemRow
- * @requires TableUserHeader
+ * @requires ResultDetailTableInfo
+ * @requires ResultDetailTableItemRow
+ * @requires ResultDetailTableUserHeader
  * @requires useAuth
  * @requires useMount
  * @requires useVotes
  * @requires useWebSocket
- * @requires VoteActiveBadge
  * @public
  * @module
  * 
  */
 import * as C from "../../../support/constants";
-import Moment from "moment";
 import Portal from "../Portal";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import TableItemRow from "./TableItemRow";
-import TableUserHeader from "./TableUserHeader";
+import ResultDetailTableInfo from "./ResultDetailTableInfo";
+import ResultDetailTableItemRow from "./ResultDetailTableItemRow";
+import ResultDetailTableUserHeader from "./ResultDetailTableUserHeader";
 import useAuth from "../../../hooks/useAuth";
 import useMount from "../../../hooks/useMount";
 import useVotes from "../../../hooks/useVotes";
 import useWebSocket from "../../../hooks/useWebSocket";
-import VoteActiveBadge from "../../route/protected/results/VoteActiveBadge";
 
 /**
  * @description Renders an modal window inside a React Portal.
- * VoteResultDetails must contain a "voteID" to create and display details of the target Vote document and an "okCallback" that is called when the details are clicked.
+ * ResultDetail components must contain a "voteID" to create and display details of the target Vote document and an "okCallback" that is called when the details are clicked.
  * Vote documents that are flagged as active will continue to fetch data and render when new data is received.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
@@ -41,7 +39,7 @@ import VoteActiveBadge from "../../route/protected/results/VoteActiveBadge";
  * @function
  * 
  */
-const VoteResultDetail = ({
+const ResultDetail = ({
 
         voteID,
         okCallback,
@@ -81,7 +79,7 @@ const VoteResultDetail = ({
      */
     const mount = () => {
 
-        window[C.Global.WEB_SOCKET_MESSAGE_VOTE_RESULT_DETAIL] = null;
+        window[C.Global.WEB_SOCKET_MESSAGE_RESULT_DETAIL] = null;
 
         setIsLoading(true);
 
@@ -97,7 +95,7 @@ const VoteResultDetail = ({
      * 
      */
     if (webSocketMessage &&
-        webSocketMessage !== window[C.Global.WEB_SOCKET_MESSAGE_VOTE_RESULT_DETAIL]) {
+        webSocketMessage !== window[C.Global.WEB_SOCKET_MESSAGE_RESULT_DETAIL]) {
         
         const isMessageVoteCast = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CAST }));
         const isMessageVoteClosed = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED }));
@@ -106,7 +104,7 @@ const VoteResultDetail = ({
 
             fetchOne(voteID);
 
-            window[C.Global.WEB_SOCKET_MESSAGE_VOTE_RESULT_DETAIL] = (isMessageVoteCast)
+            window[C.Global.WEB_SOCKET_MESSAGE_RESULT_DETAIL] = (isMessageVoteCast)
                 ? null
                 : webSocketMessage;
         }
@@ -193,38 +191,21 @@ const VoteResultDetail = ({
      */
     return (
 
-        <Portal elementID={C.ID.ELEMENT_VOTE_RESULT_DETAIL}>
-            <div className={C.Style.VOTE_RESULT_DETAIL} onClick={okCallback}>
-                <div className={C.Style.VOTE_RESULT_DETAIL_CONTAINER}>
+        <Portal elementID={C.ID.ELEMENT_RESULT_DETAIL}>
+            <div className={C.Style.RESULT_DETAIL} onClick={okCallback}>
+                <div className={C.Style.RESULT_DETAIL_CONTAINER}>
                     {votesOne && 
-                        <table className={C.Style.VOTE_RESULT_DETAIL_CONTAINER_TABLE}>
+                        <table className={C.Style.RESULT_DETAIL_CONTAINER_TABLE}>
                             <thead>
                                 <tr>
-                                    <td className={C.Style.VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO}>
-                                        <div className={C.Style.VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_DATE}>
-                                            {Moment(votesOne[C.Model.DATE]).format(C.Local.DATE_FORMAT)}
-                                        </div>
-
-                                        <div className={C.Style.VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_QUANTITY}>
-                                            {`${C.Label.QUANTITY}: ${votesOne[C.Model.QUANTITY]}`}
-                                        </div>
-
-                                        <div className={C.Style.VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_TOTAL}>
-                                            {`${C.Label.TOTAL_VOTES_CAST} ${votesOne[C.Model.VOTE].length}`}
-                                        </div>
-
-                                        {votesOne[C.Model.ANONYMOUS] &&
-                                            <div className={C.Style.VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_ANONYMOUS}>
-                                                {C.Label.ANONYMOUS}
-                                            </div>
-                                        }
-
-                                        {votesOne[C.Model.ACTIVE] &&
-                                            <div className={C.Style.VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_ACTIVE}>
-                                                <VoteActiveBadge aggregate={votesOne[C.Model.AGGREGATE]} />
-                                            </div>
-                                        }
-                                    </td>
+                                    <ResultDetailTableInfo
+                                        aggregate={votesOne[C.Model.AGGREGATE]}
+                                        date={votesOne[C.Model.DATE]}
+                                        isActive={votesOne[C.Model.ACTIVE]}
+                                        isAnonymous={votesOne[C.Model.ANONYMOUS]}
+                                        quantity={votesOne[C.Model.QUANTITY]}
+                                        totalCastVotes={votesOne[C.Model.VOTE].length}
+                                    />
 
                                     {(votesOne[C.Model.AGGREGATE] || !votesOne[C.Model.ACTIVE]) &&
                                     !votesOne[C.Model.ANONYMOUS] &&
@@ -232,7 +213,7 @@ const VoteResultDetail = ({
 
                                             return (
 
-                                                <TableUserHeader
+                                                <ResultDetailTableUserHeader
                                                     key={vote[C.Model.ID]}
                                                     name={vote[C.Model.USER][C.Model.NAME]}
                                                     email={vote[C.Model.USER][C.Model.EMAIL]}
@@ -249,7 +230,7 @@ const VoteResultDetail = ({
 
                                     return (
 
-                                        <TableItemRow
+                                        <ResultDetailTableItemRow
                                             key={total[C.Model.ID]}
                                             score={total[C.Model.RANK]}
                                             itemName={total[C.Model.ITEM][C.Model.NAME]}
@@ -275,7 +256,7 @@ const VoteResultDetail = ({
  * Prop Types
  * 
  */
-VoteResultDetail.propTypes = {
+ResultDetail.propTypes = {
 
     voteID: PropTypes.string.isRequired,
     okCallback: PropTypes.func.isRequired,
@@ -286,4 +267,4 @@ VoteResultDetail.propTypes = {
  * Export module
  * 
  */
-export default VoteResultDetail;
+export default ResultDetail;

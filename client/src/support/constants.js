@@ -181,10 +181,10 @@ const Event = Object.freeze({
  * 
  * <ul>
  *     <li> LIST_ITEM_DRAG_TARGET </li>
- *     <li> WEB_SOCKET_MESSAGE_VOTE_RESULT_DETAIL </li>
- *     <li> WEB_SOCKET_PROTECTED_CONTAINER </li>
- *     <li> WEB_SOCKET_VOTE </li>
- *     <li> WEB_SOCKET_VOTE_RESULTS_CONTAINER </li>
+ *     <li> WEB_SOCKET_MESSAGE_PROTECTED_CONTAINER </li>
+ *     <li> WEB_SOCKET_MESSAGE_RESULT_DETAIL </li>
+ *     <li> WEB_SOCKET_MESSAGE_RESULTS_CONTAINER </li>
+ *     <li> WEB_SOCKET_MESSAGE_VOTE </li>
  * </ul>
  * 
  * @public
@@ -195,8 +195,8 @@ const Global = Object.freeze({
 
     LIST_ITEM_DRAG_TARGET: "listItemDragTarget",
     WEB_SOCKET_MESSAGE_PROTECTED_CONTAINER: "webSocketMessageProtectedContainer",
-    WEB_SOCKET_MESSAGE_VOTE_RESULT_DETAIL: "webSocketMessageVoteResultDetail",
-    WEB_SOCKET_MESSAGE_VOTE_RESULTS_CONTAINER: "webSocketMessageVoteResultsContainer",
+    WEB_SOCKET_MESSAGE_RESULT_DETAIL: "webSocketMessageResultDetail",
+    WEB_SOCKET_MESSAGE_RESULTS_CONTAINER: "webSocketMessageResultsContainer",
     WEB_SOCKET_MESSAGE_VOTE: "webSocketMessageVote",
 });
 
@@ -245,7 +245,7 @@ const HTMLElement = Object.freeze({
  *     <li> DEADLINE_SECONDS </li>
  *     <li> ELEMENT_DIALOG </li>
  *     <li> ELEMENT_ITEM_DETAIL </li>
- *     <li> ELEMENT_VOTE_RESULT_DETAIL </li>
+ *     <li> ELEMENT_RESULT_DETAIL </li>
  *     <li> ERROR_MESSAGE </li>
  *     <li> ERROR_PARAM </li>
  *     <li> LIST_ITEMS_ALL </li>
@@ -280,7 +280,7 @@ const ID = Object.freeze({
     DEADLINE_SECONDS: "seconds",
     ELEMENT_DIALOG: "dialog",
     ELEMENT_ITEM_DETAIL: "itemDetail",
-    ELEMENT_VOTE_RESULT_DETAIL: "voteResultDetail",
+    ELEMENT_RESULT_DETAIL: "resultDetail",
     ERROR_MESSAGE: "msg",
     ERROR_PARAM: "param",
     LIST_ITEMS_ALL: "listItemsAll",
@@ -707,32 +707,35 @@ const Route = Object.freeze({
  *     <li> RESET_EMAIL </li>
  *     <li> RESET_PASSWORD </li>
  *     <li> RESET_PASSWORD_CONFIRM </li>
- *     <li> TABLE_ITEM_ROW </li>
- *     <li> TABLE_ITEM_ROW_HEADER </li>
- *     <li> TABLE_ITEM_ROW_HEADER_ITEM </li>
- *     <li> TABLE_ITEM_ROW_HEADER_SCORE </li>
- *     <li> TABLE_ITEM_ROW_RANK </li>
- *     <li> TABLE_USER_HEADER </li>
- *     <li> TABLE_USER_HEADER_USER </li>
- *     <li> TABLE_USER_HEADER_USER_EMAIL </li>
- *     <li> TABLE_USER_HEADER_USER_IP </li>
- *     <li> TABLE_USER_HEADER_USER_NAME </li>
+ *     <li> RESULT </li>
+ *     <li> RESULT_ACTIVE_BADGE </li>
+ *     <li> RESULT_ACTIVE_BADGE_LIVE </li>
+ *     <li> RESULT_ACTIVE_BADGE_PENDING </li>
+ *     <li> RESULT_DETAIL </li>
+ *     <li> RESULT_DETAIL_CONTAINER </li>
+ *     <li> RESULT_DETAIL_CONTAINER_TABLE </li>
+ *     <li> RESULT_DETAIL_TABLE_INFO </li>
+ *     <li> RESULT_DETAIL_TABLE_INFO_ACTIVE </li>
+ *     <li> RESULT_DETAIL_TABLE_INFO_ANONYMOUS </li>
+ *     <li> RESULT_DETAIL_TABLE_INFO_DATE </li>
+ *     <li> RESULT_DETAIL_TABLE_INFO_QUANTITY </li>
+ *     <li> RESULT_DETAIL_TABLE_INFO_TOTAL </li>
+ *     <li> RESULT_DETAIL_TABLE_ITEM_ROW </li>
+ *     <li> RESULT_DETAIL_TABLE_ITEM_ROW_HEADER </li>
+ *     <li> RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_ITEM </li>
+ *     <li> RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_SCORE </li>
+ *     <li> RESULT_DETAIL_TABLE_ITEM_ROW_RANK </li>
+ *     <li> RESULT_DETAIL_TABLE_USER_HEADER </li>
+ *     <li> RESULT_DETAIL_TABLE_USER_HEADER_USER </li>
+ *     <li> RESULT_DETAIL_TABLE_USER_HEADER_USER_EMAIL </li>
+ *     <li> RESULT_DETAIL_TABLE_USER_HEADER_USER_IP </li>
+ *     <li> RESULT_DETAIL_TABLE_USER_HEADER_USER_NAME </li>
+ *     <li> RESULTS_CONTAINER </li>
  *     <li> TRANSPARENT </li>
  *     <li> VISIBLE </li>
  *     <li> VOTE </li>
  *     <li> VOTE_BUTTONS_CONTAINER </li>
- *     <li> VOTE_RESULT </li>
  *     <li> VOTE_RESULT_ACTIVE </li>
- *     <li> VOTE_RESULT_DETAIL </li>
- *     <li> VOTE_RESULT_DETAIL_CONTAINER </li>
- *     <li> VOTE_RESULT_DETAIL_CONTAINER_TABLE </li>
- *     <li> VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO </li>
- *     <li> VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_ACTIVE </li>
- *     <li> VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_ANONYMOUS </li>
- *     <li> VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_DATE </li>
- *     <li> VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_QUANTITY </li>
- *     <li> VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_TOTAL </li>
- *     <li> VOTE_RESULTS_CONTAINER </li>
  * </ul>
  * 
  * @public
@@ -850,33 +853,33 @@ const Style = Object.freeze({
     RESET_PASSWORD_CONFIRM: "reset-passwordConfirm",
     RESET_PASSWORD: "reset-password",
     RESET: "reset",
-    TABLE_ITEM_ROW_HEADER_ITEM: "tableItemRow-header-item",
-    TABLE_ITEM_ROW_HEADER_SCORE: "tableItemRow-header-score",
-    TABLE_ITEM_ROW_HEADER: "tableItemRow-header",
-    TABLE_ITEM_ROW_RANK: "tableItemRow-rank",
-    TABLE_ITEM_ROW: "tableItemRow",
-    TABLE_USER_HEADER_USER_EMAIL: "tableUserHeader-user-email",
-    TABLE_USER_HEADER_USER_IP: "tableUserHeader-user-ip",
-    TABLE_USER_HEADER_USER_NAME: "tableUserHeader-user-name",
-    TABLE_USER_HEADER_USER: "tableUserHeader-user",
-    TABLE_USER_HEADER: "tableUserHeader",
+    RESULT_ACTIVE_BADGE_LIVE: "resultActiveBadge-live",
+    RESULT_ACTIVE_BADGE_PENDING: "resultActiveBadge-pending",
+    RESULT_ACTIVE_BADGE: "resultActiveBadge",
+    RESULT_DETAIL_CONTAINER_TABLE: "resultDetail-container-table",
+    RESULT_DETAIL_CONTAINER: "resultDetail-container",
+    RESULT_DETAIL_TABLE_INFO_ACTIVE: "resultDetailTableInfo-active",
+    RESULT_DETAIL_TABLE_INFO_ANONYMOUS: "resultDetailTableInfo-anonymous",
+    RESULT_DETAIL_TABLE_INFO_DATE: "resultDetailTableInfo-date",
+    RESULT_DETAIL_TABLE_INFO_QUANTITY: "resultDetailTableInfo-quantity",
+    RESULT_DETAIL_TABLE_INFO_TOTAL: "resultDetailTableInfo-total",
+    RESULT_DETAIL_TABLE_INFO: "resultDetailTableInfo",
+    RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_ITEM: "resultDetailTableItemRow-header-item",
+    RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_SCORE: "resultDetailTableItemRow-header-score",
+    RESULT_DETAIL_TABLE_ITEM_ROW_HEADER: "resultDetailTableItemRow-header",
+    RESULT_DETAIL_TABLE_ITEM_ROW_RANK: "resultDetailTableItemRow-rank",
+    RESULT_DETAIL_TABLE_ITEM_ROW: "resultDetailTableItemRow",
+    RESULT_DETAIL_TABLE_USER_HEADER_USER_EMAIL: "resultDetailTableUserHeader-user-email",
+    RESULT_DETAIL_TABLE_USER_HEADER_USER_IP: "resultDetailTableUserHeader-user-ip",
+    RESULT_DETAIL_TABLE_USER_HEADER_USER_NAME: "resultDetailTableUserHeader-user-name",
+    RESULT_DETAIL_TABLE_USER_HEADER_USER: "resultDetailTableUserHeader-user",
+    RESULT_DETAIL_TABLE_USER_HEADER: "resultDetailTableUserHeader",
+    RESULT_DETAIL: "resultDetail",
+    RESULT: "result",
+    RESULTS_CONTAINER: "resultsContainer",
     TRANSPARENT: "transparent",
     VISIBLE: "visible",
-    VOTE_ACTIVE_BADGE_LIVE: "voteActiveBadge-live",
-    VOTE_ACTIVE_BADGE_PENDING: "voteActiveBadge-pending",
-    VOTE_ACTIVE_BADGE: "voteActiveBadge",
     VOTE_BUTTONS_CONTAINER: "vote-buttonsContainer",
-    VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_ACTIVE: "voteResultDetail-container-table-info-active",
-    VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_ANONYMOUS: "voteResultDetail-container-table-info-anonymous",
-    VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_DATE: "voteResultDetail-container-table-info-date",
-    VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_QUANTITY: "voteResultDetail-container-table-info-quantity",
-    VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO_TOTAL: "voteResultDetail-container-table-info-total",
-    VOTE_RESULT_DETAIL_CONTAINER_TABLE_INFO: "voteResultDetail-container-table-info",
-    VOTE_RESULT_DETAIL_CONTAINER_TABLE: "voteResultDetail-container-table",
-    VOTE_RESULT_DETAIL_CONTAINER: "voteResultDetail-container",
-    VOTE_RESULT_DETAIL: "voteResultDetail",
-    VOTE_RESULT: "voteResult",
-    VOTE_RESULTS_CONTAINER: "voteResultsContainer",
     VOTE: "vote",
 });
 

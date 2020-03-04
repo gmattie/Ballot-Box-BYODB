@@ -36,9 +36,10 @@
 @import "./components/modal/itemDetail";
 @import "./components/modal/portal";
 
-@import "./components/modal/results/tableItemRow";
-@import "./components/modal/results/tableUserHeader";
-@import "./components/modal/results/voteResultDetail";
+@import "./components/modal/result/resultDetail";
+@import "./components/modal/result/resultDetailTableInfo";
+@import "./components/modal/result/resultDetailTableItemRow";
+@import "./components/modal/result/resultDetailTableUserHeader";
 
 @import "./components/route/public/publicContainer";
 @import "./components/route/public/login";
@@ -51,7 +52,7 @@
 @import "./components/route/protected/admin/managePolls";
 @import "./components/route/protected/edit";
 @import "./components/route/protected/protectedContainer";
-@import "./components/route/protected/results/voteActiveBadge";
-@import "./components/route/protected/results/voteResult";
-@import "./components/route/protected/results/voteResultsContainer";
+@import "./components/route/protected/results/resultActiveBadge";
+@import "./components/route/protected/results/result";
+@import "./components/route/protected/results/resultsContainer";
 @import "./components/route/protected/vote";
