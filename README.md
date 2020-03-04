@@ -6,6 +6,6 @@ Open polls and aggregate election results using your own database.
 
 ## **License**
 
-[**MIT License**](./LICENSE)
+[**GNU General Public License v3.0**](./LICENSE)
 
-Copyright © 2019 Geoffrey Mattie
+Copyright © 2020 Geoffrey Mattie
