@@ -3,6 +3,7 @@
  * 
  * @requires AdminCredentials
  * @requires Button
+ * @requires Confirmation
  * @requires constants
  * @requires InputPassword
  * @requires InputText
@@ -17,6 +18,7 @@
 import * as C from "../../../support/constants";
 import AdminCredentials from "../../AdminCredentials";
 import Button from "../../controls/Button";
+import Confirmation from "./Confirmation";
 import InputPassword from "../../controls/InputPassword";
 import InputText from "../../controls/InputText";
 import React, { useRef, useState } from "react";
@@ -89,7 +91,7 @@ const Register = () => {
         
         binding: bindPasswordConfirm,
         value: passwordConfirm
-    } = useInputText(C.Label.PASSWORD_CONFIRM, submitHandler);
+    } = useInputText(`${C.Label.CONFIRM} ${C.Label.PASSWORD}`, submitHandler);
 
     const {
         
@@ -230,10 +232,10 @@ const Register = () => {
 
         return (
         
-            <div className={C.Style.REGISTER_CONFIRMATION}>
-                <p>{C.Label.EMAIL_SENT} <span>{usersRegister.email}</span></p>
-                <p>{C.Label.EMAIL_REFER} {C.Label.EMAIL_REGISTRATION}</p>
-            </div>
+            <Confirmation
+                email={usersRegister.email}
+                message={C.Label.EMAIL_REGISTRATION}
+            />
         );
     }
 

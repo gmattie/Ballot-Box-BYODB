@@ -39,15 +39,10 @@
 
         &-nav {
 
-            &-button {
-            
-                background-color: gray;
-                
-                &-selected {
-
-                    background-color: white;
-                }
-            }
+            margin-top: 4px;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row;
         }
     }
 }

@@ -38,7 +38,7 @@ const Button = ({
 
         <button
             className={`${C.Style.BUTTON} ${style}`}
-            disabled={disabled}
+            disabled={disabled || false}
             onClick={onClick}
         >
             {children}
@@ -54,11 +54,13 @@ Button.propTypes = {
 
     style: PropTypes.oneOf([
 
+        C.Style.BUTTON_NAVIGATION_SELECTED,
+        C.Style.BUTTON_NAVIGATION,
         C.Style.BUTTON_SUBMIT_EMPHASIS,
-        C.Style.BUTTON_SUBMIT
+        C.Style.BUTTON_SUBMIT, 
     ]).isRequired,
     onClick: PropTypes.func.isRequired,
-    disabled: PropTypes.bool.isRequired,
+    disabled: PropTypes.bool,
     children: PropTypes.any.isRequired
 };
 

@@ -93,7 +93,7 @@ const Edit = ({ logout }) => {
         binding: bindPasswordConfirm,
         clearValue: clearPasswordConfirm,
         value: passwordConfirm
-    } = useInputText(`${C.Label.PASSWORD_CONFIRM} ${C.Label.OPTIONAL}`, confirmHandler);
+    } = useInputText(`${C.Label.CONFIRM} ${C.Label.PASSWORD} ${C.Label.OPTIONAL}`, confirmHandler);
 
     const {
         

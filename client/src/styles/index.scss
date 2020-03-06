@@ -10,7 +10,6 @@
 @import "./abstracts/animations/spin";
 
 @import "./abstracts/mixins/badge";
-@import "./abstracts/mixins/confirmation";
 @import "./abstracts/mixins/error";
 @import "./abstracts/mixins/header";
 @import "./abstracts/mixins/input";
@@ -41,8 +40,9 @@
 @import "./components/modal/result/resultDetailTableItemRow";
 @import "./components/modal/result/resultDetailTableUserHeader";
 
-@import "./components/route/public/publicContainer";
+@import "./components/route/public/confirmation";
 @import "./components/route/public/login";
+@import "./components/route/public/publicContainer";
 @import "./components/route/public/register";
 @import "./components/route/public/reset";
 

@@ -2,6 +2,7 @@
  * @description PublicContainer component.
  * 
  * @requires BallotBoxIcon.png
+ * @requires Button
  * @requires constants
  * @requires Login
  * @requires react
@@ -15,6 +16,7 @@
  */
 import { Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
 import * as C from "../../../support/constants";
+import Button from "../../controls/Button";
 import Icon from "../../../assets/BallotBoxIcon.png";
 import Login from "./Login";
 import React from "react";
@@ -42,7 +44,7 @@ const PublicContainer = () => {
     const history = useHistory();
 
     /**
-     * @description Retrieves a CSS style based on the hypertext reference link argument.
+     * @description Retrieves a style based on the hypertext reference link argument.
      * 
      * @param {string} href - A hypertext reference link.
      * @private
@@ -52,8 +54,8 @@ const PublicContainer = () => {
     const getButtonStyle = (href) => {
 
         const style = (href === path)
-            ? C.Style.PUBLIC_CONTAINER_CONTENT_NAV_BUTTON_SELECTED
-            : C.Style.PUBLIC_CONTAINER_CONTENT_NAV_BUTTON;
+            ? C.Style.BUTTON_NAVIGATION_SELECTED
+            : C.Style.BUTTON_NAVIGATION;
 
         return style;
     };
@@ -61,7 +63,7 @@ const PublicContainer = () => {
     /**
      * @description Creates a button with a hypertext reference link and textual content.
      * 
-     * @param {string} label - The button's textual content.
+     * @param {string} label - The textual content of the Button component.
      * @param {string} href - A hypertext reference link.
      * @private
      * @function
@@ -71,12 +73,12 @@ const PublicContainer = () => {
 
         return (
 
-            <button
-                className={getButtonStyle(href)}
+            <Button
+                style={getButtonStyle(href)}
                 onClick={() => history.push(href)}
             >
                 {label}
-            </button>
+            </Button>
         );
     };
 
@@ -99,7 +101,7 @@ const PublicContainer = () => {
                     <nav className={C.Style.PUBLIC_CONTAINER_CONTENT_NAV}>
                         {createButton(C.Label.LOGIN, C.Route.LOGIN)}
                         {createButton(C.Label.REGISTER, C.Route.REGISTER)}
-                        {createButton(`${C.Label.RESET} ${C.Label.PASSWORD}`, C.Route.RESET)}
+                        {createButton(C.Label.RESET, C.Route.RESET)}
                     </nav>
                     
                     <Switch>

@@ -2,6 +2,7 @@
  * @description Reset component
  * 
  * @requires Button
+ * @requires Confirmation
  * @requires constants
  * @requires InputPassword
  * @requires InputText
@@ -15,6 +16,7 @@
  */
 import * as C from "../../../support/constants";
 import Button from "../../controls/Button";
+import Confirmation from "./Confirmation";
 import InputPassword from "../../controls/InputPassword";
 import InputText from "../../controls/InputText";
 import React, { useRef, useState } from "react";
@@ -74,13 +76,13 @@ const Reset = () => {
         
         binding: bindPassword,
         value: password
-    } = useInputText(C.Label.PASSWORD, submitHandler);
+    } = useInputText(`${C.Label.NEW} ${C.Label.PASSWORD}`, submitHandler);
 
     const { 
         
         binding: bindPasswordConfirm,
         value: passwordConfirm
-    } = useInputText(C.Label.PASSWORD_CONFIRM, submitHandler);
+    } = useInputText(`${C.Label.CONFIRM } ${C.Label.NEW} ${C.Label.PASSWORD}`, submitHandler);
 
     /**
      * Set isSubmittable flag
@@ -187,10 +189,10 @@ const Reset = () => {
 
         return (
         
-            <div className={C.Style.RESET_CONFIRMATION}>
-                <p>{C.Label.EMAIL_SENT} <span>{usersReset.email}</span></p>
-                <p>{C.Label.EMAIL_REFER} {C.Label.EMAIL_RESET}</p>
-            </div>
+            <Confirmation
+                email={usersReset.email}
+                message={C.Label.EMAIL_RESET}
+            />
         );
     }
 
@@ -230,7 +232,7 @@ const Reset = () => {
                     onClick={submitHandler}
                     disabled={isLoading || !isSubmittable.current}
                 >
-                    {`${C.Label.RESET} ${C.Label.PASSWORD}`}
+                    {C.Label.RESET}
                 </Button>
             </div>
 

@@ -1,7 +1,6 @@
 .button {
 
     width: 100%;
-    padding: $CONTROL_PADDING_TOP $CONTROL_PADDING_LEFT;
     font-family: inherit;
     font-size: inherit;
     font-weight: $FONT_WEIGHT_BOLD;
@@ -11,7 +10,6 @@
     border: none;
     outline: none;
     user-select: none;
-    box-shadow: $CONTROL_DROP_SHADOW;
     cursor: pointer;
     transition: all $DURATION_TRANSITION_BUTTON ease-in-out;
 
@@ -37,13 +35,39 @@
         }
     }
 
+    $COLOR_EMPHASIS: rgb(110, 110, 150);
+
     &-submit {
 
+        padding: $CONTROL_PADDING_TOP $CONTROL_PADDING_LEFT;
         background-color: #707070;
+        box-shadow: $CONTROL_DROP_SHADOW;
 
         &-emphasis {
 
-            background-color: rgb(110, 110, 150);
+            padding: $CONTROL_PADDING_TOP $CONTROL_PADDING_LEFT;
+            background-color: $COLOR_EMPHASIS;
+            box-shadow: $CONTROL_DROP_SHADOW;
+        }
+    }
+
+    &-navigation {
+
+        $NAVIGATION_UNDERLINE_HEIGHT: 4px;
+        $NAVIGATION_PADDING: 8px 0 8px;
+
+        flex: 0 0 0;
+        color: darkgray;
+        background-color: transparent;
+        border-bottom: $NAVIGATION_UNDERLINE_HEIGHT solid transparent;
+        padding: $NAVIGATION_PADDING;
+
+        &-selected {
+
+            flex: 0 0 0;
+            background-color: transparent;
+            border-bottom: $NAVIGATION_UNDERLINE_HEIGHT solid $COLOR_EMPHASIS;
+            padding: $NAVIGATION_PADDING;
         }
     }
 }

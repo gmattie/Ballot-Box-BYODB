@@ -15,9 +15,4 @@
         align-self: flex-end;
         margin-top: $FORM_GAP;
     }
-
-    &-confirmation {
-        
-        @include confirmation;
-    }
 }

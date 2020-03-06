@@ -1,4 +1,4 @@
-@mixin confirmation {
+.confirmation {
 
     color: gray;
     text-align: center;
@@ -8,10 +8,8 @@
         margin-top: $FORM_GAP;
     }
 
-    span {
+    &-email {
 
-        display: inline-block;
         color: white;
-        margin: 0 $FORM_GAP;
     }
 }

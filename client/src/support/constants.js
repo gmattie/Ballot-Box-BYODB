@@ -334,6 +334,7 @@ const Image = Object.freeze({
  *     <li> CANDIDATES </li>
  *     <li> CLOSE </li>
  *     <li> CLOSED </li>
+ *     <li> CONFIRM </li>
  *     <li> CONFIRM_ADD_ITEM </li>
  *     <li> CONFIRM_CLOSE_POLLS </li>
  *     <li> CONFIRM_EDIT </li>
@@ -347,12 +348,12 @@ const Image = Object.freeze({
  *     <li> DEADLINE_SECONDS </li>
  *     <li> EDIT </li>
  *     <li> EDIT_ITEMS </li>
- *     <li> ERROR </li>
  *     <li> EMAIL </li>
  *     <li> EMAIL_REFER </li>
  *     <li> EMAIL_REGISTRATION </li>
  *     <li> EMAIL_RESET </li>
  *     <li> EMAIL_SENT </li>
+ *     <li> ERROR </li>
  *     <li> HIDE </li>
  *     <li> ICON </li>
  *     <li> IMAGE </li>
@@ -361,11 +362,11 @@ const Image = Object.freeze({
  *     <li> LOGOUT </li>
  *     <li> MANAGE_POLLS </li>
  *     <li> NAME </li>
+ *     <li> NEW </li>
  *     <li> OK </li>
  *     <li> OPEN </li>
  *     <li> OPTIONAL </li>
  *     <li> PASSWORD </li>
- *     <li> PASSWORD_CONFIRM </li>
  *     <li> PENDING </li>
  *     <li> POLLS_STATUS </li>
  *     <li> QUANTITY </li>
@@ -403,6 +404,7 @@ const Label = Object.freeze({
     CONFIRM_EDIT: "Are you sure you want to edit your user account?",
     CONFIRM_OPEN_POLLS: "Are you sure you want to open the polls?",
     CONFIRM_VOTE: "Are you sure you want to cast this vote?",
+    CONFIRM: "Confirm",
     DEADLINE_DAYS: "Days",
     DEADLINE_HOURS: "Hours",
     DEADLINE_MINUTES: "Minutes",
@@ -410,12 +412,12 @@ const Label = Object.freeze({
     DEADLINE: "Deadline",
     EDIT_ITEMS: "Edit Items",
     EDIT: "Edit",
-    ERROR: "Error",
     EMAIL_REFER: "Please refer to the email in order to",
     EMAIL_REGISTRATION: "complete your registration and activate your account.",
     EMAIL_RESET: "confirm the request to reset your account password.",
     EMAIL_SENT: "An email has been sent to:",
     EMAIL: "Email",
+    ERROR: "Error",
     HIDE: "Hide",
     ICON: "Icon",
     IMAGE: "Image",
@@ -424,10 +426,10 @@ const Label = Object.freeze({
     LOGOUT: "Logout",
     MANAGE_POOLS: "Manage Polls",
     NAME: "Name",
+    NEW: "New",
     OK: "OK",
     OPEN: "Open",
     OPTIONAL: "(Optional)",
-    PASSWORD_CONFIRM: "Confirm Password",
     PASSWORD: "Password",
     PENDING: "Pending",
     POLLS_STATUS: "Polls Status:",
@@ -610,6 +612,8 @@ const Route = Object.freeze({
  *     <li> ADMIN_CREDENTIALS_PASSWORD </li>
  *     <li> ADMIN_CREDENTIALS_USERNAME </li>
  *     <li> BUTTON </li>
+ *     <li> BUTTON_NAVIGATION </li>
+ *     <li> BUTTON_NAVIGATION_SELECTED </li>
  *     <li> BUTTON_SUBMIT </li>
  *     <li> BUTTON_SUBMIT_EMPHASIS </li>
  *     <li> COLLAPSIBLE </li>
@@ -620,6 +624,8 @@ const Route = Object.freeze({
  *     <li> COLLAPSIBLE_HEADER_SECTION </li>
  *     <li> COLLAPSIBLE_HEADER_TITLE </li>
  *     <li> COLLAPSIBLE_HEADER_TITLE_EXPANDED </li>
+ *     <li> CONFIRMATION </li>
+ *     <li> CONFIRMATION_EMAIL </li>
  *     <li> DIALOG </li>
  *     <li> DIALOG_BUTTONS_CONTAINER </li>
  *     <li> DIALOG_MESSAGE_CONTAINER </li>
@@ -687,8 +693,6 @@ const Route = Object.freeze({
  *     <li> PUBLIC_CONTAINER </li>
  *     <li> PUBLIC_CONTAINER_CONTENT </li>
  *     <li> PUBLIC_CONTAINER_CONTENT_NAV </li>
- *     <li> PUBLIC_CONTAINER_CONTENT_NAV_BUTTON </li>
- *     <li> PUBLIC_CONTAINER_CONTENT_NAV_BUTTON_SELECTED </li>
  *     <li> PUBLIC_CONTAINER_ICON </li>
  *     <li> REGISTER </li>
  *     <li> REGISTER_ADMIN </li>
@@ -696,14 +700,12 @@ const Route = Object.freeze({
  *     <li> REGISTER_ADMIN_PASSWORD </li>
  *     <li> REGISTER_ADMIN_USERNAME </li>
  *     <li> REGISTER_BUTTON </li>
- *     <li> REGISTER_CONFIRMATION </li>
  *     <li> REGISTER_EMAIL </li>
  *     <li> REGISTER_NAME </li>
  *     <li> REGISTER_PASSWORD </li>
  *     <li> REGISTER_PASSWORD_CONFIRM </li>
  *     <li> RESET </li>
  *     <li> RESET_BUTTON </li>
- *     <li> RESET_CONFIRMATION </li>
  *     <li> RESET_EMAIL </li>
  *     <li> RESET_PASSWORD </li>
  *     <li> RESET_PASSWORD_CONFIRM </li>
@@ -754,6 +756,8 @@ const Style = Object.freeze({
     ADMIN_CREDENTIALS_PASSWORD: "adminCredentials-password",
     ADMIN_CREDENTIALS_USERNAME: "adminCredentials-username",
     ADMIN_CREDENTIALS: "adminCredentials",
+    BUTTON_NAVIGATION_SELECTED: "button-navigation-selected",
+    BUTTON_NAVIGATION: "button-navigation",
     BUTTON_SUBMIT_EMPHASIS: "button-submit-emphasis",
     BUTTON_SUBMIT: "button-submit",
     BUTTON: "button",
@@ -765,6 +769,8 @@ const Style = Object.freeze({
     COLLAPSIBLE_HEADER_TITLE_EXPANDED: "collapsible-header-title-expanded",
     COLLAPSIBLE_HEADER_TITLE: "collapsible-header-title",
     COLLAPSIBLE: "collapsible",
+    CONFIRMATION_EMAIL: "confirmation-email",
+    CONFIRMATION: "confirmation",
     DIALOG_BUTTONS_CONTAINER: "dialog-buttonsContainer",
     DIALOG_MESSAGE_CONTAINER: "dialog-messageContainer",
     DIALOG: "dialog",
@@ -830,8 +836,6 @@ const Style = Object.freeze({
     PROTECTED_CONTAINER_USER_INFO: "protectedContainer-userInfo",
     PROTECTED_CONTAINER_WEBSOCKET_MESSAGE: "protectedContainer-webSocketMessage",
     PROTECTED_CONTAINER: "protectedContainer",
-    PUBLIC_CONTAINER_CONTENT_NAV_BUTTON_SELECTED: "publicContainer-content-nav-button-selected",
-    PUBLIC_CONTAINER_CONTENT_NAV_BUTTON: "publicContainer-content-nav-button",
     PUBLIC_CONTAINER_CONTENT_NAV: "publicContainer-content-nav",
     PUBLIC_CONTAINER_CONTENT: "publicContainer-content",
     PUBLIC_CONTAINER_ICON: "publicContainer-icon",
@@ -841,14 +845,12 @@ const Style = Object.freeze({
     REGISTER_ADMIN_USERNAME: "register-admin-username",
     REGISTER_ADMIN: "register-admin",
     REGISTER_BUTTON: "register-button",
-    REGISTER_CONFIRMATION: "register-confirmation",
     REGISTER_EMAIL: "register-email",
     REGISTER_NAME: "register-name",
     REGISTER_PASSWORD_CONFIRM: "register-passwordConfirm",
     REGISTER_PASSWORD: "register-password",
     REGISTER: "register",
     RESET_BUTTON: "reset-button",
-    RESET_CONFIRMATION: "reset-confirmation",
     RESET_EMAIL: "reset-email",
     RESET_PASSWORD_CONFIRM: "reset-passwordConfirm",
     RESET_PASSWORD: "reset-password",
