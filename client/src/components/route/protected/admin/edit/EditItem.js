@@ -5,9 +5,9 @@
  * @requires Collapsible
  * @requires constants
  * @requires Dialog
- * @requires InputText
  * @requires prop-types
  * @requires react
+ * @requires TextField
  * @requires useAuth
  * @requires useInputText
  * @requires useItems
@@ -19,9 +19,9 @@ import * as C from "../../../../../support/constants";
 import Button from "../../../../controls/Button";
 import Collapsible from "../../../../controls/Collapsible";
 import Dialog from "../../../../modal/Dialog";
-import InputText from "../../../../controls/InputText";
 import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
+import TextField from "../../../../controls/TextField";
 import useAuth from "../../../../../hooks/useAuth";
 import useInputText from "../../../../../hooks/useInputText";
 import useItems from "../../../../../hooks/useItems";
@@ -284,7 +284,7 @@ const EditItem = ({
             >
                 <div className={C.Style.EDIT_ITEM}>
                     <div className={C.Style.EDIT_ITEM_NAME}>
-                        <InputText
+                        <TextField
                             name={C.ID.NAME_NAME}
                             disabled={isLoading}
                             errorMessage={invalidName}
@@ -293,7 +293,7 @@ const EditItem = ({
                     </div>
 
                     <div className={C.Style.EDIT_ITEM_THUMBNAIL}>
-                        <InputText
+                        <TextField
                             name={C.ID.NAME_THUMBNAIL}
                             disabled={isLoading}
                             errorMessage={invalidThumbnail}
@@ -302,7 +302,7 @@ const EditItem = ({
                     </div>
 
                     <div className={C.Style.EDIT_ITEM_IMAGE}>
-                        <InputText
+                        <TextField
                             name={C.ID.NAME_IMAGE}
                             disabled={isLoading}
                             errorMessage={invalidImage}

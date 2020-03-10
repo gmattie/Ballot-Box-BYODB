@@ -4,10 +4,10 @@
  * @requires Button
  * @requires constants
  * @requires ErrorResponse
- * @requires InputPassword
- * @requires InputText
+ * @requires PasswordField
  * @requires react
  * @requires react-router-dom
+ * @requires TextField
  * @requires useAuth
  * @requires useInputText
  * @requires useUsers
@@ -21,9 +21,9 @@ import { useHistory } from "react-router-dom";
 import * as C from "../../../support/constants";
 import Button from "../../controls/Button";
 import ErrorResponse from "../../ErrorResponse";
-import InputPassword from "../../controls/InputPassword";
-import InputText from "../../controls/InputText";
+import PasswordField from "../../controls/PasswordField";
 import React, { useRef, useState } from "react";
+import TextField from "../../controls/TextField";
 import useAuth from "../../../hooks/useAuth";
 import useInputText from "../../../hooks/useInputText";
 import useUsers from "../../../hooks/useUsers";
@@ -210,7 +210,7 @@ const Login = () => {
             </div>
 
             <div className={C.Style.LOGIN_EMAIL}>
-                <InputText 
+                <TextField 
                     name={C.ID.NAME_EMAIL}
                     disabled={isLoading}
                     errorMessage={invalidEmail}
@@ -220,7 +220,7 @@ const Login = () => {
             </div>
 
             <div className={C.Style.LOGIN_PASSWORD}>
-                <InputPassword
+                <PasswordField
                     name={C.ID.NAME_PASSWORD}
                     disabled={isLoading}
                     errorMessage={invalidPassword}

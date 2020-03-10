@@ -5,10 +5,10 @@
  * @requires Button
  * @requires constants
  * @requires Dialog
- * @requires InputPassword
- * @requires InputText
+ * @requires PasswordField
  * @requires prop-types
  * @requires react
+ * @requires TextField
  * @requires useAuth
  * @requires useInputText
  * @requires useUsers
@@ -20,10 +20,10 @@ import * as C from "../../../support/constants";
 import AdminCredentials from "../../AdminCredentials";
 import Button from "../../controls/Button";
 import Dialog from "../../modal/Dialog";
-import InputPassword from "../../controls/InputPassword";
-import InputText from "../../controls/InputText";
+import PasswordField from "../../controls/PasswordField";
 import PropTypes from "prop-types";
 import React, { useRef, useEffect, useState } from "react";
+import TextField from "../../controls/TextField";
 import useAuth from "../../../hooks/useAuth";
 import useInputText from "../../../hooks/useInputText";
 import useUsers from "../../../hooks/useUsers";
@@ -317,7 +317,7 @@ const Edit = ({ logout }) => {
 
             <div className={C.Style.EDIT}>
                 <div className={C.Style.EDIT_NAME}>
-                    <InputText
+                    <TextField
                         name={C.ID.NAME_NAME}
                         disabled={isLoading}
                         errorMessage={invalidName}
@@ -326,7 +326,7 @@ const Edit = ({ logout }) => {
                 </div>
 
                 <div className={C.Style.EDIT_PASSWORD}>
-                    <InputPassword
+                    <PasswordField
                         name={C.ID.NAME_PASSWORD}
                         disabled={isLoading}
                         errorMessage={invalidPassword}
@@ -335,7 +335,7 @@ const Edit = ({ logout }) => {
                 </div>
 
                 <div className={C.Style.EDIT_PASSWORD_CONFIRM}>
-                    <InputPassword
+                    <PasswordField
                         name={C.ID.NAME_PASSWORD_CONFIRM}
                         disabled={isLoading}
                         errorMessage={invalidPasswordConfirm}

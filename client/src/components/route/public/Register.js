@@ -5,9 +5,9 @@
  * @requires Button
  * @requires Confirmation
  * @requires constants
- * @requires InputPassword
- * @requires InputText
+ * @requires PasswordField
  * @requires react
+ * @requires TextField
  * @requires useAuth
  * @requires useInputText
  * @requires useUsers
@@ -19,9 +19,9 @@ import * as C from "../../../support/constants";
 import AdminCredentials from "../../AdminCredentials";
 import Button from "../../controls/Button";
 import Confirmation from "./Confirmation";
-import InputPassword from "../../controls/InputPassword";
-import InputText from "../../controls/InputText";
+import PasswordField from "../../controls/PasswordField";
 import React, { useRef, useState } from "react";
+import TextField from "../../controls/TextField";
 import useAuth from "../../../hooks/useAuth";
 import useInputText from "../../../hooks/useInputText";
 import useUsers from "../../../hooks/useUsers";
@@ -243,7 +243,7 @@ const Register = () => {
 
         <div className={C.Style.REGISTER}>
             <div className={C.Style.REGISTER_NAME}>
-                <InputText
+                <TextField
                     name={C.ID.NAME_NAME}
                     disabled={isLoading}
                     errorMessage={invalidName}
@@ -252,7 +252,7 @@ const Register = () => {
             </div>
 
             <div className={C.Style.REGISTER_EMAIL}>
-                <InputText
+                <TextField
                     name={C.ID.NAME_EMAIL}
                     disabled={isLoading}
                     errorMessage={emailAlreadyRegistered || invalidEmail}
@@ -261,7 +261,7 @@ const Register = () => {
             </div>
 
             <div className={C.Style.REGISTER_PASSWORD}>
-                <InputPassword
+                <PasswordField
                     name={C.ID.NAME_PASSWORD}
                     disabled={isLoading}
                     errorMessage={invalidPassword}
@@ -270,7 +270,7 @@ const Register = () => {
             </div>
 
             <div className={C.Style.REGISTER_PASSWORD_CONFIRM}>
-                <InputPassword
+                <PasswordField
                     name={C.ID.NAME_PASSWORD_CONFIRM}
                     disabled={isLoading}
                     errorMessage={invalidPasswordConfirm}

@@ -1,5 +1,5 @@
 /**
- * @description InputText component.
+ * @description TextField component.
  * 
  * @requires constants
  * @requires ErrorResponse
@@ -17,7 +17,7 @@ import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 
 /**
- * @description The InputText component extends an HTMLInputElement of type "text".
+ * @description The TextField component extends an HTMLInputElement of type "text".
  * The component features resize and placeholder animations on "focus" and "blur" events
  * and optionally displays an error message from an HTTP request.
  * 
@@ -27,7 +27,7 @@ import React, { useEffect, useState } from "react";
  * @function
  * 
  */
-const InputText = ({
+const TextField = ({
     
         type,
         placeholder,
@@ -141,7 +141,7 @@ const InputText = ({
  * Prop Types
  * 
  */
-InputText.propTypes = {
+TextField.propTypes = {
 
     type: PropTypes.oneOf([
 
@@ -160,4 +160,4 @@ InputText.propTypes = {
  * Export module
  * 
  */
-export default InputText;
+export default TextField;

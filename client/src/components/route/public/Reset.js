@@ -4,9 +4,9 @@
  * @requires Button
  * @requires Confirmation
  * @requires constants
- * @requires InputPassword
- * @requires InputText
+ * @requires PasswordField
  * @requires react
+ * @requires TextField
  * @requires useAuth
  * @requires useInputText
  * @requires useUsers
@@ -17,9 +17,9 @@
 import * as C from "../../../support/constants";
 import Button from "../../controls/Button";
 import Confirmation from "./Confirmation";
-import InputPassword from "../../controls/InputPassword";
-import InputText from "../../controls/InputText";
+import PasswordField from "../../controls/PasswordField";
 import React, { useRef, useState } from "react";
+import TextField from "../../controls/TextField";
 import useAuth from "../../../hooks/useAuth";
 import useInputText from "../../../hooks/useInputText";
 import useUsers from "../../../hooks/useUsers";
@@ -200,7 +200,7 @@ const Reset = () => {
 
         <div className={C.Style.RESET}>
             <div className={C.Style.RESET_EMAIL}>
-                <InputText 
+                <TextField 
                     name={C.ID.NAME_EMAIL}
                     disabled={isLoading}
                     errorMessage={invalidEmail || userDoesNotExist}
@@ -209,7 +209,7 @@ const Reset = () => {
             </div>
 
             <div className={C.Style.RESET_PASSWORD}>
-                <InputPassword
+                <PasswordField
                     name={C.ID.NAME_PASSWORD}
                     disabled={isLoading}
                     errorMessage={invalidPassword}
@@ -218,7 +218,7 @@ const Reset = () => {
             </div>
 
             <div className={C.Style.RESET_PASSWORD_CONFIRM}>
-                <InputPassword
+                <PasswordField
                     name={C.ID.NAME_PASSWORD_CONFIRM}
                     disabled={isLoading}
                     errorMessage={invalidPasswordConfirm}

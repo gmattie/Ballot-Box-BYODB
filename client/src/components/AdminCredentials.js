@@ -4,10 +4,10 @@
  * @requires Collapsible
  * @requires constants
  * @requires ErrorResponse
- * @requires InputPassword
- * @requires InputText
+ * @requires PasswordField
  * @requires prop-types
  * @requires react
+ * @requires TextField
  * @requires useInputText
  * @requires utilities
  * @public
@@ -18,10 +18,10 @@ import { concatClassNames } from "../support/utilities";
 import * as C from "../support/constants";
 import Collapsible from "./controls/Collapsible";
 import ErrorResponse from "./ErrorResponse";
-import InputPassword from "./controls/InputPassword";
-import InputText from "./controls/InputText";
+import PasswordField from "./controls/PasswordField";
 import PropTypes from "prop-types";
 import React, { useEffect, useRef } from "react";
+import TextField from "./controls/TextField";
 
 /**
  * @description The AdminCredentials component contains UI elements that are required to enter admin credentials.
@@ -102,7 +102,7 @@ const AdminCredentials = ({
                 </div>
                 
                 <div className={C.Style.ADMIN_CREDENTIALS_USERNAME}>
-                    <InputText
+                    <TextField
                         name={C.ID.NAME_ADMIN_USERNAME}
                         disabled={isLoading}
                         {...bindAdminUsername}
@@ -111,7 +111,7 @@ const AdminCredentials = ({
                 </div>
 
                 <div className={C.Style.ADMIN_CREDENTIALS_PASSWORD}>
-                    <InputPassword
+                    <PasswordField
                         name={C.ID.NAME_ADMIN_PASSWORD}
                         disabled={isLoading}
                         {...bindAdminPassword}

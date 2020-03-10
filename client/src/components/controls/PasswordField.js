@@ -1,12 +1,12 @@
 /**
- * @description InputPassword component.
+ * @description PasswordField component.
  * 
  * @requires constants
  * @requires Eye.svg
  * @requires EyeSlash.svg
- * @requires InputText
- * @requires react
  * @requires prop-types
+ * @requires react
+ * @requires TextField
  * @public
  * @module
  * 
@@ -14,12 +14,12 @@
 import * as C from "../../support/constants";
 import Eye from "../../assets/Eye.svg";
 import EyeSlash from "../../assets/EyeSlash.svg";
-import InputText from "./InputText";
+import TextField from "./TextField";
 import React, { memo, useState } from "react";
 import PropTypes from "prop-types";
 
 /**
- * @description The InputPassword component extends the functionality of InputText component with an additional button for toggling between plain and obscured text.
+ * @description The PasswordField component extends the functionality of the TextField component with an additional button for toggling between plain and obscured text.
  * Changing the type of the HTMLInputElement to either "text" or "password" will either reveal or obscure the value of the input respectively.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
@@ -28,7 +28,7 @@ import PropTypes from "prop-types";
  * @function
  * 
  */
-const InputPassword = ({
+const PasswordField = ({
     
         placeholder,
         errorMessage,
@@ -76,7 +76,7 @@ const InputPassword = ({
     return (
 
         <div className={C.Style.INPUT_PASSWORD}>
-            <InputText
+            <TextField
                 type={(isVisible)
                     ? C.HTMLElement.InputType.TEXT
                     : C.HTMLElement.InputType.PASSWORD}
@@ -109,7 +109,7 @@ const InputPassword = ({
  * Prop Types
  * 
  */
-InputPassword.propTypes = {
+PasswordField.propTypes = {
 
     placeholder: PropTypes.string,
     errorMessage: PropTypes.string,
@@ -123,4 +123,4 @@ InputPassword.propTypes = {
  * Export module
  * 
  */
-export default memo(InputPassword);
+export default memo(PasswordField);

@@ -5,11 +5,11 @@
  * @requires Collapsible
  * @requires constants
  * @requires Dialog
- * @requires InputText
  * @requires ms
  * @requires prop-types
  * @requires Radio
  * @requires react
+ * @requires TextField
  * @requires Toggle
  * @requires useAuth
  * @requires useInputText
@@ -22,11 +22,11 @@ import * as C from "../../../../support/constants";
 import Button from "../../../controls/Button";
 import Collapsible from "../../../controls/Collapsible";
 import Dialog from "../../../modal/Dialog";
-import InputText from "../../../controls/InputText";
 import ms from "ms";
 import PropTypes from "prop-types";
 import Radio from "../../../controls/Radio";
 import React, { useRef, useState } from "react";
+import TextField from "../../../controls/TextField";
 import Toggle from "../../../controls/Toggle";
 import useAuth from "../../../../hooks/useAuth";
 import useInputText from "../../../../hooks/useInputText";
@@ -271,7 +271,7 @@ const ManagePolls = ({ logout }) => {
                             {!(votesActive && votesActive.vote) &&
                                 <>
                                     <div className={C.Style.MANAGE_POLLS_DEADLINE}>
-                                        <InputText
+                                        <TextField
                                             name={C.ID.NAME_DEADLINE}
                                             disabled={isLoading}
                                             errorMessage={invalidDeadline}
@@ -280,7 +280,7 @@ const ManagePolls = ({ logout }) => {
                                     </div>
 
                                     <div className={C.Style.MANAGE_POLLS_QUANTITY}>
-                                        <InputText
+                                        <TextField
                                             name={C.ID.NAME_QUANTITY}
                                             disabled={isLoading}
                                             errorMessage={invalidQuantity}
