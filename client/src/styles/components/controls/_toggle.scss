@@ -1,0 +1,94 @@
+.toggle {
+
+    display: flex;
+    align-items: center;
+    
+    & > input[type=checkbox] {
+        
+        $SIZE: 40px;
+        $TRACK_WIDTH: 70px;
+
+        appearance: none;
+        width: $TRACK_WIDTH;
+        height: $SIZE;
+        min-width: $TRACK_WIDTH;
+        min-height: $SIZE;
+        border-radius: $SIZE / 2;
+        box-shadow: $CONTROL_DROP_SHADOW;
+        cursor: pointer;
+        transition: all $DURATION_TRANSITION_BUTTON ease-in-out;
+
+        &:checked,
+        &:not(:checked) {
+            
+            position: relative;
+
+            &::before {
+
+                content: "";
+                position: absolute;
+                width: $SIZE;
+                height: $SIZE;
+                background-color: white;
+                border-radius: 50%;
+                transition: all $DURATION_TRANSITION_INPUT ease-in-out;
+            }
+        }
+
+        &:checked {
+
+            background-color: $APP_EMPHASIS_COLOR;
+
+            &::before {
+
+                transform: translateX($TRACK_WIDTH - $SIZE);
+            }
+        }
+
+        &:not(:checked) {
+
+            background-color: $APP_SECONDARY_COLOR;
+
+            &::before {
+
+                transform: translateX(0);
+            }
+        }
+
+        &:disabled,
+        &:disabled + label {
+    
+            cursor: default;
+            filter: brightness(75%);
+        }
+    
+        &:not(:disabled) {
+    
+            @include mq-hover {
+                
+                &:hover {
+                    
+                    filter: brightness(88%);
+                }
+            }
+    
+            &:active {
+    
+                filter: brightness(75%);
+            }
+        }
+    }
+
+    & > label {
+
+        padding-left: $FORM_GAP;
+        font-weight: $FONT_WEIGHT_BOLD;
+        color: white;
+        white-space: nowrap;
+        overflow: hidden;
+        text-transform: uppercase;
+        text-overflow: ellipsis;
+        user-select: none;
+        cursor: pointer;
+    }
+}

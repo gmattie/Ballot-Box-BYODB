@@ -12,7 +12,6 @@
 @import "./abstracts/mixins/badge";
 @import "./abstracts/mixins/error";
 @import "./abstracts/mixins/header";
-@import "./abstracts/mixins/input";
 @import "./abstracts/mixins/list";
 @import "./abstracts/mixins/preloader";
 @import "./abstracts/mixins/table";
@@ -26,6 +25,8 @@
 @import "./components/controls/collapsible";
 @import "./components/controls/inputPassword";
 @import "./components/controls/inputText";
+@import "./components/controls/radio";
+@import "./components/controls/toggle";
 
 @import "./components/list/list";
 @import "./components/list/listContainer";

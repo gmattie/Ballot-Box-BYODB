@@ -1,5 +1,7 @@
 .managePolls {
 
+    $RADIO_BUTTONS_MARGIN: 30px;
+
     display: flex;
     flex-direction: column;
 
@@ -8,20 +10,21 @@
         margin-top: $FORM_GAP;
     }
 
-    &-results {
+    &-pending {
 
         margin-top: $FORM_GAP;
-        padding: $FORM_GAP;
+        margin-left: $RADIO_BUTTONS_MARGIN;
+    }
 
-        input {
+    &-live {
 
-            margin-right: $FORM_GAP;
-        }
-        
-        &-anonymous {
+        margin-top: $FORM_GAP;
+        margin-left: $RADIO_BUTTONS_MARGIN;
+    }
+    
+    &-secret {
 
-            margin-top: $FORM_GAP;
-        }
+        margin-top: $FORM_GAP;
     }
 
     &-button {

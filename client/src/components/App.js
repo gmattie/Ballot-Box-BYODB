@@ -14,7 +14,7 @@ import { Redirect, Switch } from "react-router-dom";
 import * as C from "../support/constants";
 import ProtectedContainer from "./route/protected/ProtectedContainer";
 import PublicContainer from "./route/public/PublicContainer";
-import React from "react";
+import React, { useEffect } from "react";
 import RouteDiverter from "./route/RouteDiverter";
 
 /**
@@ -26,6 +26,31 @@ import RouteDiverter from "./route/RouteDiverter";
  */
 const App = () => {
 
+    /**
+     * @description Removes the visible outline on focusable elements when they are focused via mouse or touch events.
+     * To ensure accessibility, the outline of focusable elements will remain visible when users interface via keyboard events.
+     * This solution maybe replaced by employing a ":focus-visible" CSS pseudo-class when it becomes standardized across browsers.
+     * https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible 
+     * 
+     * @private
+     * @function
+     * 
+     */
+    useEffect(() => {
+
+        const mouseDownHandler = () => document.body.classList.add(C.Style.NO_FOCUS_OUTLINE);
+        const keyDownHandler = () => document.body.classList.remove(C.Style.NO_FOCUS_OUTLINE);
+
+        document.body.addEventListener(C.Event.MOUSE_DOWN, mouseDownHandler);
+        document.body.addEventListener(C.Event.KEY_DOWN, keyDownHandler);
+
+        return () => {
+
+            document.body.removeEventListener(C.Event.MOUSE_DOWN, mouseDownHandler);
+            document.body.removeEventListener(C.Event.KEY_DOWN, keyDownHandler);
+        };
+    }, []);
+    
     /**
      * JSX markup
      * 

@@ -1,0 +1,96 @@
+.radio {
+
+    display: flex;
+    align-items: center;
+    
+    & > input[type=radio] {
+        
+        $SIZE: 40px;
+
+        appearance: none;
+        width: $SIZE;
+        height: $SIZE;
+        min-width: $SIZE;
+        min-height: $SIZE;
+        background-color: white;
+        border-radius: 50%;
+        box-shadow: $CONTROL_DROP_SHADOW;
+        cursor: pointer;
+        transition: all $DURATION_TRANSITION_BUTTON ease-in-out;
+
+        &:checked,
+        &:not(:checked) {
+            
+            position: relative;
+
+            &::before {
+
+                $CHECKED_SIZE: $SIZE / 2;
+
+                content: "";
+                position: absolute;
+                top: calc(50% - #{$CHECKED_SIZE} / 2);
+                left: calc(50% - #{$CHECKED_SIZE} / 2);
+                width: $CHECKED_SIZE;
+                height: $CHECKED_SIZE;
+                background-color: $APP_EMPHASIS_COLOR;
+                border-radius: 50%;
+                transition: all $DURATION_TRANSITION_INPUT ease-in-out;
+            }
+        }
+
+        &:checked {
+
+            &::before {
+
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        &:not(:checked) {
+
+            &::before {
+
+                opacity: 0;
+                transform: scale(0);
+            }
+        }
+
+        &:disabled,
+        &:disabled + label {
+    
+            cursor: default;
+            filter: brightness(75%);
+        }
+    
+        &:not(:disabled) {
+    
+            @include mq-hover {
+                
+                &:hover {
+                    
+                    filter: brightness(88%);
+                }
+            }
+    
+            &:active {
+    
+                filter: brightness(75%);
+            }
+        }
+    }
+
+    & > label {
+
+        padding-left: $FORM_GAP;
+        font-weight: $FONT_WEIGHT_BOLD;
+        color: white;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        user-select: none;
+        cursor: pointer;
+    }
+}

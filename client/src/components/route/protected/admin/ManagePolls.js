@@ -8,7 +8,9 @@
  * @requires InputText
  * @requires ms
  * @requires prop-types
+ * @requires Radio
  * @requires react
+ * @requires Toggle
  * @requires useAuth
  * @requires useInputText
  * @requires useVotes
@@ -23,7 +25,9 @@ import Dialog from "../../../modal/Dialog";
 import InputText from "../../../controls/InputText";
 import ms from "ms";
 import PropTypes from "prop-types";
+import Radio from "../../../controls/Radio";
 import React, { useRef, useState } from "react";
+import Toggle from "../../../controls/Toggle";
 import useAuth from "../../../../hooks/useAuth";
 import useInputText from "../../../../hooks/useInputText";
 import useVotes from "../../../../hooks/useVotes";
@@ -284,47 +288,34 @@ const ManagePolls = ({ logout }) => {
                                         />
                                     </div>
 
-                                    <fieldset className={C.Style.MANAGE_POLLS_RESULTS}>
-                                        <legend>
-                                            {C.Label.RESULTS}
-                                        </legend>
+                                    <div className={C.Style.MANAGE_POLLS_PENDING}>
+                                        <Radio
+                                            label={C.Label.PENDING_RESULTS}
+                                            name={C.ID.NAME_RESULTS}
+                                            checked={!aggregate}
+                                            disabled={isLoading}
+                                            onChange={setAggregate.bind(null, false)}
+                                        />
+                                    </div>
 
-                                        <div className={C.Style.MANAGE_POLLS_RESULTS_PENDING}>
-                                            <label>
-                                                <input
-                                                    type={C.HTMLElement.InputType.RADIO}
-                                                    name={C.ID.NAME_RESULTS}
-                                                    checked={!aggregate}
-                                                    onChange={() => setAggregate(false)}
-                                                />
-                                                {C.Label.PENDING}
-                                            </label>
-                                        </div>
+                                    <div className={C.Style.MANAGE_POLLS_LIVE}>
+                                        <Radio
+                                            label={C.Label.LIVE_UPDATES}
+                                            name={C.ID.NAME_RESULTS}
+                                            checked={aggregate}
+                                            disabled={isLoading}
+                                            onChange={setAggregate.bind(null, true)}
+                                        />
+                                    </div>
 
-                                        <div className={C.Style.MANAGE_POLLS_RESULTS_LIVE}>
-                                            <label>
-                                                <input
-                                                    type={C.HTMLElement.InputType.RADIO}
-                                                    name={C.ID.NAME_RESULTS}
-                                                    checked={aggregate}
-                                                    onChange={() => setAggregate(true)}
-                                                />
-                                                {C.Label.LIVE}
-                                            </label>
-                                        </div>
-
-                                        <div className={C.Style.MANAGE_POLLS_RESULTS_ANONYMOUS}>
-                                            <label>
-                                                <input
-                                                    type={C.HTMLElement.InputType.CHECKBOX}
-                                                    name={C.ID.NAME_ANONYMOUS}
-                                                    checked={anonymous}
-                                                    onChange={() => setAnonymous(!anonymous)}
-                                                />
-                                                {C.Label.ANONYMOUS}
-                                            </label>
-                                        </div>
-                                    </fieldset>
+                                    <div className={C.Style.MANAGE_POLLS_SECRET}>
+                                        <Toggle
+                                            label={C.Label.SECRET_BALLOT}
+                                            checked={anonymous}
+                                            disabled={isLoading}
+                                            onChange={setAnonymous.bind(null, !anonymous)}
+                                        />
+                                    </div>
 
                                     <div className={C.Style.MANAGE_POLLS_BUTTON_OPEN}>
                                         <Button

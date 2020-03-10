@@ -132,8 +132,10 @@ const Error = Object.freeze({
  *     <li> DROP </li>
  *     <li> ERROR </li>
  *     <li> HEARTBEAT </li>
+ *     <li> KEY_DOWN </li>
  *     <li> LOAD </li>
  *     <li> MESSAGE </li>
+ *     <li> MOUSE_DOWN </li>
  *     <li> OPEN </li>
  *     <ul>
  *         <li> DEADLINE </li>
@@ -159,8 +161,10 @@ const Event = Object.freeze({
     DROP: "drop",
     ERROR: "error",
     HEARTBEAT: "heartbeat",
+    KEY_DOWN: "keydown",
     LOAD: "load",
     MESSAGE: "message",
+    MOUSE_DOWN: "mousedown",
     OPEN: "open",
 
     Type: {
@@ -329,7 +333,6 @@ const Image = Object.freeze({
  *     <li> ADMIN_CREDENTIALS </li>
  *     <li> ADMIN_PASSWORD </li>
  *     <li> ADMIN_USERNAME </li>
- *     <li> ANONYMOUS </li>
  *     <li> CANCEL </li>
  *     <li> CANDIDATES </li>
  *     <li> CLOSE </li>
@@ -358,6 +361,7 @@ const Image = Object.freeze({
  *     <li> ICON </li>
  *     <li> IMAGE </li>
  *     <li> LIVE </li>
+ *     <li> LIVE_UPDATES </li>
  *     <li> LOGIN </li>
  *     <li> LOGOUT </li>
  *     <li> MANAGE_POLLS </li>
@@ -368,11 +372,13 @@ const Image = Object.freeze({
  *     <li> OPTIONAL </li>
  *     <li> PASSWORD </li>
  *     <li> PENDING </li>
+ *     <li> PENDING_RESULTS </li>
  *     <li> POLLS_STATUS </li>
  *     <li> QUANTITY </li>
  *     <li> REGISTER </li>
  *     <li> RESET </li>
  *     <li> RESULTS </li>
+ *     <li> SECRET_BALLOT </li>
  *     <li> SHOW </li>
  *     <li> THUMBNAIL </li>
  *     <li> TOTAL_VOTES_CAST </li>
@@ -393,7 +399,6 @@ const Label = Object.freeze({
     ADMIN_PASSWORD: "Admin Password",
     ADMIN_USERNAME: "Admin Username",
     ADMIN: "Admin",
-    ANONYMOUS: "Anonymous",
     CANCEL: "Cancel",
     CANDIDATES: "Candidates",
     CLOSE: "Close",
@@ -421,6 +426,7 @@ const Label = Object.freeze({
     HIDE: "Hide",
     ICON: "Icon",
     IMAGE: "Image",
+    LIVE_UPDATES: "Live Updates",
     LIVE: "Live",
     LOGIN: "Login",
     LOGOUT: "Logout",
@@ -431,12 +437,14 @@ const Label = Object.freeze({
     OPEN: "Open",
     OPTIONAL: "(Optional)",
     PASSWORD: "Password",
+    PENDING_RESULTS: "Pending Results",
     PENDING: "Pending",
     POLLS_STATUS: "Polls Status:",
     QUANTITY: "Quantity",
     REGISTER: "Register",
     RESET: "Reset",
     RESULTS: "Results",
+    SECRET_BALLOT: "Secret Ballot",
     SHOW: "Show",
     THUMBNAIL: "Thumbnail",
     TOTAL_VOTES_CAST: "Total Votes Cast:",
@@ -679,11 +687,11 @@ const Route = Object.freeze({
  *     <li> MANAGE_POLLS_BUTTON_CLOSE </li>
  *     <li> MANAGE_POLLS_BUTTON_OPEN </li>
  *     <li> MANAGE_POLLS_DEADLINE </li>
+ *     <li> MANAGE_POLLS_LIVE </li>
+ *     <li> MANAGE_POLLS_PENDING </li>
  *     <li> MANAGE_POLLS_QUANTITY </li>
- *     <li> MANAGE_POLLS_RESULTS </li>
- *     <li> MANAGE_POLLS_RESULTS_ANONYMOUS </li>
- *     <li> MANAGE_POLLS_RESULTS_LIVE </li>
- *     <li> MANAGE_POLLS_RESULTS_PENDING </li>
+ *     <li> MANAGE_POLLS_SECRET </li>
+ *     <li> NO_FOCUS_OUTLINE </li>
  *     <li> PORTAL </li>
  *     <li> PROTECTED_CONTAINER </li>
  *     <li> PROTECTED_CONTAINER_NAV_BUTTON </li>
@@ -694,6 +702,7 @@ const Route = Object.freeze({
  *     <li> PUBLIC_CONTAINER_CONTENT </li>
  *     <li> PUBLIC_CONTAINER_CONTENT_NAV </li>
  *     <li> PUBLIC_CONTAINER_ICON </li>
+ *     <li> RADIO </li>
  *     <li> REGISTER </li>
  *     <li> REGISTER_ADMIN </li>
  *     <li> REGISTER_ADMIN_ERROR </li>
@@ -733,6 +742,7 @@ const Route = Object.freeze({
  *     <li> RESULT_DETAIL_TABLE_USER_HEADER_USER_IP </li>
  *     <li> RESULT_DETAIL_TABLE_USER_HEADER_USER_NAME </li>
  *     <li> RESULTS_CONTAINER </li>
+ *     <li> TOGGLE </li>
  *     <li> TRANSPARENT </li>
  *     <li> VISIBLE </li>
  *     <li> VOTE </li>
@@ -823,12 +833,12 @@ const Style = Object.freeze({
     MANAGE_POLLS_BUTTON_CLOSE: "managePolls-button-close",
     MANAGE_POLLS_BUTTON_OPEN: "managePolls-button-open",
     MANAGE_POLLS_DEADLINE: "managePolls-deadline",
+    MANAGE_POLLS_LIVE: "managePolls-live",
+    MANAGE_POLLS_PENDING: "managePolls-pending",
     MANAGE_POLLS_QUANTITY: "managePolls-quantity",
-    MANAGE_POLLS_RESULTS_ANONYMOUS: "managePolls-results-anonymous",
-    MANAGE_POLLS_RESULTS_LIVE: "managePolls-results-live",
-    MANAGE_POLLS_RESULTS_PENDING: "managePolls-results-pending",
-    MANAGE_POLLS_RESULTS: "managePolls-results",
+    MANAGE_POLLS_SECRET: "managePolls-secret",
     MANAGE_POLLS: "managePolls",
+    NO_FOCUS_OUTLINE: "noFocusOutline",
     PORTAL: "portal",
     PROTECTED_CONTAINER_CONTENT: "protectedContainer-content",
     PROTECTED_CONTAINER_NAV_BUTTON_SELECTED: "protectedContainer-nav-button-selected",
@@ -840,6 +850,7 @@ const Style = Object.freeze({
     PUBLIC_CONTAINER_CONTENT: "publicContainer-content",
     PUBLIC_CONTAINER_ICON: "publicContainer-icon",
     PUBLIC_CONTAINER: "publicContainer",
+    RADIO: "radio",
     REGISTER_ADMIN_ERROR: "register-admin-error",
     REGISTER_ADMIN_PASSWORD: "register-admin-password",
     REGISTER_ADMIN_USERNAME: "register-admin-username",
@@ -879,6 +890,7 @@ const Style = Object.freeze({
     RESULT_DETAIL: "resultDetail",
     RESULT: "result",
     RESULTS_CONTAINER: "resultsContainer",
+    TOGGLE: "toggle",
     TRANSPARENT: "transparent",
     VISIBLE: "visible",
     VOTE_BUTTONS_CONTAINER: "vote-buttonsContainer",

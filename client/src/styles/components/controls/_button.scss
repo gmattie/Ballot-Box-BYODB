@@ -8,7 +8,6 @@
     white-space: nowrap;
     text-transform: uppercase;
     border: none;
-    outline: none;
     user-select: none;
     cursor: pointer;
     transition: all $DURATION_TRANSITION_BUTTON ease-in-out;
@@ -35,18 +34,16 @@
         }
     }
 
-    $COLOR_EMPHASIS: rgb(110, 110, 150);
-
     &-submit {
 
         padding: $CONTROL_PADDING_TOP $CONTROL_PADDING_LEFT;
-        background-color: #707070;
+        background-color: $APP_SECONDARY_COLOR;
         box-shadow: $CONTROL_DROP_SHADOW;
 
         &-emphasis {
 
             padding: $CONTROL_PADDING_TOP $CONTROL_PADDING_LEFT;
-            background-color: $COLOR_EMPHASIS;
+            background-color: $APP_EMPHASIS_COLOR;
             box-shadow: $CONTROL_DROP_SHADOW;
         }
     }
@@ -66,7 +63,7 @@
 
             flex: 0 0 0;
             background-color: transparent;
-            border-bottom: $NAVIGATION_UNDERLINE_HEIGHT solid $COLOR_EMPHASIS;
+            border-bottom: $NAVIGATION_UNDERLINE_HEIGHT solid $APP_EMPHASIS_COLOR;
             padding: $NAVIGATION_PADDING;
         }
     }

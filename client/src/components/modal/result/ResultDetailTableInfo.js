@@ -56,7 +56,7 @@ const ResultDetailTableInfo = ({
 
             {isAnonymous &&
                 <div className={C.Style.RESULT_DETAIL_TABLE_INFO_ANONYMOUS}>
-                    {C.Label.ANONYMOUS}
+                    {C.Label.SECRET_BALLOT}
                 </div>
             }
 
