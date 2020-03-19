@@ -64,7 +64,6 @@ const AdminCredentials = ({
      * 
      * @param {object} target - The object that dispatched the event.
      * @param {object} event - The event object.
-     * 
      * @private
      * @function
      *  
@@ -85,17 +84,16 @@ const AdminCredentials = ({
      */
     return (
 
-        <Collapsible
-            title={`${C.Label.ADMIN_CREDENTIALS} ${C.Label.OPTIONAL}`}
-            headerStyle={C.Style.COLLAPSIBLE_HEADER_SECTION}
-        >
+        <Collapsible title={C.Label.ADMIN_CREDENTIALS}>
             <div className={C.Style.ADMIN_CREDENTIALS}>
-                <div className={
-                    concatClassNames(
-                        C.Style.ADMIN_CREDENTIALS_ERROR,
-                        (errorMessage && showErrorMessage.current && C.Style.ADMIN_CREDENTIALS_ERROR_SHOW)
-                    )
-                }>
+                <div
+                    className={
+                        concatClassNames(
+                            C.Style.ADMIN_CREDENTIALS_ERROR,
+                            (errorMessage && showErrorMessage.current && C.Style.ADMIN_CREDENTIALS_ERROR_SHOW)
+                        )
+                    }
+                >
                     {errorMessage &&
                         <ErrorResponse message={errorMessage} />
                     }

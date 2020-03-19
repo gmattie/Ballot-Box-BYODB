@@ -5,17 +5,14 @@
     
     & > input[type=radio] {
         
-        $SIZE: 40px;
-
         appearance: none;
-        width: $SIZE;
-        height: $SIZE;
-        min-width: $SIZE;
-        min-height: $SIZE;
+        width: $CONTROL_SIZE;
+        height: $CONTROL_SIZE;
+        min-width: $CONTROL_SIZE;
+        min-height: $CONTROL_SIZE;
         background-color: white;
         border-radius: 50%;
         box-shadow: $CONTROL_DROP_SHADOW;
-        cursor: pointer;
         transition: all $DURATION_TRANSITION_BUTTON ease-in-out;
 
         &:checked,
@@ -25,7 +22,7 @@
 
             &::before {
 
-                $CHECKED_SIZE: $SIZE / 2;
+                $CHECKED_SIZE: $CONTROL_SIZE / 2;
 
                 content: "";
                 position: absolute;
@@ -33,7 +30,7 @@
                 left: calc(50% - #{$CHECKED_SIZE} / 2);
                 width: $CHECKED_SIZE;
                 height: $CHECKED_SIZE;
-                background-color: $APP_EMPHASIS_COLOR;
+                background-color: $COLOR_EMPHASIS;
                 border-radius: 50%;
                 transition: all $DURATION_TRANSITION_INPUT ease-in-out;
             }
@@ -70,6 +67,7 @@
                 
                 &:hover {
                     
+                    cursor: pointer;
                     filter: brightness(88%);
                 }
             }
@@ -91,6 +89,19 @@
         text-overflow: ellipsis;
         text-transform: uppercase;
         user-select: none;
-        cursor: pointer;
+
+        @include mq-hover {
+                
+            &:hover {
+                
+                cursor: pointer;
+                filter: brightness(88%);
+            }
+        }
+
+        &:active {
+    
+            filter: brightness(75%);
+        }
     }
 }

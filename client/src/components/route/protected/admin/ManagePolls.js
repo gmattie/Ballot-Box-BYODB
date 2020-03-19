@@ -262,7 +262,6 @@ const ManagePolls = ({ logout }) => {
 
             <Collapsible
                 title={C.Label.MANAGE_POOLS}
-                headerStyle={C.Style.COLLAPSIBLE_HEADER_SECTION}
                 eventHandler={collapsibleHandler}
             >
                 <div className={C.Style.MANAGE_POLLS}>

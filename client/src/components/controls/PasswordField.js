@@ -48,8 +48,8 @@ const PasswordField = ({
      * @description Handler for a dispatched "click" event that toggles the "isVisible" state.
      * Toggling the state changes the type of the HTMLInputElement to either "text" or "password".
      * 
-     * @function
      * @private
+     * @function
      *  
      */
     const toggleInputTypeHandler = () => {
@@ -62,6 +62,8 @@ const PasswordField = ({
      * Preventing default behavior on the button ensures that it will not intercept focus from the input element.
      * 
      * @param {object} event - The event object.
+     * @private
+     * @function
      * 
      */
     const buttonMouseDownHandler = (event) => {

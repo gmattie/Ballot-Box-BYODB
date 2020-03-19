@@ -219,10 +219,7 @@ const AddItem = ({ logout }) => {
                 />
             }
 
-            <Collapsible
-                title={C.Label.ADD_ITEM}
-                headerStyle={C.Style.COLLAPSIBLE_HEADER_SECTION}
-            >
+            <Collapsible title={C.Label.ADD_ITEM}>
                 <div className={C.Style.ADD_ITEM}>
                     <div className={C.Style.ADD_ITEM_NAME}>
                         <TextField

@@ -5,17 +5,15 @@
     
     & > input[type=checkbox] {
         
-        $SIZE: 40px;
         $TRACK_WIDTH: 70px;
 
         appearance: none;
         width: $TRACK_WIDTH;
-        height: $SIZE;
+        height: $CONTROL_SIZE;
         min-width: $TRACK_WIDTH;
-        min-height: $SIZE;
-        border-radius: $SIZE / 2;
+        min-height: $CONTROL_SIZE;
+        border-radius: $CONTROL_SIZE / 2;
         box-shadow: $CONTROL_DROP_SHADOW;
-        cursor: pointer;
         transition: all $DURATION_TRANSITION_BUTTON ease-in-out;
 
         &:checked,
@@ -27,8 +25,8 @@
 
                 content: "";
                 position: absolute;
-                width: $SIZE;
-                height: $SIZE;
+                width: $CONTROL_SIZE;
+                height: $CONTROL_SIZE;
                 background-color: white;
                 border-radius: 50%;
                 transition: all $DURATION_TRANSITION_INPUT ease-in-out;
@@ -37,17 +35,17 @@
 
         &:checked {
 
-            background-color: $APP_EMPHASIS_COLOR;
+            background-color: $COLOR_EMPHASIS;
 
             &::before {
 
-                transform: translateX($TRACK_WIDTH - $SIZE);
+                transform: translateX($TRACK_WIDTH - $CONTROL_SIZE);
             }
         }
 
         &:not(:checked) {
 
-            background-color: $APP_SECONDARY_COLOR;
+            background-color: $COLOR_AUXILIARY;
 
             &::before {
 
@@ -68,6 +66,7 @@
                 
                 &:hover {
                     
+                    cursor: pointer;
                     filter: brightness(88%);
                 }
             }
@@ -89,6 +88,19 @@
         text-transform: uppercase;
         text-overflow: ellipsis;
         user-select: none;
-        cursor: pointer;
+
+        @include mq-hover {
+                
+            &:hover {
+                
+                cursor: pointer;
+                filter: brightness(88%);
+            }
+        }
+
+        &:active {
+    
+            filter: brightness(75%);
+        }
     }
 }

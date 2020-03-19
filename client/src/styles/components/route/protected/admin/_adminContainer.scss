@@ -1,0 +1,9 @@
+.adminContainer {
+
+    &-managePolls,
+    &-addItem,
+    &-editItems {
+
+        margin-bottom: $FORM_GAP;
+    }
+}

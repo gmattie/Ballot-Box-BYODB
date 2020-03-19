@@ -1,21 +1,23 @@
 /**
  * @description AdminContainer component.
  * 
+ * @requires AddItems
+ * @requires constants
+ * @requires EditItems
+ * @requires ManagePolls
  * @requires prop-types
  * @requires react
- * @requires ManagePolls
- * @requires AddItems
- * @requires EditItems
  * @public
  * @module
  * 
  */
 
-import PropTypes from "prop-types";
-import React from "react";
-import ManagePolls from "./ManagePolls";
+import * as C from "../../../../support/constants";
 import AddItem from "./AddItem";
 import EditItemsContainer from "./edit/EditItemsContainer";
+import ManagePolls from "./ManagePolls";
+import PropTypes from "prop-types";
+import React from "react";
 
 /**
  * @description The AdminContainer component contains the UI components of the application that are only accessible to users with admin privileges.
@@ -34,12 +36,19 @@ const AdminContainer = ({ logout }) => {
      * 
      */
     return (
+        <div className={C.Style.ADMIN_CONTAINER}>
+            <div className={C.Style.ADMIN_CONTAINER_MANAGE_POLLS}>
+                <ManagePolls logout={logout}/>
+            </div>
 
-        <>
-            <ManagePolls logout={logout} />
-            <AddItem logout={logout} />
-            <EditItemsContainer logout={logout} />
-        </>
+            <div className={C.Style.ADMIN_CONTAINER_ADD_ITEM}>
+                <AddItem logout={logout}/>
+            </div>
+            
+            <div className={C.Style.ADMIN_CONTAINER_EDIT_ITEMS_CONTAINER}>
+                <EditItemsContainer logout={logout}/>
+            </div>
+        </div>
     );
 };
 

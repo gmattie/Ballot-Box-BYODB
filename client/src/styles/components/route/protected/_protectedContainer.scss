@@ -1,10 +1,10 @@
 .protectedContainer {
 
     position: fixed;
-    width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    height: 100%;
     align-items: center;
 
     &-webSocketMessage {
@@ -30,6 +30,10 @@
 
         display: flex;
         flex-direction: column;
+        width: inherit;
+        min-width: $SCREEN_MIN_WIDTH;
+        max-width: $SCREEN_MAX_WIDTH;
+        padding: $FORM_GAP;
         overflow-y: auto;
     }
 }

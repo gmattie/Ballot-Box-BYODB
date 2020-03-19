@@ -198,12 +198,14 @@ const Login = () => {
     return (
 
         <div className={C.Style.LOGIN}>
-            <div className={
-                concatClassNames(
-                    C.Style.LOGIN_ERROR,
-                    (invalidCredentials && showInvalidCredentials.current && "login-error-show")
-                )
-            }>
+            <div
+                className={
+                    concatClassNames(
+                        C.Style.LOGIN_ERROR,
+                        (invalidCredentials && showInvalidCredentials.current && C.Style.LOGIN_ERROR_SHOW)
+                    )
+                }
+            >
                 {invalidCredentials &&
                     <ErrorResponse message={invalidCredentials} />
                 }

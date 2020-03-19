@@ -2,48 +2,29 @@
 
     width: 100%;
 
-    &-header {
+    & > .button {
 
-        &-title {
+        width: 100%;
+    }
 
-            &::before {
+    &-arrow {
 
-                content: "⏵ ";
-            }
+        height: 0.65rem;
+        margin-right: $CONTROL_PADDING_TOP;
+        transition: all $DURATION_ANIMATION_COLLAPSE ease-in-out;
+        filter: invert(65%);
 
-            &-expanded {
+        &-expanded {
 
-                &::before {
-                
-                    content: "⏷ ";
-                }
-            }
-        }
-
-        &-section {
-
-            background-color: gray;
-        }
-
-        &-listItem {
-
-            @include list-item;
+            transform: rotate(90deg);
         }
     }
 
     &-content {
 
-        border: 1px solid gray;
-        padding: $FORM_GAP;
-
-        &-show {
-
-            display: block;
-        }
-
-        &-hide {
-
-            display: none;
-        }
+        background-color: scale-color($color: $COLOR_AUXILIARY, $lightness: -25%);
+        box-shadow: $CONTROL_DROP_SHADOW;
+        overflow: hidden;
+        transition: height $DURATION_ANIMATION_COLLAPSE ease-in-out;
     }
 }

@@ -16,6 +16,7 @@
 @import "./abstracts/mixins/preloader";
 @import "./abstracts/mixins/table";
 
+@import "./miscellaneous/hidden";
 @import "./miscellaneous/transparent";
 
 @import "./components/adminCredentials";
@@ -47,13 +48,14 @@
 @import "./components/route/public/register";
 @import "./components/route/public/reset";
 
+@import "./components/route/protected/admin/addItem";
+@import "./components/route/protected/admin/adminContainer";
 @import "./components/route/protected/admin/edit/editItem";
 @import "./components/route/protected/admin/edit/editItemsContainer";
-@import "./components/route/protected/admin/addItem";
 @import "./components/route/protected/admin/managePolls";
 @import "./components/route/protected/edit";
 @import "./components/route/protected/protectedContainer";
-@import "./components/route/protected/results/resultActiveBadge";
 @import "./components/route/protected/results/result";
+@import "./components/route/protected/results/resultActiveBadge";
 @import "./components/route/protected/results/resultsContainer";
 @import "./components/route/protected/vote";

@@ -106,6 +106,22 @@ const CharCode = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> PX </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const CSS = Object.freeze({
+
+    PX: "px"
+});
+
+/**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
  *     <li> DUPLICATE_KEY </li>
  *     <li> VOTE_DOES_NOT_EXIST </li>
  * </ul>
@@ -137,6 +153,7 @@ const Error = Object.freeze({
  *     <li> MESSAGE </li>
  *     <li> MOUSE_DOWN </li>
  *     <li> OPEN </li>
+ *     <li> TRANSITION_END </li>
  *     <ul>
  *         <li> DEADLINE </li>
  *         <li> VOTE </li>
@@ -166,6 +183,7 @@ const Event = Object.freeze({
     MESSAGE: "message",
     MOUSE_DOWN: "mousedown",
     OPEN: "open",
+    TRANSITION_END: "transitionend",
 
     Type: {
 
@@ -208,6 +226,9 @@ const Global = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <ul>
+ *         <li> STYLE </li> 
+ *     </ul>
  *     <li> DIV </li>
  *     <ul>
  *         <li> CHECKBOX </li> 
@@ -224,6 +245,11 @@ const Global = Object.freeze({
  * 
  */
 const HTMLElement = Object.freeze({
+
+    Attribute: {
+
+        STYLE: "style"
+    },
 
     DIV: "div",
 
@@ -333,6 +359,7 @@ const Image = Object.freeze({
  *     <li> ADMIN_CREDENTIALS </li>
  *     <li> ADMIN_PASSWORD </li>
  *     <li> ADMIN_USERNAME </li>
+ *     <li> ARROW </li>
  *     <li> CANCEL </li>
  *     <li> CANDIDATES </li>
  *     <li> CLOSE </li>
@@ -399,6 +426,7 @@ const Label = Object.freeze({
     ADMIN_PASSWORD: "Admin Password",
     ADMIN_USERNAME: "Admin Username",
     ADMIN: "Admin",
+    ARROW: "Arrow",
     CANCEL: "Cancel",
     CANDIDATES: "Candidates",
     CLOSE: "Close",
@@ -614,6 +642,10 @@ const Route = Object.freeze({
  *     <li> ADD_ITEM_IMAGE </li>
  *     <li> ADD_ITEM_NAME </li>
  *     <li> ADD_ITEM_THUMBNAIL </li>
+ *     <li> ADMIN_CONTAINER </li>
+ *     <li> ADMIN_CONTAINER_ADD_ITEM </li>
+ *     <li> ADMIN_CONTAINER_EDIT_ITEMS_CONTAINER </li>
+ *     <li> ADMIN_CONTAINER_MANAGE_POLLS </li>
  *     <li> ADMIN_CREDENTIALS </li>
  *     <li> ADMIN_CREDENTIALS_ERROR </li>
  *     <li> ADMIN_CREDENTIALS_ERROR_SHOW </li>
@@ -625,13 +657,9 @@ const Route = Object.freeze({
  *     <li> BUTTON_SUBMIT </li>
  *     <li> BUTTON_SUBMIT_EMPHASIS </li>
  *     <li> COLLAPSIBLE </li>
+ *     <li> COLLAPSIBLE_ARROW </li>
+ *     <li> COLLAPSIBLE_ARROW_EXPANDED </li>
  *     <li> COLLAPSIBLE_CONTENT </li>
- *     <li> COLLAPSIBLE_CONTENT_HIDE </li>
- *     <li> COLLAPSIBLE_CONTENT_SHOW </li>
- *     <li> COLLAPSIBLE_HEADER_LIST_ITEM </li>
- *     <li> COLLAPSIBLE_HEADER_SECTION </li>
- *     <li> COLLAPSIBLE_HEADER_TITLE </li>
- *     <li> COLLAPSIBLE_HEADER_TITLE_EXPANDED </li>
  *     <li> CONFIRMATION </li>
  *     <li> CONFIRMATION_EMAIL </li>
  *     <li> DIALOG </li>
@@ -646,6 +674,7 @@ const Route = Object.freeze({
  *     <li> EDIT_ITEM_NAME </li>
  *     <li> EDIT_ITEM_THUMBNAIL </li>
  *     <li> EDIT_ITEMS_CONTAINER </li>
+ *     <li> EDIT_ITEMS_CONTAINER_CONTENT </li>
  *     <li> EDIT_NAME </li>
  *     <li> EDIT_PASSWORD </li>
  *     <li> EDIT_PASSWORD_CONFIRM </li>
@@ -682,6 +711,7 @@ const Route = Object.freeze({
  *     <li> LOGIN_BUTTON </li>
  *     <li> LOGIN_EMAIL </li>
  *     <li> LOGIN_ERROR </li>
+ *     <li> LOGIN_ERROR_SHOW </li>
  *     <li> LOGIN_PASSWORD </li>
  *     <li> MANAGE_POLLS </li>
  *     <li> MANAGE_POLLS_BUTTON_CLOSE </li>
@@ -761,6 +791,10 @@ const Style = Object.freeze({
     ADD_ITEM_NAME: "addItem-name",
     ADD_ITEM_THUMBNAIL: "addItem-thumbnail",
     ADD_ITEM: "addItem",
+    ADMIN_CONTAINER_ADD_ITEM: "adminContainer-addItem",
+    ADMIN_CONTAINER_EDIT_ITEMS_CONTAINER: "adminContainer-editItemsContainer",
+    ADMIN_CONTAINER_MANAGE_POLLS: "adminContainer-managePolls",
+    ADMIN_CONTAINER: "adminContainer",
     ADMIN_CREDENTIALS_ERROR_SHOW: "adminCredentials-error-show",
     ADMIN_CREDENTIALS_ERROR: "adminCredentials-error",
     ADMIN_CREDENTIALS_PASSWORD: "adminCredentials-password",
@@ -771,13 +805,9 @@ const Style = Object.freeze({
     BUTTON_SUBMIT_EMPHASIS: "button-submit-emphasis",
     BUTTON_SUBMIT: "button-submit",
     BUTTON: "button",
-    COLLAPSIBLE_CONTENT_HIDE: "collapsible-content-hide",
-    COLLAPSIBLE_CONTENT_SHOW: "collapsible-content-show",
+    COLLAPSIBLE_ARROW_EXPANDED: "collapsible-arrow-expanded",
+    COLLAPSIBLE_ARROW: "collapsible-arrow",
     COLLAPSIBLE_CONTENT: "collapsible-content",
-    COLLAPSIBLE_HEADER_LIST_ITEM: "collapsible-header-listItem",
-    COLLAPSIBLE_HEADER_SECTION: "collapsible-header-section",
-    COLLAPSIBLE_HEADER_TITLE_EXPANDED: "collapsible-header-title-expanded",
-    COLLAPSIBLE_HEADER_TITLE: "collapsible-header-title",
     COLLAPSIBLE: "collapsible",
     CONFIRMATION_EMAIL: "confirmation-email",
     CONFIRMATION: "confirmation",
@@ -791,6 +821,7 @@ const Style = Object.freeze({
     EDIT_ITEM_NAME: "editItem-name",
     EDIT_ITEM_THUMBNAIL: "editItem-thumbnail",
     EDIT_ITEM: "editItem",
+    EDIT_ITEMS_CONTAINER_CONTENT: "editItemsContainer-content",
     EDIT_ITEMS_CONTAINER: "editItemsContainer",
     EDIT_NAME: "edit-name",
     EDIT_PASSWORD_CONFIRM: "edit-passwordConfirm",
@@ -828,6 +859,7 @@ const Style = Object.freeze({
     LOGIN_BUTTON: "login-button",
     LOGIN_EMAIL: "login-email",
     LOGIN_ERROR: "login-error",
+    LOGIN_ERROR_SHOW: "login-error-show",
     LOGIN_PASSWORD: "login-password",
     LOGIN: "login",
     MANAGE_POLLS_BUTTON_CLOSE: "managePolls-button-close",
@@ -906,6 +938,7 @@ export {
     Access,
     Action,
     CharCode,
+    CSS,
     Error,
     Event,
     Global,

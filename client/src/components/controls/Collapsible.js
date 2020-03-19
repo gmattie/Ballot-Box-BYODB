@@ -1,19 +1,25 @@
 /**
  * @description Collapsible component.
  * 
+ * @requires Button
  * @requires constants
  * @requires prop-types
  * @requires react
+ * @requires Triangle
+ * @requires utilities
  * @public
  * @module
  * 
  */
+import { concatClassNames } from "../../support/utilities";
 import * as C from "../../support/constants";
+import Button from "../controls/Button";
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
+import Triangle from "../../assets/Triangle.svg";
 
 /**
- * @description A wrapper component that facilitates toggling the visibility of the content children when the header is clicked.
+ * @description A wrapper component that facilitates expanding and collapsing children content when the header "Button" component is clicked.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} The portal rendered to the DOM.
@@ -24,69 +30,103 @@ import React, { useState } from "react";
 const Collapsible = ({
     
         title,
-        headerStyle,
-        eventHandler,
         children,
+        eventHandler,
+        expanded,
     }) => {
 
     /**
-     * State
+     * Refs
      * 
      */
-    const [ isCollapsed, setIsCollapsed ] = useState(true);
+    const arrowRef = useRef();
+    const contentRef = useRef();
 
     /**
-     * @description Toggles the local state
+     * @description Calls a provided "eventHandler" prop if the component is initialized in an expanded state.
      * 
      * @private
      * @function
      * 
      */
-    const toggleHandler = () => {
-    
-        const collapsedState = !isCollapsed;
+    useEffect(() => {
+
+        if (expanded) {
+
+            eventHandler(false);
+        }
+    }, [eventHandler, expanded]);
+
+    /**
+     * @description Handler for a dispatched "transitionend" event.
+     * Upon completing a CSS transition from either expanding or collapsing the component, the CSS "display" property will be set as either "block" or "none" respectively.
+     * Additionally, the temporary inline "style" attribute is removed and a provided "eventHandler" prop will be called.
+     * 
+     * @param {object} event - The event object.
+     * @private
+     * @function
+     * 
+     */
+    const transitionEndHandler = useCallback((event) => {
+
+        const content = event.target;
+        const isContentCollapsed = (content.style.height === `${0}${C.CSS.PX}`);
+        
+        if (isContentCollapsed) {
+            
+            content.classList.add(C.Style.HIDDEN);
+        }
+        
+        content.removeEventListener(C.Event.TRANSITION_END, transitionEndHandler);
+        content.removeAttribute(C.HTMLElement.Attribute.STYLE);
 
         if (eventHandler) {
 
-            eventHandler(collapsedState);
+            eventHandler(isContentCollapsed);
         }
-
-        setIsCollapsed(collapsedState);
-    };
+    }, [eventHandler]);
 
     /**
-     * @description Retrieves combined CSS class names based on the local state.
+     * @description Handler for a dispatched "click" event on the header "Button" component.
+     * This function facilitates a smooth CSS transition for both collapsing and expanding the component within a continuous vertical document flow.
      * 
-     * @returns {string} The combined CSS class names.
      * @private
      * @function
      * 
      */
-    const getHeaderStyle = () => {
+    const headerClickHandler = useCallback(() => {
+        
+        const content = contentRef.current;
+        content.addEventListener(C.Event.TRANSITION_END, transitionEndHandler);
+        
+        const arrow = arrowRef.current;
+        arrow.classList.toggle(C.Style.COLLAPSIBLE_ARROW_EXPANDED);
 
-        const titleStyle = (isCollapsed)
-            ? C.Style.COLLAPSIBLE_HEADER_TITLE
-            : C.Style.COLLAPSIBLE_HEADER_TITLE_EXPANDED;
+        const isContentCollapsed = content.classList.contains(C.Style.HIDDEN);
 
-        return `${headerStyle} ${titleStyle}`;
-    };
+        if (isContentCollapsed) {
+            
+            content.style.height = `${0}${C.CSS.PX}`;
+            content.classList.remove(C.Style.HIDDEN);
 
-    /**
-     * @description Retrieves combined CSS class names based on the local state.
-     * 
-     * @returns {string} The combined CSS class names.
-     * @private
-     * @function
-     * 
-     */
-    const getContentStyle = () => {
+            window.requestAnimationFrame(() => {
 
-        const visibility = (isCollapsed)
-            ? C.Style.COLLAPSIBLE_CONTENT_HIDE
-            : C.Style.COLLAPSIBLE_CONTENT_SHOW;
-
-        return `${C.Style.COLLAPSIBLE_CONTENT} ${visibility}`;
-    };
+                content.style.height = `${content.scrollHeight}${C.CSS.PX}`;
+            });
+        }
+        else {
+            
+            window.requestAnimationFrame(() => {
+                
+                content.style.height = `${content.scrollHeight}${C.CSS.PX}`;
+                
+                window.requestAnimationFrame(() => {
+                    
+                    content.style.height = `${0}${C.CSS.PX}`;
+                });
+            });
+        }
+    }, [transitionEndHandler]);
 
     /**
      * JSX markup
@@ -95,14 +135,34 @@ const Collapsible = ({
     return (
 
         <div className={C.Style.COLLAPSIBLE}>
-            <div
-                className={getHeaderStyle()}
-                onClick={toggleHandler}
+            <Button
+                style={C.Style.BUTTON_SUBMIT}
+                onClick={headerClickHandler}
             >
-                {title}
-            </div>
+                <img
+                    ref={arrowRef}
+                    className={
+                        concatClassNames(
+                            C.Style.COLLAPSIBLE_ARROW,
+                            (expanded && C.Style.COLLAPSIBLE_ARROW_EXPANDED)
+                        )
+                    }
+                    src={Triangle}
+                    alt={C.Label.ARROW}
+                />
 
-            <div className={getContentStyle()}> 
+                {title}
+            </Button>
+
+            <div
+                ref={contentRef}
+                className={
+                    concatClassNames(
+                        C.Style.COLLAPSIBLE_CONTENT,
+                        (!expanded && C.Style.HIDDEN)
+                    )
+                }
+            > 
                 {children}
             </div>
         </div>
@@ -116,9 +176,9 @@ const Collapsible = ({
 Collapsible.propTypes = {
 
     title: PropTypes.string.isRequired,
-    headerStyle: PropTypes.string.isRequired,
-    eventHandler: PropTypes.func,
     children: PropTypes.node.isRequired,
+    eventHandler: PropTypes.func,
+    expanded: PropTypes.bool,
 };
 
 /**

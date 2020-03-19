@@ -278,10 +278,7 @@ const EditItem = ({
                 />
             }
 
-            <Collapsible
-                title={itemName}
-                headerStyle={C.Style.COLLAPSIBLE_HEADER_LIST_ITEM}
-            >
+            <Collapsible title={itemName}>
                 <div className={C.Style.EDIT_ITEM}>
                     <div className={C.Style.EDIT_ITEM_NAME}>
                         <TextField
