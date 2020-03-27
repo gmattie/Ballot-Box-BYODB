@@ -157,6 +157,10 @@ const ResultsContainer =  ({ logout }) => {
                 />
             }
 
+            {isLoading &&
+                <div className={C.Style.RESULTS_CONTAINER_PRELOADER} />
+            }
+
             {!isLoading &&
                 <>
                     {votesAll && votesAll.map((vote) => {
@@ -171,11 +175,6 @@ const ResultsContainer =  ({ logout }) => {
                         );
                     })}
                 </>
-            }
-
-            {
-                //TODO: Replace with style animation
-                isLoading && <div>LOADING...</div>
             }
         </div>
     );

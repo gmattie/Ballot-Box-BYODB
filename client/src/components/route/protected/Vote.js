@@ -316,6 +316,10 @@ const Vote = ({ logout }) => {
                     cancelCallback={() => setShowDialog(false)}
                 />
             }
+
+            {isLoading &&
+                <div className={C.Style.VOTE_PRELOADER} />
+            }
             
             {(!isLoading && votesCast) &&
                 <>
@@ -351,11 +355,6 @@ const Vote = ({ logout }) => {
                         </div>
                     }
                 </>
-            }
-
-            {
-                //TODO: Replace with style animation
-                isLoading && <div>LOADING...</div>
             }
         </div>
     );

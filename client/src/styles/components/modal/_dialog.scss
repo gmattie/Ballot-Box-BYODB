@@ -5,18 +5,26 @@
     background-color: $COLOR_BACKGROUND;
     padding: $FORM_GAP * 2;
 
-    &-messageContainer {
+    &-message {
 
         margin-bottom: $FORM_GAP;
     }
 
-    &-buttonsContainer {
+    &-submit {
 
         align-self: flex-end;
         
         display: flex;
         flex-direction: row;
+        align-items: center;
         margin-top: $FORM_GAP;
+
+        &-preloader {
+
+            @include preloader($size: $PRELOADER_SIZE);
+
+            margin-right: $FORM_GAP;
+        }
 
         button:not(:nth-of-type(1)) {
 

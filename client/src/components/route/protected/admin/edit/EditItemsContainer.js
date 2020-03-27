@@ -72,6 +72,10 @@ const EditItemsContainer = ({ logout }) => {
                 eventHandler={collapsibleHandler}
             >
                 <div className={C.Style.EDIT_ITEMS_CONTAINER_CONTENT}>
+                    {isMounting &&
+                        <div className={C.Style.EDIT_ITEMS_CONTAINER_CONTENT_PRELOADER} />
+                    }
+
                     {!isMounting &&
                         <>
                             {itemsAll.map((item) => {
@@ -89,11 +93,6 @@ const EditItemsContainer = ({ logout }) => {
                                 );
                             })}
                         </>
-                    }
-
-                    {
-                        //TODO: Replace with style animation
-                        isMounting && <div>LOADING...</div>
                     }
                 </div>
             </Collapsible>

@@ -2,7 +2,16 @@
 
     &-content {
 
+        display: flex;
+        flex-direction: column;
         margin: $FORM_GAP;
+
+        &-preloader {
+
+            @include preloader($size: $PRELOADER_SIZE);
+    
+            align-self: center;
+        }
 
         & > * {
 

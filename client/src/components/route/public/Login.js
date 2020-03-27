@@ -231,20 +231,21 @@ const Login = () => {
                 />
             </div>
 
-            <div className={C.Style.LOGIN_BUTTON}>
-                <Button
-                    style={C.Style.BUTTON_SUBMIT_EMPHASIS}
-                    onClick={submitHandler}
-                    disabled={isLoading || !isSubmittable.current}
-                >
-                    {C.Label.LOGIN}
-                </Button>
-            </div>
+            <div className={C.Style.LOGIN_SUBMIT} >
+                {isLoading &&
+                    <div className={C.Style.LOGIN_SUBMIT_PRELOADER} />
+                }
 
-            {
-                //TODO: Replace with style animation
-                isLoading && <div>LOADING...</div>
-            }
+                <div className={C.Style.LOGIN_SUBMIT_BUTTON}>
+                    <Button
+                        style={C.Style.BUTTON_SUBMIT_EMPHASIS}
+                        onClick={submitHandler}
+                        disabled={isLoading || !isSubmittable.current}
+                    >
+                        {C.Label.LOGIN}
+                    </Button>
+                </div>
+            </div>
         </div>
     );
 };

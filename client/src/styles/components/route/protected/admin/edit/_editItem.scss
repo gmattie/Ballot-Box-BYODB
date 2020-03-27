@@ -10,17 +10,25 @@
         margin-top: $FORM_GAP;
     }
 
-    &-buttonsContainer {
+    &-submit {
 
         align-self: flex-end;
 
         display: flex;
-        flex-direction: row;
+        align-items: center;
         margin-top: $FORM_GAP;
 
-        button:nth-of-type(1) {
+        &-preloader {
 
-            margin-right: $FORM_GAP;
+            @include preloader($size: $PRELOADER_SIZE);
+        }
+
+        &-buttons {
+            
+            button {
+
+                margin-left: $FORM_GAP;
+            }
         }
     }
 }

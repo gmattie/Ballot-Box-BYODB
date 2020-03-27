@@ -7,6 +7,17 @@
     height: 100%;
     align-items: center;
 
+    &-preloader {
+
+        @include preloader($size: $PRELOADER_SIZE);
+
+        $CENTER: calc(50% - #{$PRELOADER_SIZE} / 2);
+    
+        position: absolute;
+        top: $CENTER;
+        left: $CENTER;
+    }
+
     &-webSocketMessage {
 
         @include protected-container-header;

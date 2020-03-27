@@ -10,9 +10,22 @@
         margin-top: $FORM_GAP;
     }
 
-    &-button {
+    &-submit {
 
         align-self: flex-end;
+
+        display: flex;
+        align-items: center;
         margin-top: $FORM_GAP;
+
+        &-preloader {
+
+            @include preloader($size: $PRELOADER_SIZE);
+        }
+
+        &-button {
+
+            margin-left: $FORM_GAP;
+        }
     }
 }

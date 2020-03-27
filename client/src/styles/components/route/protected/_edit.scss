@@ -14,7 +14,7 @@
         margin-top: $FORM_GAP;
     }
 
-    &-buttonsContainer {
+    &-buttons {
 
         align-self: flex-end;
 
@@ -22,9 +22,9 @@
         flex-direction: row;
         margin-top: $FORM_GAP;
 
-        button:nth-of-type(1) {
+        button:not(:nth-of-type(1)) {
 
-            margin-right: $FORM_GAP;
+            margin-left: $FORM_GAP;
         }
     }
 }

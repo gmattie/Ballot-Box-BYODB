@@ -123,12 +123,9 @@ const PublicContainer = () => {
     }
 
     return (
-        
+
         <div className={C.Style.PUBLIC_CONTAINER}>
-            <>
-                {/* TODO: Replace with style animation */}
-                <div>LOADING...</div>
-            </>
+            <div className={C.Style.PUBLIC_CONTAINER_PRELOADER} />
         </div>
     );
 };

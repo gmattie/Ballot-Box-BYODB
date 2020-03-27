@@ -248,20 +248,21 @@ const AddItem = ({ logout }) => {
                         />
                     </div>
 
-                    <div className={C.Style.ADD_ITEM_BUTTON}>
-                        <Button
-                            style={C.Style.BUTTON_SUBMIT_EMPHASIS}
-                            onClick={confirmHandler}
-                            disabled={isLoading || !isSubmittable.current}
-                        >
-                            {C.Label.ADD}
-                        </Button>
-                    </div>
+                    <div className={C.Style.ADD_ITEM_SUBMIT}>
+                        {isLoading &&
+                            <div className={C.Style.ADD_ITEM_SUBMIT_PRELOADER} />
+                        }
 
-                    {
-                        //TODO: Replace with style animation
-                        isLoading && <div>LOADING...</div>
-                    }
+                        <div className={C.Style.ADD_ITEM_SUBMIT_BUTTON}>
+                            <Button
+                                style={C.Style.BUTTON_SUBMIT_EMPHASIS}
+                                onClick={confirmHandler}
+                                disabled={isLoading || !isSubmittable.current}
+                            >
+                                {C.Label.ADD}
+                            </Button>
+                        </div>
+                    </div>
                 </div>
             </Collapsible>
         </>

@@ -307,28 +307,29 @@ const EditItem = ({
                         />
                     </div>
 
-                    <div className={C.Style.EDIT_ITEM_BUTTONS_CONTAINER}>
-                        <Button
-                            style={C.Style.BUTTON_SUBMIT_EMPHASIS}
-                            onClick={confirmHandler}
-                            disabled={isLoading || isUpdating.current || !isSubmittable.current}
-                        >
-                            {C.Label.EDIT}
-                        </Button>
+                    <div className={C.Style.EDIT_ITEM_SUBMIT}>
+                        {isLoading &&
+                            <div className={C.Style.EDIT_ITEM_SUBMIT_PRELOADER} />
+                        }
 
-                        <Button
-                            style={C.Style.BUTTON_SUBMIT}
-                            onClick={resetHandler}
-                            disabled={isLoading || isUpdating.current || !isResettable.current}
-                        >
-                            {C.Label.RESET}
-                        </Button>
+                        <div className={C.Style.EDIT_ITEM_SUBMIT_BUTTONS}>
+                            <Button
+                                style={C.Style.BUTTON_SUBMIT_EMPHASIS}
+                                onClick={confirmHandler}
+                                disabled={isLoading || isUpdating.current || !isSubmittable.current}
+                            >
+                                {C.Label.EDIT}
+                            </Button>
+
+                            <Button
+                                style={C.Style.BUTTON_SUBMIT}
+                                onClick={resetHandler}
+                                disabled={isLoading || isUpdating.current || !isResettable.current}
+                            >
+                                {C.Label.RESET}
+                            </Button>
+                        </div>
                     </div>
-
-                    {
-                        //TODO: Replace with style animation
-                        isLoading && <div>LOADING...</div>
-                    }
                 </div>
             </Collapsible>
         </>

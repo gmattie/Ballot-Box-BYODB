@@ -66,17 +66,15 @@ const Dialog = ({
 
         <Portal elementID={C.ID.ELEMENT_DIALOG}>
             <div className={C.Style.DIALOG}>
-            
-                <div className={C.Style.DIALOG_MESSAGE_CONTAINER}>
+                <div className={C.Style.DIALOG_MESSAGE}>
                     {message}
                 </div>
 
-                {
-                    //TODO: Replace with style animation
-                    isLoading && <div>LOADING...</div>
-                }
+                <div className={C.Style.DIALOG_SUBMIT}>
+                    {isLoading &&
+                        <div className={C.Style.DIALOG_SUBMIT_PRELOADER} />
+                    }
 
-                <div className={C.Style.DIALOG_BUTTONS_CONTAINER}>
                     <Button
                         style={C.Style.BUTTON_SUBMIT_EMPHASIS}
                         onClick={okButtonHandler}

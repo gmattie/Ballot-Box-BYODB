@@ -14,6 +14,11 @@
     width: 100%;
     height: 100%;
 
+    &-preloader {
+
+        @include preloader($size: $PRELOADER_SIZE);
+    }
+
     &-icon {
 
         @include mq-orientation-portrait {

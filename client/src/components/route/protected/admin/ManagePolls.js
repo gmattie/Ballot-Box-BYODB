@@ -265,7 +265,11 @@ const ManagePolls = ({ logout }) => {
                 eventHandler={collapsibleHandler}
             >
                 <div className={C.Style.MANAGE_POLLS}>
-                    {!isMounting &&
+                    {(isMounting || isLoading) &&
+                        <div className={C.Style.MANAGE_POLLS_PRELOADER} />
+                    }
+
+                    {(!isMounting && !isLoading) &&
                         <>
                             {!(votesActive && votesActive.vote) &&
                                 <>
@@ -340,11 +344,6 @@ const ManagePolls = ({ logout }) => {
                                 </div>
                             }
                         </>
-                    }
-
-                    {
-                        //TODO: Replace with style animation
-                        (isMounting || isLoading) && <div>LOADING...</div>
                     }
                 </div>
             </Collapsible>

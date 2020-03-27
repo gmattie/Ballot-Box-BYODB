@@ -22,7 +22,7 @@
 
     &-content {
 
-        background-color: scale-color($color: $COLOR_AUXILIARY, $lightness: -25%);
+        background-color: scale-color($color: $COLOR_AUXILIARY, $lightness: -50%);
         box-shadow: $CONTROL_DROP_SHADOW;
         overflow: hidden;
         transition: height $DURATION_ANIMATION_COLLAPSE ease-in-out;

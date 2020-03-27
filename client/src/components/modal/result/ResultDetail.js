@@ -194,6 +194,10 @@ const ResultDetail = ({
         <Portal elementID={C.ID.ELEMENT_RESULT_DETAIL}>
             <div className={C.Style.RESULT_DETAIL} onClick={okCallback}>
                 <div className={C.Style.RESULT_DETAIL_CONTAINER}>
+                    {isLoading &&
+                        <div className={C.Style.RESULT_DETAIL_CONTAINER_PRELOADER} />
+                    }
+                    
                     {votesOne && 
                         <table className={C.Style.RESULT_DETAIL_CONTAINER_TABLE}>
                             <thead>
@@ -208,7 +212,7 @@ const ResultDetail = ({
                                     />
 
                                     {(votesOne[C.Model.AGGREGATE] || !votesOne[C.Model.ACTIVE]) &&
-                                    !votesOne[C.Model.ANONYMOUS] &&
+                                     !votesOne[C.Model.ANONYMOUS] &&
                                         votesOne[C.Model.VOTE].map((vote) => {
 
                                             return (
@@ -242,11 +246,6 @@ const ResultDetail = ({
                         </table>
                     }
                 </div>
-                
-                {
-                    //TODO: Replace with style animation
-                    isLoading && <div>LOADING...</div>
-                }
             </div>
         </Portal>
     );

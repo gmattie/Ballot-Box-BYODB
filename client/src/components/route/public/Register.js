@@ -287,20 +287,21 @@ const Register = () => {
                 />
             </div>
             
-            <div className={C.Style.REGISTER_BUTTON}>
-                <Button
-                    style={C.Style.BUTTON_SUBMIT_EMPHASIS}
-                    onClick={submitHandler}
-                    disabled={isLoading || !isSubmittable.current}
-                >
-                    {C.Label.REGISTER}
-                </Button>
-            </div>
+            <div className={C.Style.REGISTER_SUBMIT}>
+                {isLoading &&
+                    <div className={C.Style.REGISTER_SUBMIT_PRELOADER} />
+                }
 
-            {
-                //TODO: Replace with style animation
-                isLoading && <div>LOADING...</div>
-            }
+                <div className={C.Style.REGISTER_SUBMIT_BUTTON}>
+                    <Button
+                        style={C.Style.BUTTON_SUBMIT_EMPHASIS}
+                        onClick={submitHandler}
+                        disabled={isLoading || !isSubmittable.current}
+                    >
+                        {C.Label.REGISTER}
+                    </Button>
+                </div>
+            </div>
         </div>
     );
 };

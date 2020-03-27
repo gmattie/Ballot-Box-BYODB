@@ -638,9 +638,11 @@ const Route = Object.freeze({
  * 
  * <ul>
  *     <li> ADD_ITEM </li>
- *     <li> ADD_ITEM_BUTTON </li>
  *     <li> ADD_ITEM_IMAGE </li>
  *     <li> ADD_ITEM_NAME </li>
+ *     <li> ADD_ITEM_SUBMIT </li>
+ *     <li> ADD_ITEM_SUBMIT_BUTTON </li>
+ *     <li> ADD_ITEM_SUBMIT_PRELOADER </li>
  *     <li> ADD_ITEM_THUMBNAIL </li>
  *     <li> ADMIN_CONTAINER </li>
  *     <li> ADMIN_CONTAINER_ADD_ITEM </li>
@@ -663,18 +665,22 @@ const Route = Object.freeze({
  *     <li> CONFIRMATION </li>
  *     <li> CONFIRMATION_EMAIL </li>
  *     <li> DIALOG </li>
- *     <li> DIALOG_BUTTONS_CONTAINER </li>
- *     <li> DIALOG_MESSAGE_CONTAINER </li>
+ *     <li> DIALOG_MESSAGE </li>
+ *     <li> DIALOG_SUBMIT </li>
+ *     <li> DIALOG_SUBMIT_PRELOADER </li>
  *     <li> EDIT </li>
  *     <li> EDIT_ADMIN </li>
- *     <li> EDIT_BUTTONS_CONTAINER </li>
+ *     <li> EDIT_BUTTONS </li>
  *     <li> EDIT_ITEM </li>
- *     <li> EDIT_ITEM_BUTTONS_CONTAINER </li>
  *     <li> EDIT_ITEM_IMAGE </li>
  *     <li> EDIT_ITEM_NAME </li>
+ *     <li> EDIT_ITEM_SUBMIT </li>
+ *     <li> EDIT_ITEM_SUBMIT_BUTTONS </li>
+ *     <li> EDIT_ITEM_SUBMIT_PRELOADER </li>
  *     <li> EDIT_ITEM_THUMBNAIL </li>
  *     <li> EDIT_ITEMS_CONTAINER </li>
  *     <li> EDIT_ITEMS_CONTAINER_CONTENT </li>
+ *     <li> EDIT_ITEMS_CONTAINER_CONTENT_PRELOADER </li>
  *     <li> EDIT_NAME </li>
  *     <li> EDIT_PASSWORD </li>
  *     <li> EDIT_PASSWORD_CONFIRM </li>
@@ -708,17 +714,20 @@ const Route = Object.freeze({
  *     <li> LIST_ITEM_TITLE </li>
  *     <li> LIST_TITLE </li>
  *     <li> LOGIN </li>
- *     <li> LOGIN_BUTTON </li>
  *     <li> LOGIN_EMAIL </li>
  *     <li> LOGIN_ERROR </li>
  *     <li> LOGIN_ERROR_SHOW </li>
  *     <li> LOGIN_PASSWORD </li>
+ *     <li> LOGIN_SUBMIT </li>
+ *     <li> LOGIN_SUBMIT_BUTTON </li>
+ *     <li> LOGIN_SUBMIT_PRELOADER </li>
  *     <li> MANAGE_POLLS </li>
  *     <li> MANAGE_POLLS_BUTTON_CLOSE </li>
  *     <li> MANAGE_POLLS_BUTTON_OPEN </li>
  *     <li> MANAGE_POLLS_DEADLINE </li>
  *     <li> MANAGE_POLLS_LIVE </li>
  *     <li> MANAGE_POLLS_PENDING </li>
+ *     <li> MANAGE_POLLS_PRELOADER </li>
  *     <li> MANAGE_POLLS_QUANTITY </li>
  *     <li> MANAGE_POLLS_SECRET </li>
  *     <li> NO_FOCUS_OUTLINE </li>
@@ -726,34 +735,41 @@ const Route = Object.freeze({
  *     <li> PROTECTED_CONTAINER </li>
  *     <li> PROTECTED_CONTAINER_NAV_BUTTON </li>
  *     <li> PROTECTED_CONTAINER_NAV_BUTTON_SELECTED </li>
+ *     <li> PROTECTED_CONTAINER_PRELOADER </li>
  *     <li> PROTECTED_CONTAINER_USER_INFO </li>
  *     <li> PROTECTED_CONTAINER_WEBSOCKET_MESSAGE </li>
  *     <li> PUBLIC_CONTAINER </li>
  *     <li> PUBLIC_CONTAINER_CONTENT </li>
  *     <li> PUBLIC_CONTAINER_CONTENT_NAV </li>
  *     <li> PUBLIC_CONTAINER_ICON </li>
+ *     <li> PUBLIC_CONTAINER_PRELOADER </li>
  *     <li> RADIO </li>
  *     <li> REGISTER </li>
  *     <li> REGISTER_ADMIN </li>
  *     <li> REGISTER_ADMIN_ERROR </li>
  *     <li> REGISTER_ADMIN_PASSWORD </li>
  *     <li> REGISTER_ADMIN_USERNAME </li>
- *     <li> REGISTER_BUTTON </li>
  *     <li> REGISTER_EMAIL </li>
  *     <li> REGISTER_NAME </li>
  *     <li> REGISTER_PASSWORD </li>
  *     <li> REGISTER_PASSWORD_CONFIRM </li>
+ *     <li> REGISTER_SUBMIT </li>
+ *     <li> REGISTER_SUBMIT_BUTTON </li>
+ *     <li> REGISTER_SUBMIT_PRELOADER </li>
  *     <li> RESET </li>
- *     <li> RESET_BUTTON </li>
  *     <li> RESET_EMAIL </li>
  *     <li> RESET_PASSWORD </li>
  *     <li> RESET_PASSWORD_CONFIRM </li>
+ *     <li> RESET_SUBMIT </li>
+ *     <li> RESET_SUBMIT_BUTTON </li>
+ *     <li> RESET_SUBMIT_PRELOADER </li>
  *     <li> RESULT </li>
  *     <li> RESULT_ACTIVE_BADGE </li>
  *     <li> RESULT_ACTIVE_BADGE_LIVE </li>
  *     <li> RESULT_ACTIVE_BADGE_PENDING </li>
  *     <li> RESULT_DETAIL </li>
  *     <li> RESULT_DETAIL_CONTAINER </li>
+ *     <li> RESULT_DETAIL_CONTAINER_PRELOADER </li>
  *     <li> RESULT_DETAIL_CONTAINER_TABLE </li>
  *     <li> RESULT_DETAIL_TABLE_INFO </li>
  *     <li> RESULT_DETAIL_TABLE_INFO_ACTIVE </li>
@@ -772,12 +788,13 @@ const Route = Object.freeze({
  *     <li> RESULT_DETAIL_TABLE_USER_HEADER_USER_IP </li>
  *     <li> RESULT_DETAIL_TABLE_USER_HEADER_USER_NAME </li>
  *     <li> RESULTS_CONTAINER </li>
+ *     <li> RESULTS_CONTAINER_PRELOADER </li>
  *     <li> TOGGLE </li>
  *     <li> TRANSPARENT </li>
  *     <li> VISIBLE </li>
  *     <li> VOTE </li>
- *     <li> VOTE_BUTTONS_CONTAINER </li>
- *     <li> VOTE_RESULT_ACTIVE </li>
+ *     <li> VOTE_BUTTONS </li>
+ *     <li> VOTE_PRELOADER </li>
  * </ul>
  * 
  * @public
@@ -786,9 +803,11 @@ const Route = Object.freeze({
  */
 const Style = Object.freeze({
 
-    ADD_ITEM_BUTTON: "addItem-button",
     ADD_ITEM_IMAGE: "addItem-image",
     ADD_ITEM_NAME: "addItem-name",
+    ADD_ITEM_SUBMIT_BUTTON: "addItem-submit-button",
+    ADD_ITEM_SUBMIT_PRELOADER: "addItem-submit-preloader",
+    ADD_ITEM_SUBMIT: "addItem-submit",
     ADD_ITEM_THUMBNAIL: "addItem-thumbnail",
     ADD_ITEM: "addItem",
     ADMIN_CONTAINER_ADD_ITEM: "adminContainer-addItem",
@@ -811,16 +830,20 @@ const Style = Object.freeze({
     COLLAPSIBLE: "collapsible",
     CONFIRMATION_EMAIL: "confirmation-email",
     CONFIRMATION: "confirmation",
-    DIALOG_BUTTONS_CONTAINER: "dialog-buttonsContainer",
-    DIALOG_MESSAGE_CONTAINER: "dialog-messageContainer",
+    DIALOG_MESSAGE: "dialog-message",
+    DIALOG_SUBMIT_PRELOADER: "dialog-submit-preloader",
+    DIALOG_SUBMIT: "dialog-submit",
     DIALOG: "dialog",
     EDIT_ADMIN: "edit-admin",
-    EDIT_BUTTONS_CONTAINER: "edit-buttonsContainer",
-    EDIT_ITEM_BUTTONS_CONTAINER: "editItem-buttonsContainer",
+    EDIT_BUTTONS: "edit-buttons",
     EDIT_ITEM_IMAGE: "editItem-image",
     EDIT_ITEM_NAME: "editItem-name",
+    EDIT_ITEM_SUBMIT_BUTTONS: "editItem-submit-buttons",
+    EDIT_ITEM_SUBMIT_PRELOADER: "editItem-submit-preloader",
+    EDIT_ITEM_SUBMIT: "editItem-submit",
     EDIT_ITEM_THUMBNAIL: "editItem-thumbnail",
     EDIT_ITEM: "editItem",
+    EDIT_ITEMS_CONTAINER_CONTENT_PRELOADER: "editItemsContainer-content-preloader",
     EDIT_ITEMS_CONTAINER_CONTENT: "editItemsContainer-content",
     EDIT_ITEMS_CONTAINER: "editItemsContainer",
     EDIT_NAME: "edit-name",
@@ -856,17 +879,20 @@ const Style = Object.freeze({
     LIST_ITEM: "listItem",
     LIST_TITLE: "list-title",
     LIST: "list",
-    LOGIN_BUTTON: "login-button",
     LOGIN_EMAIL: "login-email",
-    LOGIN_ERROR: "login-error",
     LOGIN_ERROR_SHOW: "login-error-show",
+    LOGIN_ERROR: "login-error",
     LOGIN_PASSWORD: "login-password",
+    LOGIN_SUBMIT_BUTTON: "login-submit-button",
+    LOGIN_SUBMIT_PRELOADER: "login-submit-preloader",
+    LOGIN_SUBMIT: "login-submit",
     LOGIN: "login",
     MANAGE_POLLS_BUTTON_CLOSE: "managePolls-button-close",
     MANAGE_POLLS_BUTTON_OPEN: "managePolls-button-open",
     MANAGE_POLLS_DEADLINE: "managePolls-deadline",
     MANAGE_POLLS_LIVE: "managePolls-live",
     MANAGE_POLLS_PENDING: "managePolls-pending",
+    MANAGE_POLLS_PRELOADER: "managePolls-preloader",
     MANAGE_POLLS_QUANTITY: "managePolls-quantity",
     MANAGE_POLLS_SECRET: "managePolls-secret",
     MANAGE_POLLS: "managePolls",
@@ -875,32 +901,39 @@ const Style = Object.freeze({
     PROTECTED_CONTAINER_CONTENT: "protectedContainer-content",
     PROTECTED_CONTAINER_NAV_BUTTON_SELECTED: "protectedContainer-nav-button-selected",
     PROTECTED_CONTAINER_NAV_BUTTON: "protectedContainer-nav-button",
+    PROTECTED_CONTAINER_PRELOADER: "protectedContainer-preloader",
     PROTECTED_CONTAINER_USER_INFO: "protectedContainer-userInfo",
     PROTECTED_CONTAINER_WEBSOCKET_MESSAGE: "protectedContainer-webSocketMessage",
     PROTECTED_CONTAINER: "protectedContainer",
     PUBLIC_CONTAINER_CONTENT_NAV: "publicContainer-content-nav",
     PUBLIC_CONTAINER_CONTENT: "publicContainer-content",
     PUBLIC_CONTAINER_ICON: "publicContainer-icon",
+    PUBLIC_CONTAINER_PRELOADER: "publicContainer-preloader",
     PUBLIC_CONTAINER: "publicContainer",
     RADIO: "radio",
     REGISTER_ADMIN_ERROR: "register-admin-error",
     REGISTER_ADMIN_PASSWORD: "register-admin-password",
     REGISTER_ADMIN_USERNAME: "register-admin-username",
     REGISTER_ADMIN: "register-admin",
-    REGISTER_BUTTON: "register-button",
     REGISTER_EMAIL: "register-email",
     REGISTER_NAME: "register-name",
     REGISTER_PASSWORD_CONFIRM: "register-passwordConfirm",
     REGISTER_PASSWORD: "register-password",
+    REGISTER_SUBMIT_BUTTON: "register-submit-button",
+    REGISTER_SUBMIT_PRELOADER: "register-submit-preloader",
+    REGISTER_SUBMIT: "register-submit",
     REGISTER: "register",
-    RESET_BUTTON: "reset-button",
     RESET_EMAIL: "reset-email",
     RESET_PASSWORD_CONFIRM: "reset-passwordConfirm",
     RESET_PASSWORD: "reset-password",
+    RESET_SUBMIT_BUTTON: "reset-submit-button",
+    RESET_SUBMIT_PRELOADER: "reset-submit-preloader",
+    RESET_SUBMIT: "reset-submit",
     RESET: "reset",
     RESULT_ACTIVE_BADGE_LIVE: "resultActiveBadge-live",
     RESULT_ACTIVE_BADGE_PENDING: "resultActiveBadge-pending",
     RESULT_ACTIVE_BADGE: "resultActiveBadge",
+    RESULT_DETAIL_CONTAINER_PRELOADER: "resultDetail-container-preloader",
     RESULT_DETAIL_CONTAINER_TABLE: "resultDetail-container-table",
     RESULT_DETAIL_CONTAINER: "resultDetail-container",
     RESULT_DETAIL_TABLE_INFO_ACTIVE: "resultDetailTableInfo-active",
@@ -921,11 +954,13 @@ const Style = Object.freeze({
     RESULT_DETAIL_TABLE_USER_HEADER: "resultDetailTableUserHeader",
     RESULT_DETAIL: "resultDetail",
     RESULT: "result",
+    RESULTS_CONTAINER_PRELOADER: "resultsContainer-preloader",
     RESULTS_CONTAINER: "resultsContainer",
     TOGGLE: "toggle",
     TRANSPARENT: "transparent",
     VISIBLE: "visible",
-    VOTE_BUTTONS_CONTAINER: "vote-buttonsContainer",
+    VOTE_BUTTONS: "vote-buttons",
+    VOTE_PRELOADER: "vote-preloader",
     VOTE: "vote",
 });
 

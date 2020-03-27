@@ -354,7 +354,7 @@ const Edit = ({ logout }) => {
                     </div>
                 }
                 
-                <div className={C.Style.EDIT_BUTTONS_CONTAINER}>
+                <div className={C.Style.EDIT_BUTTONS}>
                     <Button
                         style={C.Style.BUTTON_SUBMIT_EMPHASIS}
                         onClick={confirmHandler}

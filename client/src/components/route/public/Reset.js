@@ -226,20 +226,21 @@ const Reset = () => {
                 />
             </div>
             
-            <div className={C.Style.RESET_BUTTON}>
-                <Button
-                    style={C.Style.BUTTON_SUBMIT_EMPHASIS}
-                    onClick={submitHandler}
-                    disabled={isLoading || !isSubmittable.current}
-                >
-                    {C.Label.RESET}
-                </Button>
-            </div>
+            <div className={C.Style.RESET_SUBMIT}>
+                {isLoading &&
+                    <div className={C.Style.RESET_SUBMIT_PRELOADER} />
+                }
 
-            {
-                //TODO: Replace with style animation
-                isLoading && <div>LOADING...</div>
-            }
+                <div className={C.Style.RESET_SUBMIT_BUTTON}>
+                    <Button
+                        style={C.Style.BUTTON_SUBMIT_EMPHASIS}
+                        onClick={submitHandler}
+                        disabled={isLoading || !isSubmittable.current}
+                    >
+                        {C.Label.RESET}
+                    </Button>
+                </div>
+            </div>
         </div>
     );
 };

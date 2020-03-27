@@ -7,9 +7,20 @@
     
     &-container {
         
+        &-preloader {
+    
+            @include preloader($size: $PRELOADER_SIZE);
+    
+            $CENTER: calc(50% - #{$PRELOADER_SIZE} / 2);
+    
+            position: absolute;
+            top: $CENTER;
+            left: $CENTER;
+        }
+
         &-table {
 
-            background-color: $RESULTS_TABLE_BACKGROUND_COLOR;
+            background-color: $COLOR_RESULTS_TABLE_BACKGROUND;
             border-spacing: 0;
         }
     }

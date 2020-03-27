@@ -256,6 +256,10 @@ const ProtectedContainer = () => {
     return (
 
         <div className={C.Style.PROTECTED_CONTAINER}>
+            {(!authToken || isMounting || isLoading) &&
+                <div className={C.Style.PROTECTED_CONTAINER_PRELOADER} />
+            }
+
             {(authToken && !isMounting && !isLoading) &&
                 <>
                     <div className={C.Style.PROTECTED_CONTAINER_WEBSOCKET_MESSAGE}>
@@ -316,13 +320,6 @@ const ProtectedContainer = () => {
                             </Route>
                         </Switch>
                     </div>
-                </>
-            }
-
-            {(!authToken || isMounting || isLoading) &&
-                <>
-                    {/* TODO: Replace with style animation */}
-                    <div>LOADING...</div>
                 </>
             }
         </div>

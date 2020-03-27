@@ -1,4 +1,15 @@
 .resultsContainer {
 
     overflow-y: auto;
+
+    &-preloader {
+
+        @include preloader($size: $PRELOADER_SIZE);
+
+        $CENTER: calc(50% - #{$PRELOADER_SIZE} / 2);
+    
+        position: absolute;
+        top: $CENTER;
+        left: $CENTER;
+    }
 }
