@@ -62,7 +62,7 @@
     
         &:not(:disabled) {
     
-            @include mq-hover {
+            @include mq-device-desktop {
                 
                 &:hover {
                     
@@ -89,7 +89,7 @@
         text-overflow: ellipsis;
         user-select: none;
 
-        @include mq-hover {
+        @include mq-device-desktop {
                 
             &:hover {
                 

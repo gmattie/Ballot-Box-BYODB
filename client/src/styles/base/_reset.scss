@@ -7,6 +7,11 @@
     padding: 0;
 }
 
+*::-moz-focus-inner {
+
+    border: 0;
+}
+
 .noFocusOutline :focus {
 
     outline: none;

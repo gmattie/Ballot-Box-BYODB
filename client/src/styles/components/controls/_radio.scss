@@ -63,7 +63,7 @@
     
         &:not(:disabled) {
     
-            @include mq-hover {
+            @include mq-device-desktop {
                 
                 &:hover {
                     
@@ -90,7 +90,7 @@
         text-transform: uppercase;
         user-select: none;
 
-        @include mq-hover {
+        @include mq-device-desktop {
                 
             &:hover {
                 

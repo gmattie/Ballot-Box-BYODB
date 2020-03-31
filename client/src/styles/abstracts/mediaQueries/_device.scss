@@ -1,0 +1,15 @@
+@mixin mq-device-mobile {
+
+    @media (hover: none) {
+        
+        @content;
+    }
+}
+
+@mixin mq-device-desktop {
+
+    @media (hover: hover) {
+        
+        @content;
+    }
+}

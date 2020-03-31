@@ -1,4 +1,10 @@
-@mixin table-cell-border($top: true, $right: true, $bottom: true, $left: true) {
+@mixin table-cell-border(
+    
+    $top: true,
+    $right: true,
+    $bottom: true,
+    $left: true
+) {
 
     $BORDER_WIDTH: 1px;
 

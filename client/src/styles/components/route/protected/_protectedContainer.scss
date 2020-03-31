@@ -39,6 +39,8 @@
 
     &-content {
 
+        @include scrollbar;
+
         display: flex;
         flex-direction: column;
         width: inherit;

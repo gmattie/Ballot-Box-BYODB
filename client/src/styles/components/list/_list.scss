@@ -1,5 +1,7 @@
 .list {
 
+    @include scrollbar;
+    
     display: inline-block;
     width: 50vw;
     max-width: 250px;

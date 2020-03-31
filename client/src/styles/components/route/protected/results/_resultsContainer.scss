@@ -1,7 +1,5 @@
 .resultsContainer {
 
-    overflow-y: auto;
-
     &-preloader {
 
         @include preloader($size: $PRELOADER_SIZE);
