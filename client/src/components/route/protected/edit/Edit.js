@@ -16,17 +16,17 @@
  * @module
  * 
  */
-import * as C from "../../../support/constants";
-import AdminCredentials from "../../AdminCredentials";
-import Button from "../../controls/Button";
-import Dialog from "../../modal/Dialog";
-import PasswordField from "../../controls/PasswordField";
+import * as C from "../../../../support/constants";
+import AdminCredentials from "./AdminCredentials";
+import Button from "../../../controls/Button";
+import Dialog from "../../../modal/Dialog";
+import PasswordField from "../../../controls/PasswordField";
 import PropTypes from "prop-types";
 import React, { useRef, useEffect, useState } from "react";
-import TextField from "../../controls/TextField";
-import useAuth from "../../../hooks/useAuth";
-import useInputText from "../../../hooks/useInputText";
-import useUsers from "../../../hooks/useUsers";
+import TextField from "../../../controls/TextField";
+import useAuth from "../../../../hooks/useAuth";
+import useInputText from "../../../../hooks/useInputText";
+import useUsers from "../../../../hooks/useUsers";
 
 /**
  * @description The Edit component contains UI elements that are required to edit a User document.

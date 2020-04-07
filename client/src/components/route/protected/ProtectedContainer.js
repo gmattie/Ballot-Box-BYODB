@@ -21,7 +21,7 @@
 import { Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
 import * as C from "../../../support/constants";
 import AdminContainer from "./admin/AdminContainer";
-import Edit from "./Edit";
+import Edit from "./edit/Edit";
 import React, { useState } from "react";
 import ResultsContainer from "./results/ResultsContainer";
 import useAuth from "../../../hooks/useAuth";

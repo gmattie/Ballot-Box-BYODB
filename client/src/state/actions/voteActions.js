@@ -185,7 +185,6 @@ const fetchCast = () => {
             const itemsVote = getState().items[C.Action.Type.ITEMS_VOTE];
             const url = `${C.Route.API_VOTES}${C.Route.CAST}`;
 
-
             const options = {
 
                 method: C.Request.METHOD_POST,

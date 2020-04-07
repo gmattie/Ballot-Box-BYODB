@@ -19,7 +19,6 @@
 @import "./miscellaneous/hidden";
 @import "./miscellaneous/transparent";
 
-@import "./components/adminCredentials";
 @import "./components/errorResponse";
 
 @import "./components/controls/button";
@@ -54,7 +53,8 @@
 @import "./components/route/protected/admin/edit/editItem";
 @import "./components/route/protected/admin/edit/editItemsContainer";
 @import "./components/route/protected/admin/managePolls";
-@import "./components/route/protected/edit";
+@import "./components/route/protected/edit/adminCredentials";
+@import "./components/route/protected/edit/edit";
 @import "./components/route/protected/protectedContainer";
 @import "./components/route/protected/results/result";
 @import "./components/route/protected/results/resultActiveBadge";

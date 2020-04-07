@@ -745,10 +745,6 @@ const Route = Object.freeze({
  *     <li> PUBLIC_CONTAINER_PRELOADER </li>
  *     <li> RADIO </li>
  *     <li> REGISTER </li>
- *     <li> REGISTER_ADMIN </li>
- *     <li> REGISTER_ADMIN_ERROR </li>
- *     <li> REGISTER_ADMIN_PASSWORD </li>
- *     <li> REGISTER_ADMIN_USERNAME </li>
  *     <li> REGISTER_EMAIL </li>
  *     <li> REGISTER_NAME </li>
  *     <li> REGISTER_PASSWORD </li>
@@ -911,10 +907,6 @@ const Style = Object.freeze({
     PUBLIC_CONTAINER_PRELOADER: "publicContainer-preloader",
     PUBLIC_CONTAINER: "publicContainer",
     RADIO: "radio",
-    REGISTER_ADMIN_ERROR: "register-admin-error",
-    REGISTER_ADMIN_PASSWORD: "register-admin-password",
-    REGISTER_ADMIN_USERNAME: "register-admin-username",
-    REGISTER_ADMIN: "register-admin",
     REGISTER_EMAIL: "register-email",
     REGISTER_NAME: "register-name",
     REGISTER_PASSWORD_CONFIRM: "register-passwordConfirm",

@@ -14,14 +14,14 @@
  * @module
  * 
  */
-import { concatClassNames } from "../support/utilities";
-import * as C from "../support/constants";
-import Collapsible from "./controls/Collapsible";
-import ErrorResponse from "./ErrorResponse";
-import PasswordField from "./controls/PasswordField";
+import { concatClassNames } from "../../../../support/utilities";
+import * as C from "../../../../support/constants";
+import Collapsible from "../../../controls/Collapsible";
+import ErrorResponse from "../../../ErrorResponse";
+import PasswordField from "../../../controls/PasswordField";
 import PropTypes from "prop-types";
 import React, { useEffect, useRef } from "react";
-import TextField from "./controls/TextField";
+import TextField from "../../../controls/TextField";
 
 /**
  * @description The AdminCredentials component contains UI elements that are required to enter admin credentials.

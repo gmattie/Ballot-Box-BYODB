@@ -1,7 +1,6 @@
 /**
  * @description Register component
  * 
- * @requires AdminCredentials
  * @requires Button
  * @requires Confirmation
  * @requires constants
@@ -16,7 +15,6 @@
  * 
  */
 import * as C from "../../../support/constants";
-import AdminCredentials from "../../AdminCredentials";
 import Button from "../../controls/Button";
 import Confirmation from "./Confirmation";
 import PasswordField from "../../controls/PasswordField";
@@ -27,7 +25,7 @@ import useInputText from "../../../hooks/useInputText";
 import useUsers from "../../../hooks/useUsers";
 /**
  * @description The Register component contains UI elements that are required to register a user.
- * The UI elements include text input fields for entering a user's name, email, password, optional admin credentials and a button for submitting the input data to the server.
+ * The UI elements include text input fields for entering a user's name, email, password and a button for submitting the input data to the server.
  * 
  * @returns {object} JSX markup.
  * @public
@@ -41,7 +39,6 @@ const Register = () => {
      * 
      */
     const [ emailAlreadyRegistered, setEmailAlreadyRegistered ] = useState(null);
-    const [ invalidAdminCredentials, setInvalidAdminCredentials ] = useState(null);
     const [ invalidName, setInvalidName ] = useState(null);
     const [ invalidEmail, setInvalidEmail ] = useState(null);
     const [ invalidPassword, setInvalidPassword ] = useState(null);
@@ -92,18 +89,6 @@ const Register = () => {
         binding: bindPasswordConfirm,
         value: passwordConfirm
     } = useInputText(`${C.Label.CONFIRM} ${C.Label.PASSWORD}`, submitHandler);
-
-    const {
-        
-        binding: bindAdminUsername,
-        value: adminUsername
-    } = useInputText(C.Label.ADMIN_USERNAME, submitHandler);
-
-    const {
-        
-        binding: bindAdminPassword,
-        value: adminPassword
-    } = useInputText(C.Label.ADMIN_PASSWORD, submitHandler);
 
     /**
      * Set isSubmittable flag
@@ -165,12 +150,6 @@ const Register = () => {
 
                         break;
 
-                    case C.ID.NAME_ADMIN_USERNAME:
-                    case C.ID.NAME_ADMIN_PASSWORD:
-                        setInvalidAdminCredentials(error[C.ID.ERROR_MESSAGE]);
-
-                        break;
-
                     default:
                         throw new Error(error[C.ID.ERROR_MESSAGE]);
                 }
@@ -201,7 +180,6 @@ const Register = () => {
             setUsersRegister(null);
 
             setEmailAlreadyRegistered(null);
-            setInvalidAdminCredentials(null);
             setInvalidName(null);
             setInvalidEmail(null);
             setInvalidPassword(null);
@@ -215,9 +193,7 @@ const Register = () => {
                 name,
                 email,
                 password,
-                passwordConfirm,
-                adminUsername,
-                adminPassword
+                passwordConfirm
             );
 
             setIsLoading(false);
@@ -275,15 +251,6 @@ const Register = () => {
                     disabled={isLoading}
                     errorMessage={invalidPasswordConfirm}
                     {...bindPasswordConfirm}
-                />
-            </div>
-
-            <div className={C.Style.REGISTER_ADMIN}>
-                <AdminCredentials
-                    bindAdminUsername={bindAdminUsername}
-                    bindAdminPassword={bindAdminPassword}
-                    isLoading={isLoading}
-                    errorMessage={invalidAdminCredentials}
                 />
             </div>
             
