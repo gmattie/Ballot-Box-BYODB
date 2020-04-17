@@ -13,7 +13,7 @@
         background-color: white;
         border-radius: 50%;
         box-shadow: $CONTROL_DROP_SHADOW;
-        transition: all $DURATION_TRANSITION_BUTTON ease-in-out;
+        transition: all $DURATION_ANIMATION_FAST ease-in-out;
 
         &:checked,
         &:not(:checked) {
@@ -32,7 +32,7 @@
                 height: $CHECKED_SIZE;
                 background-color: $COLOR_EMPHASIS;
                 border-radius: 50%;
-                transition: all $DURATION_TRANSITION_INPUT ease-in-out;
+                transition: all $DURATION_ANIMATION_FAST ease-in-out;
             }
         }
 

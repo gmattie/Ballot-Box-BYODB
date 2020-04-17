@@ -14,7 +14,7 @@
         min-height: $CONTROL_SIZE;
         border-radius: $CONTROL_SIZE / 2;
         box-shadow: $CONTROL_DROP_SHADOW;
-        transition: all $DURATION_TRANSITION_BUTTON ease-in-out;
+        transition: all $DURATION_ANIMATION_FAST ease-in-out;
 
         &:checked,
         &:not(:checked) {
@@ -29,7 +29,7 @@
                 height: $CONTROL_SIZE;
                 background-color: white;
                 border-radius: 50%;
-                transition: all $DURATION_TRANSITION_INPUT ease-in-out;
+                transition: all $DURATION_ANIMATION_FAST ease-in-out;
             }
         }
 

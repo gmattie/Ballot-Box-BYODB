@@ -36,6 +36,7 @@ const Portal = ({
      * @description Pause background scrolling
      * Temporarily deactivates scrolling on the document body while the Portal component is visible. 
      * 
+     * @returns {function} Cleanup code to execute when the component dismounts.
      * @private
      * @function
      * 
@@ -51,6 +52,7 @@ const Portal = ({
      * @description Portal root element
      * Creates an element containing the ChildrenContainer to be appended to the DOM as the Portal.
      * 
+     * @returns {function} Cleanup code to execute when the component dismounts.
      * @private
      * @function
      * 

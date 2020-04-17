@@ -106,7 +106,9 @@ const CharCode = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> FIXED </li>
  *     <li> PX </li>
+ *     <li> STATIC </li>
  * </ul>
  * 
  * @public
@@ -115,7 +117,9 @@ const CharCode = Object.freeze({
  */
 const CSS = Object.freeze({
 
-    PX: "px"
+    FIXED: "fixed",
+    PX: "px",
+    STATIC: "static",
 });
 
 /**
@@ -183,6 +187,7 @@ const Event = Object.freeze({
     MESSAGE: "message",
     MOUSE_DOWN: "mousedown",
     OPEN: "open",
+    RESIZE: "resize",
     TRANSITION_END: "transitionend",
 
     Type: {
@@ -740,8 +745,9 @@ const Route = Object.freeze({
  *     <li> PROTECTED_CONTAINER_WEBSOCKET_MESSAGE </li>
  *     <li> PUBLIC_CONTAINER </li>
  *     <li> PUBLIC_CONTAINER_CONTENT </li>
- *     <li> PUBLIC_CONTAINER_CONTENT_NAV </li>
- *     <li> PUBLIC_CONTAINER_ICON </li>
+ *     <li> PUBLIC_CONTAINER_CONTENT_FORM </li>
+ *     <li> PUBLIC_CONTAINER_CONTENT_FORM_NAV </li>
+ *     <li> PUBLIC_CONTAINER_CONTENT_ICON: </li>
  *     <li> PUBLIC_CONTAINER_PRELOADER </li>
  *     <li> RADIO </li>
  *     <li> REGISTER </li>
@@ -901,9 +907,10 @@ const Style = Object.freeze({
     PROTECTED_CONTAINER_USER_INFO: "protectedContainer-userInfo",
     PROTECTED_CONTAINER_WEBSOCKET_MESSAGE: "protectedContainer-webSocketMessage",
     PROTECTED_CONTAINER: "protectedContainer",
-    PUBLIC_CONTAINER_CONTENT_NAV: "publicContainer-content-nav",
+    PUBLIC_CONTAINER_CONTENT_FORM_NAV: "publicContainer-content-form-nav",
+    PUBLIC_CONTAINER_CONTENT_FORM: "publicContainer-content-form",
+    PUBLIC_CONTAINER_CONTENT_ICON: "publicContainer-content-icon",
     PUBLIC_CONTAINER_CONTENT: "publicContainer-content",
-    PUBLIC_CONTAINER_ICON: "publicContainer-icon",
     PUBLIC_CONTAINER_PRELOADER: "publicContainer-preloader",
     PUBLIC_CONTAINER: "publicContainer",
     RADIO: "radio",

@@ -29,9 +29,12 @@ const App = () => {
     /**
      * @description Removes the visible outline on focusable elements when they are focused via mouse or touch events.
      * To ensure accessibility, the outline of focusable elements will remain visible when users interface via keyboard events.
+     * 
      * This solution maybe replaced by employing a ":focus-visible" CSS pseudo-class when it becomes standardized across browsers.
      * https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible 
+     * Make haste, idyllic future.
      * 
+     * @returns {function} Cleanup code to execute when the component dismounts.
      * @private
      * @function
      * 

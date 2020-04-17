@@ -132,6 +132,7 @@ const ViewportImage = ({
      * @description Initializes an IntersectionObserver object with relevant subscriptions.
      * Observation of the HTMLImageElement ends once it intersects with the viewport. 
      * 
+     * @returns {function} Cleanup code to execute when the component dismounts.
      * @private
      * @function
      * 

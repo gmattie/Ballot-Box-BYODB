@@ -12,7 +12,7 @@
     text-transform: uppercase;
     border: none;
     user-select: none;
-    transition: all $DURATION_TRANSITION_BUTTON ease-in-out;
+    transition: all $DURATION_ANIMATION_FAST ease-in-out;
 
     &:disabled {
 

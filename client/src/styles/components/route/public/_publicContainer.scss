@@ -1,14 +1,6 @@
 .publicContainer {
 
-    $SIZE: 50%;
-    $SIZE_MIN: 256px;
-    $SIZE_MAX: 384px;
-
-    @include mq-orientation-landscape { flex-direction: row; }
-    @include mq-orientation-portrait  { flex-direction: column; }
-
     display: flex;
-    align-items: center;
     justify-content: center;
     position: fixed;
     width: 100%;
@@ -17,37 +9,72 @@
     &-preloader {
 
         @include preloader($size: $PRELOADER_SIZE);
-    }
 
-    &-icon {
-
-        @include mq-orientation-portrait {
-
-            width: $SIZE;
-            min-width: $SIZE_MIN;
-            max-width: $SIZE_MAX;
-        }
-
-        @include mq-orientation-landscape {
-
-            height: $SIZE;
-            min-height: $SIZE_MIN;
-            max-height: $SIZE_MAX;
-        }
+        margin: auto;
     }
 
     &-content {
 
-        width: $SIZE;
-        min-width: $SIZE_MIN;
-        max-width: $SIZE_MAX;
+        $SIZE_MIN: 256px;
+        $SIZE_MAX: 384px;
 
-        &-nav {
+        $SIZE_VIEWPORT_ICON: 30;
+        $SIZE_VIEWPORT_FORM: 80;
+        
+        display: flex;
+        align-self: flex-start;
+        align-items: center;
+        
+        @include mq-orientation-landscape { flex-direction: row; }
+        @include mq-orientation-portrait  { flex-direction: column; }
 
-            margin-top: 4px;
-            display: flex;
-            justify-content: space-between;
-            flex-direction: row;
+        position: relative;
+        padding: $FORM_GAP;
+        transition: top $DURATION_ANIMATION_SLOW ease-in-out;
+
+        &-icon {
+
+            @include mq-orientation-portrait {
+
+                width: $SIZE_VIEWPORT_ICON * 1vh;
+                min-width: $SIZE_MIN;
+                max-width: $SIZE_MAX;
+            }
+
+            @include mq-orientation-landscape {
+
+                height: $SIZE_VIEWPORT_ICON * 1vw;
+                min-height: $SIZE_MIN;
+                max-height: $SIZE_MAX;
+                margin-right: $FORM_GAP * 2;
+            }
+        }
+
+        &-form {
+
+            position: relative;
+
+            @include mq-orientation-portrait {
+
+                width: $SIZE_VIEWPORT_FORM * 1vw;
+                min-width: $SIZE_MIN;
+                max-width: $SIZE_MAX;
+            }
+            
+            @include mq-orientation-landscape {
+
+                width: ($SIZE_VIEWPORT_FORM - $SIZE_VIEWPORT_ICON) * 1vw;
+                min-width: $SIZE_MIN;
+                max-width: $SIZE_MAX;
+            }
+
+            &-nav {
+
+                margin-top: 4px;
+                display: flex;
+                justify-content: space-between;
+                flex-direction: row;
+            }
         }
     }
 }
