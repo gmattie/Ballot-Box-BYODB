@@ -5,6 +5,7 @@
  * @requires constants
  * @requires ErrorResponse
  * @requires PasswordField
+ * @requires PublicContainer
  * @requires react
  * @requires react-router-dom
  * @requires TextField
@@ -17,12 +18,13 @@
  * 
  */
 import { concatClassNames } from "../../../support/utilities";
+import { LoadingAPI } from "../public/PublicContainer";
 import { useHistory } from "react-router-dom";
 import * as C from "../../../support/constants";
 import Button from "../../controls/Button";
 import ErrorResponse from "../../ErrorResponse";
 import PasswordField from "../../controls/PasswordField";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import TextField from "../../controls/TextField";
 import useAuth from "../../../hooks/useAuth";
 import useInputText from "../../../hooks/useInputText";
@@ -46,7 +48,8 @@ const Login = () => {
     const [ invalidCredentials, setInvalidCredentials ] = useState(null);
     const [ invalidEmail, setInvalidEmail ] = useState(null);
     const [ invalidPassword, setInvalidPassword ] = useState(null);
-    const [ isLoading, setIsLoading ] = useState(false);
+    
+    const [ isLoading, setIsLoading ] = useContext(LoadingAPI);
 
     /**
      * Refs

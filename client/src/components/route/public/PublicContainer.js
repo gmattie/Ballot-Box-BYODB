@@ -21,10 +21,21 @@ import * as C from "../../../support/constants";
 import Button from "../../controls/Button";
 import Icon from "../../../assets/BallotBoxIcon.png";
 import Login from "./Login";
-import React, { useEffect, useRef } from "react";
+import React, { createContext, useEffect, useRef, useState } from "react";
 import Register from "./Register";
 import Reset from "./Reset";
 import useUsers from "../../../hooks/useUsers";
+
+/**
+ * @description Creates an exportable Context object.
+ * The creation of this Context object allows the PublicContainer component to provide its "isLoading" state, which is consumable by the
+ * Login, Register and Reset public route components, without having to pass props down manually to each component.
+ * 
+ * @public
+ * @object
+ * 
+ */
+const LoadingAPI = createContext();
 
 /**
  * @description The PublicContainer component groups the UI components that facilitate authenticated accessibility to the application.
@@ -36,6 +47,12 @@ import useUsers from "../../../hooks/useUsers";
  * 
  */
 const PublicContainer = () => {
+
+    /**
+     * State
+     * 
+     */
+    const [ isLoading, setIsLoading ] = useState(false);
 
     /**
      * Refs 
@@ -165,6 +182,7 @@ const PublicContainer = () => {
             <Button
                 style={getButtonStyle(href)}
                 onClick={() => history.push(href)}
+                disabled={isLoading}
             >
                 {label}
             </Button>
@@ -197,19 +215,21 @@ const PublicContainer = () => {
                             {createButton(C.Label.RESET, C.Route.RESET)}
                         </nav>
 
-                        <Switch>
-                            <Route path={C.Route.LOGIN}>
-                                <Login />
-                            </Route>
+                        <LoadingAPI.Provider value={[ isLoading, setIsLoading ]}>
+                            <Switch>
+                                <Route path={C.Route.LOGIN}>
+                                    <Login />
+                                </Route>
 
-                            <Route path={C.Route.REGISTER}>
-                                <Register />
-                            </Route>
-                            
-                            <Route path={C.Route.RESET}>
-                                <Reset />
-                            </Route>
-                        </Switch>
+                                <Route path={C.Route.REGISTER}>
+                                    <Register />
+                                </Route>
+                                
+                                <Route path={C.Route.RESET}>
+                                    <Reset />
+                                </Route>
+                            </Switch>
+                        </LoadingAPI.Provider>
                     </div>
                 </div>
             </div>
@@ -228,4 +248,8 @@ const PublicContainer = () => {
  * Export module
  * 
  */
-export default PublicContainer;
+export {
+    
+    PublicContainer as default,
+    LoadingAPI
+};

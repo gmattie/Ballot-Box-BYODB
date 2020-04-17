@@ -5,6 +5,7 @@
  * @requires Confirmation
  * @requires constants
  * @requires PasswordField
+ * @requires PublicContainer
  * @requires react
  * @requires TextField
  * @requires useAuth
@@ -14,11 +15,12 @@
  * @module
  * 
  */
+import { LoadingAPI } from "../public/PublicContainer";
 import * as C from "../../../support/constants";
 import Button from "../../controls/Button";
 import Confirmation from "./Confirmation";
 import PasswordField from "../../controls/PasswordField";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import TextField from "../../controls/TextField";
 import useAuth from "../../../hooks/useAuth";
 import useInputText from "../../../hooks/useInputText";
@@ -43,8 +45,9 @@ const Reset = () => {
     const [ invalidEmail, setInvalidEmail ] = useState(null);
     const [ invalidPassword, setInvalidPassword ] = useState(null);
     const [ invalidPasswordConfirm, setInvalidPasswordConfirm ] = useState(null);
-    const [ isLoading, setIsLoading ] = useState(false);
     const [ emailSent, setEmailSent ] = useState(false);
+
+    const [ isLoading, setIsLoading ] = useContext(LoadingAPI);
 
     /**
      * Refs
