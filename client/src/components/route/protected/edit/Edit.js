@@ -6,7 +6,7 @@
  * @requires constants
  * @requires Dialog
  * @requires PasswordField
- * @requires prop-types
+ * @requires ProtectedContainer
  * @requires react
  * @requires TextField
  * @requires useAuth
@@ -16,13 +16,13 @@
  * @module
  * 
  */
+import { LogoutAPI } from "../ProtectedContainer";
 import * as C from "../../../../support/constants";
 import AdminCredentials from "./AdminCredentials";
 import Button from "../../../controls/Button";
 import Dialog from "../../../modal/Dialog";
 import PasswordField from "../../../controls/PasswordField";
-import PropTypes from "prop-types";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useContext, useRef, useEffect, useState } from "react";
 import TextField from "../../../controls/TextField";
 import useAuth from "../../../../hooks/useAuth";
 import useInputText from "../../../../hooks/useInputText";
@@ -32,13 +32,18 @@ import useUsers from "../../../../hooks/useUsers";
  * @description The Edit component contains UI elements that are required to edit a User document.
  * The UI elements include text input fields for editing a user's name, password and admin credentials and a button for submitting the input data to the server.
  * 
- * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} JSX markup.
  * @public
  * @function
  * 
  */
-const Edit = ({ logout }) => {
+const Edit = () => {
+
+    /**
+     * Context
+     * 
+     */
+    const logout = useContext(LogoutAPI);
 
     /**
      * State
@@ -374,15 +379,6 @@ const Edit = ({ logout }) => {
             </div>
         </>
     );
-};
-
-/**
- * Prop Types
- * 
- */
-Edit.propTypes = {
-
-    logout: PropTypes.func.isRequired
 };
 
 /**

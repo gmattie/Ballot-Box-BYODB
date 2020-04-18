@@ -22,13 +22,24 @@ import { Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
 import * as C from "../../../support/constants";
 import AdminContainer from "./admin/AdminContainer";
 import Edit from "./edit/Edit";
-import React, { useState } from "react";
+import React, { createContext, useState } from "react";
 import ResultsContainer from "./results/ResultsContainer";
 import useAuth from "../../../hooks/useAuth";
 import useUsers from "../../../hooks/useUsers";
 import useVotes from "../../../hooks/useVotes";
 import useWebSocket from "../../../hooks/useWebSocket";
 import Vote from "./Vote";
+
+/**
+ * @description Creates an exportable Context object.
+ * This Context object allows the ProtectedContainer component to provide its "logout" function to be consumed by the
+ * protected route components and/or their descendants without having to pass props down manually to each component.
+ * 
+ * @public
+ * @object
+ * 
+ */
+const LogoutAPI = createContext();
 
 /**
  * @description The ProtectedContainer component groups the UI components of the application that are only accessible via user authentication.
@@ -302,23 +313,25 @@ const ProtectedContainer = () => {
                     </div>
 
                     <div className={C.Style.PROTECTED_CONTAINER_CONTENT}>
-                        <Switch>
-                            <Route path={C.Route.VOTE}>
-                                <Vote logout={logout} />
-                            </Route>
+                        <LogoutAPI.Provider value={logout}>
+                            <Switch>
+                                <Route path={C.Route.VOTE}>
+                                    <Vote />
+                                </Route>
 
-                            <Route path={C.Route.RESULTS}>
-                                <ResultsContainer logout={logout} />
-                            </Route>
-                            
-                            <Route path={C.Route.ADMIN}>
-                                <AdminContainer logout={logout} />
-                            </Route>
+                                <Route path={C.Route.RESULTS}>
+                                    <ResultsContainer />
+                                </Route>
+                                
+                                <Route path={C.Route.ADMIN}>
+                                    <AdminContainer />
+                                </Route>
 
-                            <Route path={C.Route.EDIT}>
-                                <Edit logout={logout} />
-                            </Route>
-                        </Switch>
+                                <Route path={C.Route.EDIT}>
+                                    <Edit />
+                                </Route>
+                            </Switch>
+                        </LogoutAPI.Provider>
                     </div>
                 </>
             }
@@ -330,4 +343,8 @@ const ProtectedContainer = () => {
  * Export module
  * 
  */
-export default ProtectedContainer;
+export {
+    
+    ProtectedContainer as default,
+    LogoutAPI
+};

@@ -5,7 +5,7 @@
  * @requires Collapsible
  * @requires constants
  * @requires Dialog
- * @requires prop-types
+ * @requires ProtectedContainer
  * @requires react
  * @requires TextField
  * @requires useAuth
@@ -15,12 +15,12 @@
  * @module
  * 
  */
+import { LogoutAPI } from "../ProtectedContainer";
 import * as C from "../../../../support/constants";
 import Button from "../../../controls/Button";
 import Collapsible from "../../../controls/Collapsible";
 import Dialog from "../../../modal/Dialog";
-import PropTypes from "prop-types";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import TextField from "../../../controls/TextField";
 import useAuth from "../../../../hooks/useAuth";
 import useInputText from "../../../../hooks/useInputText";
@@ -30,13 +30,18 @@ import useItems from "../../../../hooks/useItems";
  * @description The AddItem component contains UI elements that are required to add Item documents to the database.
  * The UI elements include text input fields for setting the "name" with optional "thumbnail" and "image" URLs and a button for submitting the input data to the server.
  * 
- * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} JSX markup.
  * @public
  * @function
  * 
  */
-const AddItem = ({ logout }) => {
+const AddItem = () => {
+
+    /**
+     * Context
+     * 
+     */
+    const logout = useContext(LogoutAPI);
 
     /**
      * State
@@ -267,15 +272,6 @@ const AddItem = ({ logout }) => {
             </Collapsible>
         </>
     );
-};
-
-/**
- * Prop Types
- * 
- */
-AddItem.propTypes = {
-
-    logout: PropTypes.func.isRequired
 };
 
 /**

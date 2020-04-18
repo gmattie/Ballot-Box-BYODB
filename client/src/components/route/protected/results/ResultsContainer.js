@@ -2,7 +2,7 @@
  * @description ResultsContainer component.
  * 
  * @requires constants
- * @requires prop-types
+ * @requires ProtectedContainer
  * @requires react
  * @requires Result
  * @requires ResultDetail
@@ -15,9 +15,9 @@
  * @module
  * 
  */
+import { LogoutAPI } from "../ProtectedContainer";
 import * as C from "../../../../support/constants";
-import PropTypes from "prop-types";
-import React, { memo, useRef, useState } from "react";
+import React, { useContext, memo, useRef, useState } from "react";
 import Result from "./Result";
 import ResultDetail from "../../../modal/result/ResultDetail";
 import useAuth from "../../../../hooks/useAuth";
@@ -29,13 +29,18 @@ import useWebSocket from "../../../../hooks/useWebSocket";
  * @description The memoized ResultsContainer component contains a list of Result components.
  * This component facilitates fetching all Vote documents from the database in order to populate the list of Result components.
  * 
- * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} JSX markup.
  * @public
  * @function
  * 
  */
-const ResultsContainer =  ({ logout }) => {
+const ResultsContainer = () => {
+
+    /**
+     * Context
+     * 
+     */
+    const logout = useContext(LogoutAPI);
 
     /**
      * State
@@ -178,15 +183,6 @@ const ResultsContainer =  ({ logout }) => {
             }
         </div>
     );
-};
-
-/**
- * Prop Types
- * 
- */
-ResultsContainer.propTypes = {
-
-    logout: PropTypes.func.isRequired
 };
 
 /**

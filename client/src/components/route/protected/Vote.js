@@ -6,6 +6,7 @@
  * @requires Dialog
  * @requires ListContainer
  * @requires prop-types
+ * @requires ProtectedContainer
  * @requires react
  * @requires useAuth
  * @requires useItems
@@ -17,12 +18,12 @@
  * @module
  * 
  */
+import { LogoutAPI } from "../protected/ProtectedContainer";
 import * as C from "../../../support/constants";
 import Button from "../../controls/Button";
 import Dialog from "../../modal/Dialog";
 import ListContainer from "../../list/ListContainer";
-import PropTypes from "prop-types";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useItems from "../../../hooks/useItems";
 import useMount from "../../../hooks/useMount";
@@ -35,13 +36,18 @@ import useWebSocket from "../../../hooks/useWebSocket";
  * The UI elements include List components for displaying and sorting draggable Item documents,
  * a button to reset the "itemsCandidate" and "itemsVote" states to their default values and a button for casting votes to the server.
  * 
- * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} JSX markup.
  * @public
  * @function
  * 
  */
-const Vote = ({ logout }) => {
+const Vote = () => {
+
+    /**
+     * Context
+     * 
+     */
+    const logout = useContext(LogoutAPI);
 
     /**
      * State
@@ -358,15 +364,6 @@ const Vote = ({ logout }) => {
             }
         </div>
     );
-};
-
-/**
- * Prop Types
- * 
- */
-Vote.propTypes = {
-
-    logout: PropTypes.func.isRequired
 };
 
 /**

@@ -6,7 +6,7 @@
  * @requires constants
  * @requires Dialog
  * @requires ms
- * @requires prop-types
+ * @requires ProtectedContainer
  * @requires Radio
  * @requires react
  * @requires TextField
@@ -18,32 +18,36 @@
  * @module
  * 
  */
+import { LogoutAPI } from "../ProtectedContainer";
 import * as C from "../../../../support/constants";
 import Button from "../../../controls/Button";
 import Collapsible from "../../../controls/Collapsible";
 import Dialog from "../../../modal/Dialog";
 import ms from "ms";
-import PropTypes from "prop-types";
 import Radio from "../../../controls/Radio";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import TextField from "../../../controls/TextField";
 import Toggle from "../../../controls/Toggle";
 import useAuth from "../../../../hooks/useAuth";
 import useInputText from "../../../../hooks/useInputText";
 import useVotes from "../../../../hooks/useVotes";
-
 /**
  * @description The ManagePolls component contains UI elements that are required to open and close voting polls.
  * The UI elements include text input fields for setting the "deadline" and "quantity", radio and checkbox inputs for setting the "aggregate" and "anonymous" values, and buttons for opening and closing the polls.
  * The "deadline" field accepts a string describing either milliseconds or a time span (https://github.com/zeit/ms).  Example:  "10000", "1h", "2.5 days", etc.
  * 
- * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} JSX markup.
  * @public
  * @function
  * 
  */
-const ManagePolls = ({ logout }) => {
+const ManagePolls = () => {
+
+    /**
+     * Context
+     * 
+     */
+    const logout = useContext(LogoutAPI);
 
     /**
      * State
@@ -349,15 +353,6 @@ const ManagePolls = ({ logout }) => {
             </Collapsible>
         </>
     );
-};
-
-/**
- * Prop Types
- * 
- */
-ManagePolls.propTypes = {
-
-    logout: PropTypes.func.isRequired
 };
 
 /**

@@ -28,8 +28,8 @@ import useUsers from "../../../hooks/useUsers";
 
 /**
  * @description Creates an exportable Context object.
- * The creation of this Context object allows the PublicContainer component to provide its "isLoading" state, which is consumable by the
- * Login, Register and Reset public route components, without having to pass props down manually to each component.
+ * This Context object allows the PublicContainer component to provide its "isLoading" state to be consumed by the
+ * public route components and/or their descendants without having to pass props down manually to each component.
  * 
  * @public
  * @object
@@ -91,7 +91,7 @@ const PublicContainer = () => {
 
                     const mobileBrowserMinHeight = window.screen.height * 0.75;
                     const mobileKeyboardVisible = document.documentElement.clientHeight < mobileBrowserMinHeight;
-                    
+                    console.log("---", mobileBrowserMinHeight, document.documentElement.clientHeight, mobileKeyboardVisible);
                     contentElement.parentElement.style.position = (mobileKeyboardVisible)
                         ? C.CSS.STATIC
                         : C.CSS.FIXED;

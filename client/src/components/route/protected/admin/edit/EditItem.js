@@ -6,6 +6,7 @@
  * @requires constants
  * @requires Dialog
  * @requires prop-types
+ * @requires ProtectedContainer
  * @requires react
  * @requires TextField
  * @requires useAuth
@@ -15,12 +16,13 @@
  * @module
  * 
  */
+import { LogoutAPI } from "../../ProtectedContainer";
 import * as C from "../../../../../support/constants";
 import Button from "../../../../controls/Button";
 import Collapsible from "../../../../controls/Collapsible";
 import Dialog from "../../../../modal/Dialog";
 import PropTypes from "prop-types";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import TextField from "../../../../controls/TextField";
 import useAuth from "../../../../../hooks/useAuth";
 import useInputText from "../../../../../hooks/useInputText";
@@ -42,9 +44,14 @@ const EditItem = ({
         itemID,
         itemName,
         itemThumbnail,
-        itemImage,
-        logout,
+        itemImage
     }) => {
+
+    /**
+     * Context
+     * 
+     */
+    const logout = useContext(LogoutAPI);
 
     /**
      * State
@@ -344,6 +351,7 @@ EditItem.propTypes = {
 
     itemID: PropTypes.string.isRequired,
     itemName: PropTypes.string.isRequired,
+    itemThumbnail: PropTypes.string.isRequired,
     itemImage: PropTypes.string.isRequired
 };
 
