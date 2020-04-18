@@ -15,7 +15,7 @@
  * @module
  * 
  */
-import { debounce } from "../../../support/utilities";
+import { debounce, isMobileDevice } from "../../../support/utilities";
 import { Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
 import * as C from "../../../support/constants";
 import Button from "../../controls/Button";
@@ -87,11 +87,13 @@ const PublicContainer = () => {
 
             const centerContentHandler = (event) => {
 
-                if (event instanceof Event && event.type === C.Event.RESIZE) {
+                if (isMobileDevice() &&
+                    event instanceof Event &&
+                    event.type === C.Event.RESIZE) {
 
                     const mobileBrowserMinHeight = window.screen.height * 0.75;
                     const mobileKeyboardVisible = document.documentElement.clientHeight < mobileBrowserMinHeight;
-                    console.log("---", mobileBrowserMinHeight, document.documentElement.clientHeight, mobileKeyboardVisible);
+
                     contentElement.parentElement.style.position = (mobileKeyboardVisible)
                         ? C.CSS.STATIC
                         : C.CSS.FIXED;

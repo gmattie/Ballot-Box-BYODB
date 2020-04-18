@@ -10,7 +10,7 @@
  * @description Concatenates and returns a string of non-null class names.
  * 
  * @param  {...string|null} classNames - The strings to be concatenated.
- * @private
+ * @public
  * @function
  * 
  */
@@ -28,6 +28,8 @@ const concatClassNames = (...classNames) => {
  * 
  * @param {object} element - The HTMLElement with a value setter.
  * @param {string} value - The value assigned to the element.
+ * @public
+ * @function
  * 
  */
 const setNativeValue = (element, value) => {
@@ -54,6 +56,7 @@ const setNativeValue = (element, value) => {
  * @param {number} delay - The time in milliseconds to postpone the callback.
  * @param {Function} callback - The event's callback function.
  * @return {Function} 
+ * @public
  * @function
  * 
  * @example
@@ -82,6 +85,16 @@ const debounce = (delay, callback) => {
 };
 
 /**
+ * @description Checks if the deployment target is a mobile device.
+ * Additional info: https://developer.mozilla.org/en-US/docs/Web/HTTP/Browser_detection_using_the_user_agent
+ * 
+ * @public
+ * @function
+ * 
+ */
+const isMobileDevice = () => /Mobi/i.test(window.navigator.userAgent);
+
+/**
  * Export module
  * 
  */
@@ -89,5 +102,6 @@ module.exports = {
 
     concatClassNames,
     setNativeValue,
-    debounce
+    debounce,
+    isMobileDevice
 };
