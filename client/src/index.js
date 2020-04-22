@@ -28,9 +28,6 @@ import store from "./state/store";
  * @description Wraps the App component in both BrowserRouter and Redux Provider components for 
  * application-level accessibility and renders it into the root element of the DOM.
  * 
- * @public
- * @function
- * 
  */
 ReactDOM.render(
 
@@ -45,9 +42,6 @@ ReactDOM.render(
 /**
  * @description Registers a service worker to facilitate A2HS (Add to Home Screen)
  * or PWA (Progressive Web App) functionality from supporting browsers.
- *
- * @public
- * @function
  * 
  */
 serviceWorker.register();
