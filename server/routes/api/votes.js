@@ -113,34 +113,33 @@ const closeVote = async (req) => {
         req.app.locals[C.Local.IS_VOTE_OPEN] = false;
         clearInterval(req.app.locals[C.Local.DEADLINE_INTERVAL]);
         
+        const clients = req.app.locals[C.Local.CLIENTS];
         const vote = await Vote.findOne({ [C.Model.ACTIVE]: true });
         
         if (!vote) {
             
             throw new Error(C.Error.VOTE_DOES_NOT_EXIST);
         }
-        
-        const clients = req.app.locals[C.Local.CLIENTS];
-        utils.broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED }));
-
-        if (vote[C.Model.VOTE].length === 0) {
-
+        else if (vote[C.Model.VOTE].length === 0) {
+            
             await vote.deleteOne();
         }
         else {
-
+            
             if (!vote[C.Model.AGGREGATE]) {
-
+                
                 await aggregateVotes(req);
             }
-
+            
             vote[C.Model.ACTIVE] = false;
             vote[C.Model.DATE] = Date.now();
             
             await vote.save();
-
+            
             utils.broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_COMPLETE }));
         }
+        
+        utils.broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED }));
     }
     catch (error) {
 
@@ -454,8 +453,10 @@ router.get(C.Route.ACTIVE, auth, async (req, res) => {
 });
 
 /**
- * @description (GET) Retrieve an array of either one or all votes.
- * All users are authorized to retrieve either a list of all votes, both active and inactive, or a single vote by optionally providing a valid vote ID as a request parameter.
+ * @description (GET) Retrieve one vote or an array of all votes.
+ * All users are authorized to retrieve either an array of all votes, both active and inactive, or a single vote by optionally providing a valid vote ID as a request parameter.
+ * Retrieving an array of all votes include the following properties per vote:  "aggregate", "anonymous", "active" and "date".
+ * Retrieving a single vote, in addition to the aforementioned properties, will include all remaining properties of the Vote document model: "deadline", "quantity", "total" and "vote".   
  * 
  * @protected
  * @constant
@@ -466,24 +467,24 @@ router.get(`/:${C.Route.PARAM}?`, auth, async (req, res) => {
     try {
 
         const paramVoteID = req.params[C.Route.PARAM];
-        
-        const popPathVoteUser = `${C.Model.VOTE}.${C.Model.USER}`;
-        const popPathVoteItem = `${C.Model.VOTE}.${C.Model.CAST}.${C.Model.ITEM}`;
-        const popPathTotalItem = `${C.Model.TOTAL}.${C.Model.ITEM}`;
 
-        const popFieldsUser = `${C.Model.EMAIL} ${C.Model.IP} ${C.Model.NAME}`;
-        const popFieldsItem = `${C.Model.NAME} ${C.Model.IMAGE}`;
-        
         let result;
-
+        
         if (paramVoteID) {
-
+            
             const isValidVoteID = mongoose.Types.ObjectId.isValid(paramVoteID);
-
+            
             if (!isValidVoteID) {
-
+                
                 throw new Error(C.Error.VOTE_DOES_NOT_EXIST);
             }
+            
+            const popPathVoteUser = `${C.Model.VOTE}.${C.Model.USER}`;
+            const popPathVoteItem = `${C.Model.VOTE}.${C.Model.CAST}.${C.Model.ITEM}`;
+            const popPathTotalItem = `${C.Model.TOTAL}.${C.Model.ITEM}`;
+    
+            const popFieldsUser = `${C.Model.EMAIL} ${C.Model.IP} ${C.Model.NAME}`;
+            const popFieldsItem = `${C.Model.NAME} ${C.Model.IMAGE}`;
 
             result = await Vote.findById(paramVoteID)
                 .populate(popPathVoteUser, popFieldsUser)
@@ -499,10 +500,8 @@ router.get(`/:${C.Route.PARAM}?`, auth, async (req, res) => {
 
             result = await Vote
                 .find({})
+                .select(`${C.Model.AGGREGATE} ${C.Model.ANONYMOUS} ${C.Model.ACTIVE} ${C.Model.DATE}`)
                 .sort(`-${C.Model.DATE}`)
-                .populate(popPathVoteUser, popFieldsUser)
-                .populate(popPathVoteItem, popFieldsItem)
-                .populate(popPathTotalItem, popFieldsItem);
         }
 
         return res

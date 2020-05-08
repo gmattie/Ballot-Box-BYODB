@@ -68,10 +68,11 @@ const ResultDetail = ({
         votesOne
     } = useVotes();
 
-    const { webSocketMessage } = useWebSocket();
+    const { webSocketMessage, setWebSocketMessage } = useWebSocket();
 
     /**
-     * @description Fetch the target Vote document to populate the "votesOne" state.
+     * @description Fetch the target Vote document
+     * The target Vote document, which is either loaded from the local cache or fetched via an HTTP request, populates the "votesOne" state.
      * 
      * @private
      * @function
@@ -79,34 +80,55 @@ const ResultDetail = ({
      */
     const mount = () => {
 
-        window[C.Global.WEB_SOCKET_MESSAGE_RESULT_DETAIL] = null;
+        (async () => {
 
-        setIsLoading(true);
+            setWebSocketMessage(null);
 
-        setVotesOne(null);
-        fetchOne(voteID);
+            const cachedVote = localStorage.getItem(voteID);
+
+            if (cachedVote) {
+
+                setVotesOne(JSON.parse(cachedVote));
+            }
+            else {
+
+                await fetchOne(voteID);
+            }
+            
+            setIsLoading(false); 
+        })();
     };
 
     onMount(mount);
 
     /**
      * WebSocket event handling
-     * Fetches the component data when "voteCast" or "voteClosed" WebSocket messages are broadcast.
+     * Fetches the updated data for the target Vote document when either the "voteCast" or "voteClosed" WebSocket messages are broadcast.
+     * Setting the webSocketMessage to null facilitates receiving continuous "voteCast" webSocket messages without repeatedly fetching voteOne data.
      * 
      */
-    if (webSocketMessage &&
-        webSocketMessage !== window[C.Global.WEB_SOCKET_MESSAGE_RESULT_DETAIL]) {
+    if (webSocketMessage && !isLoading) {
         
         const isMessageVoteCast = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CAST }));
         const isMessageVoteClosed = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED }));
 
         if (isMessageVoteCast || isMessageVoteClosed) {
 
+            setWebSocketMessage(null);
             fetchOne(voteID);
+        }
+    }
 
-            window[C.Global.WEB_SOCKET_MESSAGE_RESULT_DETAIL] = (isMessageVoteCast)
-                ? null
-                : webSocketMessage;
+    /**
+     * VotesOne Success
+     * Saves the fetched Vote document to the cache if it is not an active vote.
+     * 
+     */
+    if (votesOne && !votesOne[C.Model.ACTIVE] && !isLoading) {
+
+        if (!localStorage.getItem(voteID)) {
+
+            localStorage.setItem(voteID, JSON.stringify(votesOne));
         }
     }
 
@@ -136,16 +158,6 @@ const ResultDetail = ({
 
             setTimeout(() => logout());    
         }
-    }
-
-    /**
-     * Fetch one vote success
-     * Negate the isLoading local state and render the component.
-     * 
-     */
-    if (votesOne && isLoading) {
-
-        setIsLoading(false);
     }
 
     /**
@@ -198,7 +210,7 @@ const ResultDetail = ({
                         <div className={C.Style.RESULT_DETAIL_CONTAINER_PRELOADER} />
                     }
                     
-                    {votesOne && 
+                    {!isLoading && votesOne && 
                         <table className={C.Style.RESULT_DETAIL_CONTAINER_TABLE}>
                             <thead>
                                 <tr>

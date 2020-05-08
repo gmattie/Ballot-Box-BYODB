@@ -30,13 +30,17 @@ const EditItemsContainer = () => {
      * State
      * 
      */
-    const [ isMounting, setIsMounting ] = useState(true);
+    const [ isLoading, setIsLoading ] = useState(true);
 
     /**
      * Hooks
      * 
      */
-    const { fetchAll, itemsAll } = useItems();
+    const {
+        
+        fetchAll,
+        itemsAll
+    } = useItems();
 
     /**
      * @description Callback executed each time the collapsed or expanded state of the Collapsible component is updated.
@@ -49,11 +53,14 @@ const EditItemsContainer = () => {
      */
     const collapsibleHandler = async (isCollapsed) => {
 
-        if (isMounting && !isCollapsed) {
+        if (!isCollapsed) {
+            
+            if (!itemsAll) {
 
-            await fetchAll();
-    
-            setIsMounting(false);
+                await fetchAll();
+            }
+
+            setIsLoading(false);
         }
     };
 
@@ -69,11 +76,11 @@ const EditItemsContainer = () => {
                 eventHandler={collapsibleHandler}
             >
                 <div className={C.Style.EDIT_ITEMS_CONTAINER_CONTENT}>
-                    {isMounting &&
+                    {isLoading &&
                         <div className={C.Style.EDIT_ITEMS_CONTAINER_CONTENT_PRELOADER} />
                     }
 
-                    {!isMounting &&
+                    {!isLoading && itemsAll &&
                         <>
                             {itemsAll.map((item) => {
 

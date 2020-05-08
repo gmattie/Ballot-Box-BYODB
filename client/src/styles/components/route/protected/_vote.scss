@@ -15,10 +15,15 @@
         left: $CENTER;
     }
     
+    &-error {
+        
+        align-self: flex-end;
+        margin-top: $FORM_GAP;
+    }
+
     &-buttons {
 
         align-self: flex-end;
-
         display: flex;
         flex-direction: row;
         margin-top: $FORM_GAP;

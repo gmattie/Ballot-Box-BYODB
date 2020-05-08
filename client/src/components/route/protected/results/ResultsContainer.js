@@ -9,7 +9,6 @@
  * @requires useAuth
  * @requires useMount
  * @requires useVotes
- * @requires useWebSocket
 
  * @public
  * @module
@@ -23,7 +22,6 @@ import ResultDetail from "../../../modal/result/ResultDetail";
 import useAuth from "../../../../hooks/useAuth";
 import useMount from "../../../../hooks/useMount";
 import useVotes from "../../../../hooks/useVotes";
-import useWebSocket from "../../../../hooks/useWebSocket";
 
 /**
  * @description The memoized ResultsContainer component contains a list of Result components.
@@ -66,13 +64,10 @@ const ResultsContainer = () => {
 
         fetchAll,
         votesAll,
-        setVotesAll,
     } = useVotes();
 
-    const { webSocketMessage } = useWebSocket();
-
     /**
-     * @description Fetch all Vote documents to populate the "votesAll" state.
+     * @description Fetches all Vote documents to populate the "votesAll" state if the state is null. 
      * 
      * @private
      * @function
@@ -80,37 +75,18 @@ const ResultsContainer = () => {
      */
     const mount = () => {
 
-        window[C.Global.WEB_SOCKET_MESSAGE_RESULTS_CONTAINER] = null;
+        (async () => {
 
-        setIsLoading(true);
+            if (!votesAll) {
 
-        setVotesAll(null);
-        fetchAll();
+                await fetchAll();
+            }
+
+            setIsLoading(false);
+        })();
     };
 
     onMount(mount);
-
-    /**
-     * WebSocket event handling
-     * Resets the state of the component when "voteOpened" or "voteClosed" WebSocket messages are broadcast.
-     * 
-     */
-    if (webSocketMessage &&
-        webSocketMessage !== window[C.Global.WEB_SOCKET_MESSAGE_RESULTS_CONTAINER]) {
-        
-        const isMessageVoteOpened = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_OPENED }));
-        const isMessageVoteClosed = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED }));
-
-        if (isMessageVoteOpened || isMessageVoteClosed) {
-
-            setIsLoading(true);
-
-            setVotesAll(null);
-            fetchAll();
-
-            window[C.Global.WEB_SOCKET_MESSAGE_RESULTS_CONTAINER] = webSocketMessage;
-        }
-    }
 
     /**
      * Auth failure
@@ -120,16 +96,6 @@ const ResultsContainer = () => {
     if (authError) {
 
         setTimeout(() => logout());
-    }
-
-    /**
-     * Fetch all votes success
-     * Negate the isLoading local state and render the component.
-     * 
-     */
-    if (votesAll && isLoading) {
-
-        setIsLoading(false);
     }
 
     /**

@@ -56,7 +56,6 @@ const ManagePolls = () => {
     const [ invalidDeadline, setInvalidDeadline ] = useState(null);
     const [ invalidQuantity, setInvalidQuantity ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(false);
-    const [ isMounting, setIsMounting ] = useState(true);
     const [ showDialog, setShowDialog ] = useState(false);
     const [ aggregate, setAggregate ] = useState(false);
     const [ anonymous, setAnonymous ] = useState(false);
@@ -77,7 +76,6 @@ const ManagePolls = () => {
 
     const {
 
-        fetchActive,
         fetchClose,
         fetchOpen,
         votesActive,
@@ -159,25 +157,6 @@ const ManagePolls = () => {
             setTimeout(() => logout());
         }
     }
-
-    /**
-     * @description Callback executed each time the collapsed or expanded state of the Collapsible component is updated.
-     * 
-     * @param {boolean} isCollapsed - Indicates the state of the Collapsible component.
-     * @async
-     * @private
-     * @function
-     *  
-     */
-    const collapsibleHandler = async (isCollapsed) => {
-
-        if (isMounting && !isCollapsed) {
-
-            await fetchActive();
-    
-            setIsMounting(false);
-        }
-    };
 
     /**
      * @description Displays the confirmation dialog.
@@ -264,19 +243,21 @@ const ManagePolls = () => {
                 />
             }
 
-            <Collapsible
-                title={C.Label.MANAGE_POOLS}
-                eventHandler={collapsibleHandler}
-            >
+            <Collapsible title={C.Label.MANAGE_POOLS}>
                 <div className={C.Style.MANAGE_POLLS}>
-                    {(isMounting || isLoading) &&
-                        <div className={C.Style.MANAGE_POLLS_PRELOADER} />
-                    }
-
-                    {(!isMounting && !isLoading) &&
-                        <>
-                            {!(votesActive && votesActive.vote) &&
-                                <>
+                    {(isLoading)
+                        ?   <div className={C.Style.MANAGE_POLLS_PRELOADER} />
+                        :   (votesActive && votesActive.vote)
+                            ?   <div className={C.Style.MANAGE_POLLS_BUTTON_CLOSE}>
+                                    <Button
+                                        style={C.Style.BUTTON_SUBMIT_EMPHASIS}
+                                        onClick={confirmHandler}
+                                        disabled={isLoading}
+                                    >
+                                        {C.Label.CLOSE}
+                                    </Button>
+                                </div>
+                            :   <>
                                     <div className={C.Style.MANAGE_POLLS_DEADLINE}>
                                         <TextField
                                             name={C.ID.NAME_DEADLINE}
@@ -334,20 +315,6 @@ const ManagePolls = () => {
                                         </Button>
                                     </div>
                                 </>
-                            }
-
-                            {(votesActive && votesActive.vote) &&
-                                <div className={C.Style.MANAGE_POLLS_BUTTON_CLOSE}>
-                                    <Button
-                                        style={C.Style.BUTTON_SUBMIT_EMPHASIS}
-                                        onClick={confirmHandler}
-                                        disabled={isLoading}
-                                    >
-                                        {C.Label.CLOSE}
-                                    </Button>
-                                </div>
-                            }
-                        </>
                     }
                 </div>
             </Collapsible>

@@ -160,9 +160,12 @@ const Error = Object.freeze({
  *     <li> TRANSITION_END </li>
  *     <ul>
  *         <li> DEADLINE </li>
+ *         <li> ITEM </li>
  *         <li> VOTE </li>
  *         <li> WEBSOCKET </li>
  *     </ul>
+ *     <li> ITEM_ADD </li>
+ *     <li> ITEM_EDIT </li>
  *     <li> VOTE_CLOSED </li>
  *     <li> VOTE_COMPLETE </li>
  *     <li> VOTE_OPENED </li>
@@ -193,10 +196,13 @@ const Event = Object.freeze({
     Type: {
 
         DEADLINE: "deadline",
+        ITEM: "item",
         VOTE: "vote",
         WEBSOCKET: "webSocket",
     },
     
+    ITEM_ADD: "itemAdd",
+    ITEM_EDIT: "itemEdit",
     VOTE_CAST: "voteCast",
     VOTE_CLOSED: "voteClosed",
     VOTE_COMPLETE: "voteComplete",
@@ -208,10 +214,6 @@ const Event = Object.freeze({
  * 
  * <ul>
  *     <li> LIST_ITEM_DRAG_TARGET </li>
- *     <li> WEB_SOCKET_MESSAGE_PROTECTED_CONTAINER </li>
- *     <li> WEB_SOCKET_MESSAGE_RESULT_DETAIL </li>
- *     <li> WEB_SOCKET_MESSAGE_RESULTS_CONTAINER </li>
- *     <li> WEB_SOCKET_MESSAGE_VOTE </li>
  * </ul>
  * 
  * @public
@@ -220,11 +222,7 @@ const Event = Object.freeze({
  */
 const Global = Object.freeze({
 
-    LIST_ITEM_DRAG_TARGET: "listItemDragTarget",
-    WEB_SOCKET_MESSAGE_PROTECTED_CONTAINER: "webSocketMessageProtectedContainer",
-    WEB_SOCKET_MESSAGE_RESULT_DETAIL: "webSocketMessageResultDetail",
-    WEB_SOCKET_MESSAGE_RESULTS_CONTAINER: "webSocketMessageResultsContainer",
-    WEB_SOCKET_MESSAGE_VOTE: "webSocketMessageVote",
+    LIST_ITEM_DRAG_TARGET: "listItemDragTarget"
 });
 
 /**
@@ -740,9 +738,9 @@ const Route = Object.freeze({
  *     <li> PROTECTED_CONTAINER </li>
  *     <li> PROTECTED_CONTAINER_NAV_BUTTON </li>
  *     <li> PROTECTED_CONTAINER_NAV_BUTTON_SELECTED </li>
+ *     <li> PROTECTED_CONTAINER_POLLS_STATUS </li>
  *     <li> PROTECTED_CONTAINER_PRELOADER </li>
  *     <li> PROTECTED_CONTAINER_USER_INFO </li>
- *     <li> PROTECTED_CONTAINER_WEBSOCKET_MESSAGE </li>
  *     <li> PUBLIC_CONTAINER </li>
  *     <li> PUBLIC_CONTAINER_CONTENT </li>
  *     <li> PUBLIC_CONTAINER_CONTENT_FORM </li>
@@ -796,6 +794,7 @@ const Route = Object.freeze({
  *     <li> VISIBLE </li>
  *     <li> VOTE </li>
  *     <li> VOTE_BUTTONS </li>
+ *     <li> VOTE_ERROR </li>
  *     <li> VOTE_PRELOADER </li>
  * </ul>
  * 
@@ -903,9 +902,9 @@ const Style = Object.freeze({
     PROTECTED_CONTAINER_CONTENT: "protectedContainer-content",
     PROTECTED_CONTAINER_NAV_BUTTON_SELECTED: "protectedContainer-nav-button-selected",
     PROTECTED_CONTAINER_NAV_BUTTON: "protectedContainer-nav-button",
+    PROTECTED_CONTAINER_POLLS_STATUS: "protectedContainer-pollsStatus",
     PROTECTED_CONTAINER_PRELOADER: "protectedContainer-preloader",
     PROTECTED_CONTAINER_USER_INFO: "protectedContainer-userInfo",
-    PROTECTED_CONTAINER_WEBSOCKET_MESSAGE: "protectedContainer-webSocketMessage",
     PROTECTED_CONTAINER: "protectedContainer",
     PUBLIC_CONTAINER_CONTENT_FORM_NAV: "publicContainer-content-form-nav",
     PUBLIC_CONTAINER_CONTENT_FORM: "publicContainer-content-form",
@@ -959,6 +958,7 @@ const Style = Object.freeze({
     TRANSPARENT: "transparent",
     VISIBLE: "visible",
     VOTE_BUTTONS: "vote-buttons",
+    VOTE_ERROR: "vote-error",
     VOTE_PRELOADER: "vote-preloader",
     VOTE: "vote",
 });

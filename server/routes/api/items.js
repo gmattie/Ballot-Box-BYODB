@@ -46,6 +46,9 @@ router.post(C.Route.ADD, [
 
                 await Item.insertMany(item);
 
+                const clients = req.app.locals[C.Local.CLIENTS];
+                utils.broadcast(clients, JSON.stringify({ [C.Event.Type.ITEM]: C.Event.ITEM_ADD }));
+
                 return res
                     .status(C.Status.OK)
                     .json(item);
@@ -119,6 +122,9 @@ router.patch(`${C.Route.EDIT}/:${C.Route.PARAM}`, [
                 }
                 
                 await item.save();
+
+                const clients = req.app.locals[C.Local.CLIENTS];
+                utils.broadcast(clients, JSON.stringify({ [C.Event.Type.ITEM]: C.Event.ITEM_EDIT }));
 
                 return res
                     .status(C.Status.OK)

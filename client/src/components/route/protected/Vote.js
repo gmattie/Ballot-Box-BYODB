@@ -4,6 +4,7 @@
  * @requires Button
  * @requires constants
  * @requires Dialog
+ * @requires ErrorResponse
  * @requires ListContainer
  * @requires prop-types
  * @requires ProtectedContainer
@@ -13,7 +14,6 @@
  * @requires useMount
  * @requires useUsers
  * @requires useVotes
- * @requires useWebSocket
  * @public
  * @module
  * 
@@ -22,6 +22,7 @@ import { LogoutAPI } from "../protected/ProtectedContainer";
 import * as C from "../../../support/constants";
 import Button from "../../controls/Button";
 import Dialog from "../../modal/Dialog";
+import ErrorResponse from "../../ErrorResponse";
 import ListContainer from "../../list/ListContainer";
 import React, { useContext, useRef, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
@@ -29,7 +30,6 @@ import useItems from "../../../hooks/useItems";
 import useMount from "../../../hooks/useMount";
 import useUsers from "../../../hooks/useUsers";
 import useVotes from "../../../hooks/useVotes";
-import useWebSocket from "../../../hooks/useWebSocket";
 
 /**
  * @description The Vote component contains UI elements that are required to browse votable items and/or cast votes.
@@ -53,10 +53,9 @@ const Vote = () => {
      * State
      * 
      */
-    const [ invalidCast, setInvalidCast ] = useState(null);
-    const [ invalidItem, setInvalidItem ] = useState(null);
-    const [ invalidRank, setInvalidRank ] = useState(null);
-    const [ isLoading, setIsLoading ] = useState(true);
+    const [ invalidVote, setInvalidVote ] = useState(null);
+    const [ isLoading, setIsLoading ] = useState(false);
+    const [ isMounting, setIsMounting ] = useState(true);
     const [ showDialog, setShowDialog ] = useState(false);
 
     /**
@@ -75,14 +74,10 @@ const Vote = () => {
     const {
         
         fetchAll,
-        itemsAdd,
         itemsAll,
         itemsCandidate,
-        itemsEdit,
         itemsVote,
-        setItemsAdd,
         setItemsCandidate,
-        setItemsEdit,
         setItemsVote,
     } = useItems();
     
@@ -91,19 +86,14 @@ const Vote = () => {
 
     const {
 
-        fetchActive,
         fetchCast,
-        setVotesActive,
         setVotesCast,
         votesActive,
         votesCast
     } = useVotes();
 
-    const { webSocketMessage } = useWebSocket();
-
     /**
-     * @description Check if there is an active vote, nullify the "votesCast" state and conditionally update "itemsCandidate" state.
-     * Fetching all Item documents is required to initialize or update the "itemsCandidate" state if there are any additions or edits to the Item documents.
+     * @description Fetches all Item documents if the "itemsAll" state is null.
      * 
      * @private
      * @function
@@ -111,72 +101,33 @@ const Vote = () => {
      */
     const mount = () => {
 
-        setIsLoading(true);
-        
-        setVotesCast(null);
-        setVotesActive(null);
-        fetchActive();
-        
-        if (!itemsCandidate || itemsAdd || itemsEdit) {
+        if (!itemsAll) {
 
             fetchAll();
         }
     };
 
-    onMount(mount);
+    onMount(mount);            
 
     /**
-     * WebSocket event handling
-     * Resets the state of the component when "voteOpened" or "voteClosed" WebSocket messages are broadcast.
+     * Mounting will complete when both the "votesActive" and "itemsAll" states have been populated with non-nullable values.
+     * During an active vote, conditionally populate the "votesCast" state based on the user having already voted.
      * 
      */
+    if (isMounting && votesActive && itemsAll) {
 
-    if (webSocketMessage &&
-        webSocketMessage !== window[C.Global.WEB_SOCKET_MESSAGE_VOTE]) {
+        setVotesCast(null);
 
-        const isMessageVoteOpened = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_OPENED }));
-        const isMessageVoteClosed = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED }));
+        if (votesActive && votesActive[C.Model.VOTE]) {
 
-        if (isMessageVoteOpened || isMessageVoteClosed) {
-
-            setVotesCast(null);
-            resetItemLists();
-
-            window[C.Global.WEB_SOCKET_MESSAGE_VOTE] = webSocketMessage;
-        }
-    }
-    
-    /**
-     * Set isVotable flag
-     * Determines if the present state of both "votesActive" and "itemsVote" are sufficient for allowing users to cast votes to the server.
-     * 
-     */
-    isVotable.current = (
-        
-        (votesActive && votesActive.vote) &&
-        (itemsVote && itemsVote.length) &&
-        (Math.min(itemsAll.length, votesActive.vote[C.Model.QUANTITY]) <= itemsVote.length)
-    );
-
-    /**
-     * Initialize or reset Item data during mount
-     * Conditionally populates "votesCast" if a user has already voted and/or resets the "itemsCandidate" and "itemsVote" states to the default values. 
-     * 
-     */
-    if (isLoading &&
-        votesActive &&
-        itemsAll) {
-
-        if (votesActive && votesActive.vote) {
-
-            const currentUserVote = votesActive.vote[C.Model.VOTE]
-                .find((vote) => vote.user === usersSelf.user._id);
+            const currentUserVote = votesActive[C.Model.VOTE][C.Model.VOTE]
+                .find((vote) => vote[C.Model.USER] === usersSelf[C.Model.USER][C.Model.ID]);
 
             if (currentUserVote) {
 
                 const cast = {
 
-                    [C.Model.CAST]: currentUserVote.cast.map((vote) => {
+                    [C.Model.CAST]: currentUserVote[C.Model.CAST].map((vote) => {
 
                         return {
                     
@@ -189,24 +140,44 @@ const Vote = () => {
                 setVotesCast(cast);
             }
         }
-        
-        if (!itemsCandidate || itemsAdd || itemsEdit) {
 
-            resetItemLists();
-        }
-
-        if (itemsAdd) {
-
-            setItemsAdd(null);
-        }
-
-        if (itemsEdit) {
-
-            setItemsEdit(null);
-        }
-
-        setIsLoading(false);
+        setIsMounting(false);
     }
+
+    /**
+     * @description Sets the "itemsCandidate" and "itemsVote" states to the default values.
+     * 
+     * @function
+     * @private
+     * 
+     */
+    const resetItemLists = () => {
+        
+        setItemsCandidate(itemsAll);
+        setItemsVote(null);
+    };
+
+    /**
+     * Reset the item lists when the "itemsCandidate" state is null.
+     * This occurs when the component is mounted for the first time or when an Item document has been added or edited.
+     * 
+     */
+    if (!itemsCandidate && itemsAll) {
+
+        resetItemLists();
+    }
+
+    /**
+     * Set isVotable flag
+     * Determines if the present state of both "votesActive" and "itemsVote" are sufficient for allowing users to cast votes to the server.
+     * 
+     */
+    isVotable.current = (
+        
+        (votesActive && votesActive.vote) &&
+        (itemsVote && itemsVote.length) &&
+        (Math.min(itemsAll.length, votesActive.vote[C.Model.QUANTITY]) <= itemsVote.length)
+    );
 
     /**
      * Vote cast success
@@ -236,7 +207,7 @@ const Vote = () => {
                 switch (error[C.ID.ERROR_PARAM]) {
 
                     case C.ID.NAME_CAST:
-                        setInvalidCast(error[C.ID.ERROR_MESSAGE]);
+                        setInvalidVote(error[C.ID.ERROR_MESSAGE]);
 
                         break;
 
@@ -244,12 +215,8 @@ const Vote = () => {
                         switch (/[^.]*$/.exec(error[C.ID.ERROR_PARAM])[0]) {
 
                             case C.ID.NAME_ITEM:
-                                setInvalidItem(error[C.ID.ERROR_MESSAGE]);
-
-                                break;
-
                             case C.ID.NAME_RANK:
-                                setInvalidRank(error[C.ID.ERROR_MESSAGE]);
+                                setInvalidVote(error[C.ID.ERROR_MESSAGE]);
 
                                 break;
 
@@ -267,7 +234,7 @@ const Vote = () => {
 
     /**
      * @description Posts the request body to the server.
-     * Resets to the initial render by nullifying the "authError" and "votesCast" states and clearing all local error states.
+     * Resets to the initial render by nullifying the "authError", "invalidVote" and "votesCast" states.
      * Function executes asynchronously to facilitate the local loading state.
      * 
      * @async
@@ -280,12 +247,9 @@ const Vote = () => {
         setShowDialog(false);
 
         setAuthError(null);
+        setInvalidVote(null);
         setVotesCast(null);
 
-        setInvalidCast(null);
-        setInvalidItem(null);
-        setInvalidRank(null);
-        
         setIsLoading(true);
 
         responseUpdate.current = true;
@@ -293,20 +257,6 @@ const Vote = () => {
 
         setIsLoading(false);
     };
-
-    /**
-     * @description Sets the "itemsCandidate" and "itemsVote" states to the default values.
-     * Written as a function declaration in order to be hoisted and accessible to the custom hooks above.
-     * 
-     * @function
-     * @private
-     * 
-     */
-    function resetItemLists() {
-        
-        setItemsCandidate(itemsAll);
-        setItemsVote(null);
-    }
 
     /**
      * JSX markup
@@ -323,44 +273,41 @@ const Vote = () => {
                 />
             }
 
-            {isLoading &&
-                <div className={C.Style.VOTE_PRELOADER} />
-            }
-            
-            {(!isLoading && votesCast) &&
-                <>
-                    {C.Label.VOTE_CAST}
-                </>
-            }
+            {(isMounting || isLoading)
+                ?   <div className={C.Style.VOTE_PRELOADER} />
+                :   (votesCast)
+                    ?   <>{C.Label.VOTE_CAST}</>
+                    :   <>
+                            <ListContainer />
 
-            {(!isLoading && !votesCast) &&
-                <>
-                    {invalidCast && <div>{invalidCast}</div>}
-                    {invalidItem && <div>{invalidItem}</div>}
-                    {invalidRank && <div>{invalidRank}</div>}
+                            {(votesActive && votesActive[C.Model.VOTE]) &&
+                                <>
+                                    {invalidVote &&
+                                        <div className={C.Style.VOTE_ERROR}>
+                                            <ErrorResponse message={invalidVote} />
+                                        </div>
+                                    }
 
-                    <ListContainer />
-
-                    {(votesActive && votesActive[C.Model.VOTE]) &&
-                        <div className={C.Style.VOTE_BUTTONS_CONTAINER}>
-                            <Button
-                                style={C.Style.BUTTON_SUBMIT_EMPHASIS}
-                                onClick={() => setShowDialog(true)}
-                                disabled={isLoading || !isVotable.current}
-                            >
-                                {C.Label.VOTE}
-                            </Button>
-                            
-                            <Button
-                                style={C.Style.BUTTON_SUBMIT}
-                                onClick={resetItemLists}
-                                disabled={isLoading}
-                            >
-                                {C.Label.RESET}
-                            </Button>
-                        </div>
-                    }
-                </>
+                                    <div className={C.Style.VOTE_BUTTONS}>
+                                        <Button
+                                            style={C.Style.BUTTON_SUBMIT_EMPHASIS}
+                                            onClick={() => setShowDialog(true)}
+                                            disabled={isLoading || !isVotable.current}
+                                        >
+                                            {C.Label.VOTE}
+                                        </Button>
+                                        
+                                        <Button
+                                            style={C.Style.BUTTON_SUBMIT}
+                                            onClick={resetItemLists}
+                                            disabled={isLoading}
+                                        >
+                                            {C.Label.RESET}
+                                        </Button>
+                                    </div>
+                                </>
+                            }
+                        </>
             }
         </div>
     );

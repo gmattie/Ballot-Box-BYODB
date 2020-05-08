@@ -9,6 +9,7 @@
  * @requires Results
  * @requires ResultsContainer
  * @requires useAuth
+ * @requires useItems
  * @requires useUsers
  * @requires useVotes
  * @requires useWebSocket
@@ -22,9 +23,10 @@ import { Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
 import * as C from "../../../support/constants";
 import AdminContainer from "./admin/AdminContainer";
 import Edit from "./edit/Edit";
-import React, { createContext, useState } from "react";
+import React, { createContext, useRef, useState } from "react";
 import ResultsContainer from "./results/ResultsContainer";
 import useAuth from "../../../hooks/useAuth";
+import useItems from "../../../hooks/useItems";
 import useUsers from "../../../hooks/useUsers";
 import useVotes from "../../../hooks/useVotes";
 import useWebSocket from "../../../hooks/useWebSocket";
@@ -62,18 +64,41 @@ const ProtectedContainer = () => {
     const [ deadlineSeconds, setDeadlineSeconds ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(false);
     const [ isMounting, setIsMounting ] = useState(true);
-    const [ voteStatus, setVoteStatus ] = useState(null);
+
+    /**
+     * Refs
+     * 
+     */
+    const webSocketMessageRef = useRef();
 
     /**
      * Hooks
      * 
      */
-    const { authToken } = useAuth();
-    const { fetchActive, votesActive } = useVotes();
-    const { fetchLogout, usersSelf } = useUsers();
-    const { path } = useRouteMatch();
-    const { webSocketMessage } = useWebSocket(true);
+    const { authToken } = useAuth();    
     const history = useHistory();
+    
+    const {
+        
+        fetchAll: fetchAllItems,
+        itemsAll,
+        itemsCandidate,
+        setItemsCandidate,
+        setItemsVote
+    } = useItems();
+
+    const { path } = useRouteMatch();
+    const { fetchLogout, usersSelf } = useUsers();
+    
+    const {
+        
+        fetchActive,
+        fetchAll: fetchAllVotes,
+        setVotesCast,
+        votesActive
+    } = useVotes();
+    
+    const { webSocketMessage, setWebSocketMessage } = useWebSocket(true);
 
     /**
      * Mounting
@@ -81,14 +106,14 @@ const ProtectedContainer = () => {
      */
     if (isMounting && authToken) {
         
-        fetchActive();
-    }
+        if (!votesActive) {
 
-    if (isMounting && votesActive) {
+            fetchActive();
+        }
+        else {
 
-        setVoteStatus((votesActive.vote) ? C.Label.OPEN : C.Label.CLOSED);
-
-        setIsMounting(false);
+            setIsMounting(false);
+        }
     }
 
     /**
@@ -97,14 +122,21 @@ const ProtectedContainer = () => {
      * 
      *     "{"deadline":{"days":"00","hours":"00","minutes":"00","seconds":"00"}}"
      * 
-     * @param {string} message - The websocket message to parse.
+     * @param {string|null} message - The websocket message to parse.
      * @private
      * @function
      *  
      */
-    const parseVoteDeadline = (message) => {
+    const parseVoteDeadline = (message = null) => {
 
-        const deadline = JSON.parse(message)[C.Event.Type.DEADLINE];
+        const deadline = (message)
+            ? JSON.parse(message)[C.Event.Type.DEADLINE]
+            : { 
+                  [C.ID.DEADLINE_DAYS]: null,
+                  [C.ID.DEADLINE_HOURS]: null,
+                  [C.ID.DEADLINE_MINUTES]: null,
+                  [C.ID.DEADLINE_SECONDS]: null
+              };
 
         setDeadlineDays(deadline[C.ID.DEADLINE_DAYS]);
         setDeadlineHours(deadline[C.ID.DEADLINE_HOURS]);
@@ -114,16 +146,18 @@ const ProtectedContainer = () => {
 
     /**
      * WebSocket event handling
-     * Updates the polling status and deadline information when WebSocket messages "voteOpened", "voteClosed" or messages of type "deadline" are broadcast.
+     * Updates the appropriate states of the application when the WebSocket messages "voteOpened", "voteClosed", "itemAdd", "itemEdit" and messages of type "deadline" are broadcast.
      * This component includes the initialized useWebSocket hook.
      * 
      */
     if (webSocketMessage &&
-        webSocketMessage !== window[C.Global.WEB_SOCKET_MESSAGE_PROTECTED_CONTAINER]) {
+        webSocketMessage !== webSocketMessageRef.current) {
 
         const isMessageTypeDeadline = JSON.parse(webSocketMessage)[C.Event.Type.DEADLINE];
         const isMessageVoteOpened = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_OPENED }));
         const isMessageVoteClosed = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED }));
+        const isMessageItemAdded = (webSocketMessage === JSON.stringify({ [C.Event.Type.ITEM]: C.Event.ITEM_ADD }));
+        const isMessageItemEdited = (webSocketMessage === JSON.stringify({ [C.Event.Type.ITEM]: C.Event.ITEM_EDIT }));
 
         if (isMessageTypeDeadline || isMessageVoteOpened || isMessageVoteClosed) {
 
@@ -131,27 +165,89 @@ const ProtectedContainer = () => {
 
                 parseVoteDeadline(webSocketMessage);
             }
-            else if (isMessageVoteOpened) {
-
-                setVoteStatus(C.Label.OPEN);
-                
-                fetchActive();
-            }
-            else if (isMessageVoteClosed) {
-                
-                setVoteStatus(C.Label.CLOSED);
-                
-                setDeadlineDays(null);
-                setDeadlineHours(null);
-                setDeadlineMinutes(null);
-                setDeadlineSeconds(null);
+            
+            if (isMessageVoteOpened || isMessageVoteClosed) {
 
                 fetchActive();
+                fetchAllVotes();
+
+                parseVoteDeadline(null);
+                setVotesCast(null);
+                setItemsVote(null);
+
+                if (itemsAll) {
+
+                    setItemsCandidate(itemsAll);
+                }
             }
 
-            window[C.Global.WEB_SOCKET_MESSAGE_PROTECTED_CONTAINER] = webSocketMessage;
+            webSocketMessageRef.current = webSocketMessage;
+        }
+
+        if (isMessageItemAdded || isMessageItemEdited) {
+
+            setWebSocketMessage(null);
+            
+            if (itemsAll) {
+
+                (async () => {
+
+                    await fetchAllItems();
+
+                    if (itemsCandidate) {
+
+                        setItemsCandidate(null);
+                    }
+                })();
+            }
         }
     }
+
+    /**
+     * @description Creates a section with relevant textual content extracted from the "votesActive" state.
+     * 
+     * @private
+     * @function
+     * 
+     */
+    const createPollsStatus = () => {
+
+        return (
+            
+            <>
+                <div>
+                    {C.Label.POLLS_STATUS}
+                    
+                    {    
+                        (votesActive && votesActive[C.Model.VOTE])
+                            ? C.Label.OPEN
+                            : C.Label.CLOSED
+                    }
+                </div>
+                
+                {(deadlineDays || deadlineHours || deadlineMinutes || deadlineSeconds) &&
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>{C.Label.DEADLINE_DAYS}</td>
+                                <td>{C.Label.DEADLINE_HOURS}</td>
+                                <td>{C.Label.DEADLINE_MINUTES}</td>
+                                <td>{C.Label.DEADLINE_SECONDS}</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{deadlineDays}</td>
+                                <td>{deadlineHours}</td>
+                                <td>{deadlineMinutes}</td>
+                                <td>{deadlineSeconds}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+            </>
+        );
+    };
 
     /**
      * @description Creates a section with relevant textual content extracted from the "usersSelf" state.
@@ -273,31 +369,8 @@ const ProtectedContainer = () => {
 
             {(authToken && !isMounting && !isLoading) &&
                 <>
-                    <div className={C.Style.PROTECTED_CONTAINER_WEBSOCKET_MESSAGE}>
-                        <div>
-                            {C.Label.POLLS_STATUS} {voteStatus}
-                        </div>
-                        
-                        {(deadlineDays || deadlineHours || deadlineMinutes || deadlineSeconds) &&
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <td>{C.Label.DEADLINE_DAYS}</td>
-                                        <td>{C.Label.DEADLINE_HOURS}</td>
-                                        <td>{C.Label.DEADLINE_MINUTES}</td>
-                                        <td>{C.Label.DEADLINE_SECONDS}</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>{deadlineDays}</td>
-                                        <td>{deadlineHours}</td>
-                                        <td>{deadlineMinutes}</td>
-                                        <td>{deadlineSeconds}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        }
+                    <div className={C.Style.PROTECTED_CONTAINER_POLLS_STATUS}>
+                        {createPollsStatus()}
                     </div>
 
                     <div className={C.Style.PROTECTED_CONTAINER_USER_INFO}>

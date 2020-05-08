@@ -153,19 +153,7 @@ const fetchAdd = (name, thumbnail, image) => {
             const response = await fetch(url, options);
             const data = await response.json();
             
-            if (data.error) {
-
-                dispatch(authActions.setAuthError(data));
-            }
-            else {
-
-                dispatch(setItemsAdd(data));
-
-                if (getState().items[C.Action.Type.ITEMS_ALL]) {
-
-                    dispatch(fetchAll());
-                }
-            }
+            dispatch((data.error) ? authActions.setAuthError(data) : setItemsAdd(data));
         }
         catch (error) {
 
@@ -238,15 +226,7 @@ const fetchEdit = (itemID, name, thumbnail, image) => {
             const response = await fetch(url, options);
             const data = await response.json();
             
-            if (data.error) {
-
-                dispatch(authActions.setAuthError(data));
-            }
-            else {
-
-                dispatch(setItemsEdit(data));
-                dispatch(fetchAll());
-            }
+            dispatch((data.error) ? authActions.setAuthError(data) : setItemsEdit(data));
         }
         catch (error) {
 
