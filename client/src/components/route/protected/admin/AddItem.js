@@ -47,9 +47,9 @@ const AddItem = () => {
      * State
      * 
      */
+    const [ invalidImage, setInvalidImage ] = useState(null);
     const [ invalidName, setInvalidName ] = useState(null);
     const [ invalidThumbnail, setInvalidThumbnail ] = useState(null);
-    const [ invalidImage, setInvalidImage ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(false);
     const [ showDialog, setShowDialog ] = useState(false);
 
@@ -68,32 +68,32 @@ const AddItem = () => {
 
     const {
         
-        fetchAdd,
-        itemsAdd,
-        setItemsAdd
-    } = useItems();
-
-    const {
-
         binding: bindName,
         clearValue: clearName,
         value: name
     } = useInputText(C.Label.NAME, confirmHandler);
 
     const {
-
+        
         binding: bindThumbnail,
         clearValue: clearThumbnail,
         value: thumbnail
     } = useInputText(C.Label.THUMBNAIL, confirmHandler);
-
+    
     const {
-
+        
         binding: bindImage,
         clearValue: clearImage,
         value: image
     } = useInputText(C.Label.IMAGE, confirmHandler);
-
+    
+    const {
+        
+        fetchAdd,
+        itemsAdd,
+        setItemsAdd
+    } = useItems();
+    
     /**
      * Set isSubmittable flag
      * Determines if the present state of text data is sufficient for submitting to the server.

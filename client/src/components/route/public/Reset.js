@@ -38,16 +38,20 @@ import useUsers from "../../../hooks/useUsers";
 const Reset = () => {
 
     /**
+     * Context
+     * 
+     */
+    const [ isLoading, setIsLoading ] = useContext(LoadingAPI);
+
+    /**
      * State
      * 
      */
-    const [ userDoesNotExist, setUserDoesNotExist ] = useState(null);
+    const [ emailSent, setEmailSent ] = useState(false);
     const [ invalidEmail, setInvalidEmail ] = useState(null);
     const [ invalidPassword, setInvalidPassword ] = useState(null);
     const [ invalidPasswordConfirm, setInvalidPasswordConfirm ] = useState(null);
-    const [ emailSent, setEmailSent ] = useState(false);
-
-    const [ isLoading, setIsLoading ] = useContext(LoadingAPI);
+    const [ userDoesNotExist, setUserDoesNotExist ] = useState(null);
 
     /**
      * Refs
@@ -64,13 +68,6 @@ const Reset = () => {
 
     const {
         
-        fetchReset,
-        setUsersReset,
-        usersReset
-    } = useUsers();
-    
-    const {
-        
         binding: bindEmail,
         value: email
     } = useInputText(C.Label.EMAIL, submitHandler);
@@ -80,12 +77,19 @@ const Reset = () => {
         binding: bindPassword,
         value: password
     } = useInputText(`${C.Label.NEW} ${C.Label.PASSWORD}`, submitHandler);
-
+    
     const { 
         
         binding: bindPasswordConfirm,
         value: passwordConfirm
     } = useInputText(`${C.Label.CONFIRM } ${C.Label.NEW} ${C.Label.PASSWORD}`, submitHandler);
+    
+    const {
+        
+        fetchReset,
+        setUsersReset,
+        usersReset
+    } = useUsers();
 
     /**
      * Set isSubmittable flag
@@ -188,63 +192,60 @@ const Reset = () => {
      * JSX markup
      * 
      */
-    if (emailSent) {
-
-        return (
-        
-            <Confirmation
-                email={usersReset.email}
-                message={C.Label.EMAIL_RESET}
-            />
-        );
-    }
-
     return (
 
-        <div className={C.Style.RESET}>
-            <div className={C.Style.RESET_EMAIL}>
-                <TextField 
-                    name={C.ID.NAME_EMAIL}
-                    disabled={isLoading}
-                    errorMessage={invalidEmail || userDoesNotExist}
-                    {...bindEmail}
-                />
-            </div>
+        <>
+            {(emailSent)
+                ?   <Confirmation
+                        email={usersReset.email}
+                        message={C.Label.EMAIL_RESET}
+                    />
+                :   <div className={C.Style.RESET}>
+                        <div className={C.Style.RESET_EMAIL}>
+                            <TextField 
+                                name={C.ID.NAME_EMAIL}
+                                disabled={isLoading}
+                                errorMessage={invalidEmail || userDoesNotExist}
+                                {...bindEmail}
+                            />
+                        </div>
 
-            <div className={C.Style.RESET_PASSWORD}>
-                <PasswordField
-                    name={C.ID.NAME_PASSWORD}
-                    disabled={isLoading}
-                    errorMessage={invalidPassword}
-                    {...bindPassword}
-                />
-            </div>
+                        <div className={C.Style.RESET_PASSWORD}>
+                            <PasswordField
+                                name={C.ID.NAME_PASSWORD}
+                                disabled={isLoading}
+                                errorMessage={invalidPassword}
+                                {...bindPassword}
+                            />
+                        </div>
 
-            <div className={C.Style.RESET_PASSWORD_CONFIRM}>
-                <PasswordField
-                    name={C.ID.NAME_PASSWORD_CONFIRM}
-                    disabled={isLoading}
-                    errorMessage={invalidPasswordConfirm}
-                    {...bindPasswordConfirm}
-                />
-            </div>
-            
-            <div className={C.Style.RESET_SUBMIT}>
-                {isLoading &&
-                    <div className={C.Style.RESET_SUBMIT_PRELOADER} />
-                }
+                        <div className={C.Style.RESET_PASSWORD_CONFIRM}>
+                            <PasswordField
+                                name={C.ID.NAME_PASSWORD_CONFIRM}
+                                disabled={isLoading}
+                                errorMessage={invalidPasswordConfirm}
+                                {...bindPasswordConfirm}
+                            />
+                        </div>
+                        
+                        <div className={C.Style.RESET_SUBMIT}>
+                            {isLoading &&
+                                <div className={C.Style.RESET_SUBMIT_PRELOADER} />
+                            }
 
-                <div className={C.Style.RESET_SUBMIT_BUTTON}>
-                    <Button
-                        style={C.Style.BUTTON_SUBMIT_EMPHASIS}
-                        onClick={submitHandler}
-                        disabled={isLoading || !isSubmittable.current}
-                    >
-                        {C.Label.RESET}
-                    </Button>
-                </div>
-            </div>
-        </div>
+                            <div className={C.Style.RESET_SUBMIT_BUTTON}>
+                                <Button
+                                    style={C.Style.BUTTON_SUBMIT_EMPHASIS}
+                                    onClick={submitHandler}
+                                    disabled={isLoading || !isSubmittable.current}
+                                >
+                                    {C.Label.RESET}
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+            }
+        </>
     );
 };
 

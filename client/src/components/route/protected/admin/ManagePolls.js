@@ -53,12 +53,12 @@ const ManagePolls = () => {
      * State
      * 
      */
+    const [ aggregate, setAggregate ] = useState(false);
+    const [ anonymous, setAnonymous ] = useState(false);
     const [ invalidDeadline, setInvalidDeadline ] = useState(null);
     const [ invalidQuantity, setInvalidQuantity ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(false);
     const [ showDialog, setShowDialog ] = useState(false);
-    const [ aggregate, setAggregate ] = useState(false);
-    const [ anonymous, setAnonymous ] = useState(false);
 
     /**
      * Refs
@@ -75,26 +75,26 @@ const ManagePolls = () => {
     const { authError, setAuthError } = useAuth();
 
     const {
+        
+        binding: bindDeadline,
+        clearValue: clearDeadline,
+        value: deadline
+    } = useInputText(C.Label.DEADLINE, confirmHandler);
+    
+    const {
+        
+        binding: bindQuantity,
+        clearValue: clearQuantity,
+        value: quantity
+    } = useInputText(C.Label.QUANTITY, confirmHandler);
+    
+    const {
 
         fetchClose,
         fetchOpen,
         votesActive,
         setVotesActive
     } = useVotes();
-
-    const {
-
-        binding: bindDeadline,
-        clearValue: clearDeadline,
-        value: deadline
-    } = useInputText(C.Label.DEADLINE, confirmHandler);
-
-    const {
-
-        binding: bindQuantity,
-        clearValue: clearQuantity,
-        value: quantity
-    } = useInputText(C.Label.QUANTITY, confirmHandler);
 
     /**
      * Set isSubmittable flag

@@ -128,24 +128,21 @@ const ResultsContainer = () => {
                 />
             }
 
-            {isLoading &&
-                <div className={C.Style.RESULTS_CONTAINER_PRELOADER} />
-            }
+            {(isLoading)
+                ?   <div className={C.Style.RESULTS_CONTAINER_PRELOADER} />
+                :   <>
+                        {votesAll && votesAll.map((vote) => {
 
-            {!isLoading &&
-                <>
-                    {votesAll && votesAll.map((vote) => {
-
-                        return (
-                        
-                            <Result
-                                key={vote._id}
-                                voteDocument={vote}
-                                clickCallback={showResultDetails}
-                            />
-                        );
-                    })}
-                </>
+                            return (
+                            
+                                <Result
+                                    key={vote._id}
+                                    voteDocument={vote}
+                                    clickCallback={showResultDetails}
+                                />
+                            );
+                        })}
+                    </>
             }
         </div>
     );

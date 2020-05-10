@@ -79,32 +79,32 @@ const EditItem = ({
     const { authError, setAuthError } = useAuth();
 
     const {
+        
+        binding: bindName,
+        clearValue: clearName,
+        value: name
+    } = useInputText(C.Label.NAME, confirmHandler, itemName);
+    
+    const {
+        
+        binding: bindThumbnail,
+        clearValue: clearThumbnail,
+        value: thumbnail
+    } = useInputText(C.Label.THUMBNAIL, confirmHandler, itemThumbnail);
+    
+    const {
+        
+        binding: bindImage,
+        clearValue: clearImage,
+        value: image
+    } = useInputText(C.Label.IMAGE, confirmHandler, itemImage);
+    
+    const {
 
         itemsEdit,
         setItemsEdit,
         fetchEdit
     } = useItems();
-
-    const {
-
-        binding: bindName,
-        clearValue: clearName,
-        value: name
-    } = useInputText(C.Label.NAME, confirmHandler, itemName);
-
-    const {
-
-        binding: bindThumbnail,
-        clearValue: clearThumbnail,
-        value: thumbnail
-    } = useInputText(C.Label.THUMBNAIL, confirmHandler, itemThumbnail);
-
-    const {
-
-        binding: bindImage,
-        clearValue: clearImage,
-        value: image
-    } = useInputText(C.Label.IMAGE, confirmHandler, itemImage);
 
     /**
      * @description Negate the "isUpdating" flag after the Items state updates and triggers a refresh of the component props. 

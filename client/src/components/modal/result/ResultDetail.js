@@ -206,56 +206,52 @@ const ResultDetail = ({
         <Portal elementID={C.ID.ELEMENT_RESULT_DETAIL}>
             <div className={C.Style.RESULT_DETAIL} onClick={okCallback}>
                 <div className={C.Style.RESULT_DETAIL_CONTAINER}>
-                    {isLoading &&
-                        <div className={C.Style.RESULT_DETAIL_CONTAINER_PRELOADER} />
-                    }
-                    
-                    {!isLoading && votesOne && 
-                        <table className={C.Style.RESULT_DETAIL_CONTAINER_TABLE}>
-                            <thead>
-                                <tr>
-                                    <ResultDetailTableInfo
-                                        aggregate={votesOne[C.Model.AGGREGATE]}
-                                        date={votesOne[C.Model.DATE]}
-                                        isActive={votesOne[C.Model.ACTIVE]}
-                                        isAnonymous={votesOne[C.Model.ANONYMOUS]}
-                                        quantity={votesOne[C.Model.QUANTITY]}
-                                        totalCastVotes={votesOne[C.Model.VOTE].length}
-                                    />
-
-                                    {(votesOne[C.Model.AGGREGATE] || !votesOne[C.Model.ACTIVE]) &&
-                                     !votesOne[C.Model.ANONYMOUS] &&
-                                        votesOne[C.Model.VOTE].map((vote) => {
-
-                                            return (
-
-                                                <ResultDetailTableUserHeader
-                                                    key={vote[C.Model.ID]}
-                                                    name={vote[C.Model.USER][C.Model.NAME]}
-                                                    email={vote[C.Model.USER][C.Model.EMAIL]}
-                                                    ip={vote[C.Model.USER][C.Model.IP]}
-                                                />
-                                            );
-                                        })
-                                    }
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                {votesOne[C.Model.TOTAL].map((total) => {
-
-                                    return (
-
-                                        <ResultDetailTableItemRow
-                                            key={total[C.Model.ID]}
-                                            score={total[C.Model.RANK]}
-                                            itemName={total[C.Model.ITEM][C.Model.NAME]}
-                                            ranks={getCastRanks(total[C.Model.ITEM][C.Model.ID])}
+                    {(isLoading || !votesOne)
+                        ?   <div className={C.Style.RESULT_DETAIL_CONTAINER_PRELOADER} />
+                        :   <table className={C.Style.RESULT_DETAIL_CONTAINER_TABLE}>
+                                <thead>
+                                    <tr>
+                                        <ResultDetailTableInfo
+                                            aggregate={votesOne[C.Model.AGGREGATE]}
+                                            date={votesOne[C.Model.DATE]}
+                                            isActive={votesOne[C.Model.ACTIVE]}
+                                            isAnonymous={votesOne[C.Model.ANONYMOUS]}
+                                            quantity={votesOne[C.Model.QUANTITY]}
+                                            totalCastVotes={votesOne[C.Model.VOTE].length}
                                         />
-                                    );
-                                })}
-                            </tbody>    
-                        </table>
+
+                                        {(votesOne[C.Model.AGGREGATE] || !votesOne[C.Model.ACTIVE]) && !votesOne[C.Model.ANONYMOUS] &&
+                                            votesOne[C.Model.VOTE].map((vote) => {
+
+                                                return (
+
+                                                    <ResultDetailTableUserHeader
+                                                        key={vote[C.Model.ID]}
+                                                        name={vote[C.Model.USER][C.Model.NAME]}
+                                                        email={vote[C.Model.USER][C.Model.EMAIL]}
+                                                        ip={vote[C.Model.USER][C.Model.IP]}
+                                                    />
+                                                );
+                                            })
+                                        }
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {votesOne[C.Model.TOTAL].map((total) => {
+
+                                        return (
+
+                                            <ResultDetailTableItemRow
+                                                key={total[C.Model.ID]}
+                                                score={total[C.Model.RANK]}
+                                                itemName={total[C.Model.ITEM][C.Model.NAME]}
+                                                ranks={getCastRanks(total[C.Model.ITEM][C.Model.ID])}
+                                            />
+                                        );
+                                    })}
+                                </tbody>    
+                            </table>
                     }
                 </div>
             </div>

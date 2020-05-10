@@ -60,14 +60,13 @@ const PublicContainer = () => {
      */
     const contentRef = useRef();
 
-
     /**
      * Hooks
      * 
      */
+    const history = useHistory();
     const { path } = useRouteMatch();
     const { usersError } = useUsers();
-    const history = useHistory();
 
     /**
      * @description Implements event listeners and observers to facilitate responsive functionality and layout, in tandem with CSS, for

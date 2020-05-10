@@ -76,26 +76,23 @@ const EditItemsContainer = () => {
                 eventHandler={collapsibleHandler}
             >
                 <div className={C.Style.EDIT_ITEMS_CONTAINER_CONTENT}>
-                    {isLoading &&
-                        <div className={C.Style.EDIT_ITEMS_CONTAINER_CONTENT_PRELOADER} />
-                    }
+                    {(isLoading)
+                        ?   <div className={C.Style.EDIT_ITEMS_CONTAINER_CONTENT_PRELOADER} />
+                        :   <>
+                                {itemsAll && itemsAll.map((item) => {
 
-                    {!isLoading && itemsAll &&
-                        <>
-                            {itemsAll.map((item) => {
-
-                                return (
-                                
-                                    <EditItem
-                                        key={item._id}
-                                        itemID={item._id}
-                                        itemName={item.name}
-                                        itemThumbnail={item.thumbnail}
-                                        itemImage={item.image}
-                                    />
-                                );
-                            })}
-                        </>
+                                    return (
+                                    
+                                        <EditItem
+                                            key={item._id}
+                                            itemID={item._id}
+                                            itemName={item.name}
+                                            itemThumbnail={item.thumbnail}
+                                            itemImage={item.image}
+                                        />
+                                    );
+                                })}
+                            </>
                     }
                 </div>
             </Collapsible>

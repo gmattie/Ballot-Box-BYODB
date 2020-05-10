@@ -363,50 +363,47 @@ const ProtectedContainer = () => {
     return (
 
         <div className={C.Style.PROTECTED_CONTAINER}>
-            {(!authToken || isMounting || isLoading) &&
-                <div className={C.Style.PROTECTED_CONTAINER_PRELOADER} />
-            }
+            {(!authToken || isMounting || isLoading)
+                ?   <div className={C.Style.PROTECTED_CONTAINER_PRELOADER} />
+                :   <>
+                        <div className={C.Style.PROTECTED_CONTAINER_POLLS_STATUS}>
+                            {createPollsStatus()}
+                        </div>
 
-            {(authToken && !isMounting && !isLoading) &&
-                <>
-                    <div className={C.Style.PROTECTED_CONTAINER_POLLS_STATUS}>
-                        {createPollsStatus()}
-                    </div>
+                        <div className={C.Style.PROTECTED_CONTAINER_USER_INFO}>
+                            {createVoterCard()}
+                        </div>
 
-                    <div className={C.Style.PROTECTED_CONTAINER_USER_INFO}>
-                        {createVoterCard()}
-                    </div>
+                        <div>
+                            {createButton(C.Label.VOTE, addRouterHistory, C.Route.VOTE)}
+                            {createButton(C.Label.RESULTS, addRouterHistory, C.Route.RESULTS)}
+                            {createButton(C.Label.ADMIN, addRouterHistory, C.Route.ADMIN)}
+                            {createButton(C.Label.EDIT, addRouterHistory, C.Route.EDIT)}
+                            {createButton(C.Label.LOGOUT, logout, null)}
+                        </div>
 
-                    <div>
-                        {createButton(C.Label.VOTE, addRouterHistory, C.Route.VOTE)}
-                        {createButton(C.Label.RESULTS, addRouterHistory, C.Route.RESULTS)}
-                        {createButton(C.Label.ADMIN, addRouterHistory, C.Route.ADMIN)}
-                        {createButton(C.Label.EDIT, addRouterHistory, C.Route.EDIT)}
-                        {createButton(C.Label.LOGOUT, logout, null)}
-                    </div>
+                        <div className={C.Style.PROTECTED_CONTAINER_CONTENT}>
+                            <LogoutAPI.Provider value={logout}>
+                                <Switch>
+                                    <Route path={C.Route.VOTE}>
+                                        <Vote />
+                                    </Route>
 
-                    <div className={C.Style.PROTECTED_CONTAINER_CONTENT}>
-                        <LogoutAPI.Provider value={logout}>
-                            <Switch>
-                                <Route path={C.Route.VOTE}>
-                                    <Vote />
-                                </Route>
+                                    <Route path={C.Route.RESULTS}>
+                                        <ResultsContainer />
+                                    </Route>
+                                    
+                                    <Route path={C.Route.ADMIN}>
+                                        <AdminContainer />
+                                    </Route>
 
-                                <Route path={C.Route.RESULTS}>
-                                    <ResultsContainer />
-                                </Route>
-                                
-                                <Route path={C.Route.ADMIN}>
-                                    <AdminContainer />
-                                </Route>
-
-                                <Route path={C.Route.EDIT}>
-                                    <Edit />
-                                </Route>
-                            </Switch>
-                        </LogoutAPI.Provider>
-                    </div>
-                </>
+                                    <Route path={C.Route.EDIT}>
+                                        <Edit />
+                                    </Route>
+                                </Switch>
+                            </LogoutAPI.Provider>
+                        </div>
+                    </>
             }
         </div>
     );

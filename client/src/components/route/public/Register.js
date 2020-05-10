@@ -37,24 +37,28 @@ import useUsers from "../../../hooks/useUsers";
 const Register = () => {
 
     /**
+     * Context
+     * 
+     */
+    const [ isLoading, setIsLoading ] = useContext(LoadingAPI);
+
+    /**
      * State
      * 
      */
     const [ emailAlreadyRegistered, setEmailAlreadyRegistered ] = useState(null);
-    const [ invalidName, setInvalidName ] = useState(null);
+    const [ emailSent, setEmailSent ] = useState(false);
     const [ invalidEmail, setInvalidEmail ] = useState(null);
+    const [ invalidName, setInvalidName ] = useState(null);
     const [ invalidPassword, setInvalidPassword ] = useState(null);
     const [ invalidPasswordConfirm, setInvalidPasswordConfirm ] = useState(null);
-    const [ emailSent, setEmailSent ] = useState(false);
-
-    const [ isLoading, setIsLoading ] = useContext(LoadingAPI);
 
     /**
      * Refs
      * 
      */
-    const responseUpdate = useRef(false);
     const isSubmittable = useRef(false);
+    const responseUpdate = useRef(false);
 
     /**
      * Hooks
@@ -207,72 +211,69 @@ const Register = () => {
      * JSX markup
      * 
      */
-    if (emailSent) {
-
-        return (
-        
-            <Confirmation
-                email={usersRegister.email}
-                message={C.Label.EMAIL_REGISTRATION}
-            />
-        );
-    }
-
     return (
 
-        <div className={C.Style.REGISTER}>
-            <div className={C.Style.REGISTER_NAME}>
-                <TextField
-                    name={C.ID.NAME_NAME}
-                    disabled={isLoading}
-                    errorMessage={invalidName}
-                    {...bindName}
-                />
-            </div>
+        <>
+            {(emailSent)
+                ?   <Confirmation
+                        email={usersRegister.email}
+                        message={C.Label.EMAIL_REGISTRATION}
+                    />
+                :   <div className={C.Style.REGISTER}>
+                        <div className={C.Style.REGISTER_NAME}>
+                            <TextField
+                                name={C.ID.NAME_NAME}
+                                disabled={isLoading}
+                                errorMessage={invalidName}
+                                {...bindName}
+                            />
+                        </div>
 
-            <div className={C.Style.REGISTER_EMAIL}>
-                <TextField
-                    name={C.ID.NAME_EMAIL}
-                    disabled={isLoading}
-                    errorMessage={emailAlreadyRegistered || invalidEmail}
-                    {...bindEmail}
-                />
-            </div>
+                        <div className={C.Style.REGISTER_EMAIL}>
+                            <TextField
+                                name={C.ID.NAME_EMAIL}
+                                disabled={isLoading}
+                                errorMessage={emailAlreadyRegistered || invalidEmail}
+                                {...bindEmail}
+                            />
+                        </div>
 
-            <div className={C.Style.REGISTER_PASSWORD}>
-                <PasswordField
-                    name={C.ID.NAME_PASSWORD}
-                    disabled={isLoading}
-                    errorMessage={invalidPassword}
-                    {...bindPassword}
-                />
-            </div>
+                        <div className={C.Style.REGISTER_PASSWORD}>
+                            <PasswordField
+                                name={C.ID.NAME_PASSWORD}
+                                disabled={isLoading}
+                                errorMessage={invalidPassword}
+                                {...bindPassword}
+                            />
+                        </div>
 
-            <div className={C.Style.REGISTER_PASSWORD_CONFIRM}>
-                <PasswordField
-                    name={C.ID.NAME_PASSWORD_CONFIRM}
-                    disabled={isLoading}
-                    errorMessage={invalidPasswordConfirm}
-                    {...bindPasswordConfirm}
-                />
-            </div>
-            
-            <div className={C.Style.REGISTER_SUBMIT}>
-                {isLoading &&
-                    <div className={C.Style.REGISTER_SUBMIT_PRELOADER} />
-                }
+                        <div className={C.Style.REGISTER_PASSWORD_CONFIRM}>
+                            <PasswordField
+                                name={C.ID.NAME_PASSWORD_CONFIRM}
+                                disabled={isLoading}
+                                errorMessage={invalidPasswordConfirm}
+                                {...bindPasswordConfirm}
+                            />
+                        </div>
+                        
+                        <div className={C.Style.REGISTER_SUBMIT}>
+                            {isLoading &&
+                                <div className={C.Style.REGISTER_SUBMIT_PRELOADER} />
+                            }
 
-                <div className={C.Style.REGISTER_SUBMIT_BUTTON}>
-                    <Button
-                        style={C.Style.BUTTON_SUBMIT_EMPHASIS}
-                        onClick={submitHandler}
-                        disabled={isLoading || !isSubmittable.current}
-                    >
-                        {C.Label.REGISTER}
-                    </Button>
-                </div>
-            </div>
-        </div>
+                            <div className={C.Style.REGISTER_SUBMIT_BUTTON}>
+                                <Button
+                                    style={C.Style.BUTTON_SUBMIT_EMPHASIS}
+                                    onClick={submitHandler}
+                                    disabled={isLoading || !isSubmittable.current}
+                                >
+                                    {C.Label.REGISTER}
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+            }
+        </>
     );
 };
 

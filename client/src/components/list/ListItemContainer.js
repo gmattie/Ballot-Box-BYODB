@@ -70,22 +70,18 @@ const ListItemContainer = ({ data }) => {
                 />
             }
 
-            {data &&
-                <>
-                    {data.map((data, index) => {
+            {data && data.map((datum, index) => {
 
-                        return (
-                        
-                            <ListItem
-                                data={data}
-                                index={index}
-                                showItemDetails={showItemDetails}
-                                key={data._id}
-                            />
-                        );
-                    })}
-                </>
-            }
+                return (
+                
+                    <ListItem
+                        data={datum}
+                        index={index}
+                        showItemDetails={showItemDetails}
+                        key={datum._id}
+                    />
+                );
+            })}
         </>
     );
 };

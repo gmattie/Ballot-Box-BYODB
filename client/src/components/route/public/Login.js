@@ -42,30 +42,31 @@ import useUsers from "../../../hooks/useUsers";
 const Login = () => {
 
     /**
+     * Context
+     * 
+     */
+    const [ isLoading, setIsLoading ] = useContext(LoadingAPI);
+
+    /**
      * State
      * 
      */
     const [ invalidCredentials, setInvalidCredentials ] = useState(null);
     const [ invalidEmail, setInvalidEmail ] = useState(null);
     const [ invalidPassword, setInvalidPassword ] = useState(null);
-    
-    const [ isLoading, setIsLoading ] = useContext(LoadingAPI);
 
     /**
      * Refs
      * 
      */
-    const responseUpdate = useRef(false);
     const isSubmittable = useRef(false);
+    const responseUpdate = useRef(false);
     const showInvalidCredentials = useRef(true);
 
     /**
      * Hooks
      * 
      */
-    const history = useHistory();
-    const { fetchLogin } = useUsers();
-
     const {
         
         authError,
@@ -73,7 +74,9 @@ const Login = () => {
         setAuthError,
         setAuthToken,
     } = useAuth();
-        
+
+    const history = useHistory();
+
     const {
         
         binding: bindEmail,
@@ -85,6 +88,8 @@ const Login = () => {
         binding: bindPassword,
         value: password
     } = useInputText(C.Label.PASSWORD, submitHandler);
+    
+    const { fetchLogin } = useUsers();
 
     /**
      * Set isSubmittable flag
