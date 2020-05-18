@@ -105,15 +105,13 @@ const ProtectedContainer = () => {
      * 
      */
     if (isMounting && authToken) {
-        
+
         if (!votesActive) {
 
             fetchActive();
         }
-        else {
-
-            setIsMounting(false);
-        }
+        
+        setIsMounting(false);
     }
 
     /**

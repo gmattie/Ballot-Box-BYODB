@@ -14,7 +14,7 @@
 import { DragDropContext } from "react-beautiful-dnd";
 import * as C from "../../support/constants";
 import List from "./List";
-import React from "react";
+import React, { memo } from "react";
 import useItems from "../../hooks/useItems";
 import useVotes from "../../hooks/useVotes";
 
@@ -173,4 +173,4 @@ const ListContainer = () => {
  * Export module
  * 
  */
-export default ListContainer;
+export default memo(ListContainer);

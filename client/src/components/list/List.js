@@ -14,7 +14,7 @@ import { Droppable } from "react-beautiful-dnd";
 import * as C from "../../support/constants";
 import ListItemContainer from "./ListItemContainer";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { memo } from "react";
 
 /**
  * @description The List component displays a list of items fetched from /api/items and supports item reordering via drag and drop functionality.
@@ -84,4 +84,4 @@ List.propTypes = {
  * Export module
  * 
  */
-export default List;
+export default memo(List);

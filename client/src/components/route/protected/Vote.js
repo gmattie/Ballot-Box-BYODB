@@ -86,6 +86,7 @@ const Vote = () => {
 
     const {
 
+        fetchActive,
         fetchCast,
         setVotesCast,
         votesActive,
@@ -180,19 +181,7 @@ const Vote = () => {
     );
 
     /**
-     * Vote cast success
-     * Sets the "itemsCandidate" and "itemsVote" states to the default values. 
-     * 
-     */
-    if (votesCast && responseUpdate.current) {
-
-        responseUpdate.current = false;
-
-        resetItemLists();
-    }
-
-    /**
-     * Vote cast failure
+     * Vote cast or active failure
      * Parse the error object to set the appropriate local error states.
      * 
      */
@@ -244,8 +233,6 @@ const Vote = () => {
      */
     const submitHandler = async () => {
 
-        setShowDialog(false);
-
         setAuthError(null);
         setInvalidVote(null);
         setVotesCast(null);
@@ -254,8 +241,12 @@ const Vote = () => {
 
         responseUpdate.current = true;
         await fetchCast(itemsVote);
+        await fetchActive();
+        responseUpdate.current = false;
 
+        resetItemLists();
         setIsLoading(false);
+        setShowDialog(false);
     };
 
     /**
@@ -270,12 +261,13 @@ const Vote = () => {
                     message={C.Label.CONFIRM_VOTE}
                     okCallback={submitHandler}
                     cancelCallback={() => setShowDialog(false)}
+                    preloader={true}
                 />
             }
 
-            {(isMounting || isLoading)
+            {(isMounting)
                 ?   <div className={C.Style.VOTE_PRELOADER} />
-                :   (votesCast)
+                :   (votesCast && !responseUpdate.current)
                     ?   <>{C.Label.VOTE_CAST}</>
                     :   <>
                             <ListContainer />

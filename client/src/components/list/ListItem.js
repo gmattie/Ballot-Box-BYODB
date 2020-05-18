@@ -13,7 +13,7 @@
 import { Draggable } from "react-beautiful-dnd";
 import * as C from "../../support/constants";
 import PropTypes from "prop-types";
-import React, { useRef } from "react";
+import React, { memo, useRef } from "react";
 import ViewportImage from "../ViewportImage";
 
 /**
@@ -146,4 +146,4 @@ ListItem.propTypes = {
  * Export module
  * 
  */
-export default ListItem;
+export default memo(ListItem);
