@@ -1,5 +1,5 @@
 /**
- * @description ManagePolls component.
+ * @description ManageVote component.
  * 
  * @requires Button
  * @requires Collapsible
@@ -32,8 +32,8 @@ import useAuth from "../../../../hooks/useAuth";
 import useInputText from "../../../../hooks/useInputText";
 import useVotes from "../../../../hooks/useVotes";
 /**
- * @description The ManagePolls component contains UI elements that are required to open and close voting polls.
- * The UI elements include text input fields for setting the "deadline" and "quantity", radio and checkbox inputs for setting the "aggregate" and "anonymous" values, and buttons for opening and closing the polls.
+ * @description The ManageVote component contains UI elements that are required to open and close a vote.
+ * The UI elements include text input fields for setting the "deadline" and "quantity", radio and checkbox inputs for setting the "aggregate" and "anonymous" values, and buttons for opening and closing a vote.
  * The "deadline" field accepts a string describing either milliseconds or a time span (https://github.com/zeit/ms).  Example:  "10000", "1h", "2.5 days", etc.
  * 
  * @returns {object} JSX markup.
@@ -41,7 +41,7 @@ import useVotes from "../../../../hooks/useVotes";
  * @function
  * 
  */
-const ManagePolls = () => {
+const ManageVote = () => {
 
     /**
      * Context
@@ -108,7 +108,7 @@ const ManagePolls = () => {
     );    
 
     /**
-     * Polls modification success
+     * Vote modification success
      * Clear appropriate text input elements.
      * 
      */
@@ -121,7 +121,7 @@ const ManagePolls = () => {
     }
     
     /**
-     * Polls modification failure
+     * Vote modification failure
      * Parse the error object to set the appropriate local error states.
      * 
      */
@@ -235,20 +235,20 @@ const ManagePolls = () => {
                     message={
                         
                         (submitTarget.current === C.Label.OPEN)
-                            ? C.Label.CONFIRM_OPEN_POLLS
-                            : C.Label.CONFIRM_CLOSE_POLLS
+                            ? C.Label.CONFIRM_OPEN_VOTE
+                            : C.Label.CONFIRM_CLOSE_VOTE
                     }
                     okCallback={submitHandler}
                     cancelCallback={() => setShowDialog(false)}
                 />
             }
 
-            <Collapsible title={C.Label.MANAGE_POOLS}>
-                <div className={C.Style.MANAGE_POLLS}>
+            <Collapsible title={C.Label.MANAGE_VOTE}>
+                <div className={C.Style.MANAGE_VOTE}>
                     {(isLoading)
-                        ?   <div className={C.Style.MANAGE_POLLS_PRELOADER} />
+                        ?   <div className={C.Style.MANAGE_VOTE_PRELOADER} />
                         :   (votesActive && votesActive.vote)
-                            ?   <div className={C.Style.MANAGE_POLLS_BUTTON_CLOSE}>
+                            ?   <div className={C.Style.MANAGE_VOTE_BUTTON_CLOSE}>
                                     <Button
                                         style={C.Style.BUTTON_SUBMIT_EMPHASIS}
                                         onClick={confirmHandler}
@@ -258,7 +258,7 @@ const ManagePolls = () => {
                                     </Button>
                                 </div>
                             :   <>
-                                    <div className={C.Style.MANAGE_POLLS_DEADLINE}>
+                                    <div className={C.Style.MANAGE_VOTE_DEADLINE}>
                                         <TextField
                                             name={C.ID.NAME_DEADLINE}
                                             disabled={isLoading}
@@ -267,7 +267,7 @@ const ManagePolls = () => {
                                         />
                                     </div>
 
-                                    <div className={C.Style.MANAGE_POLLS_QUANTITY}>
+                                    <div className={C.Style.MANAGE_VOTE_QUANTITY}>
                                         <TextField
                                             name={C.ID.NAME_QUANTITY}
                                             disabled={isLoading}
@@ -276,7 +276,7 @@ const ManagePolls = () => {
                                         />
                                     </div>
 
-                                    <div className={C.Style.MANAGE_POLLS_PENDING}>
+                                    <div className={C.Style.MANAGE_VOTE_PENDING}>
                                         <Radio
                                             label={C.Label.PENDING_RESULTS}
                                             name={C.ID.NAME_RESULTS}
@@ -286,7 +286,7 @@ const ManagePolls = () => {
                                         />
                                     </div>
 
-                                    <div className={C.Style.MANAGE_POLLS_LIVE}>
+                                    <div className={C.Style.MANAGE_VOTE_LIVE}>
                                         <Radio
                                             label={C.Label.LIVE_UPDATES}
                                             name={C.ID.NAME_RESULTS}
@@ -296,7 +296,7 @@ const ManagePolls = () => {
                                         />
                                     </div>
 
-                                    <div className={C.Style.MANAGE_POLLS_SECRET}>
+                                    <div className={C.Style.MANAGE_VOTE_SECRET}>
                                         <Toggle
                                             label={C.Label.SECRET_BALLOT}
                                             checked={anonymous}
@@ -305,7 +305,7 @@ const ManagePolls = () => {
                                         />
                                     </div>
 
-                                    <div className={C.Style.MANAGE_POLLS_BUTTON_OPEN}>
+                                    <div className={C.Style.MANAGE_VOTE_BUTTON_OPEN}>
                                         <Button
                                             style={C.Style.BUTTON_SUBMIT_EMPHASIS}
                                             onClick={confirmHandler}
@@ -326,4 +326,4 @@ const ManagePolls = () => {
  * Export module
  * 
  */
-export default ManagePolls;
+export default ManageVote;

@@ -144,7 +144,7 @@ const ResultDetail = ({
 
     /**
      * Vote error
-     * Close the component model if the poll is closed without having any cast votes.
+     * Close the component model if the vote is closed without having any cast votes.
      * 
      */
     if (votesError) {

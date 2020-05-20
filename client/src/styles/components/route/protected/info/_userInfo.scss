@@ -1,0 +1,15 @@
+.userInfo {
+
+    &-table {
+        
+        border: 1px solid gray;
+        padding: $FORM_GAP;
+
+        &-label {
+        
+            font-weight: $FONT_WEIGHT_BOLD;
+            text-transform: capitalize;
+            margin-right: $FORM_GAP;
+        }
+    }
+}

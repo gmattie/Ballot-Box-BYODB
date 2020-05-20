@@ -300,7 +300,7 @@ const fetchOne = (voteID) => {
  * 
  * @param {string} deadline - The duration (in seconds) of the vote.
  * @param {string} quantity - The maximum number of items that a user may cast in their vote.
- * @param {boolean} aggregate - Determines if cast votes should be aggregated during the open poll.
+ * @param {boolean} aggregate - Determines if cast votes should be aggregated during the open vote.
  * @param {boolean} anonymous - Determines if cast votes should be publicized with the vote results.
  * @returns {object} The action.
  * @public

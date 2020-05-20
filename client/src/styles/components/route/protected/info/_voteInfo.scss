@@ -1,0 +1,48 @@
+.voteInfo {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid gray;
+    padding: $FORM_GAP;
+
+    &-status {
+
+        &-label {
+
+            font-weight: $FONT_WEIGHT_BOLD;
+            margin-right: $FORM_GAP;
+        }
+    }
+
+    &-deadline {
+
+        padding-top: $FORM_GAP;
+        border-top: 1px solid gray;
+
+        table {
+
+            border-collapse: collapse;
+            text-align: center;
+
+            thead {
+
+                font-weight: $FONT_WEIGHT_BOLD;
+                
+                td {
+
+                    min-width: ($SCREEN_MIN_WIDTH - $FORM_GAP * 2) / 4;
+                    width: 100px;
+                }
+            }
+
+            tbody {
+
+                td {
+
+                    font-size: 30px;
+                }
+            }
+        }
+    }
+}

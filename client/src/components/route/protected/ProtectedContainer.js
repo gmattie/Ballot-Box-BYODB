@@ -10,10 +10,12 @@
  * @requires ResultsContainer
  * @requires useAuth
  * @requires useItems
+ * @requires UserInfo
  * @requires useUsers
  * @requires useVotes
  * @requires useWebSocket
  * @requires Vote
+ * @requires VoteInfo
 
  * @public
  * @module
@@ -27,10 +29,12 @@ import React, { createContext, useRef, useState } from "react";
 import ResultsContainer from "./results/ResultsContainer";
 import useAuth from "../../../hooks/useAuth";
 import useItems from "../../../hooks/useItems";
+import UserInfo from "./info/UserInfo";
 import useUsers from "../../../hooks/useUsers";
 import useVotes from "../../../hooks/useVotes";
 import useWebSocket from "../../../hooks/useWebSocket";
 import Vote from "./Vote";
+import VoteInfo from "./info/VoteInfo";
 
 /**
  * @description Creates an exportable Context object.
@@ -45,7 +49,7 @@ const LogoutAPI = createContext();
 
 /**
  * @description The ProtectedContainer component groups the UI components of the application that are only accessible via user authentication.
- * ProtectedContainer contains polling and user information, router links and all the other protected route components: AdminContainer, Edit, Results and Vote.
+ * This component contains vote and user information, a logout button and navigation buttons for all the protected route components: Vote, Results, AdminContainer and Edit.
  * 
  * @returns {object} JSX markup.
  * @public
@@ -58,10 +62,7 @@ const ProtectedContainer = () => {
      * State
      * 
      */
-    const [ deadlineDays, setDeadlineDays ] = useState(null);
-    const [ deadlineHours, setDeadlineHours ] = useState(null);
-    const [ deadlineMinutes, setDeadlineMinutes ] = useState(null);
-    const [ deadlineSeconds, setDeadlineSeconds ] = useState(null);
+    const [ deadline, setDeadline ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(false);
     const [ isMounting, setIsMounting ] = useState(true);
 
@@ -115,34 +116,6 @@ const ProtectedContainer = () => {
     }
 
     /**
-     * @description Extract time data from a JSON stringified websocket "deadline" message.
-     * The websocket "deadline" message string resembles the following:
-     * 
-     *     "{"deadline":{"days":"00","hours":"00","minutes":"00","seconds":"00"}}"
-     * 
-     * @param {string|null} message - The websocket message to parse.
-     * @private
-     * @function
-     *  
-     */
-    const parseVoteDeadline = (message = null) => {
-
-        const deadline = (message)
-            ? JSON.parse(message)[C.Event.Type.DEADLINE]
-            : { 
-                  [C.ID.DEADLINE_DAYS]: null,
-                  [C.ID.DEADLINE_HOURS]: null,
-                  [C.ID.DEADLINE_MINUTES]: null,
-                  [C.ID.DEADLINE_SECONDS]: null
-              };
-
-        setDeadlineDays(deadline[C.ID.DEADLINE_DAYS]);
-        setDeadlineHours(deadline[C.ID.DEADLINE_HOURS]);
-        setDeadlineMinutes(deadline[C.ID.DEADLINE_MINUTES]);
-        setDeadlineSeconds(deadline[C.ID.DEADLINE_SECONDS]);
-    };
-
-    /**
      * WebSocket event handling
      * Updates the appropriate states of the application when the WebSocket messages "voteOpened", "voteClosed", "itemAdd", "itemEdit" and messages of type "deadline" are broadcast.
      * This component includes the initialized useWebSocket hook.
@@ -161,7 +134,7 @@ const ProtectedContainer = () => {
 
             if (isMessageTypeDeadline) {
 
-                parseVoteDeadline(webSocketMessage);
+                setDeadline(webSocketMessage);
             }
             
             if (isMessageVoteOpened || isMessageVoteClosed) {
@@ -169,7 +142,7 @@ const ProtectedContainer = () => {
                 fetchActive();
                 fetchAllVotes();
 
-                parseVoteDeadline(null);
+                setDeadline(null);
                 setVotesCast(null);
                 setItemsVote(null);
 
@@ -200,84 +173,6 @@ const ProtectedContainer = () => {
             }
         }
     }
-
-    /**
-     * @description Creates a section with relevant textual content extracted from the "votesActive" state.
-     * 
-     * @private
-     * @function
-     * 
-     */
-    const createPollsStatus = () => {
-
-        return (
-            
-            <>
-                <div>
-                    {C.Label.POLLS_STATUS}
-                    
-                    {    
-                        (votesActive && votesActive[C.Model.VOTE])
-                            ? C.Label.OPEN
-                            : C.Label.CLOSED
-                    }
-                </div>
-                
-                {(deadlineDays || deadlineHours || deadlineMinutes || deadlineSeconds) &&
-                    <table>
-                        <thead>
-                            <tr>
-                                <td>{C.Label.DEADLINE_DAYS}</td>
-                                <td>{C.Label.DEADLINE_HOURS}</td>
-                                <td>{C.Label.DEADLINE_MINUTES}</td>
-                                <td>{C.Label.DEADLINE_SECONDS}</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{deadlineDays}</td>
-                                <td>{deadlineHours}</td>
-                                <td>{deadlineMinutes}</td>
-                                <td>{deadlineSeconds}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                }
-            </>
-        );
-    };
-
-    /**
-     * @description Creates a section with relevant textual content extracted from the "usersSelf" state.
-     * 
-     * @private
-     * @function
-     * 
-     */
-    const createVoterCard = () => {
-
-        const infoKeys = [
-
-            C.Model.NAME,
-            C.Model.EMAIL,
-            C.Model.IP
-        ];
-
-        return (
-
-            <>
-                {infoKeys.map((item, index) => {
-
-                    return (
-                    
-                        <div key={index}>
-                            {item}: {usersSelf.user[item]}
-                        </div>
-                    );
-                })}
-            </>
-        );
-    };
 
     /**
      * @description Retrieves a CSS style based on the hypertext reference link argument.
@@ -364,13 +259,9 @@ const ProtectedContainer = () => {
             {(!authToken || isMounting || isLoading)
                 ?   <div className={C.Style.PROTECTED_CONTAINER_PRELOADER} />
                 :   <>
-                        <div className={C.Style.PROTECTED_CONTAINER_POLLS_STATUS}>
-                            {createPollsStatus()}
-                        </div>
+                        <VoteInfo deadlineMessage={deadline} />
 
-                        <div className={C.Style.PROTECTED_CONTAINER_USER_INFO}>
-                            {createVoterCard()}
-                        </div>
+                        <UserInfo />
 
                         <div>
                             {createButton(C.Label.VOTE, addRouterHistory, C.Route.VOTE)}

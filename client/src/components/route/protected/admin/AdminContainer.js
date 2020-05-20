@@ -4,7 +4,7 @@
  * @requires AddItems
  * @requires constants
  * @requires EditItems
- * @requires ManagePolls
+ * @requires ManageVote
  * @requires react
  * @public
  * @module
@@ -14,12 +14,12 @@
 import * as C from "../../../../support/constants";
 import AddItem from "./AddItem";
 import EditItemsContainer from "./edit/EditItemsContainer";
-import ManagePolls from "./ManagePolls";
+import ManageVote from "./ManageVote";
 import React from "react";
 
 /**
  * @description The AdminContainer component contains the UI components of the application that are only accessible to users with admin privileges.
- * This component facilitates polling and database Item document management by containing the following components:  ManagePolls, AddItem and EditItemsContainer.
+ * This component facilitates centralized voting and database Item document management through the following components:  ManageVote, AddItem and EditItemsContainer.
  * 
  * @returns {object} JSX markup.
  * @public
@@ -34,8 +34,8 @@ const AdminContainer = () => {
      */
     return (
         <div className={C.Style.ADMIN_CONTAINER}>
-            <div className={C.Style.ADMIN_CONTAINER_MANAGE_POLLS}>
-                <ManagePolls />
+            <div className={C.Style.ADMIN_CONTAINER_MANAGE_VOTE}>
+                <ManageVote />
             </div>
 
             <div className={C.Style.ADMIN_CONTAINER_ADD_ITEM}>

@@ -369,10 +369,10 @@ const Image = Object.freeze({
  *     <li> CLOSED </li>
  *     <li> CONFIRM </li>
  *     <li> CONFIRM_ADD_ITEM </li>
- *     <li> CONFIRM_CLOSE_POLLS </li>
+ *     <li> CONFIRM_CLOSE_VOTE </li>
  *     <li> CONFIRM_EDIT </li>
  *     <li> CONFIRM_EDIT_ITEM </li>
- *     <li> CONFIRM_OPEN_POLLS </li>
+ *     <li> CONFIRM_OPEN_VOTE </li>
  *     <li> CONFIRM_VOTE </li>
  *     <li> DEADLINE </li>
  *     <li> DEADLINE_DAYS </li>
@@ -394,7 +394,7 @@ const Image = Object.freeze({
  *     <li> LIVE_UPDATES </li>
  *     <li> LOGIN </li>
  *     <li> LOGOUT </li>
- *     <li> MANAGE_POLLS </li>
+ *     <li> MANAGE_VOTE </li>
  *     <li> NAME </li>
  *     <li> NEW </li>
  *     <li> OK </li>
@@ -403,7 +403,6 @@ const Image = Object.freeze({
  *     <li> PASSWORD </li>
  *     <li> PENDING </li>
  *     <li> PENDING_RESULTS </li>
- *     <li> POLLS_STATUS </li>
  *     <li> QUANTITY </li>
  *     <li> REGISTER </li>
  *     <li> RESET </li>
@@ -414,6 +413,7 @@ const Image = Object.freeze({
  *     <li> TOTAL_VOTES_CAST </li>
  *     <li> VOTE </li>
  *     <li> VOTE_CAST </li>
+ *     <li> VOTE_STATUS </li>
  *     <li> VOTES </li>
  * </ul>
  * 
@@ -435,11 +435,11 @@ const Label = Object.freeze({
     CLOSE: "Close",
     CLOSED: "Closed",
     CONFIRM_ADD_ITEM: "Are you sure you want to add this item?",
-    CONFIRM_CLOSE_POLLS: "Are you sure you want to close the polls?",
+    CONFIRM_CLOSE_VOTE: "Are you sure you want to close the vote?",
     CONFIRM_EDIT_ITEM: "Are you sure you want to edit this item?",
     CONFIRM_EDIT: "Are you sure you want to edit your user account?",
-    CONFIRM_OPEN_POLLS: "Are you sure you want to open the polls?",
-    CONFIRM_VOTE: "Are you sure you want to cast this vote?",
+    CONFIRM_OPEN_VOTE: "Are you sure you want to open a vote?",
+    CONFIRM_VOTE: "Are you sure you want to cast this ballot?",
     CONFIRM: "Confirm",
     DEADLINE_DAYS: "Days",
     DEADLINE_HOURS: "Hours",
@@ -461,7 +461,7 @@ const Label = Object.freeze({
     LIVE: "Live",
     LOGIN: "Login",
     LOGOUT: "Logout",
-    MANAGE_POOLS: "Manage Polls",
+    MANAGE_VOTE: "Manage Vote",
     NAME: "Name",
     NEW: "New",
     OK: "OK",
@@ -470,7 +470,6 @@ const Label = Object.freeze({
     PASSWORD: "Password",
     PENDING_RESULTS: "Pending Results",
     PENDING: "Pending",
-    POLLS_STATUS: "Polls Status:",
     QUANTITY: "Quantity",
     REGISTER: "Register",
     RESET: "Reset",
@@ -479,7 +478,8 @@ const Label = Object.freeze({
     SHOW: "Show",
     THUMBNAIL: "Thumbnail",
     TOTAL_VOTES_CAST: "Total Votes Cast:",
-    VOTE_CAST: "Your vote has been cast for the current poll.",
+    VOTE_CAST: "Your ballot has been cast for the current vote.",
+    VOTE_STATUS: "Vote Status:",
     VOTE: "Vote",
     VOTES: "Votes",
 });
@@ -650,7 +650,7 @@ const Route = Object.freeze({
  *     <li> ADMIN_CONTAINER </li>
  *     <li> ADMIN_CONTAINER_ADD_ITEM </li>
  *     <li> ADMIN_CONTAINER_EDIT_ITEMS_CONTAINER </li>
- *     <li> ADMIN_CONTAINER_MANAGE_POLLS </li>
+ *     <li> ADMIN_CONTAINER_MANAGE_VOTE </li>
  *     <li> ADMIN_CREDENTIALS </li>
  *     <li> ADMIN_CREDENTIALS_ERROR </li>
  *     <li> ADMIN_CREDENTIALS_ERROR_SHOW </li>
@@ -724,23 +724,21 @@ const Route = Object.freeze({
  *     <li> LOGIN_SUBMIT </li>
  *     <li> LOGIN_SUBMIT_BUTTON </li>
  *     <li> LOGIN_SUBMIT_PRELOADER </li>
- *     <li> MANAGE_POLLS </li>
- *     <li> MANAGE_POLLS_BUTTON_CLOSE </li>
- *     <li> MANAGE_POLLS_BUTTON_OPEN </li>
- *     <li> MANAGE_POLLS_DEADLINE </li>
- *     <li> MANAGE_POLLS_LIVE </li>
- *     <li> MANAGE_POLLS_PENDING </li>
- *     <li> MANAGE_POLLS_PRELOADER </li>
- *     <li> MANAGE_POLLS_QUANTITY </li>
- *     <li> MANAGE_POLLS_SECRET </li>
+ *     <li> MANAGE_VOTE </li>
+ *     <li> MANAGE_VOTE_BUTTON_CLOSE </li>
+ *     <li> MANAGE_VOTE_BUTTON_OPEN </li>
+ *     <li> MANAGE_VOTE_DEADLINE </li>
+ *     <li> MANAGE_VOTE_LIVE </li>
+ *     <li> MANAGE_VOTE_PENDING </li>
+ *     <li> MANAGE_VOTE_PRELOADER </li>
+ *     <li> MANAGE_VOTE_QUANTITY </li>
+ *     <li> MANAGE_VOTE_SECRET </li>
  *     <li> NO_FOCUS_OUTLINE </li>
  *     <li> PORTAL </li>
  *     <li> PROTECTED_CONTAINER </li>
  *     <li> PROTECTED_CONTAINER_NAV_BUTTON </li>
  *     <li> PROTECTED_CONTAINER_NAV_BUTTON_SELECTED </li>
- *     <li> PROTECTED_CONTAINER_POLLS_STATUS </li>
  *     <li> PROTECTED_CONTAINER_PRELOADER </li>
- *     <li> PROTECTED_CONTAINER_USER_INFO </li>
  *     <li> PUBLIC_CONTAINER </li>
  *     <li> PUBLIC_CONTAINER_CONTENT </li>
  *     <li> PUBLIC_CONTAINER_CONTENT_FORM </li>
@@ -791,10 +789,17 @@ const Route = Object.freeze({
  *     <li> RESULTS_CONTAINER_PRELOADER </li>
  *     <li> TOGGLE </li>
  *     <li> TRANSPARENT </li>
+ *     <li> USER_INFO </li>
+ *     <li> USER_INFO_TABLE </li>
+ *     <li> USER_INFO_TABLE_LABEL </li>
  *     <li> VISIBLE </li>
  *     <li> VOTE </li>
  *     <li> VOTE_BUTTONS </li>
  *     <li> VOTE_ERROR </li>
+ *     <li> VOTE_INFO </li>
+ *     <li> VOTE_INFO_DEADLINE </li>
+ *     <li> VOTE_INFO_STATUS </li>
+ *     <li> VOTE_INFO_STATUS_LABEL </li>
  *     <li> VOTE_PRELOADER </li>
  * </ul>
  * 
@@ -813,7 +818,7 @@ const Style = Object.freeze({
     ADD_ITEM: "addItem",
     ADMIN_CONTAINER_ADD_ITEM: "adminContainer-addItem",
     ADMIN_CONTAINER_EDIT_ITEMS_CONTAINER: "adminContainer-editItemsContainer",
-    ADMIN_CONTAINER_MANAGE_POLLS: "adminContainer-managePolls",
+    ADMIN_CONTAINER_MANAGE_VOTE: "adminContainer-manageVote",
     ADMIN_CONTAINER: "adminContainer",
     ADMIN_CREDENTIALS_ERROR_SHOW: "adminCredentials-error-show",
     ADMIN_CREDENTIALS_ERROR: "adminCredentials-error",
@@ -888,23 +893,21 @@ const Style = Object.freeze({
     LOGIN_SUBMIT_PRELOADER: "login-submit-preloader",
     LOGIN_SUBMIT: "login-submit",
     LOGIN: "login",
-    MANAGE_POLLS_BUTTON_CLOSE: "managePolls-button-close",
-    MANAGE_POLLS_BUTTON_OPEN: "managePolls-button-open",
-    MANAGE_POLLS_DEADLINE: "managePolls-deadline",
-    MANAGE_POLLS_LIVE: "managePolls-live",
-    MANAGE_POLLS_PENDING: "managePolls-pending",
-    MANAGE_POLLS_PRELOADER: "managePolls-preloader",
-    MANAGE_POLLS_QUANTITY: "managePolls-quantity",
-    MANAGE_POLLS_SECRET: "managePolls-secret",
-    MANAGE_POLLS: "managePolls",
+    MANAGE_VOTE_BUTTON_CLOSE: "manageVote-button-close",
+    MANAGE_VOTE_BUTTON_OPEN: "manageVote-button-open",
+    MANAGE_VOTE_DEADLINE: "manageVote-deadline",
+    MANAGE_VOTE_LIVE: "manageVote-live",
+    MANAGE_VOTE_PENDING: "manageVote-pending",
+    MANAGE_VOTE_PRELOADER: "manageVote-preloader",
+    MANAGE_VOTE_QUANTITY: "manageVote-quantity",
+    MANAGE_VOTE_SECRET: "manageVote-secret",
+    MANAGE_VOTE: "manageVote",
     NO_FOCUS_OUTLINE: "noFocusOutline",
     PORTAL: "portal",
     PROTECTED_CONTAINER_CONTENT: "protectedContainer-content",
     PROTECTED_CONTAINER_NAV_BUTTON_SELECTED: "protectedContainer-nav-button-selected",
     PROTECTED_CONTAINER_NAV_BUTTON: "protectedContainer-nav-button",
-    PROTECTED_CONTAINER_POLLS_STATUS: "protectedContainer-pollsStatus",
     PROTECTED_CONTAINER_PRELOADER: "protectedContainer-preloader",
-    PROTECTED_CONTAINER_USER_INFO: "protectedContainer-userInfo",
     PROTECTED_CONTAINER: "protectedContainer",
     PUBLIC_CONTAINER_CONTENT_FORM_NAV: "publicContainer-content-form-nav",
     PUBLIC_CONTAINER_CONTENT_FORM: "publicContainer-content-form",
@@ -956,9 +959,16 @@ const Style = Object.freeze({
     RESULTS_CONTAINER: "resultsContainer",
     TOGGLE: "toggle",
     TRANSPARENT: "transparent",
+    USER_INFO_TABLE_LABEL: "userInfo-table-label",
+    USER_INFO_TABLE: "userInfo-table",
+    USER_INFO: "userInfo",
     VISIBLE: "visible",
     VOTE_BUTTONS: "vote-buttons",
     VOTE_ERROR: "vote-error",
+    VOTE_INFO_DEADLINE: "voteInfo-deadline",
+    VOTE_INFO_STATUS_LABEL: "voteInfo-status-label",
+    VOTE_INFO_STATUS: "voteInfo-status",
+    VOTE_INFO: "voteInfo",
     VOTE_PRELOADER: "vote-preloader",
     VOTE: "vote",
 });
