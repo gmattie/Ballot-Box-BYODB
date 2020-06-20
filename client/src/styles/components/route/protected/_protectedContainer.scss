@@ -33,10 +33,10 @@
 
         display: flex;
         flex-direction: column;
+        flex-grow: 1;
         width: inherit;
         min-width: $SCREEN_MIN_WIDTH;
         max-width: $SCREEN_MAX_WIDTH;
-        padding: $FORM_GAP;
         overflow-y: auto;
     }
 }

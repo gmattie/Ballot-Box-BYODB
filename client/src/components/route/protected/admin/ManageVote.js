@@ -232,7 +232,7 @@ const ManageVote = () => {
         <>
             {showDialog &&
                 <Dialog 
-                    message={
+                    content={
                         
                         (submitTarget.current === C.Label.OPEN)
                             ? C.Label.CONFIRM_OPEN_VOTE

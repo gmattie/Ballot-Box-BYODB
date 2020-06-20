@@ -218,7 +218,7 @@ const AddItem = () => {
         <>
             {showDialog &&
                 <Dialog 
-                    message={C.Label.CONFIRM_ADD_ITEM}
+                    content={C.Label.CONFIRM_ADD_ITEM}
                     okCallback={submitHandler}
                     cancelCallback={() => setShowDialog(false)}
                 />

@@ -258,7 +258,7 @@ const Vote = () => {
         <div className={C.Style.VOTE}>
             {showDialog &&
                 <Dialog 
-                    message={C.Label.CONFIRM_VOTE}
+                    content={C.Label.CONFIRM_VOTE}
                     okCallback={submitHandler}
                     cancelCallback={() => setShowDialog(false)}
                     preloader={true}
@@ -292,7 +292,7 @@ const Vote = () => {
                                         <Button
                                             style={C.Style.BUTTON_SUBMIT}
                                             onClick={resetItemLists}
-                                            disabled={isLoading}
+                                            disabled={isLoading || !(itemsVote && itemsVote.length)}
                                         >
                                             {C.Label.RESET}
                                         </Button>

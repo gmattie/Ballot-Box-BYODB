@@ -1,8 +1,13 @@
 .adminContainer {
 
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: $FORM_GAP;
+    
     &-manageVote,
     &-addItem,
-    &-editItems {
+    &-editItemsContainer {
 
         margin-bottom: $FORM_GAP;
     }

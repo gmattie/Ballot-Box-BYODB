@@ -313,7 +313,7 @@ const Edit = () => {
         <>
             {showDialog &&
                 <Dialog 
-                    message={C.Label.CONFIRM_EDIT}
+                    content={C.Label.CONFIRM_EDIT}
                     okCallback={submitHandler}
                     cancelCallback={() => setShowDialog(false)}
                     preloader={true}

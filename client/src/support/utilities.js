@@ -1,10 +1,13 @@
 /**
  * @description Common and reusable functions 
  * 
+ * @requires react-dom/server
+ * 
  * @public
  * @module
  * 
  */
+import ReactDOMServer from "react-dom/server";
 
 /**
  * @description Concatenates and returns a string of non-null class names.
@@ -20,6 +23,134 @@ const concatClassNames = (...classNames) => {
         .filter((className) => className)
         .join(" ");
 };
+
+/**
+ * @description Postpones executing a callback function by a specified time until all the callback's events, occurring in rapid succession, have ended.
+ * 
+ * @param {number} delay - The time in milliseconds to postpone the callback.
+ * @param {function} callback - The event's callback function.
+ * @return {function} 
+ * @public
+ * @function
+ * 
+ * @example
+ * 
+ *      const resizeHandler = (event) => console.log(event);
+ *      window.addEventListener("resize", debounce(200, resizeHandler));
+ * 
+ */
+const debounce = (delay, callback) => { 
+
+    let timer;
+
+    return (...args) => {
+
+        if (timer) {
+
+            clearTimeout(timer);
+        }
+
+        timer = setTimeout(() => {
+
+            callback(...args);
+            timer = null;
+        }, delay);
+    };
+};
+
+/**
+ * @description Simulates a double-click event that is determined by two clicks occurring within the standard time of 500 milliseconds.
+ * 
+ * @param {function} callback - The event's callback function.
+ * @return {function} 
+ * @public
+ * @function
+ * 
+ * @example
+ * 
+ *      const clickHandler = (event) => console.log(event);
+ *      button.addEventListener("click", doubleClickHandler(clickHandler));
+ * 
+ */
+const doubleClick = (callback) => {
+
+    let previousClick;
+  
+    return (...args) => {
+  
+        const currentClick = Date.now();
+    
+            if (currentClick - previousClick < 500) {
+
+                callback(...args);
+            }
+            else {
+    
+                previousClick = currentClick;
+            }
+    };
+};
+
+/**
+ * @description Synchronously retrieve the width and/or heigh of a React element without visibly rendering and committing the element to the DOM.
+ * 
+ * @param {object} elementJSX - The target React element written in JSX.
+ * @return {object} 
+ * @public
+ * @function
+ * 
+ * @example
+ * 
+ *      const { width, height } = getReactElementSize( <div style={{ width: "20px", height: "40px" }} ...props /> );
+ *      console.log(`W: ${width}, H: ${height});  // W: 20, H: 40
+ * 
+ */
+const getReactElementSize = (elementJSX) => {
+
+    const elementString = ReactDOMServer.renderToStaticMarkup(elementJSX);
+    const elementDocument = new DOMParser().parseFromString(elementString, "text/html");
+    const elementNode = elementDocument.getRootNode().body.firstChild;
+
+    const container = document.createElement("div");
+    const containerStyle = {
+
+        display: "block",
+        position: "absolute",
+        boxSizing: "border-box",
+        margin: "0",
+        padding: "0",
+        whiteSpace: "nowrap",
+        visibility: "hidden"
+    };
+
+    Object.assign(container.style, containerStyle);
+
+    container.appendChild(elementNode);
+    document.body.appendChild(container);
+
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+
+    container.removeChild(elementNode);
+    document.body.removeChild(container);
+
+    return {
+        
+        width,
+        height
+    };
+};
+
+/**
+ * @description Checks if the deployment target is a mobile device.
+ * Additional info: https://developer.mozilla.org/en-US/docs/Web/HTTP/Browser_detection_using_the_user_agent
+ * 
+ * @return {boolean} 
+ * @public
+ * @function
+ * 
+ */
+const isMobileDevice = () => /Mobi/i.test(window.navigator.userAgent);
 
 /**
  * @description Sets a value and dispatches an event for HTMLElement objects with value setters.
@@ -51,57 +182,46 @@ const setNativeValue = (element, value) => {
 };
 
 /**
- * @description Postpones executing a callback function by a specified time until all the callback's events, occurring in rapid succession, have ended.
+ * @description Suppresses specific messages from being logged in the Console.
  * 
- * @param {number} delay - The time in milliseconds to postpone the callback.
- * @param {Function} callback - The event's callback function.
- * @return {Function} 
+ * @param {string} message - The target message to suppress, either full text, partial text or a regular expression pattern and case-insensitive.
+ * @param {string} method - The Console method of the message to suppress, including "error", "info", "log" and "warn". 
  * @public
  * @function
  * 
  * @example
  * 
- * const resizeHandler = (event) => console.log(event);
- * window.addEventListener("resize", debounce(200, resizeHandler));
+ *      suppressConsoleMessage("overeager alarm system", "error");
+ * 
+ *      console.error("An alarm system for a nuclear power plant")  // <-- Logged
+ *      console.error("An overeager alarm system for React")        // <-- Not Logged
+ *      console.log("An overeager alarm system for React")          // <-- Logged
  * 
  */
-const debounce = (delay, callback) => { 
+const suppressConsoleMessage = (message, method) => {
 
-    let timer;
+    const nativeConsoleMethod = console[method];
 
-    return (...args) => {
+    console[method] = (nativeMessage) => {
 
-        if (timer) {
+        if (!RegExp(message, "gi").test(nativeMessage)) {
 
-            clearTimeout(timer);
+            nativeConsoleMethod(nativeMessage);
         }
-
-        timer = setTimeout(() => {
-
-            callback(...args);
-            timer = null;
-        }, delay);
     };
 };
-
-/**
- * @description Checks if the deployment target is a mobile device.
- * Additional info: https://developer.mozilla.org/en-US/docs/Web/HTTP/Browser_detection_using_the_user_agent
- * 
- * @public
- * @function
- * 
- */
-const isMobileDevice = () => /Mobi/i.test(window.navigator.userAgent);
 
 /**
  * Export module
  * 
  */
-module.exports = {
+export {
 
     concatClassNames,
-    setNativeValue,
     debounce,
-    isMobileDevice
+    doubleClick,
+    getReactElementSize,
+    isMobileDevice,
+    setNativeValue,
+    suppressConsoleMessage
 };

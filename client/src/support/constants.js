@@ -106,9 +106,31 @@ const CharCode = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <ul>
+ *         <li> ERROR </li>
+ *     </ul>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const Console = Object.freeze({
+
+    Method: {
+
+        ERROR: "error"
+    }
+});
+
+/**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
  *     <li> FIXED </li>
  *     <li> PX </li>
  *     <li> STATIC </li>
+ *     <li> PERCENT_100 </li>
  * </ul>
  * 
  * @public
@@ -120,6 +142,7 @@ const CSS = Object.freeze({
     FIXED: "fixed",
     PX: "px",
     STATIC: "static",
+    PERCENT_100: "100%"
 });
 
 /**
@@ -127,6 +150,7 @@ const CSS = Object.freeze({
  * 
  * <ul>
  *     <li> DUPLICATE_KEY </li>
+ *     <li> USE_LAYOUT_EFFECT_ON_SERVER </li>
  *     <li> VOTE_DOES_NOT_EXIST </li>
  * </ul>
  * 
@@ -137,6 +161,7 @@ const CSS = Object.freeze({
 const Error = Object.freeze({
 
     DUPLICATE_KEY: "E11000 duplicate key error",
+    USE_LAYOUT_EFFECT_ON_SERVER: "useLayoutEffect does nothing on the server",
     VOTE_DOES_NOT_EXIST: "Vote does not exist",
 });
 
@@ -213,6 +238,10 @@ const Event = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> COMPONENT_HEIGHT_EDIT_ITEM </li>
+ *     <li> COMPONENT_HEIGHT_LIST_HEADER </li>
+ *     <li> COMPONENT_HEIGHT_LIST_ITEM </li>
+ *     <li> COMPONENT_HEIGHT_RESULT </li>
  *     <li> LIST_ITEM_DRAG_TARGET </li>
  * </ul>
  * 
@@ -222,7 +251,11 @@ const Event = Object.freeze({
  */
 const Global = Object.freeze({
 
-    LIST_ITEM_DRAG_TARGET: "listItemDragTarget"
+    COMPONENT_HEIGHT_EDIT_ITEM: "componentHeightEditItem",
+    COMPONENT_HEIGHT_LIST_HEADER: "componentHeightListHeader",
+    COMPONENT_HEIGHT_LIST_ITEM: "componentHeightListItem",
+    COMPONENT_HEIGHT_RESULT: "componentHeightResult",
+    LIST_ITEM_DRAG_TARGET: "listItemDragTarget",
 });
 
 /**
@@ -386,6 +419,8 @@ const Image = Object.freeze({
  *     <li> EMAIL_REGISTRATION </li>
  *     <li> EMAIL_RESET </li>
  *     <li> EMAIL_SENT </li>
+ *     <li> EMPTY_ITEMS </li>
+ *     <li> EMPTY_RESULTS </li>
  *     <li> ERROR </li>
  *     <li> HIDE </li>
  *     <li> ICON </li>
@@ -453,6 +488,8 @@ const Label = Object.freeze({
     EMAIL_RESET: "confirm the request to reset your account password.",
     EMAIL_SENT: "An email has been sent to:",
     EMAIL: "Email",
+    EMPTY_ITEMS: "No Items Available",
+    EMPTY_RESULTS: "No Results Available",
     ERROR: "Error",
     HIDE: "Hide",
     ICON: "Icon",
@@ -508,6 +545,22 @@ const Local = Object.freeze({
     PROTOCOL_HTTP: "http",
     PROTOCOL_WEB_SOCKET: "ws",
     TOKEN: "token",
+});
+
+/**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
+ *     <li> VIRTUAL </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const Mode = Object.freeze({
+
+    VIRTUAL: "virtual"
 });
 
 /**
@@ -668,7 +721,7 @@ const Route = Object.freeze({
  *     <li> CONFIRMATION </li>
  *     <li> CONFIRMATION_EMAIL </li>
  *     <li> DIALOG </li>
- *     <li> DIALOG_MESSAGE </li>
+ *     <li> DIALOG_CONTENT </li>
  *     <li> DIALOG_SUBMIT </li>
  *     <li> DIALOG_SUBMIT_PRELOADER </li>
  *     <li> EDIT </li>
@@ -683,7 +736,11 @@ const Route = Object.freeze({
  *     <li> EDIT_ITEM_THUMBNAIL </li>
  *     <li> EDIT_ITEMS_CONTAINER </li>
  *     <li> EDIT_ITEMS_CONTAINER_CONTENT </li>
+ *     <li> EDIT_ITEMS_CONTAINER_CONTENT_EMPTY </li>
+ *     <li> EDIT_ITEMS_CONTAINER_CONTENT_LIST </li>
+ *     <li> EDIT_ITEMS_CONTAINER_CONTENT_LIST_ITEM_SIZE_CONTAINER </li>
  *     <li> EDIT_ITEMS_CONTAINER_CONTENT_PRELOADER </li>
+ *     <li> EDIT_ITEMS_CONTAINER_CONTENT_SHADOW </li>
  *     <li> EDIT_NAME </li>
  *     <li> EDIT_PASSWORD </li>
  *     <li> EDIT_PASSWORD_CONFIRM </li>
@@ -786,6 +843,9 @@ const Route = Object.freeze({
  *     <li> RESULT_DETAIL_TABLE_USER_HEADER_USER_IP </li>
  *     <li> RESULT_DETAIL_TABLE_USER_HEADER_USER_NAME </li>
  *     <li> RESULTS_CONTAINER </li>
+ *     <li> RESULTS_CONTAINER_EMPTY </li>
+ *     <li> RESULTS_CONTAINER_LIST </li>
+ *     <li> RESULTS_CONTAINER_LIST_ITEM_SIZE_CONTAINER </li>
  *     <li> RESULTS_CONTAINER_PRELOADER </li>
  *     <li> TOGGLE </li>
  *     <li> TRANSPARENT </li>
@@ -836,7 +896,7 @@ const Style = Object.freeze({
     COLLAPSIBLE: "collapsible",
     CONFIRMATION_EMAIL: "confirmation-email",
     CONFIRMATION: "confirmation",
-    DIALOG_MESSAGE: "dialog-message",
+    DIALOG_CONTENT: "dialog-content",
     DIALOG_SUBMIT_PRELOADER: "dialog-submit-preloader",
     DIALOG_SUBMIT: "dialog-submit",
     DIALOG: "dialog",
@@ -849,7 +909,11 @@ const Style = Object.freeze({
     EDIT_ITEM_SUBMIT: "editItem-submit",
     EDIT_ITEM_THUMBNAIL: "editItem-thumbnail",
     EDIT_ITEM: "editItem",
+    EDIT_ITEMS_CONTAINER_CONTENT_EMPTY: "editItemsContainer-content-empty",
+    EDIT_ITEMS_CONTAINER_CONTENT_LIST: "editItemsContainer-content-list",
+    EDIT_ITEMS_CONTAINER_CONTENT_LIST_ITEM_SIZE_CONTAINER: "editItemsContainer-content-list-itemSizeContainer",
     EDIT_ITEMS_CONTAINER_CONTENT_PRELOADER: "editItemsContainer-content-preloader",
+    EDIT_ITEMS_CONTAINER_CONTENT_SHADOW: "editItemsContainer-content-shadow",
     EDIT_ITEMS_CONTAINER_CONTENT: "editItemsContainer-content",
     EDIT_ITEMS_CONTAINER: "editItemsContainer",
     EDIT_NAME: "edit-name",
@@ -955,6 +1019,9 @@ const Style = Object.freeze({
     RESULT_DETAIL_TABLE_USER_HEADER: "resultDetailTableUserHeader",
     RESULT_DETAIL: "resultDetail",
     RESULT: "result",
+    RESULTS_CONTAINER_EMPTY: "resultsContainer-empty",
+    RESULTS_CONTAINER_LIST: "resultsContainer-list",
+    RESULTS_CONTAINER_LIST_ITEM_SIZE_CONTAINER: "resultsContainer-list-itemSizeContainer",
     RESULTS_CONTAINER_PRELOADER: "resultsContainer-preloader",
     RESULTS_CONTAINER: "resultsContainer",
     TOGGLE: "toggle",
@@ -982,6 +1049,7 @@ export {
     Access,
     Action,
     CharCode,
+    Console,
     CSS,
     Error,
     Event,
@@ -991,6 +1059,7 @@ export {
     Image,
     Label,
     Local,
+    Mode,
     Model,
     Request,
     Route,

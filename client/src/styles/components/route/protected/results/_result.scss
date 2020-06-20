@@ -1,4 +1,6 @@
 .result {
 
     @include list-item;
+
+    width: calc(100% - #{$FORM_GAP});
 }

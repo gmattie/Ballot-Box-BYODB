@@ -4,19 +4,25 @@
  * @requires constants
  * @requires ProtectedContainer
  * @requires react
+ * @requires react-virtualized-auto-sizer
+ * @requires react-window
  * @requires Result
  * @requires ResultDetail
  * @requires useAuth
  * @requires useMount
  * @requires useVotes
+ * @requires utilities
 
  * @public
  * @module
  * 
  */
+import { FixedSizeList as VirtualList } from "react-window";
+import { getReactElementSize } from "../../../../support/utilities";
 import { LogoutAPI } from "../ProtectedContainer";
 import * as C from "../../../../support/constants";
-import React, { useContext, memo, useRef, useState } from "react";
+import AutoSizer from "react-virtualized-auto-sizer";
+import React, { useContext, memo, useCallback, useRef, useState } from "react";
 import Result from "./Result";
 import ResultDetail from "../../../modal/result/ResultDetail";
 import useAuth from "../../../../hooks/useAuth";
@@ -24,8 +30,8 @@ import useMount from "../../../../hooks/useMount";
 import useVotes from "../../../../hooks/useVotes";
 
 /**
- * @description The memoized ResultsContainer component contains a list of Result components.
- * This component facilitates fetching all Vote documents from the database in order to populate the list of Result components.
+ * @description The memoized ResultsContainer component contains a virtualized list of Result components.
+ * This component facilitates fetching all Vote documents from the database, if required, and/or populates the list with the latest data.
  * 
  * @returns {object} JSX markup.
  * @public
@@ -46,6 +52,7 @@ const ResultsContainer = () => {
      */
     const [ isLoading, setIsLoading ] = useState(true);
     const [ showDialog, setShowDialog ] = useState(false);
+    const [ itemRendererHeight, setItemRendererHeight ] = useState();
 
     /**
      * Refs
@@ -99,6 +106,31 @@ const ResultsContainer = () => {
     }
 
     /**
+     * Set the itemRendererHeight state
+     * Retrieves the memoized height of the "Result" component when the "votesAll" state contains items.
+     * 
+     */
+    if (votesAll && votesAll.length && !itemRendererHeight) {
+
+        if (!window[C.Global.COMPONENT_HEIGHT_RESULT]) {
+
+            const elementSize = getReactElementSize(
+            
+                <div className={C.Style.RESULTS_CONTAINER_LIST_ITEM_SIZE_CONTAINER}>
+                    <Result
+                        voteDocument={votesAll[0]}
+                        clickCallback={() => {}}
+                    />
+                </div>
+            );
+
+            window[C.Global.COMPONENT_HEIGHT_RESULT] = elementSize.height;
+        }
+
+        setItemRendererHeight(window[C.Global.COMPONENT_HEIGHT_RESULT]);
+    }
+
+    /**
      * @description Displays a ResultDetail modal dialog component.
      * 
      * @param {string} voteID - The ID of the target Vote document.
@@ -114,6 +146,25 @@ const ResultsContainer = () => {
     };
 
     /**
+     * @description Handler for creating memoized list items for the VirtualList component.
+     * 
+     * @param {object} props - Properties populated by the VirtualList component.
+     * @private
+     * @function
+     * 
+     */
+    const listItemRenderer = useCallback(({ data, index, style }) => (
+
+        <div style={style}>
+            <Result
+                key={data[index][C.Model.ID]}
+                voteDocument={data[index]}
+                clickCallback={showResultDetails}
+            />
+        </div>
+    ), []);
+
+    /**
      * JSX markup
      * 
      */
@@ -127,22 +178,27 @@ const ResultsContainer = () => {
                     logout={logout}
                 />
             }
-
             {(isLoading)
                 ?   <div className={C.Style.RESULTS_CONTAINER_PRELOADER} />
-                :   <>
-                        {votesAll && votesAll.map((vote) => {
+                :   (votesAll && votesAll.length)
+                    ?   <AutoSizer>
+                            {({ width, height }) => (
 
-                            return (
-                            
-                                <Result
-                                    key={vote._id}
-                                    voteDocument={vote}
-                                    clickCallback={showResultDetails}
-                                />
-                            );
-                        })}
-                    </>
+                                <VirtualList
+                                    className={C.Style.RESULTS_CONTAINER_LIST}
+                                    width={width}
+                                    height={height}
+                                    itemData={votesAll}
+                                    itemCount={votesAll.length}
+                                    itemSize={itemRendererHeight}
+                                >
+                                    {listItemRenderer}
+                                </VirtualList>
+                            )}
+                        </AutoSizer>
+                    :   <div className={C.Style.RESULTS_CONTAINER_EMPTY}>
+                            {C.Label.EMPTY_RESULTS}
+                        </div>
             }
         </div>
     );

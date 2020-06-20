@@ -20,7 +20,7 @@ import useVotes from "../../hooks/useVotes";
 
 /**
  * @description The ListContainer component contains two separate List components that can both share and reorder ListItem components via drag and drop functionality.
- * Item data is fetched from /api/items and passed down as a prop to the List components, ListItemContainer components and, finally, the ListItem components.
+ * Item data is fetched from /api/items and passed down as a prop to the List and ListItem components.
  * 
  * @returns {object} JSX markup.
  * @public

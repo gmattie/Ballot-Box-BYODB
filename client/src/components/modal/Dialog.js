@@ -18,8 +18,9 @@ import React, { useState } from "react";
 
 /**
  * @description Renders a modal window inside a React Portal.
- * Dialogs must contain at least a "message" to display and an "okCallback" function while supplying a "cancelCallback" function and "preloader" boolean optional.
- * A supplied truthy value for the "preloader" prop will display a loading indicator and disable all buttons when the OK button is pressed.
+ * Dialog components must contain a "content" property to display text or element nodes and an "okCallback" function to handle affirmatively closing the dialog.
+ * Optional properties include a "cancelCallback" function to handle cancelling the dialog action as well as a "preloader" boolean property to will display a
+ * loading indicator and disable all Dialog buttons when the "OK" button is pressed.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} The portal rendered to the DOM.
@@ -29,7 +30,7 @@ import React, { useState } from "react";
  */
 const Dialog = ({
 
-        message,
+        content,
         okCallback,
         cancelCallback,
         preloader
@@ -66,8 +67,8 @@ const Dialog = ({
 
         <Portal elementID={C.ID.ELEMENT_DIALOG}>
             <div className={C.Style.DIALOG}>
-                <div className={C.Style.DIALOG_MESSAGE}>
-                    {message}
+                <div className={C.Style.DIALOG_CONTENT}>
+                    {content}
                 </div>
 
                 <div className={C.Style.DIALOG_SUBMIT}>
@@ -104,7 +105,7 @@ const Dialog = ({
  */
 Dialog.propTypes = {
 
-    message: PropTypes.string.isRequired,
+    content: PropTypes.node.isRequired,
     okCallback: PropTypes.func.isRequired,
     cancelCallback: PropTypes.func,
     preloader: PropTypes.bool

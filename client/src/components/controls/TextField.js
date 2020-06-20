@@ -148,6 +148,7 @@ TextField.propTypes = {
         C.HTMLElement.InputType.TEXT,
         C.HTMLElement.InputType.PASSWORD
     ]),
+    
     placeholder: PropTypes.string,
     errorMessage: PropTypes.string,
     value: PropTypes.string,

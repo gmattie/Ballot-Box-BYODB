@@ -59,6 +59,7 @@ Button.propTypes = {
         C.Style.BUTTON_SUBMIT_EMPHASIS,
         C.Style.BUTTON_SUBMIT, 
     ]).isRequired,
+    
     onClick: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
     children: PropTypes.any.isRequired

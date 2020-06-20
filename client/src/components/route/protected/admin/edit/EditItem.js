@@ -2,7 +2,6 @@
  * @description EditItem component.
  * 
  * @requires Button
- * @requires Collapsible
  * @requires constants
  * @requires Dialog
  * @requires prop-types
@@ -19,7 +18,6 @@
 import { LogoutAPI } from "../../ProtectedContainer";
 import * as C from "../../../../../support/constants";
 import Button from "../../../../controls/Button";
-import Collapsible from "../../../../controls/Collapsible";
 import Dialog from "../../../../modal/Dialog";
 import PropTypes from "prop-types";
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -279,66 +277,64 @@ const EditItem = ({
         <>
             {showDialog &&
                 <Dialog 
-                    message={C.Label.CONFIRM_EDIT_ITEM}
+                    content={C.Label.CONFIRM_EDIT_ITEM}
                     okCallback={submitHandler}
                     cancelCallback={() => setShowDialog(false)}
                 />
             }
 
-            <Collapsible title={itemName}>
-                <div className={C.Style.EDIT_ITEM}>
-                    <div className={C.Style.EDIT_ITEM_NAME}>
-                        <TextField
-                            name={C.ID.NAME_NAME}
-                            disabled={isLoading}
-                            errorMessage={invalidName}
-                            {...bindName}
-                        />
-                    </div>
+            <div className={C.Style.EDIT_ITEM}>
+                <div className={C.Style.EDIT_ITEM_NAME}>
+                    <TextField
+                        name={C.ID.NAME_NAME}
+                        disabled={isLoading}
+                        errorMessage={invalidName}
+                        {...bindName}
+                    />
+                </div>
 
-                    <div className={C.Style.EDIT_ITEM_THUMBNAIL}>
-                        <TextField
-                            name={C.ID.NAME_THUMBNAIL}
-                            disabled={isLoading}
-                            errorMessage={invalidThumbnail}
-                            {...bindThumbnail}
-                        />
-                    </div>
+                <div className={C.Style.EDIT_ITEM_THUMBNAIL}>
+                    <TextField
+                        name={C.ID.NAME_THUMBNAIL}
+                        disabled={isLoading}
+                        errorMessage={invalidThumbnail}
+                        {...bindThumbnail}
+                    />
+                </div>
 
-                    <div className={C.Style.EDIT_ITEM_IMAGE}>
-                        <TextField
-                            name={C.ID.NAME_IMAGE}
-                            disabled={isLoading}
-                            errorMessage={invalidImage}
-                            {...bindImage}
-                        />
-                    </div>
+                <div className={C.Style.EDIT_ITEM_IMAGE}>
+                    <TextField
+                        name={C.ID.NAME_IMAGE}
+                        disabled={isLoading}
+                        errorMessage={invalidImage}
+                        {...bindImage}
+                    />
+                </div>
 
-                    <div className={C.Style.EDIT_ITEM_SUBMIT}>
-                        {isLoading &&
-                            <div className={C.Style.EDIT_ITEM_SUBMIT_PRELOADER} />
-                        }
+                <div className={C.Style.EDIT_ITEM_SUBMIT}>
+                    {isLoading &&
+                        <div className={C.Style.EDIT_ITEM_SUBMIT_PRELOADER} />
+                    }
 
-                        <div className={C.Style.EDIT_ITEM_SUBMIT_BUTTONS}>
-                            <Button
-                                style={C.Style.BUTTON_SUBMIT_EMPHASIS}
-                                onClick={confirmHandler}
-                                disabled={isLoading || isUpdating.current || !isSubmittable.current}
-                            >
-                                {C.Label.EDIT}
-                            </Button>
+                    <div className={C.Style.EDIT_ITEM_SUBMIT_BUTTONS}>
+                        <Button
+                            style={C.Style.BUTTON_SUBMIT_EMPHASIS}
+                            onClick={confirmHandler}
+                            disabled={isLoading || isUpdating.current || !isSubmittable.current}
+                        >
+                            {C.Label.EDIT}
+                        </Button>
 
-                            <Button
-                                style={C.Style.BUTTON_SUBMIT}
-                                onClick={resetHandler}
-                                disabled={isLoading || isUpdating.current || !isResettable.current}
-                            >
-                                {C.Label.RESET}
-                            </Button>
-                        </div>
+                        <Button
+                            style={C.Style.BUTTON_SUBMIT}
+                            onClick={resetHandler}
+                            disabled={isLoading || isUpdating.current || !isResettable.current}
+                        >
+                            {C.Label.RESET}
+                        </Button>
                     </div>
                 </div>
-            </Collapsible>
+            </div>
         </>
     );
 };
