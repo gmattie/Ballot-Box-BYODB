@@ -242,7 +242,7 @@ const Event = Object.freeze({
  *     <li> COMPONENT_HEIGHT_LIST_HEADER </li>
  *     <li> COMPONENT_HEIGHT_LIST_ITEM </li>
  *     <li> COMPONENT_HEIGHT_RESULT </li>
- *     <li> LIST_ITEM_DRAG_TARGET </li>
+ *     <li> LOADED_IMAGE_URLS </li>
  * </ul>
  * 
  * @public
@@ -251,11 +251,11 @@ const Event = Object.freeze({
  */
 const Global = Object.freeze({
 
-    COMPONENT_HEIGHT_EDIT_ITEM: "componentHeightEditItem",
-    COMPONENT_HEIGHT_LIST_HEADER: "componentHeightListHeader",
-    COMPONENT_HEIGHT_LIST_ITEM: "componentHeightListItem",
-    COMPONENT_HEIGHT_RESULT: "componentHeightResult",
-    LIST_ITEM_DRAG_TARGET: "listItemDragTarget",
+    COMPONENT_HEIGHT_EDIT_ITEM: "__BALLOT_BOX_COMPONENT_HEIGHT_EDIT_ITEM",
+    COMPONENT_HEIGHT_LIST_HEADER: "__BALLOT_BOX_COMPONENT_HEIGHT_LIST_HEADER",
+    COMPONENT_HEIGHT_LIST_ITEM: "__BALLOT_BOX_COMPONENT_HEIGHT_LIST_ITEM",
+    COMPONENT_HEIGHT_RESULT: "__BALLOT_BOX_COMPONENT_HEIGHT_RESULT",
+    LOADED_IMAGE_URLS: "__BALLOT_BOX_LOADED_IMAGE_URLS",
 });
 
 /**

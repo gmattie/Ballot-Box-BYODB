@@ -46,6 +46,7 @@ const List = ({
     const [ showDialog, setShowDialog ] = useState(false);
     const [ itemRendererHeight, setItemRendererHeight ] = useState();
     const [ listHeaderHeight, setListHeaderHeight ] = useState();
+    
     /**
      * Refs
      * 

@@ -32,25 +32,6 @@ const ListItem = ({
         isDragging,
         clickHandler,
     }) => {
- 
-    if (isDragging && window[C.Global.LIST_ITEM_DRAG_TARGET] !== data[C.Model.NAME]) {
-                
-        window[C.Global.LIST_ITEM_DRAG_TARGET] = data[C.Model.NAME];
-    }
-
-    const className = isDragging
-        ? C.Style.LIST_ITEM_ACTIVE
-        : C.Style.LIST_ITEM;
-
-    const isDragTarget = (window[C.Global.LIST_ITEM_DRAG_TARGET] === data[C.Model.NAME]);
-
-    const placeholder = (isDragTarget)
-        ? data[C.Model.THUMBNAIL]
-        : C.Image.TRANSPARENT_PLACEHOLDER;
-
-    const intersectionStyle = (isDragTarget)
-        ? null
-        : C.Style.LIST_ITEM_IMAGE_INTERSECTION;
 
     /**
      * JSX markup
@@ -61,8 +42,11 @@ const ListItem = ({
         <div
             {...draggableProvided.draggableProps}
             {...draggableProvided.dragHandleProps}
-            className={className}
             ref={draggableProvided.innerRef}
+            className={(isDragging)
+                ? C.Style.LIST_ITEM_ACTIVE
+                : C.Style.LIST_ITEM
+            }
             style={{
                 
                 ...draggableProvided.draggableProps.style,
@@ -73,10 +57,10 @@ const ListItem = ({
             <ViewportImage
                 src={data[C.Model.THUMBNAIL]}
                 alt={data[C.Model.NAME]}
-                placeholder={placeholder}
+                placeholder={C.Image.TRANSPARENT_PLACEHOLDER}
                 imageStyle={C.Style.LIST_ITEM_IMAGE}
                 preIntersectionStyle={C.Style.TRANSPARENT}
-                intersectionStyle={intersectionStyle}
+                intersectionStyle={C.Style.LIST_ITEM_IMAGE_INTERSECTION}
                 errorStyle={C.Style.LIST_ITEM_IMAGE_ERROR}
             />
 

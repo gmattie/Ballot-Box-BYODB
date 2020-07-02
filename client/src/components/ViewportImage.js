@@ -9,8 +9,8 @@
  * 
  */
 import * as C from "../support/constants";
-import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
+import React, { memo, useCallback, useEffect, useRef, useMemo, useState } from "react";
 
 /**
  * @description The ViewportImage component extends an HTMLImageElement with visual preloader and/or lazy-loading functionality for performance optimization.
@@ -39,12 +39,16 @@ const ViewportImage = ({
     }) => {
 
     /**
-     * State and references
+     * State
      * 
      */
     const [ imageSrc, setImageSrc ] = useState(placeholder);
     const [ isLoading, setIsLoading ] = useState(true);
 
+    /**
+     * Refs
+     * 
+     */
     const image = useRef(null);
 
     /**
@@ -61,7 +65,7 @@ const ViewportImage = ({
 
             setIsLoading(false);
         }
-    }, [preloaderStyle, isLoading]);
+    }, [isLoading, preloaderStyle]);
 
     /**
      * @description Handler for a dispatched "animationend" event.
@@ -80,7 +84,7 @@ const ViewportImage = ({
 
         preloaderEndHandler();
 
-    }, [preIntersectionStyle, intersectionStyle, preloaderEndHandler]);
+    }, [intersectionStyle, preIntersectionStyle, preloaderEndHandler]);
 
     /**
      * @description Handler for a dispatched "load" event.
@@ -96,6 +100,8 @@ const ViewportImage = ({
 
         if (imageElement.src !== placeholder) {
 
+            window[C.Global.LOADED_IMAGE_URLS].add(imageElement.src);
+
             imageElement.removeEventListener(C.Event.LOAD, loadHandler);
 
             if (intersectionStyle) {
@@ -108,7 +114,7 @@ const ViewportImage = ({
                 preloaderEndHandler();
             }
         }
-    }, [placeholder, animationEndHandler, intersectionStyle, preloaderEndHandler]);
+    }, [animationEndHandler, intersectionStyle, placeholder, preloaderEndHandler]);
 
     /**
      * @description Handler for dispatched "error" events.
@@ -126,7 +132,7 @@ const ViewportImage = ({
         }
         
         image.current.classList.add(errorStyle);
-    }, [preIntersectionStyle, intersectionStyle, errorStyle]);
+    }, [errorStyle, intersectionStyle, preIntersectionStyle]);
 
     /**
      * @description Initializes an IntersectionObserver object with relevant subscriptions.
@@ -140,13 +146,19 @@ const ViewportImage = ({
     useEffect(() => {
 
         const imageElement = image.current;
+        
+        if (!imageElement) {
+            
+            return;
+        }
+        
         imageElement.addEventListener(C.Event.LOAD, loadHandler);
         imageElement.addEventListener(C.Event.ERROR, errorHandler);
         
         window.addEventListener(C.Event.ERROR, errorHandler);
         
         let observer;
-
+        
         if (imageSrc !== src) {
 
             const observerHandler = (entries) => {
@@ -157,11 +169,11 @@ const ViewportImage = ({
           
                         if (preIntersectionStyle && intersectionStyle) {
 
-                            image.current.classList.add(preIntersectionStyle);
+                            imageElement.classList.add(preIntersectionStyle);
                         }
 
                         setImageSrc(src);
-                        
+
                         observer.unobserve(imageElement);
                     }
                 });
@@ -190,7 +202,26 @@ const ViewportImage = ({
                 observer.unobserve(imageElement);
             }
         };
-    }, [imageSrc, src, loadHandler, errorHandler, animationEndHandler, preIntersectionStyle, intersectionStyle]);
+    }, [animationEndHandler, errorHandler, imageSrc, intersectionStyle, loadHandler, preIntersectionStyle, src]);
+
+    /**
+     * @description Checks if the image has been previously loaded during the current lifecycle of the window object.
+     * Images that have been previously loaded are retrieved via the web browser's memory or disk cache.
+     * 
+     * @returns {boolean} The value signifying the presence of the "src" property within the C.Global.LOADED_IMAGE_URLS set.
+     * @public
+     * @function
+     * 
+     */
+    const isCached = useMemo(() => {
+
+        if (!window[C.Global.LOADED_IMAGE_URLS]) {
+
+            window[C.Global.LOADED_IMAGE_URLS] = new Set();
+        }
+
+        return window[C.Global.LOADED_IMAGE_URLS].has(src);
+    }, [src]);
 
     /**
      * JSX markup
@@ -199,13 +230,13 @@ const ViewportImage = ({
     return (
         
         <>
-            {preloaderStyle && isLoading &&
+            {!isCached && preloaderStyle && isLoading &&
                 <div className={preloaderStyle} />
             }
 
             <img
-                ref={image}
-                src={imageSrc}
+                ref={(isCached) ? null : image}
+                src={(isCached) ? src : imageSrc}
                 alt={alt}
                 className={imageStyle}
             />
