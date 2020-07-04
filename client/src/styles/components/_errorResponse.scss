@@ -6,10 +6,7 @@
 
     &-icon {
 
-        $SIZE: 13px;
-
-        width: $SIZE;
-        height: $SIZE;
+        width: $FONT_SIZE_SMALL;
         margin-right: 3px;
         filter:
             invert(15%) 

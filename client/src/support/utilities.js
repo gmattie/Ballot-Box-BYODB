@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 /**
  * @description Common and reusable functions 
  * 
@@ -181,14 +183,14 @@ const setNativeValue = (element, value) => {
     setTimeout(() => element.dispatchEvent(new Event("input", { bubbles: true })));
 };
 
-/**
+/*
  * @description Suppresses specific messages from being logged in the Console.
  * 
  * @param {string} message - The target message to suppress, either full text, partial text or a regular expression pattern and case-insensitive.
  * @param {string} method - The Console method of the message to suppress, including "error", "info", "log" and "warn". 
  * @public
  * @function
- * 
+ * eslint-disable no-console
  * @example
  * 
  *      suppressConsoleMessage("overeager alarm system", "error");

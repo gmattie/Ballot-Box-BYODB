@@ -2,9 +2,9 @@
  * @description ErrorResponse component.
  * 
  * @requires constants
+ * @requires ExclamationCircle
  * @requires prop-types
  * @requires react
- * @requires TimesCircle.svg
  * @public
  * @module
  * 
@@ -12,7 +12,7 @@
 import * as C from "../support/constants";
 import PropTypes from "prop-types";
 import React, { memo } from "react";
-import ExclamationCircle from "../assets/ExclamationCircle.svg";
+import ExclamationCircle from "../icons/ExclamationCircle";
 
 /**
  * @description The ErrorResponse component displays an error from an HTTP request.
@@ -32,11 +32,9 @@ const ErrorResponse = ({ message }) => {
     return (
 
         <div className={C.Style.ERROR_RESPONSE}>
-            <img
-                className={C.Style.ERROR_RESPONSE_ICON}
-                src={ExclamationCircle}
-                alt={C.Label.ERROR}
-            />
+            <div className={C.Style.ERROR_RESPONSE_ICON}>
+                <ExclamationCircle />
+            </div>
 
             <span className={C.Style.ERROR_RESPONSE_TEXT}>
                 {message}

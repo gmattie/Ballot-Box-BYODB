@@ -292,7 +292,6 @@ const HTMLElement = Object.freeze({
     InputType: {
         
         CHECKBOX: "checkbox",
-        IMAGE: "image",
         PASSWORD: "password",
         RADIO: "radio",
         TEXT: "text",

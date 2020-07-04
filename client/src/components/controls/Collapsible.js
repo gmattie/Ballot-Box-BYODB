@@ -16,7 +16,7 @@ import * as C from "../../support/constants";
 import Button from "../controls/Button";
 import PropTypes from "prop-types";
 import React, { useCallback, useEffect, useRef } from "react";
-import Triangle from "../../assets/Triangle.svg";
+import Triangle from "../../icons/Triangle";
 
 /**
  * @description A wrapper component that facilitates expanding and collapsing children content when the header "Button" component is clicked.
@@ -41,6 +41,7 @@ const Collapsible = ({
      */
     const arrowRef = useRef();
     const contentRef = useRef();
+    const isAnimating = useRef(false);
 
     /**
      * @description Calls a provided "eventHandler" prop if the component is initialized in an expanded state.
@@ -51,7 +52,7 @@ const Collapsible = ({
      */
     useEffect(() => {
 
-        if (expanded) {
+        if (expanded && eventHandler) {
 
             eventHandler(false);
         }
@@ -84,6 +85,9 @@ const Collapsible = ({
 
             eventHandler(isContentCollapsed);
         }
+
+        isAnimating.current = false;
+        
     }, [eventHandler]);
 
     /**
@@ -96,6 +100,13 @@ const Collapsible = ({
      */
     const headerClickHandler = useCallback(() => {
         
+        if (isAnimating.current) {
+
+            return;
+        }
+
+        isAnimating.current = true;
+
         const content = contentRef.current;
         content.addEventListener(C.Event.TRANSITION_END, transitionEndHandler);
         
@@ -139,7 +150,7 @@ const Collapsible = ({
                 style={C.Style.BUTTON_SUBMIT}
                 onClick={headerClickHandler}
             >
-                <img
+                <div
                     ref={arrowRef}
                     className={
                         concatClassNames(
@@ -147,9 +158,9 @@ const Collapsible = ({
                             (expanded && C.Style.COLLAPSIBLE_ARROW_EXPANDED)
                         )
                     }
-                    src={Triangle}
-                    alt={C.Label.ARROW}
-                />
+                >
+                    <Triangle />
+                </div>
 
                 {title}
             </Button>

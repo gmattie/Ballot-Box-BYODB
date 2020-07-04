@@ -2,8 +2,8 @@
  * @description PasswordField component.
  * 
  * @requires constants
- * @requires Eye.svg
- * @requires EyeSlash.svg
+ * @requires Eye
+ * @requires EyeSlash
  * @requires prop-types
  * @requires react
  * @requires TextField
@@ -12,8 +12,8 @@
  * 
  */
 import * as C from "../../support/constants";
-import Eye from "../../assets/Eye.svg";
-import EyeSlash from "../../assets/EyeSlash.svg";
+import Eye from "../../icons/Eye";
+import EyeSlash from "../../icons/EyeSlash";
 import TextField from "./TextField";
 import React, { memo, useState } from "react";
 import PropTypes from "prop-types";
@@ -90,19 +90,17 @@ const PasswordField = ({
                 onKeyPress={onKeyPress}
             />
 
-            <input 
+            <button 
                 className={C.Style.INPUT_PASSWORD_BUTTON}
-                type={C.HTMLElement.InputType.IMAGE}
-                src={(isVisible)
-                    ? Eye
-                    : EyeSlash}
-                alt={(isVisible)
-                    ? C.Label.HIDE
-                    : C.Label.SHOW}
                 disabled={disabled}
                 onClick={toggleInputTypeHandler}
                 onMouseDown={buttonMouseDownHandler}
-            />
+            >
+                {(isVisible)
+                    ?   <Eye />
+                    :   <EyeSlash />
+                }
+            </button>
         </div>
     );
 };

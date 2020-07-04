@@ -9,7 +9,8 @@
 
     &-arrow {
 
-        height: 0.65rem;
+        display: inline-block;
+        width: $FONT_SIZE_TINY;
         margin-right: $CONTROL_PADDING_TOP;
         transition: all $DURATION_ANIMATION_SLOW ease-in-out;
         filter: invert(65%);
