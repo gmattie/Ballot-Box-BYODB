@@ -15,16 +15,19 @@
 
     &-content {
 
-        $SIZE_MIN: 256px;
-        $SIZE_MAX: 384px;
+        $SIZE_MIN_FORM: 256px;
+        $SIZE_MAX_FORM: 384px;
+        
+        $SIZE_MIN_ICON: 128px;
+        $SIZE_MAX_ICON: 256px;
 
-        $SIZE_VIEWPORT_ICON: 30;
         $SIZE_VIEWPORT_FORM: 80;
+        $SIZE_VIEWPORT_ICON: 30;
         
         display: flex;
         align-self: flex-start;
         align-items: center;
-        
+
         @include mq-orientation-landscape { flex-direction: row; }
         @include mq-orientation-portrait  { flex-direction: column; }
 
@@ -37,15 +40,16 @@
             @include mq-orientation-portrait {
 
                 width: $SIZE_VIEWPORT_ICON * 1vh;
-                min-width: $SIZE_MIN;
-                max-width: $SIZE_MAX;
+                min-width: $SIZE_MIN_ICON;
+                max-width: $SIZE_MAX_ICON;
             }
 
             @include mq-orientation-landscape {
 
                 height: $SIZE_VIEWPORT_ICON * 1vw;
-                min-height: $SIZE_MIN;
-                max-height: $SIZE_MAX;
+                min-height: $SIZE_MIN_ICON;
+                max-height: $SIZE_MAX_ICON;
+                margin-top: $FORM_GAP;
                 margin-right: $FORM_GAP * 2;
             }
         }
@@ -57,15 +61,15 @@
             @include mq-orientation-portrait {
 
                 width: $SIZE_VIEWPORT_FORM * 1vw;
-                min-width: $SIZE_MIN;
-                max-width: $SIZE_MAX;
+                min-width: $SIZE_MIN_FORM;
+                max-width: $SIZE_MAX_FORM;
             }
             
             @include mq-orientation-landscape {
 
                 width: ($SIZE_VIEWPORT_FORM - $SIZE_VIEWPORT_ICON) * 1vw;
-                min-width: $SIZE_MIN;
-                max-width: $SIZE_MAX;
+                min-width: $SIZE_MIN_FORM;
+                max-width: $SIZE_MAX_FORM;
             }
 
             &-nav {
