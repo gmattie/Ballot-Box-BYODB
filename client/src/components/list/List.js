@@ -65,10 +65,13 @@ const List = ({
      */
     const showItemDetails = (name, imageURL) => {
 
-        itemName.current = name;
-        itemImageURL.current = imageURL;
+        if (imageURL) {
 
-        setShowDialog(true);
+            itemName.current = name;
+            itemImageURL.current = imageURL;
+
+            setShowDialog(true);
+        }
     };
 
     /**

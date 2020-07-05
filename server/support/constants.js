@@ -76,6 +76,7 @@ const Email = Object.freeze({
  *     <li> DEADLINE </li>
  *     <li> EMAIL </li>
  *     <li> EMAIL_ALREADY_REGISTERED </li>
+ *     <li> IMAGE_URL </li>
  *     <li> ITEM </li>
  *     <li> ITEM_DOES_NOT_EXIST </li>
  *     <li> NAME </li>
@@ -83,7 +84,6 @@ const Email = Object.freeze({
  *     <li> PASSWORDS_DO_NOT_MATCH </li>
  *     <li> QUANTITY </li>
  *     <li> RANK </li>
- *     <li> URL </li>
  *     <li> USER_DOES_NOT_EXIST </li>
  *     <li> USER_INVALID_CREDENTIALS </li>
  *     <li> VERIFICATION_ALREADY_PROCESSED </li>
@@ -102,6 +102,7 @@ const Error = Object.freeze({
     DEADLINE: "Invalid deadline",
     EMAIL_ALREADY_REGISTERED: "Email already registered",
     EMAIL: "Invalid email",
+    IMAGE_URL: "Invalid image URL",
     ITEM_DOES_NOT_EXIST: "Item does not exist",
     ITEM: "Invalid item",
     NAME: "Invalid name",
@@ -109,7 +110,6 @@ const Error = Object.freeze({
     PASSWORDS_DO_NOT_MATCH: "Passwords do not match",
     QUANTITY: "Invalid quantity",
     RANK: "Invalid rank",
-    URL: "Invalid URL",
     USER_DOES_NOT_EXIST: "User does not exist",
     USER_INVALID_CREDENTIALS: "Invalid credentials",
     VERIFICATION_ALREADY_PROCESSED: "Verification already processed",

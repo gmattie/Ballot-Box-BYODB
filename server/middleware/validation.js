@@ -14,6 +14,50 @@ const C = require("../support/constants");
 const mongoose = require("mongoose");
 
 /**
+ * @description A custom validator function that determines if the supplied URL argument is valid image URL.
+ * Valid image URLs must begin with "http://" or "https://" and end with an image extension of either ".bmp", ".gif", ".jpg", ".jpeg", ".png", ".svg", ".tif", ".tiff" or ".webp". 
+ *  
+ * @param {string} value - The string value to test. 
+ * @private
+ * @function
+ * 
+ */
+const isImageURL = (value) => /^(http(s?):\/\/)(.+)(\.(bmp|gif|jpe?g|png|svg|tif?f|webp))$/i.test(value);
+
+/**
+ * @description A custom validator function that determines if the supplied argument matches the "password" property within the Request body object.
+ * 
+ * @param {string} value - The string value to test.
+ * @param {object} express.req - The Express Request object.
+ * @private
+ * @function
+ * 
+ */
+const isConfirmedPassword = (value, { req }) => value === req.body[C.Request.PASSWORD];
+
+/**
+ * @description A custom validator function that determines if the supplied arguments include valid "adminUsername" and "adminPassword" credentials for admin authorization.
+ * 
+ * @param {string} value - The string value to test.
+ * @param {object} express.req - The Express Request object.
+ * @private
+ * @function
+ * 
+ */
+const isAdminUsername = (value, { req }) => value === process.env.DB_USERNAME && req.body[C.Request.ADMIN_PASSWORD] === process.env.DB_PASSWORD;
+
+/**
+ * @description A custom validator function that determines if the supplied arguments include valid "adminPassword" and "adminUsername" credentials for admin authorization.
+ * 
+ * @param {string} value - The string value to test.
+ * @param {object} express.req - The Express Request object.
+ * @private
+ * @function
+ * 
+ */
+const isAdminPassword = (value, { req }) => value === process.env.DB_PASSWORD && req.body[C.Request.ADMIN_USERNAME] === process.env.DB_USERNAME
+
+/**
  * @description Validation for /api/items/add route.
  * 
  * @public
@@ -32,13 +76,13 @@ const itemAdd = [
         .isEmpty({ ignore_whitespace: true })
         .trim(),
         
-    check(`${C.Request.ITEM}.*.${C.Request.THUMBNAIL}`, C.Error.URL)
-        .optional({checkFalsy: true})
-        .isURL(),
+    check(`${C.Request.ITEM}.*.${C.Request.THUMBNAIL}`, C.Error.IMAGE_URL)
+        .optional({ checkFalsy: true })
+        .custom(isImageURL),
 
-    check(`${C.Request.ITEM}.*.${C.Request.IMAGE}`, C.Error.URL)
-        .optional({checkFalsy: true})
-        .isURL()
+    check(`${C.Request.ITEM}.*.${C.Request.IMAGE}`, C.Error.IMAGE_URL)
+        .optional({ checkFalsy: true })
+        .custom(isImageURL),
 ];
 
 /**
@@ -71,16 +115,16 @@ const itemEdit = [
     }),
 
     check(C.Request.NAME, C.Error.NAME)
-        .optional({checkFalsy: true})
+        .optional({ checkFalsy: true })
         .trim(),
 
-    check(C.Request.THUMBNAIL, C.Error.URL)
-        .optional({checkFalsy: true})
-        .isURL(),
+    check(C.Request.THUMBNAIL, C.Error.IMAGE_URL)
+        .optional({ checkFalsy: true })
+        .custom(isImageURL),
 
-    check(C.Request.IMAGE, C.Error.URL)
-        .optional({checkFalsy: true})
-        .isURL()
+    check(C.Request.IMAGE, C.Error.IMAGE_URL)
+        .optional({ checkFalsy: true })
+        .custom(isImageURL),
 ];
 
 /**
@@ -136,23 +180,22 @@ const userEdit = [
     }),
 
     check(C.Request.NAME, C.Error.NAME)
-        .optional({checkFalsy: true})
+        .optional({ checkFalsy: true })
         .trim(),
 
     check(C.Request.PASSWORD, C.Error.PASSWORD)
-        .optional({checkFalsy: true})
-        .custom((value) => !/\s/.test(value)),
+        .optional({ checkFalsy: true }),
     
     check(C.Request.PASSWORD_CONFIRM, C.Error.PASSWORDS_DO_NOT_MATCH)
-        .custom((value, { req }) => value === req.body[C.Request.PASSWORD]),
+        .custom(isConfirmedPassword),
 
     check(C.Request.ADMIN_USERNAME, C.Error.USER_INVALID_CREDENTIALS)
-        .optional({checkFalsy: true})
-        .custom((value, { req }) => value === process.env.DB_USERNAME && req.body[C.Request.ADMIN_PASSWORD] === process.env.DB_PASSWORD),
+        .optional({ checkFalsy: true })
+        .custom(isAdminUsername),
 
     check(C.Request.ADMIN_PASSWORD, C.Error.USER_INVALID_CREDENTIALS)
-        .optional({checkFalsy: true})
-        .custom((value, { req }) => value === process.env.DB_PASSWORD && req.body[C.Request.ADMIN_USERNAME] === process.env.DB_USERNAME)
+        .optional({ checkFalsy: true })
+        .custom(isAdminPassword)
 ];
 
 /**
@@ -170,7 +213,6 @@ const userLogin = [
     check(C.Request.PASSWORD, C.Error.PASSWORD)
         .not()
         .isEmpty()
-        .custom((value) => !/\s/.test(value))
 ];
 
 /**
@@ -193,19 +235,18 @@ const userRegister = [
 
     check(C.Request.PASSWORD, C.Error.PASSWORD)
         .not()
-        .isEmpty()
-        .custom((value) => !/\s/.test(value)),
+        .isEmpty(),
 
     check(C.Request.PASSWORD_CONFIRM, C.Error.PASSWORDS_DO_NOT_MATCH)
-        .custom((value, { req }) => value !== "" && value === req.body[C.Request.PASSWORD]),
+        .custom(isConfirmedPassword),
 
     check(C.Request.ADMIN_USERNAME, C.Error.USER_INVALID_CREDENTIALS)
-        .optional({checkFalsy: true})
-        .custom((value, { req }) => value === process.env.DB_USERNAME && req.body[C.Request.ADMIN_PASSWORD] === process.env.DB_PASSWORD),
+        .optional({ checkFalsy: true })
+        .custom(isAdminUsername),
 
     check(C.Request.ADMIN_PASSWORD, C.Error.USER_INVALID_CREDENTIALS)
-        .optional({checkFalsy: true})
-        .custom((value, { req }) => value === process.env.DB_PASSWORD && req.body[C.Request.ADMIN_USERNAME] === process.env.DB_USERNAME)
+        .optional({ checkFalsy: true })
+        .custom(isAdminPassword)
 ];
 
 /**
@@ -222,11 +263,10 @@ const userReset = [
 
     check(C.Request.PASSWORD, C.Error.PASSWORD)
         .not()
-        .isEmpty()
-        .custom((value) => !/\s/.test(value)),
+        .isEmpty(),
 
     check(C.Request.PASSWORD_CONFIRM, C.Error.PASSWORDS_DO_NOT_MATCH)
-        .custom((value, { req }) => value !== "" && value === req.body[C.Request.PASSWORD])
+        .custom(isConfirmedPassword)
 ];
 
 /**
