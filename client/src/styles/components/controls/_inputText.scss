@@ -8,18 +8,19 @@
 
     &-input {
         
+        @include dropShadow($CONTROL_SIZE);
+
         width: 100%;
         font-family: inherit;
         font-size: inherit;
         border: none;
         outline: none;
-        padding: $CONTROL_PADDING_TOP $CONTROL_PADDING_LEFT;
-        box-shadow: $CONTROL_DROP_SHADOW;
+        padding: $CONTROL_PADDING_VERTICAL $CONTROL_PADDING_HORIZONTAL;
         transition: inherit;
         
         &-maximize {
 
-            padding-top: calc(#{$CONTROL_PADDING_TOP} + 16px);
+            padding-top: calc(#{$CONTROL_PADDING_VERTICAL} + 1em);
         }
 
         &:disabled {
@@ -34,7 +35,7 @@
         top: 0;
         width: inherit;
         color: $PLACEHOLDER_COLOR;
-        padding: $CONTROL_PADDING_TOP $CONTROL_PADDING_LEFT;
+        padding: $CONTROL_PADDING_VERTICAL $CONTROL_PADDING_HORIZONTAL;
         pointer-events: none;
         transition: inherit;
         white-space: nowrap;
@@ -53,7 +54,7 @@
 
         position: absolute;
         top: 3px;
-        right: $CONTROL_PADDING_LEFT;
+        right: $CONTROL_PADDING_HORIZONTAL;
         pointer-events: none;
         opacity: 0;
         transition: inherit;

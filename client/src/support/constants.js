@@ -748,7 +748,6 @@ const Route = Object.freeze({
  *     <li> ERROR_RESPONSE_TEXT </li>
  *     <li> HIDDEN </li>
  *     <li> INPUT_PASSWORD </li>
- *     <li> INPUT_PASSWORD_BUTTON </li>
  *     <li> INPUT_TEXT </li>
  *     <li> INPUT_TEXT_ERROR </li>
  *     <li> INPUT_TEXT_ERROR_SHOW </li>
@@ -923,7 +922,6 @@ const Style = Object.freeze({
     ERROR_RESPONSE_TEXT: "errorResponse-text",
     ERROR_RESPONSE: "errorResponse",
     HIDDEN: "hidden",
-    INPUT_PASSWORD_BUTTON: "inputPassword-button",
     INPUT_PASSWORD: "inputPassword",
     INPUT_TEXT_ERROR_SHOW: "inputText-error-show",
     INPUT_TEXT_ERROR: "inputText-error",

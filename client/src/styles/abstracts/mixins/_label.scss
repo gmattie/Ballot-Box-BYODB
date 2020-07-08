@@ -1,0 +1,35 @@
+@mixin label (
+
+    $size: inherit,
+    $weight: inherit,
+    $color: inherit,
+    $animationDuration: 250ms
+) {
+
+    font-size: $size;
+    font-weight: $weight;
+    color: $color;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    user-select: none;
+
+    transition:
+        all
+        $animationDuration
+        ease-in-out;
+
+    @include mq-device-desktop {
+            
+        &:hover {
+            
+            cursor: pointer;
+            filter: brightness(88%);
+        }
+    }
+
+    &:active {
+
+        filter: brightness(75%);
+    }
+}

@@ -1,106 +1,19 @@
 .toggle {
 
-    display: flex;
-    align-items: center;
-    
-    & > input[type=checkbox] {
-        
-        $TRACK_WIDTH: 70px;
+    $TOGGLE_SIZE: $CONTROL_SIZE;
 
-        appearance: none;
-        width: $TRACK_WIDTH;
-        height: $CONTROL_SIZE;
-        min-width: $TRACK_WIDTH;
-        min-height: $CONTROL_SIZE;
-        border-radius: $CONTROL_SIZE / 2;
-        box-shadow: $CONTROL_DROP_SHADOW;
-        transition: all $DURATION_ANIMATION_FAST ease-in-out;
+    @include mq-device-desktop {
 
-        &:checked,
-        &:not(:checked) {
-            
-            position: relative;
-
-            &::before {
-
-                content: "";
-                position: absolute;
-                width: $CONTROL_SIZE;
-                height: $CONTROL_SIZE;
-                background-color: white;
-                border-radius: 50%;
-                transition: all $DURATION_ANIMATION_FAST ease-in-out;
-            }
-        }
-
-        &:checked {
-
-            background-color: $COLOR_EMPHASIS;
-
-            &::before {
-
-                transform: translateX($TRACK_WIDTH - $CONTROL_SIZE);
-            }
-        }
-
-        &:not(:checked) {
-
-            background-color: $COLOR_AUXILIARY;
-
-            &::before {
-
-                transform: translateX(0);
-            }
-        }
-
-        &:disabled,
-        &:disabled + label {
-    
-            cursor: default;
-            filter: brightness(75%);
-        }
-    
-        &:not(:disabled) {
-    
-            @include mq-device-desktop {
-                
-                &:hover {
-                    
-                    cursor: pointer;
-                    filter: brightness(88%);
-                }
-            }
-    
-            &:active {
-    
-                filter: brightness(75%);
-            }
-        }
+        $TOGGLE_SIZE: $CONTROL_SIZE_SMALL;
     }
 
-    & > label {
+    @include toggle(
 
-        padding-left: $FORM_GAP;
-        font-weight: $FONT_WEIGHT_BOLD;
-        color: white;
-        white-space: nowrap;
-        overflow: hidden;
-        text-transform: uppercase;
-        text-overflow: ellipsis;
-        user-select: none;
-
-        @include mq-device-desktop {
-                
-            &:hover {
-                
-                cursor: pointer;
-                filter: brightness(88%);
-            }
-        }
-
-        &:active {
-    
-            filter: brightness(75%);
-        }
-    }
+        $controlSize: $TOGGLE_SIZE,
+        $controlColorOn: $COLOR_EMPHASIS,
+        $controlColorOff: $COLOR_AUXILIARY,
+        $controlLabelGap: $FORM_GAP,
+        $labelWeight: $FONT_WEIGHT_BOLD,
+        $animationDuration: $DURATION_ANIMATION_FAST
+    );
 }

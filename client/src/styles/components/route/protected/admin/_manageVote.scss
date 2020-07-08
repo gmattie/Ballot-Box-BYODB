@@ -1,6 +1,12 @@
 .manageVote {
 
-    $RADIO_BUTTONS_MARGIN: 30px;
+    $TOGGLE_TRACK_WIDTH_MULTIPLIER: 0.75;
+    $RADIO_BUTTON_MARGIN_LEFT: $CONTROL_SIZE * $TOGGLE_TRACK_WIDTH_MULTIPLIER;
+
+    @include mq-device-desktop {
+
+        $RADIO_BUTTON_MARGIN_LEFT: $CONTROL_SIZE_SMALL * $TOGGLE_TRACK_WIDTH_MULTIPLIER;
+    }
 
     display: flex;
     flex-direction: column;
@@ -21,13 +27,13 @@
     &-pending {
 
         margin-top: $FORM_GAP;
-        margin-left: $RADIO_BUTTONS_MARGIN;
+        margin-left: $RADIO_BUTTON_MARGIN_LEFT;
     }
 
     &-live {
 
         margin-top: $FORM_GAP;
-        margin-left: $RADIO_BUTTONS_MARGIN;
+        margin-left: $RADIO_BUTTON_MARGIN_LEFT;
     }
     
     &-secret {

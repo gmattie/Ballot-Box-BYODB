@@ -1,11 +1,12 @@
 .editItem {
 
+    @include dropShadow($CONTROL_SIZE);
+
     display: flex;
     flex-direction: column;
     background-color: scale-color($color: $COLOR_AUXILIARY, $lightness: -50%);
-    box-shadow: $CONTROL_DROP_SHADOW;
     padding: $FORM_GAP;
-    
+
     &-thumbnail,
     &-image {
 

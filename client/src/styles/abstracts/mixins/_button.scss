@@ -1,0 +1,57 @@
+@mixin button(
+    
+    $controlSize: auto,
+    $controlColor: dodgerblue,
+    $labelFamily: inherit,
+    $labelSize: inherit,
+    $labelWeight: inherit,
+    $labelColor: inherit,
+    $labelPadding: 4px,
+    $animationDuration: 250ms
+) {
+
+    @include dropShadow($controlSize);
+    
+    height: $controlSize;
+    background-color: $controlColor;
+    font-family: $labelFamily;
+    font-size: $labelSize;
+    font-weight: $labelWeight;
+    color: $labelColor;
+    padding: 0 $labelPadding;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    text-transform: uppercase;
+    border: none;
+    user-select: none;
+
+    transition:
+        all
+        $animationDuration
+        ease-in-out;
+
+    &:disabled {
+
+        cursor: default;
+        filter: brightness(75%);
+    }
+
+    &:not(:disabled) {
+
+        @include mq-device-desktop {
+            
+            &:hover {
+                
+                cursor: pointer;
+                filter: brightness(112%);
+            }
+        }
+
+        &:active {
+
+            filter: brightness(88%);
+        }
+    }
+}

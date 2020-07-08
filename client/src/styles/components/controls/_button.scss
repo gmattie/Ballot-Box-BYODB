@@ -1,71 +1,49 @@
 .button {
     
-    height: $CONTROL_SIZE;
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: $FONT_WEIGHT_BOLD;
-    color: white;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: left;
-    text-transform: uppercase;
-    border: none;
-    user-select: none;
-    transition: all $DURATION_ANIMATION_FAST ease-in-out;
+    @include button(
 
-    &:disabled {
-
-        cursor: default;
-        filter: brightness(75%);
-    }
-
-    &:not(:disabled) {
-
-        @include mq-device-desktop {
-            
-            &:hover {
-                
-                cursor: pointer;
-                filter: brightness(112%);
-            }
-        }
-
-        &:active {
-
-            filter: brightness(88%);
-        }
-    }
+        $controlSize: $CONTROL_SIZE,
+        $labelWeight: $FONT_WEIGHT_BOLD,
+        $labelColor: white,
+        $labelPadding: $CONTROL_PADDING_HORIZONTAL,
+        $animationDuration: $DURATION_ANIMATION_FAST
+    );
 
     &-submit {
 
-        padding: $CONTROL_PADDING_TOP $CONTROL_PADDING_LEFT;
         background-color: $COLOR_AUXILIARY;
-        box-shadow: $CONTROL_DROP_SHADOW;
 
         &-emphasis {
 
-            padding: $CONTROL_PADDING_TOP $CONTROL_PADDING_LEFT;
             background-color: $COLOR_EMPHASIS;
-            box-shadow: $CONTROL_DROP_SHADOW;
         }
     }
 
     &-navigation {
 
-        $NAVIGATION_UNDERLINE_HEIGHT: 4px;
-        $NAVIGATION_PADDING: 8px 0 8px;
+        $NAVIGATION_LABEL_PADDING: 0 0;
+        $NAVIGATION_LABEL_UNDERLINE_HEIGHT: 4px;
 
         color: darkgray;
         background-color: transparent;
-        border-bottom: $NAVIGATION_UNDERLINE_HEIGHT solid transparent;
-        padding: $NAVIGATION_PADDING;
+        padding: $NAVIGATION_LABEL_PADDING;
+        box-shadow: none;
+
+        border-bottom:
+            $NAVIGATION_LABEL_UNDERLINE_HEIGHT
+            solid
+            transparent;
 
         &-selected {
 
             background-color: transparent;
-            border-bottom: $NAVIGATION_UNDERLINE_HEIGHT solid $COLOR_EMPHASIS;
-            padding: $NAVIGATION_PADDING;
+            padding: $NAVIGATION_LABEL_PADDING;
+            box-shadow: none;
+
+            border-bottom:
+                $NAVIGATION_LABEL_UNDERLINE_HEIGHT
+                solid
+                $COLOR_EMPHASIS;
         }
     }
 }

@@ -1,0 +1,119 @@
+@mixin toggle(
+
+    $controlSize: 16px,
+    $controlColorOn: DodgerBlue,
+    $controlColorOff: gray,
+    $controlLabelGap: 12px,
+    $labelSize: inherit,
+    $labelWeight: inherit,
+    $labelColor: inherit,
+    $animationDuration: 250ms
+) {
+
+    $VERTICAL_OFFSET: 2px;
+
+    display: flex;
+    align-items: center;
+
+    & {
+
+        margin-top: -($VERTICAL_OFFSET);
+    }
+
+    & > input[type=checkbox] {
+
+        @include dropShadow($controlSize);
+
+        $TRACK_WIDTH: $controlSize * 1.75;
+        
+        appearance: none;
+        width: $TRACK_WIDTH;
+        height: $controlSize;
+        min-width: $TRACK_WIDTH;
+        min-height: $controlSize;
+        border-radius: $controlSize / 2;
+        margin-top: $VERTICAL_OFFSET;
+        margin-right: $controlLabelGap;
+
+        transition:
+            all
+            $animationDuration
+            ease-in-out;
+
+        &:checked,
+        &:not(:checked) {
+            
+            position: relative;
+
+            &::before {
+
+                content: "";
+                position: absolute;
+                width: $controlSize;
+                height: $controlSize;
+                background-color: white;
+                border-radius: 50%;
+
+                transition:
+                    all
+                    $animationDuration
+                    ease-in-out;
+            }
+        }
+
+        &:checked {
+
+            background-color: $controlColorOn;
+
+            &::before {
+
+                transform: translateX($TRACK_WIDTH - $controlSize);
+            }
+        }
+
+        &:not(:checked) {
+
+            background-color: $controlColorOff;
+
+            &::before {
+
+                transform: translateX(0);
+            }
+        }
+
+        &:disabled,
+        &:disabled + label {
+    
+            cursor: default;
+            filter: brightness(75%);
+        }
+    
+        &:not(:disabled) {
+    
+            @include mq-device-desktop {
+                
+                &:hover {
+                    
+                    cursor: pointer;
+                    filter: brightness(88%);
+                }
+            }
+    
+            &:active {
+    
+                filter: brightness(75%);
+            }
+        }
+    }
+
+    & > label {
+
+        @include label(
+
+            $size: $labelSize,
+            $weight: $labelWeight,
+            $color: $labelColor,
+            $animationDuration: $animationDuration
+        );
+    }
+}

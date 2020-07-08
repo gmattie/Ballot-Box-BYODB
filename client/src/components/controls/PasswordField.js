@@ -1,6 +1,7 @@
 /**
  * @description PasswordField component.
  * 
+ * @requires Button
  * @requires constants
  * @requires Eye
  * @requires EyeSlash
@@ -12,11 +13,12 @@
  * 
  */
 import * as C from "../../support/constants";
+import Button from "../controls/Button";
 import Eye from "../../icons/Eye";
 import EyeSlash from "../../icons/EyeSlash";
-import TextField from "./TextField";
-import React, { memo, useState } from "react";
 import PropTypes from "prop-types";
+import React, { memo, useState } from "react";
+import TextField from "./TextField";
 
 /**
  * @description The PasswordField component extends the functionality of the TextField component with an additional button for toggling between plain and obscured text.
@@ -90,8 +92,8 @@ const PasswordField = ({
                 onKeyPress={onKeyPress}
             />
 
-            <button 
-                className={C.Style.INPUT_PASSWORD_BUTTON}
+            <Button 
+                style={C.Style.BUTTON_SUBMIT}
                 disabled={disabled}
                 onClick={toggleInputTypeHandler}
                 onMouseDown={buttonMouseDownHandler}
@@ -100,7 +102,7 @@ const PasswordField = ({
                     ?   <Eye />
                     :   <EyeSlash />
                 }
-            </button>
+            </Button>
         </div>
     );
 };

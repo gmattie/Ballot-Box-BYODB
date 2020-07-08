@@ -11,8 +11,13 @@
 
         display: inline-block;
         width: $FONT_SIZE_TINY;
-        margin-right: $CONTROL_PADDING_TOP;
-        transition: all $DURATION_ANIMATION_SLOW ease-in-out;
+        margin-right: $CONTROL_PADDING_VERTICAL;
+        
+        transition:
+            all
+            $DURATION_ANIMATION_SLOW
+            ease-in-out;
+
         filter: invert(65%);
 
         &-expanded {
@@ -23,9 +28,18 @@
 
     &-content {
 
-        background-color: scale-color($color: $COLOR_AUXILIARY, $lightness: -50%);
-        box-shadow: $CONTROL_DROP_SHADOW;
+        @include dropShadow($CONTROL_SIZE);
+
+        background-color: scale-color(
+            $color: $COLOR_AUXILIARY,
+            $lightness: -50%
+        );
+
         overflow: hidden;
-        transition: height $DURATION_ANIMATION_SLOW ease-in-out;
+
+        transition:
+            height
+            $DURATION_ANIMATION_SLOW
+            ease-in-out;
     }
 }

@@ -1,0 +1,119 @@
+@mixin radio(
+
+    $controlSize: 16px,
+    $controlColorSelected: black,
+    $controlLabelGap: 12px,
+    $labelSize: inherit,
+    $labelWeight: inherit,
+    $labelColor: inherit,
+    $animationDuration: 250ms
+) {
+
+    $VERTICAL_OFFSET: 2px;
+
+    display: flex;
+    align-items: center;
+    
+    & {
+
+        margin-top: -($VERTICAL_OFFSET);
+    }
+
+    & > input[type=radio] {
+        
+        @include dropShadow($controlSize);
+
+        appearance: none;
+        width: $controlSize;
+        height: $controlSize;
+        min-width: $controlSize;
+        min-height: $controlSize;
+        background-color: white;
+        border-radius: 50%;
+        margin-top: $VERTICAL_OFFSET;
+        margin-right: $controlLabelGap;
+
+        transition:
+            all
+            $animationDuration
+            ease-in-out;
+
+        &:checked,
+        &:not(:checked) {
+            
+            position: relative;
+
+            &::before {
+
+                $CHECKED_SIZE: $controlSize / 2;
+
+                content: "";
+                position: absolute;
+                top: calc(50% - #{$CHECKED_SIZE} / 2);
+                left: calc(50% - #{$CHECKED_SIZE} / 2);
+                width: $CHECKED_SIZE;
+                height: $CHECKED_SIZE;
+                background-color: $controlColorSelected;
+                border-radius: 50%;
+
+                transition:
+                    all
+                    $animationDuration
+                    ease-in-out;
+            }
+        }
+
+        &:checked {
+
+            &::before {
+
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        &:not(:checked) {
+
+            &::before {
+
+                opacity: 0;
+                transform: scale(0);
+            }
+        }
+
+        &:disabled,
+        &:disabled + label {
+    
+            cursor: default;
+            filter: brightness(75%);
+        }
+    
+        &:not(:disabled) {
+    
+            @include mq-device-desktop {
+                
+                &:hover {
+                    
+                    cursor: pointer;
+                    filter: brightness(88%);
+                }
+            }
+    
+            &:active {
+    
+                filter: brightness(75%);
+            }
+        }
+    }
+
+    & > label {
+
+        @include label(
+
+            $size: $labelSize,
+            $weight: $labelWeight,
+            $color: $labelColor,
+            $animationDuration: $animationDuration
+        );
+    }
+}

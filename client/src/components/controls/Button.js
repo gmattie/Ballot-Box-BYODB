@@ -14,7 +14,7 @@ import React from "react";
 
 /**
  * @description The Button component extends an HTMLButtonElement.
- * The base style of the component is augmented by either the "submit" or "submit-emphasis" styles.
+ * The base style of the component is augmented by either the "submit", "submit-emphasis", "navigation" or "navigation-selected" styles.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} JSX markup.
