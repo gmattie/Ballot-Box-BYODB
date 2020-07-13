@@ -104,7 +104,7 @@ const ManageVote = () => {
     isSubmittable.current = (
         
         (deadline && quantity) ||
-        (votesActive && votesActive.vote)
+        (votesActive && votesActive[C.Model.VOTE])
     );    
 
     /**

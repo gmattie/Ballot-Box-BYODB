@@ -11,6 +11,7 @@
  * @requires useAuth
  * @requires useInputText
  * @requires useItems
+ * @requires useVotes
  * @public
  * @module
  * 
@@ -25,6 +26,7 @@ import TextField from "../../../controls/TextField";
 import useAuth from "../../../../hooks/useAuth";
 import useInputText from "../../../../hooks/useInputText";
 import useItems from "../../../../hooks/useItems";
+import useVotes from "../../../../hooks/useVotes";
 
 /**
  * @description The AddItem component contains UI elements that are required to add Item documents to the database.
@@ -58,6 +60,7 @@ const AddItem = () => {
      * 
      */
     const isSubmittable = useRef(false);
+    const isVoteOpen = useRef(false);
     const responseUpdate = useRef(false);
 
     /**
@@ -93,6 +96,8 @@ const AddItem = () => {
         itemsAdd,
         setItemsAdd
     } = useItems();
+
+    const { votesActive } = useVotes();
     
     /**
      * Set isSubmittable flag
@@ -100,6 +105,17 @@ const AddItem = () => {
      * 
      */
     isSubmittable.current = name;
+
+    /**
+     * Set isVoteOpen flag
+     * Determines if there is an open vote in order to disable all control components.
+     *  
+     */
+    isVoteOpen.current = Boolean(
+        
+        votesActive &&
+        votesActive[C.Model.VOTE]
+    );
 
     /**
      * Add item success
@@ -229,7 +245,7 @@ const AddItem = () => {
                     <div className={C.Style.ADD_ITEM_NAME}>
                         <TextField
                             name={C.ID.NAME_NAME}
-                            disabled={isLoading}
+                            disabled={isLoading || isVoteOpen.current}
                             errorMessage={invalidName}
                             {...bindName}
                         />
@@ -238,7 +254,7 @@ const AddItem = () => {
                     <div className={C.Style.ADD_ITEM_THUMBNAIL}>
                         <TextField
                             name={C.ID.NAME_THUMBNAIL}
-                            disabled={isLoading}
+                            disabled={isLoading || isVoteOpen.current}
                             errorMessage={invalidThumbnail} 
                             {...bindThumbnail}
                         />
@@ -247,7 +263,7 @@ const AddItem = () => {
                     <div className={C.Style.ADD_ITEM_IMAGE}>
                         <TextField
                             name={C.ID.NAME_IMAGE}
-                            disabled={isLoading}
+                            disabled={isLoading || isVoteOpen.current}
                             errorMessage={invalidImage}
                             {...bindImage}
                         />
@@ -262,7 +278,7 @@ const AddItem = () => {
                             <Button
                                 style={C.Style.BUTTON_SUBMIT_EMPHASIS}
                                 onClick={confirmHandler}
-                                disabled={isLoading || !isSubmittable.current}
+                                disabled={isLoading || !isSubmittable.current || isVoteOpen.current}
                             >
                                 {C.Label.ADD}
                             </Button>

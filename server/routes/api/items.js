@@ -44,10 +44,13 @@ router.post(C.Route.ADD, [
 
                 const { item } = req.body;
 
-                await Item.insertMany(item);
+                await Item
+                    .insertMany(item)
+                    .then((response) => {
 
-                const clients = req.app.locals[C.Local.CLIENTS];
-                utils.broadcast(clients, JSON.stringify({ [C.Event.Type.ITEM]: C.Event.ITEM_ADD }));
+                        const clients = req.app.locals[C.Local.CLIENTS];
+                        utils.broadcast(clients, JSON.stringify({ [C.Event.Type.ITEM]: response }));
+                    });
 
                 return res
                     .status(C.Status.OK)
@@ -65,9 +68,9 @@ router.post(C.Route.ADD, [
 });
 
 /**
- * @description (PATCH) Edit the name and/or image URL of an item.
+ * @description (PATCH) Edit the name, thumbnail URL, image URL and/or the active state of an item.
  * Only admin users, via admin authentication, are authorized to edit existing items by providing a valid item ID as a request parameter.
- * Items are edited by providing optional "name", "thumbnail" and/or "image" values within the HTTP request body.
+ * Items are edited by providing optional "name", "thumbnail" and/or "image" string values and/or an "active" boolean value within the HTTP request body.
  * 
  * @protected
  * @constant
@@ -104,7 +107,7 @@ router.patch(`${C.Route.EDIT}/:${C.Route.PARAM}`, [
 
                 item[C.Model.DATE] = Date.now();
                 
-                const { name, thumbnail, image } = req.body;
+                const { name, thumbnail, image, active } = req.body;
 
                 if (name) {
                     
@@ -120,11 +123,16 @@ router.patch(`${C.Route.EDIT}/:${C.Route.PARAM}`, [
                     
                     item[C.Model.IMAGE] = image;
                 }
+
+                if (active != null) {
+
+                    item[C.Model.ACTIVE] = active;
+                }
                 
                 await item.save();
 
                 const clients = req.app.locals[C.Local.CLIENTS];
-                utils.broadcast(clients, JSON.stringify({ [C.Event.Type.ITEM]: C.Event.ITEM_EDIT }));
+                utils.broadcast(clients, JSON.stringify({ [C.Event.Type.ITEM]: item }));
 
                 return res
                     .status(C.Status.OK)

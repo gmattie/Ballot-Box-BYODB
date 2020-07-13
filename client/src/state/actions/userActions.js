@@ -12,8 +12,8 @@ import * as C from "../../support/constants";
 /**
  * @description Creates an action that sets the "usersEdit" property of the usersReducer state.
  * 
- * @param {string} data - The value of the payload embedded in the action.
- * @returns {object|null} The action.
+ * @param {[string]|null} data - The value of the payload embedded in the action.
+ * @returns {object} The action.
  * @public
  * @function
  *  
@@ -30,7 +30,7 @@ const setUsersEdit = (data) => {
 /**
  * @description Creates an action that sets the "usersError" property of the usersReducer state. 
  * 
- * @param {string} error - The value of the payload embedded in the action.
+ * @param {string|null} error - The value of the payload embedded in the action.
  * @returns {object} The action.
  * @public
  * @function
@@ -48,8 +48,8 @@ const setUsersError = (error) => {
 /**
  * @description Creates an action that sets the "usersRegister" property of the usersReducer state.
  * 
- * @param {string} data - The value of the payload embedded in the action.
- * @returns {object|null} The action.
+ * @param {object|null} data - The value of the payload embedded in the action.
+ * @returns {object} The action.
  * @public
  * @function
  *  
@@ -66,8 +66,8 @@ const setUsersRegister = (data) => {
 /**
  * @description Creates an action that sets the "usersReset" property of the usersReducer state.
  * 
- * @param {string} data - The value of the payload embedded in the action.
- * @returns {object|null} The action.
+ * @param {object|null} data - The value of the payload embedded in the action.
+ * @returns {object} The action.
  * @public
  * @function
  *  
@@ -84,7 +84,7 @@ const setUsersReset = (data) => {
 /**
  * @description Creates an action that sets the "usersSelf" property of the usersReducer state.
  * 
- * @param {string} data - The value of the payload embedded in the action.
+ * @param {object|null} data - The value of the payload embedded in the action.
  * @returns {object} The action.
  * @public
  * @function
@@ -102,9 +102,9 @@ const setUsersSelf = (data) => {
 /**
  * @description Patches data to /api/users/edit and dispatches actions from either userActions to the usersReducer state or from authActions to the authReducer state.
  * 
- * @param {string|null} name - The user's name.
- * @param {string|null} password - The user's password.
- * @param {string|null} passwordConfirm - The user's confirmed password.
+ * @param {string|null} name - The User's name.
+ * @param {string|null} password - The User's password.
+ * @param {string|null} passwordConfirm - The User's confirmed password.
  * @param {string|null} adminUsername - The admin username credential.
  * @param {string|null} adminPassword - The admin password credential.
  * @public
@@ -167,8 +167,8 @@ const fetchEdit = (name, password, passwordConfirm, adminUsername, adminPassword
 /**
  * @description Posts data to /api/users/login and dispatches actions to the usersReducer state and from authActions to the authReducer state.
  * 
- * @param {string} email - The user's email address credential.
- * @param {string} password - The user's password credential.
+ * @param {string} email - The User's email address credential.
+ * @param {string} password - The User's password credential.
  * @returns {object} The action.
  * @public
  * @function
@@ -240,10 +240,10 @@ const fetchLogout = (authToken = null) => {
 /**
  * @description Post data to /api/users/register and dispatches actions from either userActions to the usersReducer state or from authActions to the authReducer state.
  * 
- * @param {string|null} name - The user's name.
- * @param {string|null} email - The user's email address.
- * @param {string|null} password - The user's password.
- * @param {string|null} passwordConfirm - The user's confirmed password.
+ * @param {string} name - The User's registered name.
+ * @param {string} email - The User's registered email address credential.
+ * @param {string} password - The User's registered password credential.
+ * @param {string} passwordConfirm - The User's confirmed registered password credential.
  * @param {string|null} adminUsername - The admin username credential.
  * @param {string|null} adminPassword - The admin password credential.
  * @public
@@ -287,9 +287,9 @@ const fetchRegister = (name, email, password, passwordConfirm, adminUsername, ad
 /**
  * @description Posts data to /api/users/reset and dispatches actions from either userActions to the usersReducer state or from authActions to the authReducer state.
  * 
- * @param {string} email - The user's email address credential.
- * @param {string} password - The user's new password credential.
- * @param {string} passwordConfirm - The user's confirmed new password credential.
+ * @param {string} email - The User's email address credential.
+ * @param {string} password - The User's new password credential.
+ * @param {string} passwordConfirm - The User's confirmed new password credential.
  * @returns {object} The action.
  * @public
  * @function

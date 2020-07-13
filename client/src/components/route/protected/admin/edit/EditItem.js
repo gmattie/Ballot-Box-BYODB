@@ -8,9 +8,11 @@
  * @requires ProtectedContainer
  * @requires react
  * @requires TextField
+ * @requires Toggle
  * @requires useAuth
  * @requires useInputText
  * @requires useItems
+ * @requires useVotes
  * @public
  * @module
  * 
@@ -22,14 +24,16 @@ import Dialog from "../../../../modal/Dialog";
 import PropTypes from "prop-types";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import TextField from "../../../../controls/TextField";
+import Toggle from "../../../../controls/Toggle";
 import useAuth from "../../../../../hooks/useAuth";
 import useInputText from "../../../../../hooks/useInputText";
 import useItems from "../../../../../hooks/useItems";
+import useVotes from "../../../../../hooks/useVotes";
 
 /**
- * @description The EditItem component contains UI elements that are required to edit Item documents on the database.
- * The UI elements include text input fields for optionally updating "name", "thumbnail" and "image",
- * a button to reset the text fields to their default values and a button for submitting the input data to the server.
+ * @description The EditItem component contains UI elements that are required to toggle availability or edit Item documents.
+ * The UI elements include a toggle switch with a non-editable "name" for the label, text input fields for optionally
+ * editing "thumbnail" and "image" properties and buttons to reset edited input data or submit edited input data to the server.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} JSX markup.
@@ -42,7 +46,8 @@ const EditItem = ({
         itemID,
         itemName,
         itemThumbnail,
-        itemImage
+        itemImage,
+        itemActive,
     }) => {
 
     /**
@@ -55,7 +60,7 @@ const EditItem = ({
      * State
      * 
      */
-    const [ invalidName, setInvalidName ] = useState(null);
+    const [ active, setActive ] = useState(itemActive);
     const [ invalidThumbnail, setInvalidThumbnail ] = useState(null);
     const [ invalidImage, setInvalidImage ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(false);
@@ -65,9 +70,10 @@ const EditItem = ({
      * Refs
      * 
      */
-    const isSubmittable = useRef(false);
+    const isMounted = useRef(false);
     const isResettable = useRef(false);
-    const isUpdating = useRef(false);
+    const isSubmittable = useRef(false);
+    const isVoteOpen = useRef(false);
     const responseUpdate = useRef(false);
 
     /**
@@ -75,13 +81,6 @@ const EditItem = ({
      * 
      */
     const { authError, setAuthError } = useAuth();
-
-    const {
-        
-        binding: bindName,
-        clearValue: clearName,
-        value: name
-    } = useInputText(C.Label.NAME, confirmHandler, itemName);
     
     const {
         
@@ -104,8 +103,12 @@ const EditItem = ({
         fetchEdit
     } = useItems();
 
+    const { votesActive } = useVotes();
+
     /**
-     * @description Negate the "isUpdating" flag after the Items state updates and triggers a refresh of the component props. 
+     * @description Sets the "active" component state to match the "itemActive" prop when the prop is updated.
+     * While the "active" component state is initialized with the "itemActive" prop, updating the prop does not automatically reinitialize the state.
+     * This ensures a synchronized UI between users with admin privileges.
      * 
      * @private
      * @function
@@ -113,8 +116,15 @@ const EditItem = ({
      */
     useEffect(() => {
 
-        isUpdating.current = false;
-    }, [itemName, itemThumbnail, itemImage]);
+        if (isMounted.current) {
+
+            setActive(itemActive);
+        }
+        else {
+
+            isMounted.current = true;
+        }
+    }, [itemActive]);
 
     /**
      * Set isSubmittable flag
@@ -123,7 +133,6 @@ const EditItem = ({
      */
     isSubmittable.current = (
         
-        (name && name !== itemName) ||
         (thumbnail && thumbnail !== itemThumbnail) ||
         (image && image !== itemImage)
     );
@@ -135,9 +144,19 @@ const EditItem = ({
      */
     isResettable.current = (
 
-        (name !== itemName) ||
         (thumbnail !== itemThumbnail) ||
         (image !== itemImage)
+    );
+
+    /**
+     * Set isVoteOpen flag
+     * Determines if there is an open vote in order to disable all control components.
+     *  
+     */
+    isVoteOpen.current = Boolean(
+        
+        votesActive &&
+        votesActive[C.Model.VOTE]
     );
 
     /**
@@ -164,11 +183,6 @@ const EditItem = ({
 
                 switch (error[C.ID.ERROR_PARAM]) {
 
-                    case C.ID.NAME_NAME:
-                        setInvalidName(error[C.ID.ERROR_MESSAGE]);
-
-                        break;
-
                     case C.ID.NAME_THUMBNAIL:
                         setInvalidThumbnail(error[C.ID.ERROR_MESSAGE]);
 
@@ -184,62 +198,86 @@ const EditItem = ({
                 }
             });
 
-            isUpdating.current = false;
             setAuthError(null);
         }
         else {
 
-            if (authError.error.includes(C.Error.DUPLICATE_KEY)) {
-
-                setInvalidName(C.Error.DUPLICATE_KEY);
-            }
-            else {
-
-                setTimeout(() => logout());
-            }
+            setTimeout(() => logout());
         }
     }
 
     /**
      * @description Posts the request body to the server.
-     * Resets to the initial render by nullifying the "authError" and "itemsEdit" states and clearing all local error states.
      * Function executes asynchronously to facilitate the local loading state.
      * 
+     * @param {string|null} thumbnail - The image URL for the Item's "thumbnail" property.
+     * @param {string|null} image - The image URL for the Item's "image" property.
+     * @param {boolean|null} active - The value for the Item's "active" property.
      * @async
      * @function
      * @private
      *  
      */
-    const submitHandler = async () => {
+    const submitData = async (thumbnail, image, active) => {
+
+        setIsLoading(true);
+
+        responseUpdate.current = true;
+        await fetchEdit(
+            
+            itemID,
+            thumbnail,
+            image,
+            active
+        );
+            
+        setIsLoading(false);
+    };
+
+    /**
+     * @description Handler for a dispatched "change" event from the Toggle component.
+     * Negates the value of the "active" local state and forwards the negated value to be submitted to the server.
+     * 
+     * @function
+     * @private
+     *  
+     */
+    const activeHandler = () => {
+
+        const value = !active;
+
+        setActive(value);
+        submitData(null, null, value);
+    };
+
+    /**
+     * @description Handler for a dispatched "click" event from the OK button in the confirmation Dialog component.
+     * Resets to the initial render by nullifying the "authError" and "itemsEdit" states and clearing all local error states.
+     * Forwards the "thumbnail" and/or "image" values to be submitted to the server.
+     * 
+     * @function
+     * @private
+     *  
+     */
+    const editHandler = () => {
 
         if (isSubmittable.current) {
 
             setShowDialog(false);
-            setIsLoading(true);
 
             setAuthError(null);
             setItemsEdit(null);
 
-            setInvalidName(null);
             setInvalidThumbnail(null);
             setInvalidImage(null);
 
-            isUpdating.current = true;
-            responseUpdate.current = true;
-            await fetchEdit(
-                
-                itemID,
-                name,
-                thumbnail,
-                image
-            );
-                
-            setIsLoading(false);
+            submitData(thumbnail, image, null);
         }
     };
 
     /**
-     * @description Resets the "name", "thumbnail" and "image" text fields back to their default values.
+     * @description Handler for a dispatched "click" event from the Reset button.
+     * Resets the "thumbnail" and "image" text fields back to their default values.
      * 
      * @private
      * @function
@@ -247,13 +285,13 @@ const EditItem = ({
      */
     const resetHandler = () => {
 
-        clearName();
         clearThumbnail();
         clearImage();
     };
 
     /**
-     * @description Displays the confirmation dialog.
+     * @description Handler for a dispatched "click" event from the Edit button.
+     * Displays the confirmation Dialog component.
      * Written as a function declaration in order to be hoisted and accessible to the custom hooks above.
      * 
      * @function
@@ -262,10 +300,7 @@ const EditItem = ({
      */
     function confirmHandler() {
 
-        if (isSubmittable.current && !isUpdating.current) {
-
-            setShowDialog(true);
-        }
+        setShowDialog(true);
     }
 
     /**
@@ -278,25 +313,25 @@ const EditItem = ({
             {showDialog &&
                 <Dialog 
                     content={C.Label.CONFIRM_EDIT_ITEM}
-                    okCallback={submitHandler}
+                    okCallback={editHandler}
                     cancelCallback={() => setShowDialog(false)}
                 />
             }
 
             <div className={C.Style.EDIT_ITEM}>
                 <div className={C.Style.EDIT_ITEM_NAME}>
-                    <TextField
-                        name={C.ID.NAME_NAME}
-                        disabled={isLoading}
-                        errorMessage={invalidName}
-                        {...bindName}
+                    <Toggle
+                        label={itemName}
+                        checked={active}
+                        disabled={isLoading || isVoteOpen.current}
+                        onChange={activeHandler}
                     />
                 </div>
 
                 <div className={C.Style.EDIT_ITEM_THUMBNAIL}>
                     <TextField
                         name={C.ID.NAME_THUMBNAIL}
-                        disabled={isLoading}
+                        disabled={isLoading || !active || isVoteOpen.current}
                         errorMessage={invalidThumbnail}
                         {...bindThumbnail}
                     />
@@ -305,7 +340,7 @@ const EditItem = ({
                 <div className={C.Style.EDIT_ITEM_IMAGE}>
                     <TextField
                         name={C.ID.NAME_IMAGE}
-                        disabled={isLoading}
+                        disabled={isLoading || !active || isVoteOpen.current}
                         errorMessage={invalidImage}
                         {...bindImage}
                     />
@@ -320,7 +355,7 @@ const EditItem = ({
                         <Button
                             style={C.Style.BUTTON_SUBMIT_EMPHASIS}
                             onClick={confirmHandler}
-                            disabled={isLoading || isUpdating.current || !isSubmittable.current}
+                            disabled={isLoading || !isSubmittable.current || !active || isVoteOpen.current}
                         >
                             {C.Label.EDIT}
                         </Button>
@@ -328,7 +363,7 @@ const EditItem = ({
                         <Button
                             style={C.Style.BUTTON_SUBMIT}
                             onClick={resetHandler}
-                            disabled={isLoading || isUpdating.current || !isResettable.current}
+                            disabled={isLoading || !isResettable.current || !active || isVoteOpen.current}
                         >
                             {C.Label.RESET}
                         </Button>
@@ -348,7 +383,8 @@ EditItem.propTypes = {
     itemID: PropTypes.string.isRequired,
     itemName: PropTypes.string.isRequired,
     itemThumbnail: PropTypes.string.isRequired,
-    itemImage: PropTypes.string.isRequired
+    itemImage: PropTypes.string.isRequired,
+    itemActive: PropTypes.bool.isRequired
 };
 
 /**

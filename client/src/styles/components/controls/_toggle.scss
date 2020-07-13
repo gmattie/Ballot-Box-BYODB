@@ -1,15 +1,8 @@
 .toggle {
 
-    $TOGGLE_SIZE: $CONTROL_SIZE;
-
-    @include mq-device-desktop {
-
-        $TOGGLE_SIZE: $CONTROL_SIZE_SMALL;
-    }
-
     @include toggle(
 
-        $controlSize: $TOGGLE_SIZE,
+        $controlSize: $CONTROL_SIZE_SMALL,
         $controlColorOn: $COLOR_EMPHASIS,
         $controlColorOff: $COLOR_AUXILIARY,
         $controlLabelGap: $FORM_GAP,

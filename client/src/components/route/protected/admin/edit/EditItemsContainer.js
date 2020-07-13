@@ -94,6 +94,7 @@ const EditItemsContainer = () => {
                             itemName={C.Model.NAME}
                             itemThumbnail={C.Model.THUMBNAIL}
                             itemImage={C.Model.IMAGE}
+                            itemActive={true}
                         />
                     </Provider>
                 </div>
@@ -122,6 +123,7 @@ const EditItemsContainer = () => {
                 itemName={data[index][C.Model.NAME]}
                 itemThumbnail={data[index][C.Model.THUMBNAIL]}
                 itemImage={data[index][C.Model.IMAGE]}
+                itemActive={data[index][C.Model.ACTIVE]}
             />
         </div>
     ), []);
@@ -139,7 +141,7 @@ const EditItemsContainer = () => {
             >
                 <div
                     className={C.Style.EDIT_ITEMS_CONTAINER_CONTENT}
-                    style={{height: itemRendererHeight}}
+                    style={{ height: itemRendererHeight * 2 }}
                 >
                     {(isLoading || !itemsAll)
                         ?   <div className={C.Style.EDIT_ITEMS_CONTAINER_CONTENT_PRELOADER} />
@@ -150,7 +152,7 @@ const EditItemsContainer = () => {
                                     <VirtualList
                                         className={C.Style.EDIT_ITEMS_CONTAINER_CONTENT_LIST}
                                         width={C.CSS.PERCENT_100}
-                                        height={itemRendererHeight}
+                                        height={itemRendererHeight * 2}
                                         itemData={itemsAll}
                                         itemCount={itemsAll.length}
                                         itemSize={itemRendererHeight}

@@ -189,8 +189,6 @@ const Error = Object.freeze({
  *         <li> VOTE </li>
  *         <li> WEBSOCKET </li>
  *     </ul>
- *     <li> ITEM_ADD </li>
- *     <li> ITEM_EDIT </li>
  *     <li> VOTE_CLOSED </li>
  *     <li> VOTE_COMPLETE </li>
  *     <li> VOTE_OPENED </li>
@@ -226,8 +224,6 @@ const Event = Object.freeze({
         WEBSOCKET: "webSocket",
     },
     
-    ITEM_ADD: "itemAdd",
-    ITEM_EDIT: "itemEdit",
     VOTE_CAST: "voteCast",
     VOTE_CLOSED: "voteClosed",
     VOTE_COMPLETE: "voteComplete",

@@ -18,6 +18,11 @@ const mongoose = require("mongoose");
  */
 const itemSchema = new mongoose.Schema({
 
+    [C.Model.ACTIVE]: {
+
+        type: Boolean,
+        default: true
+    },
     [C.Model.DATE]: {
 
         type: Date,

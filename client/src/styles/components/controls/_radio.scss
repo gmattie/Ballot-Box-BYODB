@@ -1,15 +1,8 @@
 .radio {
 
-    $TOGGLE_SIZE: $CONTROL_SIZE;
-
-    @include mq-device-desktop {
-
-        $TOGGLE_SIZE: $CONTROL_SIZE_SMALL;
-    }
-
     @include radio(
 
-        $controlSize: $TOGGLE_SIZE,
+        $controlSize: $CONTROL_SIZE_SMALL,
         $controlColorSelected: $COLOR_EMPHASIS,
         $controlLabelGap: $FORM_GAP,
         $labelWeight: $FONT_WEIGHT_BOLD,

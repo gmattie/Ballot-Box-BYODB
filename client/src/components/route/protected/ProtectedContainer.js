@@ -81,9 +81,9 @@ const ProtectedContainer = () => {
     
     const {
         
-        fetchAll: fetchAllItems,
         itemsAll,
         itemsCandidate,
+        setItemsAll,
         setItemsCandidate,
         setItemsVote
     } = useItems();
@@ -99,7 +99,7 @@ const ProtectedContainer = () => {
         votesActive
     } = useVotes();
     
-    const { webSocketMessage, setWebSocketMessage } = useWebSocket(true);
+    const { webSocketMessage } = useWebSocket(true);
 
     /**
      * Mounting
@@ -117,26 +117,57 @@ const ProtectedContainer = () => {
 
     /**
      * WebSocket event handling
-     * Updates the appropriate states of the application when the WebSocket messages "voteOpened", "voteClosed", "itemAdd", "itemEdit" and messages of type "deadline" are broadcast.
+     * Updates the application state when WebSocket stringified data messages of type "deadline" or "item" or event messages "voteOpened" or "voteClosed" are broadcast.
+     * The data broadcast with messages of type "deadline" consists of an object with the properties "days", "hours", "minutes" and "seconds".
+     * The data broadcast with messages of type "item" contains either an array of Item documents, if one or more items were added, or a single edited Item document.
+     * 
      * This component includes the initialized useWebSocket hook.
      * 
      */
     if (webSocketMessage &&
         webSocketMessage !== webSocketMessageRef.current) {
 
-        const isMessageTypeDeadline = JSON.parse(webSocketMessage)[C.Event.Type.DEADLINE];
+        const deadlineData = JSON.parse(webSocketMessage)[C.Event.Type.DEADLINE];
+        const itemData = JSON.parse(webSocketMessage)[C.Event.Type.ITEM];
+
         const isMessageVoteOpened = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_OPENED }));
         const isMessageVoteClosed = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED }));
-        const isMessageItemAdded = (webSocketMessage === JSON.stringify({ [C.Event.Type.ITEM]: C.Event.ITEM_ADD }));
-        const isMessageItemEdited = (webSocketMessage === JSON.stringify({ [C.Event.Type.ITEM]: C.Event.ITEM_EDIT }));
 
-        if (isMessageTypeDeadline || isMessageVoteOpened || isMessageVoteClosed) {
+        if (deadlineData || itemData || isMessageVoteOpened || isMessageVoteClosed) {
 
-            if (isMessageTypeDeadline) {
+            if (deadlineData) {
 
                 setDeadline(webSocketMessage);
             }
-            
+
+            if (itemData) {
+
+                if (itemsAll) {
+                    
+                    let updatedItems;
+                    
+                    if (Array.isArray(itemData)) {
+                        
+                        updatedItems = itemsAll.concat(itemData);
+                        updatedItems.sort((a, b) => a[C.Model.NAME].localeCompare(b[C.Model.NAME]));
+                    }
+                    else {
+                        
+                        const replaceIndex = itemsAll.findIndex((item) => item[C.Model.ID] === itemData[C.Model.ID]);
+
+                        updatedItems = [...itemsAll];
+                        updatedItems.splice(replaceIndex, 1, itemData);
+                    }
+
+                    setItemsAll(updatedItems);
+
+                    if (itemsCandidate) {
+
+                        setItemsCandidate(updatedItems);
+                    }
+                }
+            }
+
             if (isMessageVoteOpened || isMessageVoteClosed) {
 
                 fetchActive();
@@ -153,24 +184,6 @@ const ProtectedContainer = () => {
             }
 
             webSocketMessageRef.current = webSocketMessage;
-        }
-
-        if (isMessageItemAdded || isMessageItemEdited) {
-
-            setWebSocketMessage(null);
-            
-            if (itemsAll) {
-
-                (async () => {
-
-                    await fetchAllItems();
-
-                    if (itemsCandidate) {
-
-                        setItemsCandidate(null);
-                    }
-                })();
-            }
         }
     }
 

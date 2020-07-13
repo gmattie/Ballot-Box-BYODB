@@ -131,8 +131,6 @@ const Error = Object.freeze({
  *         <li> VOTE </li>
  *         <li> WEBSOCKET </li>
  *     </ul>
- *     <li> ITEM_ADD </li>
- *     <li> ITEM_EDIT </li>
  *     <li> VOTE_AGGREGATE </li>
  *     <li> VOTE_CAST </li>
  *     <li> VOTE_CLOSED </li>
@@ -158,8 +156,6 @@ const Event = Object.freeze({
         WEBSOCKET: "webSocket",
     },
 
-    ITEM_ADD: "itemAdd",
-    ITEM_EDIT: "itemEdit",
     VOTE_AGGREGATE: "voteAggregate",
     VOTE_CAST: "voteCast",
     VOTE_CLOSED: "voteClosed",
@@ -333,6 +329,7 @@ const Model = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> ACTIVE </li>
  *     <li> ADMIN_PASSWORD </li>
  *     <li> ADMIN_USERNAME </li>
  *     <li> CAST </li>
@@ -354,6 +351,7 @@ const Model = Object.freeze({
  */
 const Request = Object.freeze({
 
+    ACTIVE: "active",
     ADMIN_PASSWORD: "adminPassword",
     ADMIN_USERNAME: "adminUsername",
     CAST: "cast",

@@ -12,7 +12,7 @@ import * as C from "../../support/constants";
 /**
  * @description Creates an action that sets the "itemsAdd" property of the itemsReducer state.
  * 
- * @param {string} data - The value of the payload embedded in the action.
+ * @param {[object]|null} data - The value of the payload embedded in the action.
  * @returns {object} The action.
  * @public
  * @function
@@ -30,7 +30,7 @@ const setItemsAdd = (data) => {
 /**
  * @description Creates an action that sets the "itemsAll" property of the itemsReducer state.
  * 
- * @param {string} data - The value of the payload embedded in the action.
+ * @param {[object]|null} data - The value of the payload embedded in the action.
  * @returns {object} The action.
  * @public
  * @function
@@ -48,13 +48,18 @@ const setItemsAll = (data) => {
 /**
  * @description Creates an action that sets the "itemsCandidate" property of the itemsReducer state.
  * 
- * @param {string} data - The value of the payload embedded in the action.
+ * @param {[object]|null} data - The value of the payload embedded in the action.
  * @returns {object} The action.
  * @public
  * @function
  *  
  */
 const setItemsCandidate = (data) => {
+
+    if (data) {
+
+        data = data.filter((item) => item[C.Model.ACTIVE] === true);
+    }
 
     return {
 
@@ -66,7 +71,7 @@ const setItemsCandidate = (data) => {
 /**
  * @description Creates an action that sets the "itemsEdit" property of the itemsReducer state.
  * 
- * @param {string} data - The value of the payload embedded in the action.
+ * @param {object|null} data - The value of the payload embedded in the action.
  * @returns {object} The action.
  * @public
  * @function
@@ -84,7 +89,7 @@ const setItemsEdit = (data) => {
 /**
  * @description Creates an action that sets the "itemsError" property of the itemsReducer state. 
  * 
- * @param {string} error - The value of the payload embedded in the action.
+ * @param {string|null} error - The value of the payload embedded in the action.
  * @returns {object} The action.
  * @public
  * @function
@@ -102,7 +107,7 @@ const setItemsError = (error) => {
 /**
  * @description Creates an action that sets the "itemsVote" property of the itemsReducer state.
  * 
- * @param {string} data - The value of the payload embedded in the action.
+ * @param {[object]} data - The value of the payload embedded in the action.
  * @returns {object} The action.
  * @public
  * @function
@@ -120,6 +125,9 @@ const setItemsVote = (data) => {
 /**
  * @description Posts data to /api/items/add and dispatches actions to the itemsReducer state or from authActions to the authReducer state.
  * 
+ * @param {string|null} name - The name of the Item.
+ * @param {string|null} thumbnail - The image URL of the Item's "thumbnail" property
+ * @param {string|null} image - The image URL of the Item's "image" property
  * @returns {object} The action.
  * @public
  * @function
@@ -199,12 +207,16 @@ const fetchAll = () => {
 /**
  * @description Patches data to /api/items/edit/:itemID and dispatches actions to the itemsReducer state or from authActions to the authReducer state.
  * 
+ * @param {string} itemID - The ID of the Item.
+ * @param {string|null} thumbnail - The image URL of the Item's "thumbnail" property.
+ * @param {string|null image - The image URL of the Item's "image" property.
+ * @param {boolean|null} active - The value of the Item's "active" property.
  * @returns {object} The action.
  * @public
  * @function
  *  
  */
-const fetchEdit = (itemID, name, thumbnail, image) => {
+const fetchEdit = (itemID, thumbnail, image, active) => {
 
     return async (dispatch, getState) => {
 
@@ -220,7 +232,7 @@ const fetchEdit = (itemID, name, thumbnail, image) => {
                     [C.Request.HEADER_X_AUTH_TOKEN]: authToken,
                     [C.Request.HEADER_CONTENT_TYPE]: C.Request.APPLICATION_JSON
                 },
-                body: JSON.stringify({ name, thumbnail, image })
+                body: JSON.stringify({ thumbnail, image, active })
             };
 
             const response = await fetch(url, options);

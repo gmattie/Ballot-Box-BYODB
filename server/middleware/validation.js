@@ -100,7 +100,8 @@ const itemEdit = [
 
             C.Request.NAME,
             C.Request.THUMBNAIL,
-            C.Request.IMAGE
+            C.Request.IMAGE,
+            C.Request.ACTIVE
         ];
 
         for (const key of Object.keys(value)) {

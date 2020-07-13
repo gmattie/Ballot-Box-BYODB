@@ -12,8 +12,8 @@ import * as C from "../../support/constants";
 /**
  * @description Creates an action that sets the "votesActive" property of the voteReducer state.
  * 
- * @param {string} data - The value of the payload embedded in the action.
- * @returns {object|null} The action.
+ * @param {object|null} data - The value of the payload embedded in the action.
+ * @returns {object} The action.
  * @public
  * @function
  *  
@@ -30,8 +30,8 @@ const setVotesActive = (data) => {
 /**
  * @description Creates an action that sets the "votesAll" property of the voteReducer state.
  * 
- * @param {string} data - The value of the payload embedded in the action.
- * @returns {object|null} The action.
+ * @param {[object]|null} data - The value of the payload embedded in the action.
+ * @returns {object} The action.
  * @public
  * @function
  *  
@@ -48,8 +48,8 @@ const setVotesAll = (data) => {
 /**
  * @description Creates an action that sets the "votesCast" property of the voteReducer state.
  * 
- * @param {string} data - The value of the payload embedded in the action.
- * @returns {object|null} The action.
+ * @param {[object]|null} data - The value of the payload embedded in the action.
+ * @returns {object} The action.
  * @public
  * @function
  *  
@@ -66,7 +66,7 @@ const setVotesCast = (data) => {
 /**
  * @description Creates an action that sets the "votesError" property of the votesReducer state. 
  * 
- * @param {string} error - The value of the payload embedded in the action.
+ * @param {string|null} error - The value of the payload embedded in the action.
  * @returns {object} The action.
  * @public
  * @function
@@ -84,8 +84,8 @@ const setVotesError = (error) => {
 /**
  * @description Creates an action that sets the "votesOne" property of the voteReducer state.
  * 
- * @param {string} data - The value of the payload embedded in the action.
- * @returns {object|null} The action.
+ * @param {object|null} data - The value of the payload embedded in the action.
+ * @returns {object} The action.
  * @public
  * @function
  *  
@@ -298,10 +298,10 @@ const fetchOne = (voteID) => {
 /**
  * @description Posts data to /api/votes/open and dispatches actions to the votesReducer state or from authActions to the authReducer state.
  * 
- * @param {string} deadline - The duration (in seconds) of the vote.
- * @param {string} quantity - The maximum number of items that a user may cast in their vote.
- * @param {boolean} aggregate - Determines if cast votes should be aggregated during the open vote.
- * @param {boolean} anonymous - Determines if cast votes should be publicized with the vote results.
+ * @param {string} deadline - The Vote's duration in seconds.
+ * @param {string} quantity - The Vote's maximum number of Items that a User may cast.
+ * @param {boolean} aggregate - Determines if cast votes should be aggregated while the Vote is in progress.
+ * @param {boolean} anonymous - Determines if cast votes should be made public to all Users.
  * @returns {object} The action.
  * @public
  * @function
