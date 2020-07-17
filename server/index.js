@@ -60,7 +60,7 @@ const server = () => {
         webSocket.on(C.Event.CLOSE, logClients);
     });
 
-    const heartbeat = () => utils.broadcast(app.locals[C.Local.CLIENTS], JSON.stringify({ [C.Event.Type.WEBSOCKET]: C.Event.HEARTBEAT }));
+    const heartbeat = () => utils.broadcast(app.locals[C.Local.CLIENTS], JSON.stringify({ [C.WebSocket.TYPE]: C.Event.WEBSOCKET_HEARTBEAT }));
     setInterval(heartbeat, 30000);
 };
 

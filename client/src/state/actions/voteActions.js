@@ -23,7 +23,9 @@ const setVotesActive = (data) => {
     return {
 
         type: C.Action.Type.VOTES_ACTIVE,
-        [C.Action.PAYLOAD]: data
+        [C.Action.PAYLOAD]: (data)
+            ? data
+            : {[C.Model.VOTE]: null}
     };
 };
 

@@ -103,16 +103,20 @@ const ResultDetail = ({
 
     /**
      * WebSocket event handling
-     * Fetches the updated data for the target Vote document when either the "voteCast" or "voteClosed" WebSocket messages are broadcast.
-     * Setting the webSocketMessage to null facilitates receiving continuous "voteCast" webSocket messages without repeatedly fetching voteOne data.
+     * Updates the application state according to the "type" of a parsed WebSocket message. 
+     * Fetches the updated data for the target Vote document when the WebSocket messages of either type C.Event.VOTE_CAST or C.Event.VOTE_CLOSED are broadcast.
+     * Setting the webSocketMessage to null facilitates receiving continuous webSocket messages of type C.Event.VOTE_CAST without repeatedly fetching data.
      * 
      */
     if (webSocketMessage && !isLoading) {
         
-        const isMessageVoteCast = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CAST }));
-        const isMessageVoteClosed = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED }));
+        const parsedWebSocketMessage = JSON.parse(webSocketMessage);
+        const webSocketMessageType = parsedWebSocketMessage[C.WebSocket.TYPE];
 
-        if (isMessageVoteCast || isMessageVoteClosed) {
+        const isVoteCast = (webSocketMessageType === C.Event.VOTE_CAST);
+        const isVoteClosed = (webSocketMessageType === C.Event.VOTE_CLOSED);
+        
+        if (isVoteCast || isVoteClosed) {
 
             setWebSocketMessage(null);
             fetchOne(voteID);

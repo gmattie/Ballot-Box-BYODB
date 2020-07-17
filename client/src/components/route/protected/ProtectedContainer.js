@@ -94,9 +94,10 @@ const ProtectedContainer = () => {
     const {
         
         fetchActive,
-        fetchAll: fetchAllVotes,
+        setVotesAll,
         setVotesCast,
-        votesActive
+        votesActive,
+        votesAll
     } = useVotes();
     
     const { webSocketMessage } = useWebSocket(true);
@@ -117,70 +118,94 @@ const ProtectedContainer = () => {
 
     /**
      * WebSocket event handling
-     * Updates the application state when WebSocket stringified data messages of type "deadline" or "item" or event messages "voteOpened" or "voteClosed" are broadcast.
-     * The data broadcast with messages of type "deadline" consists of an object with the properties "days", "hours", "minutes" and "seconds".
-     * The data broadcast with messages of type "item" contains either an array of Item documents, if one or more items were added, or a single edited Item document.
-     * 
+     * Updates the application state according to the "type" and/or "data" values of a parsed WebSocket message. 
+     * WebSocket data is used to efficiently augment the appropriate application state rather than simply overwriting the application state by fetching updated data.
+     * WebSocket messages of type C.Event.ITEM_EDIT and C.Event.ITEM_ADD include data of an Item document object or an array of Item document objects, respectively.
+     * WebSocket messages of type C.Event.VOTE_OPENED and C.Event.VOTE_COMPLETE include data of a Vote document object with the properties "aggregate", "anonymous", "id", "active" and "date".
+     * WebSocket messages of type C.Event.VOTE_DEADLINE includes data of an object with the properties "days", "hours", "minutes" and "seconds".
      * This component includes the initialized useWebSocket hook.
      * 
      */
     if (webSocketMessage &&
         webSocketMessage !== webSocketMessageRef.current) {
 
-        const deadlineData = JSON.parse(webSocketMessage)[C.Event.Type.DEADLINE];
-        const itemData = JSON.parse(webSocketMessage)[C.Event.Type.ITEM];
+        const parsedWebSocketMessage = JSON.parse(webSocketMessage);
+        const webSocketMessageType = parsedWebSocketMessage[C.WebSocket.TYPE];
 
-        const isMessageVoteOpened = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_OPENED }));
-        const isMessageVoteClosed = (webSocketMessage === JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED }));
+        const isItemAdded = (webSocketMessageType === C.Event.ITEM_ADD);
+        const isItemEdited = (webSocketMessageType === C.Event.ITEM_EDIT);
+        const isVoteOpened = (webSocketMessageType === C.Event.VOTE_OPENED);
+        const isVoteClosed = (webSocketMessageType === C.Event.VOTE_CLOSED);
+        const isVoteComplete = (webSocketMessageType === C.Event.VOTE_COMPLETE);
+        const isVoteDeadline = (webSocketMessageType === C.Event.VOTE_DEADLINE);
 
-        if (deadlineData || itemData || isMessageVoteOpened || isMessageVoteClosed) {
+        if (isItemAdded || isItemEdited || isVoteOpened || isVoteClosed || isVoteComplete || isVoteDeadline) {
 
-            if (deadlineData) {
+            const webSocketMessageData = parsedWebSocketMessage[C.WebSocket.DATA];
+            
+            if ((isItemAdded || isItemEdited) && itemsAll) {
 
-                setDeadline(webSocketMessage);
+                let updatedItems;
+
+                if (isItemAdded) {
+                    
+                    updatedItems = itemsAll.concat(webSocketMessageData);
+                    updatedItems.sort((a, b) => a[C.Model.NAME].localeCompare(b[C.Model.NAME]));
+                }
+
+                if (isItemEdited) {
+
+                    const replaceIndex = itemsAll.findIndex((item) => item[C.Model.ID] === webSocketMessageData[C.Model.ID]);
+
+                    updatedItems = [...itemsAll];
+                    updatedItems.splice(replaceIndex, 1, webSocketMessageData);
+                }
+
+                setItemsAll(updatedItems);
+
+                if (itemsCandidate) {
+
+                    setItemsCandidate(updatedItems);
+                }
             }
 
-            if (itemData) {
+            if ((isVoteOpened || isVoteComplete || isVoteClosed) && votesAll) {
 
-                if (itemsAll) {
-                    
-                    let updatedItems;
-                    
-                    if (Array.isArray(itemData)) {
-                        
-                        updatedItems = itemsAll.concat(itemData);
-                        updatedItems.sort((a, b) => a[C.Model.NAME].localeCompare(b[C.Model.NAME]));
-                    }
-                    else {
-                        
-                        const replaceIndex = itemsAll.findIndex((item) => item[C.Model.ID] === itemData[C.Model.ID]);
+                if (isVoteOpened || isVoteComplete) {
 
-                        updatedItems = [...itemsAll];
-                        updatedItems.splice(replaceIndex, 1, itemData);
-                    }
+                    votesAll.unshift(webSocketMessageData);
+                    setVotesAll(votesAll);
+                }
 
-                    setItemsAll(updatedItems);
+                if (isVoteClosed) {
 
-                    if (itemsCandidate) {
+                    const activeVoteIndex = votesAll.findIndex((vote) => vote[C.Model.ACTIVE]);
 
-                        setItemsCandidate(updatedItems);
+                    if (activeVoteIndex !== -1) {
+
+                        votesAll.splice(activeVoteIndex, 1);
+                        setVotesAll(votesAll);
                     }
                 }
             }
 
-            if (isMessageVoteOpened || isMessageVoteClosed) {
+            if (isVoteOpened || isVoteClosed) {
 
                 fetchActive();
-                fetchAllVotes();
 
                 setDeadline(null);
                 setVotesCast(null);
-                setItemsVote(null);
 
-                if (itemsAll) {
+                if (isVoteClosed && itemsAll) {
 
                     setItemsCandidate(itemsAll);
+                    setItemsVote(null);
                 }
+            }
+
+            if (isVoteDeadline) {
+
+                setDeadline(webSocketMessageData);
             }
 
             webSocketMessageRef.current = webSocketMessage;
@@ -272,7 +297,7 @@ const ProtectedContainer = () => {
             {(!authToken || isMounting || isLoading)
                 ?   <div className={C.Style.PROTECTED_CONTAINER_PRELOADER} />
                 :   <>
-                        <VoteInfo deadlineMessage={deadline} />
+                        <VoteInfo deadline={deadline} />
 
                         <UserInfo />
 

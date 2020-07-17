@@ -111,6 +111,7 @@ const Vote = () => {
     onMount(mount);            
 
     /**
+     * Check if the user has already voted.
      * Mounting will complete when both the "votesActive" and "itemsAll" states have been populated with non-nullable values.
      * During an active vote, conditionally populate the "votesCast" state based on the user having already voted.
      * 
@@ -169,7 +170,7 @@ const Vote = () => {
     }
 
     /**
-     * Set isVotable flag
+     * Set isVotable flag.
      * Determines if the present state of both "votesActive" and "itemsVote" are sufficient for allowing users to cast votes to the server.
      * 
      */
@@ -181,7 +182,7 @@ const Vote = () => {
     );
 
     /**
-     * Vote cast or active failure
+     * Vote cast or active failure.
      * Parse the error object to set the appropriate local error states.
      * 
      */

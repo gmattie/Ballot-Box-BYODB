@@ -22,7 +22,7 @@ import { getReactElementSize } from "../../../../support/utilities";
 import { LogoutAPI } from "../ProtectedContainer";
 import * as C from "../../../../support/constants";
 import AutoSizer from "react-virtualized-auto-sizer";
-import React, { useContext, memo, useCallback, useRef, useState } from "react";
+import React, { memo, useContext, useCallback, useRef, useState } from "react";
 import Result from "./Result";
 import ResultDetail from "../../../modal/result/ResultDetail";
 import useAuth from "../../../../hooks/useAuth";

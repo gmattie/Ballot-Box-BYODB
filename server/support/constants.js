@@ -6,6 +6,28 @@
  * 
  */
 
+ /**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
+ *     <li> DAYS </li>
+ *     <li> HOURS </li>
+ *     <li> SECONDS </li>
+ *     <li> MINUTES </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const Deadline = Object.freeze({
+
+    DAYS: "days",
+    HOURS: "hours",
+    SECONDS: "seconds",
+    MINUTES: "minutes",
+});
+
 /**
  * @description Properties of type {string} consist of:
  * 
@@ -124,18 +146,15 @@ const Error = Object.freeze({
  * <ul>
  *     <li> CLOSE </li>
  *     <li> CONNECTION </li>
- *     <li> HEARTBEAT </li>
- *     <ul>
- *         <li> DEADLINE </li>
- *         <li> ITEM </li>
- *         <li> VOTE </li>
- *         <li> WEBSOCKET </li>
- *     </ul>
+ *     <li> ITEM_ADD </li>
+ *     <li> ITEM_EDIT </li>
  *     <li> VOTE_AGGREGATE </li>
  *     <li> VOTE_CAST </li>
  *     <li> VOTE_CLOSED </li>
  *     <li> VOTE_COMPLETE </li>
+ *     <li> VOTE_DEADLINE </li>
  *     <li> VOTE_OPENED </li>
+ *     <li> WEBSOCKET_HEARTBEAT </li>
  * </ul>
  * 
  * @public
@@ -146,22 +165,15 @@ const Event = Object.freeze({
 
     CLOSE: "close",
     CONNECTION: "connection",
-    HEARTBEAT: "heartbeat",
-
-    Type: {
-
-        DEADLINE: "deadline",
-        ITEM: "item",
-        VOTE: "vote",
-        WEBSOCKET: "webSocket",
-    },
-
+    ITEM_ADD: "itemAdd",
+    ITEM_EDIT: "itemEdit",
     VOTE_AGGREGATE: "voteAggregate",
     VOTE_CAST: "voteCast",
     VOTE_CLOSED: "voteClosed",
     VOTE_COMPLETE: "voteComplete",
+    VOTE_DEADLINE: "voteDeadline",
     VOTE_OPENED: "voteOpened",
-
+    WEBSOCKET_HEARTBEAT: "websocketHeartbeat",
 });
 
 /**
@@ -281,6 +293,7 @@ const Message = Object.freeze({
  *     <li> EMAIL </li>
  *     <li> EXPIRE </li>
  *     <li> IMAGE </li>
+ *     <li> ID </li>
  *     <li> IP </li>
  *     <li> ITEM </li>
  *     <li> NAME </li>
@@ -311,6 +324,7 @@ const Model = Object.freeze({
     EMAIL: "email",
     EXPIRE: "expire",
     IMAGE: "image",
+    ID: "_id",
     IP: "ip",
     ITEM: "item",
     NAME: "name",
@@ -438,11 +452,30 @@ const Status = Object.freeze({
 });
 
 /**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
+ *     <li> TYPE </li>
+ *     <li> DATA </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const WebSocket = Object.freeze({
+
+    TYPE: "type",
+    DATA: "data"
+});
+
+/**
  * Export module
  * 
  */
 module.exports = {
 
+    Deadline,
     Dir,
     Email,
     Error,
@@ -455,5 +488,6 @@ module.exports = {
     Model,
     Request,
     Route,
-    Status
+    Status,
+    WebSocket
 };

@@ -145,6 +145,28 @@ const CSS = Object.freeze({
     PERCENT_100: "100%"
 });
 
+ /**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
+ *     <li> DAYS </li>
+ *     <li> HOURS </li>
+ *     <li> SECONDS </li>
+ *     <li> MINUTES </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const Deadline = Object.freeze({
+
+    DAYS: "days",
+    HOURS: "hours",
+    SECONDS: "seconds",
+    MINUTES: "minutes",
+});
+
 /**
  * @description Properties of type {string} consist of:
  * 
@@ -176,22 +198,22 @@ const Error = Object.freeze({
  *     <li> DRAG_START </li>
  *     <li> DROP </li>
  *     <li> ERROR </li>
- *     <li> HEARTBEAT </li>
+ *     <li> ITEM_ADD </li>
+ *     <li> ITEM_EDIT </li>
  *     <li> KEY_DOWN </li>
  *     <li> LOAD </li>
  *     <li> MESSAGE </li>
  *     <li> MOUSE_DOWN </li>
  *     <li> OPEN </li>
+ *     <li> RESIZE </li>
  *     <li> TRANSITION_END </li>
- *     <ul>
- *         <li> DEADLINE </li>
- *         <li> ITEM </li>
- *         <li> VOTE </li>
- *         <li> WEBSOCKET </li>
- *     </ul>
+ *     <li> VOTE_AGGREGATE </li>
+ *     <li> VOTE_CAST </li>
  *     <li> VOTE_CLOSED </li>
  *     <li> VOTE_COMPLETE </li>
+ *     <li> VOTE_DEADLINE </li>
  *     <li> VOTE_OPENED </li>
+ *     <li> WEBSOCKET_HEARTBEAT </li>
  * </ul>
  * 
  * @public
@@ -207,7 +229,8 @@ const Event = Object.freeze({
     DRAG_START: "dragstart",
     DROP: "drop",
     ERROR: "error",
-    HEARTBEAT: "heartbeat",
+    ITEM_ADD: "itemAdd",
+    ITEM_EDIT: "itemEdit",
     KEY_DOWN: "keydown",
     LOAD: "load",
     MESSAGE: "message",
@@ -215,19 +238,13 @@ const Event = Object.freeze({
     OPEN: "open",
     RESIZE: "resize",
     TRANSITION_END: "transitionend",
-
-    Type: {
-
-        DEADLINE: "deadline",
-        ITEM: "item",
-        VOTE: "vote",
-        WEBSOCKET: "webSocket",
-    },
-    
+    VOTE_AGGREGATE: "voteAggregate",
     VOTE_CAST: "voteCast",
     VOTE_CLOSED: "voteClosed",
     VOTE_COMPLETE: "voteComplete",
+    VOTE_DEADLINE: "voteDeadline",
     VOTE_OPENED: "voteOpened",
+    WEBSOCKET_HEARTBEAT: "websocketHeartbeat",
 });
 
 /**
@@ -300,10 +317,6 @@ const HTMLElement = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
- *     <li> DEADLINE_DAYS </li>
- *     <li> DEADLINE_HOURS </li>
- *     <li> DEADLINE_MINUTES </li>
- *     <li> DEADLINE_SECONDS </li>
  *     <li> ELEMENT_DIALOG </li>
  *     <li> ELEMENT_ITEM_DETAIL </li>
  *     <li> ELEMENT_RESULT_DETAIL </li>
@@ -335,10 +348,6 @@ const HTMLElement = Object.freeze({
  */
 const ID = Object.freeze({
 
-    DEADLINE_DAYS: "days",
-    DEADLINE_HOURS: "hours",
-    DEADLINE_MINUTES: "minutes",
-    DEADLINE_SECONDS: "seconds",
     ELEMENT_DIALOG: "dialog",
     ELEMENT_ITEM_DETAIL: "itemDetail",
     ELEMENT_RESULT_DETAIL: "resultDetail",
@@ -402,11 +411,8 @@ const Image = Object.freeze({
  *     <li> CONFIRM_EDIT_ITEM </li>
  *     <li> CONFIRM_OPEN_VOTE </li>
  *     <li> CONFIRM_VOTE </li>
+ *     <li> DAYS </li>
  *     <li> DEADLINE </li>
- *     <li> DEADLINE_DAYS </li>
- *     <li> DEADLINE_HOURS </li>
- *     <li> DEADLINE_MINUTES </li>
- *     <li> DEADLINE_SECONDS </li>
  *     <li> EDIT </li>
  *     <li> EDIT_ITEMS </li>
  *     <li> EMAIL </li>
@@ -418,6 +424,7 @@ const Image = Object.freeze({
  *     <li> EMPTY_RESULTS </li>
  *     <li> ERROR </li>
  *     <li> HIDE </li>
+ *     <li> HOURS </li>
  *     <li> ICON </li>
  *     <li> IMAGE </li>
  *     <li> LIVE </li>
@@ -425,6 +432,7 @@ const Image = Object.freeze({
  *     <li> LOGIN </li>
  *     <li> LOGOUT </li>
  *     <li> MANAGE_VOTE </li>
+ *     <li> MINUTES </li>
  *     <li> NAME </li>
  *     <li> NEW </li>
  *     <li> OK </li>
@@ -437,6 +445,7 @@ const Image = Object.freeze({
  *     <li> REGISTER </li>
  *     <li> RESET </li>
  *     <li> RESULTS </li>
+ *     <li> SECONDS </li>
  *     <li> SECRET_BALLOT </li>
  *     <li> SHOW </li>
  *     <li> THUMBNAIL </li>
@@ -471,10 +480,7 @@ const Label = Object.freeze({
     CONFIRM_OPEN_VOTE: "Are you sure you want to open a vote?",
     CONFIRM_VOTE: "Are you sure you want to cast this ballot?",
     CONFIRM: "Confirm",
-    DEADLINE_DAYS: "Days",
-    DEADLINE_HOURS: "Hours",
-    DEADLINE_MINUTES: "Minutes",
-    DEADLINE_SECONDS: "Seconds",
+    DAYS: "Days",
     DEADLINE: "Deadline",
     EDIT_ITEMS: "Edit Items",
     EDIT: "Edit",
@@ -487,6 +493,7 @@ const Label = Object.freeze({
     EMPTY_RESULTS: "No Results Available",
     ERROR: "Error",
     HIDE: "Hide",
+    HOURS: "Hours",
     ICON: "Icon",
     IMAGE: "Image",
     LIVE_UPDATES: "Live Updates",
@@ -494,6 +501,7 @@ const Label = Object.freeze({
     LOGIN: "Login",
     LOGOUT: "Logout",
     MANAGE_VOTE: "Manage Vote",
+    MINUTES: "Minutes",
     NAME: "Name",
     NEW: "New",
     OK: "OK",
@@ -506,6 +514,7 @@ const Label = Object.freeze({
     REGISTER: "Register",
     RESET: "Reset",
     RESULTS: "Results",
+    SECONDS: "Seconds",
     SECRET_BALLOT: "Secret Ballot",
     SHOW: "Show",
     THUMBNAIL: "Thumbnail",
@@ -564,8 +573,8 @@ const Mode = Object.freeze({
  * <ul>
  *     <li> ACTIVE </li>
  *     <li> ADMIN </li>
- *     <li> ANONYMOUS </li>
  *     <li> AGGREGATE </li>
+ *     <li> ANONYMOUS </li>
  *     <li> CAST </li>
  *     <li> DATE </li>
  *     <li> EMAIL </li>
@@ -591,8 +600,8 @@ const Model = Object.freeze({
 
     ACTIVE: "active",
     ADMIN: "admin",
-    ANONYMOUS: "anonymous",
     AGGREGATE: "aggregate",
+    ANONYMOUS: "anonymous",
     CAST: "cast",
     DATE: "date",
     EMAIL: "email",
@@ -1034,6 +1043,24 @@ const Style = Object.freeze({
 });
 
 /**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
+ *     <li> TYPE </li>
+ *     <li> DATA </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const WebSocket = Object.freeze({
+
+    TYPE: "type",
+    DATA: "data"
+});
+
+/**
  * Export module
  * 
  */
@@ -1044,6 +1071,7 @@ export {
     CharCode,
     Console,
     CSS,
+    Deadline,
     Error,
     Event,
     Global,
@@ -1056,5 +1084,6 @@ export {
     Model,
     Request,
     Route,
-    Style
+    Style,
+    WebSocket
 };

@@ -24,7 +24,7 @@ const validation = require("../../middleware/validation");
 
 /**
  * @description Cast votes are aggregated and sorted to populate the "total" property of the active Vote document.
- * Websocket event messages C.Event.VOTE_AGGREGATE is broadcast to all connected clients.  
+ * WebSocket event messages C.Event.VOTE_AGGREGATE is broadcast to all connected clients.  
  * 
  * @param {Object} req - An HTTP request object.
  * @private
@@ -89,7 +89,7 @@ const aggregateVotes = async (req) => {
         await vote.save();
 
         const clients = req.app.locals[C.Local.CLIENTS];
-        utils.broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_AGGREGATE }));
+        utils.broadcast(clients, JSON.stringify({ [C.WebSocket.TYPE]: C.Event.VOTE_AGGREGATE }));
     }
     catch (error) {
 
@@ -99,7 +99,7 @@ const aggregateVotes = async (req) => {
 
 /**
  * @description Closing the vote blocks clients from casting votes and, if applicable, stops a running deadline countdown.
- * Websocket event messages C.Event.VOTE_CLOSED and C.Event.VOTE_COMPLETE are broadcast to all connected clients.  
+ * WebSocket event messages C.Event.VOTE_CLOSED and C.Event.VOTE_COMPLETE are broadcast to all connected clients.  
  * 
  * @param {Object} req - An HTTP request object.
  * @private
@@ -135,11 +135,22 @@ const closeVote = async (req) => {
             vote[C.Model.DATE] = Date.now();
             
             await vote.save();
-            
-            utils.broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_COMPLETE }));
+
+            utils.broadcast(clients, JSON.stringify({
+
+                [C.WebSocket.TYPE]: C.Event.VOTE_COMPLETE,
+                [C.WebSocket.DATA]: utils.createObjectSubset(
+                            
+                    vote.toObject(),
+                    C.Model.AGGREGATE,
+                    C.Model.ANONYMOUS,
+                    C.Model.ID,
+                    C.Model.ACTIVE,
+                    C.Model.DATE)
+            }));
         }
         
-        utils.broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CLOSED }));
+        utils.broadcast(clients, JSON.stringify({ [C.WebSocket.TYPE]: C.Event.VOTE_CLOSED }));
     }
     catch (error) {
 
@@ -151,7 +162,7 @@ const closeVote = async (req) => {
  * @description (POST) Opens voting to allow clients to cast their votes before an optional deadline.
  * Admin users, via admin authentication, are authorized to open voting with a vote deadline, ranking quantity and results aggregation properties.
  * The properties are set by providing "deadline" (milliseconds number), "quantity" (amount number) and "aggregate" (boolean) values within the HTTP request body.
- * Websocket event message C.Event.VOTE_OPENED is broadcast to all connected clients. 
+ * WebSocket event message C.Event.VOTE_OPENED is broadcast to all connected clients. 
  * 
  * @protected
  * @constant
@@ -202,13 +213,17 @@ router.post(C.Route.OPEN, [
             
                             const data = {
                     
-                                days: parseTimeUnit(seconds / (60 * 60 * 24)),
-                                hours: parseTimeUnit((seconds / (60 * 60)) % 24),
-                                minutes: parseTimeUnit((seconds / 60) % 60),
-                                seconds: parseTimeUnit(seconds % 60)
+                                [C.Deadline.DAYS]: parseTimeUnit(seconds / (60 * 60 * 24)),
+                                [C.Deadline.HOURS]: parseTimeUnit((seconds / (60 * 60)) % 24),
+                                [C.Deadline.MINUTES]: parseTimeUnit((seconds / 60) % 60),
+                                [C.Deadline.SECONDS]: parseTimeUnit(seconds % 60)
                             };
             
-                            utils.broadcast(clients, JSON.stringify({ [C.Event.Type.DEADLINE]: data }));
+                            utils.broadcast(clients, JSON.stringify({
+                            
+                                [C.WebSocket.TYPE]: C.Event.VOTE_DEADLINE,
+                                [C.WebSocket.DATA]: data
+                            }));
                     
                             if (seconds === 0) {
         
@@ -225,7 +240,18 @@ router.post(C.Route.OPEN, [
 
                     await vote.save();
 
-                    utils.broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_OPENED }));
+                    utils.broadcast(clients, JSON.stringify({
+
+                        [C.WebSocket.TYPE]: C.Event.VOTE_OPENED,
+                        [C.WebSocket.DATA]: utils.createObjectSubset(
+                            
+                            vote.toObject(),
+                            C.Model.AGGREGATE,
+                            C.Model.ANONYMOUS,
+                            C.Model.ID,
+                            C.Model.ACTIVE,
+                            C.Model.DATE)
+                    }));
 
                     return res
                         .status(C.Status.OK)
@@ -370,7 +396,7 @@ router.post(C.Route.CAST, [
             }
             
             const clients = req.app.locals[C.Local.CLIENTS];
-            utils.broadcast(clients, JSON.stringify({ [C.Event.Type.VOTE]: C.Event.VOTE_CAST }));
+            utils.broadcast(clients, JSON.stringify({ [C.WebSocket.TYPE]: C.Event.VOTE_CAST }));
 
             return res
                 .status(C.Status.OK)

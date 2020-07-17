@@ -49,7 +49,11 @@ router.post(C.Route.ADD, [
                     .then((response) => {
 
                         const clients = req.app.locals[C.Local.CLIENTS];
-                        utils.broadcast(clients, JSON.stringify({ [C.Event.Type.ITEM]: response }));
+                        utils.broadcast(clients, JSON.stringify({
+                            
+                            [C.WebSocket.TYPE]: C.Event.ITEM_ADD,
+                            [C.WebSocket.DATA]: response
+                        }));
                     });
 
                 return res
@@ -132,7 +136,11 @@ router.patch(`${C.Route.EDIT}/:${C.Route.PARAM}`, [
                 await item.save();
 
                 const clients = req.app.locals[C.Local.CLIENTS];
-                utils.broadcast(clients, JSON.stringify({ [C.Event.Type.ITEM]: item }));
+                utils.broadcast(clients, JSON.stringify({
+                            
+                    [C.WebSocket.TYPE]: C.Event.ITEM_EDIT,
+                    [C.WebSocket.DATA]: item
+                }));
 
                 return res
                     .status(C.Status.OK)

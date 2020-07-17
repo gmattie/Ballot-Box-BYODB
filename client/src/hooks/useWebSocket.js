@@ -46,7 +46,7 @@ const useWebSocket = (init) => {
 
             const handleWebSocket = (message, close) => {
 
-                if (message !== JSON.stringify({[C.Event.Type.WEBSOCKET]: C.Event.HEARTBEAT})) {
+                if (message !== JSON.stringify({ [C.WebSocket.TYPE]: C.Event.WEBSOCKET_HEARTBEAT })) {
 
                     dispatch(webSocketActions.setWebSocketMessage(message));
                 }
@@ -57,9 +57,9 @@ const useWebSocket = (init) => {
                 }
             };
 
-            const handleOpen = (event) => handleWebSocket(JSON.stringify({ [C.Event.Type.WEBSOCKET]: event.type }), false);
-            const handleMessage = (event) => handleWebSocket(event.data, false);
-            const handleClose = (event) => handleWebSocket(JSON.stringify({ [C.Event.Type.WEBSOCKET]: event.type }), true);
+            const handleOpen = (event) => handleWebSocket(JSON.stringify({ [C.WebSocket.TYPE]: event[C.WebSocket.TYPE] }), false);
+            const handleMessage = (event) => handleWebSocket(event[C.WebSocket.DATA], false);
+            const handleClose = (event) => handleWebSocket(JSON.stringify({ [C.WebSocket.TYPE]: event[C.WebSocket.TYPE] }), true);
 
             webSocket.addEventListener(C.Event.OPEN, handleOpen);
             webSocket.addEventListener(C.Event.MESSAGE, handleMessage);
