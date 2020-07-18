@@ -25,12 +25,13 @@ import Collapsible from "../../../controls/Collapsible";
 import Dialog from "../../../modal/Dialog";
 import ms from "ms";
 import Radio from "../../../controls/Radio";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import TextField from "../../../controls/TextField";
 import Toggle from "../../../controls/Toggle";
 import useAuth from "../../../../hooks/useAuth";
 import useInputText from "../../../../hooks/useInputText";
 import useVotes from "../../../../hooks/useVotes";
+
 /**
  * @description The ManageVote component contains UI elements that are required to open and close a vote.
  * The UI elements include text input fields for setting the "deadline" and "quantity", radio and checkbox inputs for setting the "aggregate" and "anonymous" values, and buttons for opening and closing a vote.
@@ -57,6 +58,7 @@ const ManageVote = () => {
     const [ anonymous, setAnonymous ] = useState(false);
     const [ invalidDeadline, setInvalidDeadline ] = useState(null);
     const [ invalidQuantity, setInvalidQuantity ] = useState(null);
+    const [ isVoteActive, setIsVoteActive ] = useState(false);
     const [ isLoading, setIsLoading ] = useState(false);
     const [ showDialog, setShowDialog ] = useState(false);
 
@@ -75,26 +77,54 @@ const ManageVote = () => {
     const { authError, setAuthError } = useAuth();
 
     const {
-        
-        binding: bindDeadline,
-        clearValue: clearDeadline,
-        value: deadline
-    } = useInputText(C.Label.DEADLINE, confirmHandler);
-    
-    const {
-        
-        binding: bindQuantity,
-        clearValue: clearQuantity,
-        value: quantity
-    } = useInputText(C.Label.QUANTITY, confirmHandler);
-    
-    const {
 
         fetchClose,
         fetchOpen,
         votesActive,
         setVotesActive
     } = useVotes();
+
+    const {
+        
+        binding: bindDeadline,
+        setValue: setDeadline,
+        value: deadline
+    } = useInputText(C.Label.DEADLINE, confirmHandler);
+
+    const {
+        
+        binding: bindQuantity,
+        setValue: setQuantity,
+        value: quantity
+    } = useInputText(C.Label.QUANTITY, confirmHandler);
+    
+    /**
+     * @description Persists local state according to the properties of an active vote.
+     * 
+     * @private
+     * @function
+     * 
+     */
+    useEffect(() => {
+
+        if (votesActive && votesActive[C.Model.VOTE]) {
+
+            const activeVote = votesActive[C.Model.VOTE];
+            const deadlineTimeFormat = (activeVote[C.Model.DEADLINE] !== 0)
+                ? ms(activeVote[C.Model.DEADLINE], { long: true })
+                : "0";
+
+            setIsVoteActive(true);
+            setDeadline(deadlineTimeFormat);
+            setQuantity(activeVote[C.Model.QUANTITY].toString());
+            setAggregate(activeVote[C.Model.AGGREGATE]);
+            setAnonymous(activeVote[C.Model.ANONYMOUS]);
+        }
+        else {
+
+            setIsVoteActive(false);
+        }
+    }, [setDeadline, setQuantity, votesActive]);
 
     /**
      * Set isSubmittable flag
@@ -104,21 +134,8 @@ const ManageVote = () => {
     isSubmittable.current = (
         
         (deadline && quantity) ||
-        (votesActive && votesActive[C.Model.VOTE])
+        isVoteActive
     );    
-
-    /**
-     * Vote modification success
-     * Clear appropriate text input elements.
-     * 
-     */
-    if (votesActive && responseUpdate.current) {
-
-        responseUpdate.current = false;
-
-        clearDeadline();
-        clearQuantity();
-    }
     
     /**
      * Vote modification failure
@@ -127,12 +144,9 @@ const ManageVote = () => {
      */
     if (authError && responseUpdate.current) {
 
-        responseUpdate.current = false;
-
         if (Array.isArray(authError.error)) {
             
             authError.error.forEach((error) => {
-
                 switch (error[C.ID.ERROR_PARAM]) {
 
                     case C.ID.NAME_DEADLINE:
@@ -194,7 +208,9 @@ const ManageVote = () => {
     const submitHandler = async () => {
 
         setShowDialog(false);
+
         setIsLoading(true);
+        responseUpdate.current = true;
 
         if (submitTarget.current === C.Label.OPEN) {
 
@@ -204,7 +220,6 @@ const ManageVote = () => {
             setInvalidDeadline(null);
             setInvalidQuantity(null);
 
-            responseUpdate.current = true;
 
             await fetchOpen(
                 
@@ -220,6 +235,7 @@ const ManageVote = () => {
             await fetchClose();
         }
 
+        responseUpdate.current = false;
         setIsLoading(false);
     };
 
@@ -245,77 +261,71 @@ const ManageVote = () => {
 
             <Collapsible title={C.Label.MANAGE_VOTE}>
                 <div className={C.Style.MANAGE_VOTE}>
-                    {(isLoading)
-                        ?   <div className={C.Style.MANAGE_VOTE_PRELOADER} />
-                        :   (votesActive && votesActive.vote)
-                            ?   <div className={C.Style.MANAGE_VOTE_BUTTON_CLOSE}>
-                                    <Button
-                                        style={C.Style.BUTTON_SUBMIT_EMPHASIS}
-                                        onClick={confirmHandler}
-                                        disabled={isLoading}
-                                    >
-                                        {C.Label.CLOSE}
-                                    </Button>
-                                </div>
-                            :   <>
-                                    <div className={C.Style.MANAGE_VOTE_DEADLINE}>
-                                        <TextField
-                                            name={C.ID.NAME_DEADLINE}
-                                            disabled={isLoading}
-                                            errorMessage={invalidDeadline}
-                                            {...bindDeadline}
-                                        />
-                                    </div>
+                    <div className={C.Style.MANAGE_VOTE_DEADLINE}>
+                        <TextField
+                            name={C.ID.NAME_DEADLINE}
+                            disabled={isLoading || isVoteActive}
+                            errorMessage={invalidDeadline}
+                            {...bindDeadline}
+                        />
+                    </div>
 
-                                    <div className={C.Style.MANAGE_VOTE_QUANTITY}>
-                                        <TextField
-                                            name={C.ID.NAME_QUANTITY}
-                                            disabled={isLoading}
-                                            errorMessage={invalidQuantity}
-                                            {...bindQuantity}
-                                        />
-                                    </div>
+                    <div className={C.Style.MANAGE_VOTE_QUANTITY}>
+                        <TextField
+                            name={C.ID.NAME_QUANTITY}
+                            disabled={isLoading || isVoteActive}
+                            errorMessage={invalidQuantity}
+                            {...bindQuantity}
+                        />
+                    </div>
 
-                                    <div className={C.Style.MANAGE_VOTE_PENDING}>
-                                        <Radio
-                                            label={C.Label.PENDING_RESULTS}
-                                            name={C.ID.NAME_RESULTS}
-                                            checked={!aggregate}
-                                            disabled={isLoading}
-                                            onChange={setAggregate.bind(null, false)}
-                                        />
-                                    </div>
+                    <div className={C.Style.MANAGE_VOTE_PENDING}>
+                        <Radio
+                            label={C.Label.PENDING_RESULTS}
+                            name={C.ID.NAME_RESULTS}
+                            checked={!aggregate}
+                            disabled={isLoading || isVoteActive}
+                            onChange={setAggregate.bind(null, false)}
+                        />
+                    </div>
 
-                                    <div className={C.Style.MANAGE_VOTE_LIVE}>
-                                        <Radio
-                                            label={C.Label.LIVE_UPDATES}
-                                            name={C.ID.NAME_RESULTS}
-                                            checked={aggregate}
-                                            disabled={isLoading}
-                                            onChange={setAggregate.bind(null, true)}
-                                        />
-                                    </div>
+                    <div className={C.Style.MANAGE_VOTE_LIVE}>
+                        <Radio
+                            label={C.Label.LIVE_UPDATES}
+                            name={C.ID.NAME_RESULTS}
+                            checked={aggregate}
+                            disabled={isLoading || isVoteActive}
+                            onChange={setAggregate.bind(null, true)}
+                        />
+                    </div>
 
-                                    <div className={C.Style.MANAGE_VOTE_SECRET}>
-                                        <Toggle
-                                            label={C.Label.SECRET_BALLOT}
-                                            checked={anonymous}
-                                            disabled={isLoading}
-                                            onChange={setAnonymous.bind(null, !anonymous)}
-                                        />
-                                    </div>
+                    <div className={C.Style.MANAGE_VOTE_SECRET}>
+                        <Toggle
+                            label={C.Label.SECRET_BALLOT}
+                            checked={anonymous}
+                            disabled={isLoading || isVoteActive}
+                            onChange={setAnonymous.bind(null, !anonymous)}
+                        />
+                    </div>
 
-                                    <div className={C.Style.MANAGE_VOTE_BUTTON_OPEN}>
-                                        <Button
-                                            style={C.Style.BUTTON_SUBMIT_EMPHASIS}
-                                            onClick={confirmHandler}
-                                            disabled={isLoading || !isSubmittable.current}
-                                        >
-                                            {C.Label.OPEN}
-                                        </Button>
-                                    </div>
-                                </>
-                    }
+                    <div className={C.Style.MANAGE_VOTE_SUBMIT}>
+                        {isLoading &&
+                            <div className={C.Style.MANAGE_VOTE_SUBMIT_PRELOADER} />
+                        }
+
+                        <div className={C.Style.MANAGE_VOTE_SUBMIT_BUTTON}>
+                            <Button
+                                style={C.Style.BUTTON_SUBMIT_EMPHASIS}
+                                onClick={confirmHandler}
+                                disabled={isLoading || !isSubmittable.current}
+                            >
+                                {(isVoteActive)
+                                    ? C.Label.CLOSE
+                                    : C.Label.OPEN
+                                }
+                            </Button>
+                        </div>
+                    </div>
                 </div>
             </Collapsible>
         </>

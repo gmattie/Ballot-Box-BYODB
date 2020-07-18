@@ -27,6 +27,7 @@ import * as C from "../support/constants";
  *         placeholder: string,
  *         value: string,
  *     },
+ *     clearValue: function,
  *     setValue: function,
  *     value: string,
  * }
@@ -123,6 +124,7 @@ const useInputText = (
             value,
         },
         clearValue,
+        setValue,
         value,
     };
 };

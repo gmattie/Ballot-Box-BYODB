@@ -577,6 +577,7 @@ const Mode = Object.freeze({
  *     <li> ANONYMOUS </li>
  *     <li> CAST </li>
  *     <li> DATE </li>
+ *     <li> DEADLINE </li>
  *     <li> EMAIL </li>
  *     <li> ID </li>
  *     <li> IMAGE </li>
@@ -604,6 +605,7 @@ const Model = Object.freeze({
     ANONYMOUS: "anonymous",
     CAST: "cast",
     DATE: "date",
+    DEADLINE: "deadline",
     EMAIL: "email",
     ID: "_id",
     IMAGE: "image",
@@ -785,14 +787,14 @@ const Route = Object.freeze({
  *     <li> LOGIN_SUBMIT_BUTTON </li>
  *     <li> LOGIN_SUBMIT_PRELOADER </li>
  *     <li> MANAGE_VOTE </li>
- *     <li> MANAGE_VOTE_BUTTON_CLOSE </li>
- *     <li> MANAGE_VOTE_BUTTON_OPEN </li>
  *     <li> MANAGE_VOTE_DEADLINE </li>
  *     <li> MANAGE_VOTE_LIVE </li>
  *     <li> MANAGE_VOTE_PENDING </li>
- *     <li> MANAGE_VOTE_PRELOADER </li>
  *     <li> MANAGE_VOTE_QUANTITY </li>
  *     <li> MANAGE_VOTE_SECRET </li>
+ *     <li> MANAGE_VOTE_SUBMIT </li>
+ *     <li> MANAGE_VOTE_SUBMIT_BUTTON </li>
+ *     <li> MANAGE_VOTE_SUBMIT_PRELOADER </li>
  *     <li> NO_FOCUS_OUTLINE </li>
  *     <li> PORTAL </li>
  *     <li> PROTECTED_CONTAINER </li>
@@ -959,14 +961,14 @@ const Style = Object.freeze({
     LOGIN_SUBMIT_PRELOADER: "login-submit-preloader",
     LOGIN_SUBMIT: "login-submit",
     LOGIN: "login",
-    MANAGE_VOTE_BUTTON_CLOSE: "manageVote-button-close",
-    MANAGE_VOTE_BUTTON_OPEN: "manageVote-button-open",
     MANAGE_VOTE_DEADLINE: "manageVote-deadline",
     MANAGE_VOTE_LIVE: "manageVote-live",
     MANAGE_VOTE_PENDING: "manageVote-pending",
-    MANAGE_VOTE_PRELOADER: "manageVote-preloader",
     MANAGE_VOTE_QUANTITY: "manageVote-quantity",
     MANAGE_VOTE_SECRET: "manageVote-secret",
+    MANAGE_VOTE_SUBMIT_BUTTON: "manageVote-submit-button",
+    MANAGE_VOTE_SUBMIT_PRELOADER: "manageVote-submit-preloader",
+    MANAGE_VOTE_SUBMIT: "manageVote-submit",
     MANAGE_VOTE: "manageVote",
     NO_FOCUS_OUTLINE: "noFocusOutline",
     PORTAL: "portal",

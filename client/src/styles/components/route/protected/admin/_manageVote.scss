@@ -12,11 +12,12 @@
     flex-direction: column;
     padding: $FORM_GAP;
 
-    &-preloader {
+    &-deadline {
 
-        @include preloader($size: $PRELOADER_SIZE);
+        input {
 
-        align-self: center;
+            text-transform: capitalize;
+        }
     }
 
     &-quantity {
@@ -41,17 +42,22 @@
         margin-top: $FORM_GAP;
     }
 
-    &-button {
+    &-submit {
 
-        &-open {
+        align-self: flex-end;
 
-            align-self: flex-end;
-            margin-top: $FORM_GAP;
+        display: flex;
+        align-items: center;
+        margin-top: $FORM_GAP;
+
+        &-preloader {
+
+            @include preloader($size: $PRELOADER_SIZE);
         }
 
-        &-close {
+        &-button {
 
-            align-self: center;
+            margin-left: $FORM_GAP;
         }
     }
 }
