@@ -189,31 +189,33 @@ const Edit = () => {
             
             authError.error.forEach((error) => {
 
-                switch (error[C.ID.ERROR_PARAM]) {
+                const errorMessage = error[C.Error.ERROR_MESSAGE];
+
+                switch (error[C.Error.ERROR_PARAM]) {
 
                     case C.ID.NAME_NAME:
-                        setInvalidName(error[C.ID.ERROR_MESSAGE]);
+                        setInvalidName(errorMessage);
 
                         break;
 
                     case C.ID.NAME_PASSWORD:
-                        setInvalidPassword(error[C.ID.ERROR_MESSAGE]);
+                        setInvalidPassword(errorMessage);
 
                         break;
 
                     case C.ID.NAME_PASSWORD_CONFIRM:
-                        setInvalidPasswordConfirm(error[C.ID.ERROR_MESSAGE]);
+                        setInvalidPasswordConfirm(errorMessage);
 
                         break;
 
                     case C.ID.NAME_ADMIN_USERNAME:
                     case C.ID.NAME_ADMIN_PASSWORD:
-                        setInvalidAdminCredentials(error[C.ID.ERROR_MESSAGE]);
+                        setInvalidAdminCredentials(errorMessage);
 
                         break;
 
                     default:
-                        throw new Error(error[C.ID.ERROR_MESSAGE]);
+                        throw new Error(errorMessage);
                 }
             });
 

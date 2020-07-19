@@ -141,38 +141,40 @@ const AddItem = () => {
         responseUpdate.current = false;
 
         if (Array.isArray(authError.error)) {
-            
+
             authError.error.forEach((error) => {
 
-                switch (/[^.]*$/.exec(error[C.ID.ERROR_PARAM])[0]) {
+                const errorMessage = error[C.Error.ERROR_MESSAGE];
+
+                switch (/[^.]*$/.exec(error[C.Error.ERROR_PARAM])[0]) {
 
                     case C.ID.NAME_NAME:
-                        setInvalidName(error[C.ID.ERROR_MESSAGE]);
+                        setInvalidName(errorMessage);
 
                         break;
 
                     case C.ID.NAME_THUMBNAIL:
-                        setInvalidThumbnail(error[C.ID.ERROR_MESSAGE]);
+                        setInvalidThumbnail(errorMessage);
 
                         break;
 
                     case C.ID.NAME_IMAGE:
-                        setInvalidImage(error[C.ID.ERROR_MESSAGE]);
+                        setInvalidImage(errorMessage);
 
                         break;
 
                     default:
-                        throw new Error(error[C.ID.ERROR_MESSAGE]);
+                        throw new Error(errorMessage);
                 }
             });
 
             setAuthError(null);
         }
         else {
-
+            
             if (authError.error.includes(C.Error.DUPLICATE_KEY)) {
 
-                setInvalidName(C.Error.DUPLICATE_KEY);
+                setInvalidName(C.Error.ITEM_NAME_ALREADY_EXISTS);
             }
             else {
 

@@ -181,20 +181,22 @@ const EditItem = ({
             
             authError.error.forEach((error) => {
 
-                switch (error[C.ID.ERROR_PARAM]) {
+                const errorMessage = error[C.Error.ERROR_MESSAGE];
+
+                switch (error[C.Error.ERROR_PARAM]) {
 
                     case C.ID.NAME_THUMBNAIL:
-                        setInvalidThumbnail(error[C.ID.ERROR_MESSAGE]);
+                        setInvalidThumbnail(errorMessage);
 
                         break;
 
                     case C.ID.NAME_IMAGE:
-                        setInvalidImage(error[C.ID.ERROR_MESSAGE]);
+                        setInvalidImage(errorMessage);
 
                         break;
 
                     default:
-                        throw new Error(error[C.ID.ERROR_MESSAGE]);
+                        throw new Error(errorMessage);
                 }
             });
 

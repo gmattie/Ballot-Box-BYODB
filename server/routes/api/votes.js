@@ -510,7 +510,7 @@ router.get(`/:${C.Route.PARAM}?`, auth, async (req, res) => {
             const popPathTotalItem = `${C.Model.TOTAL}.${C.Model.ITEM}`;
     
             const popFieldsUser = `${C.Model.EMAIL} ${C.Model.IP} ${C.Model.NAME}`;
-            const popFieldsItem = `${C.Model.NAME} ${C.Model.IMAGE}`;
+            const popFieldsItem = `${C.Model.NAME} ${C.Model.THUMBNAIL}`;
 
             result = await Vote.findById(paramVoteID)
                 .populate(popPathVoteUser, popFieldsUser)

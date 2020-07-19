@@ -172,6 +172,10 @@ const Deadline = Object.freeze({
  * 
  * <ul>
  *     <li> DUPLICATE_KEY </li>
+ *     <li> ERROR </li>
+ *     <li> ERROR_MESSAGE </li>
+ *     <li> ERROR_PARAM </li>
+ *     <li> ITEM_NAME_ALREADY_EXISTS </li>
  *     <li> USE_LAYOUT_EFFECT_ON_SERVER </li>
  *     <li> VOTE_DOES_NOT_EXIST </li>
  * </ul>
@@ -183,6 +187,10 @@ const Deadline = Object.freeze({
 const Error = Object.freeze({
 
     DUPLICATE_KEY: "E11000 duplicate key error",
+    ERROR_MESSAGE: "msg",
+    ERROR_PARAM: "param",
+    ERROR: "error",
+    ITEM_NAME_ALREADY_EXISTS: "Item name already exists",
     USE_LAYOUT_EFFECT_ON_SERVER: "useLayoutEffect does nothing on the server",
     VOTE_DOES_NOT_EXIST: "Vote does not exist",
 });
@@ -320,8 +328,6 @@ const HTMLElement = Object.freeze({
  *     <li> ELEMENT_DIALOG </li>
  *     <li> ELEMENT_ITEM_DETAIL </li>
  *     <li> ELEMENT_RESULT_DETAIL </li>
- *     <li> ERROR_MESSAGE </li>
- *     <li> ERROR_PARAM </li>
  *     <li> LIST_ITEMS_ALL </li>
  *     <li> LIST_ITEMS_CANDIDATE </li>
  *     <li> LIST_ITEMS_VOTE </li>
@@ -351,8 +357,6 @@ const ID = Object.freeze({
     ELEMENT_DIALOG: "dialog",
     ELEMENT_ITEM_DETAIL: "itemDetail",
     ELEMENT_RESULT_DETAIL: "resultDetail",
-    ERROR_MESSAGE: "msg",
-    ERROR_PARAM: "param",
     LIST_ITEMS_ALL: "listItemsAll",
     LIST_ITEMS_CANDIDATE: "listItemsCandidate",
     LIST_ITEMS_VOTE: "listItemsVote",

@@ -127,26 +127,28 @@ const Reset = () => {
         if (Array.isArray(authError.error)) {
             
             authError.error.forEach((error) => {
+
+                const errorMessage = error[C.Error.ERROR_MESSAGE];
                 
-                switch (error[C.ID.ERROR_PARAM]) {
+                switch (error[C.Error.ERROR_PARAM]) {
 
                     case C.ID.NAME_EMAIL:
-                        setInvalidEmail(error[C.ID.ERROR_MESSAGE]);
+                        setInvalidEmail(errorMessage);
                     
                         break;
 
                     case C.ID.NAME_PASSWORD:
-                        setInvalidPassword(error[C.ID.ERROR_MESSAGE]);
+                        setInvalidPassword(errorMessage);
 
                         break;
 
                     case C.ID.NAME_PASSWORD_CONFIRM:
-                        setInvalidPasswordConfirm(error[C.ID.ERROR_MESSAGE]);
+                        setInvalidPasswordConfirm(errorMessage);
 
                         break;
 
                     default:
-                        throw new Error(error[C.ID.ERROR_MESSAGE]); 
+                        throw new Error(errorMessage); 
                 }
             });
         }
@@ -174,10 +176,10 @@ const Reset = () => {
             setAuthError(null);
             setUsersReset(null);
 
-            setUserDoesNotExist(null);
             setInvalidEmail(null);
             setInvalidPassword(null);
             setInvalidPasswordConfirm(null);
+            setUserDoesNotExist(null);
 
             setIsLoading(true);
 

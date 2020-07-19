@@ -194,24 +194,26 @@ const Vote = () => {
             
             authError.error.forEach((error) => {
 
-                switch (error[C.ID.ERROR_PARAM]) {
+                const errorMessage = error[C.Error.ERROR_MESSAGE];
+
+                switch (error[C.Error.ERROR_PARAM]) {
 
                     case C.ID.NAME_CAST:
-                        setInvalidVote(error[C.ID.ERROR_MESSAGE]);
+                        setInvalidVote(errorMessage);
 
                         break;
 
                     default:
-                        switch (/[^.]*$/.exec(error[C.ID.ERROR_PARAM])[0]) {
+                        switch (/[^.]*$/.exec(error[C.Error.ERROR_PARAM])[0]) {
 
                             case C.ID.NAME_ITEM:
                             case C.ID.NAME_RANK:
-                                setInvalidVote(error[C.ID.ERROR_MESSAGE]);
+                                setInvalidVote(errorMessage);
 
                                 break;
 
                             default:
-                                throw new Error(error[C.ID.ERROR_MESSAGE]);
+                                throw new Error(errorMessage);
                         }
                 }
             });

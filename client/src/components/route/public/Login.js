@@ -124,20 +124,22 @@ const Login = () => {
             
             authError.error.forEach((error) => {
 
-                switch (error[C.ID.ERROR_PARAM]) {
+                const errorMessage = error[C.Error.ERROR_MESSAGE];
+                
+                switch (error[C.Error.ERROR_PARAM]) {
 
                     case C.ID.NAME_EMAIL:
-                        setInvalidEmail(error[C.ID.ERROR_MESSAGE]);
+                        setInvalidEmail(errorMessage);
 
                         break;
 
                     case C.ID.NAME_PASSWORD:
-                        setInvalidPassword(error[C.ID.ERROR_MESSAGE]);
+                        setInvalidPassword(errorMessage);
                         
                         break;
 
                     default:
-                        throw new Error(error[C.ID.ERROR_MESSAGE]);
+                        throw new Error(errorMessage);
                 }
             });
         }

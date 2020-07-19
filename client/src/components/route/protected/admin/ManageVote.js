@@ -147,20 +147,23 @@ const ManageVote = () => {
         if (Array.isArray(authError.error)) {
             
             authError.error.forEach((error) => {
-                switch (error[C.ID.ERROR_PARAM]) {
+                
+                const errorMessage = error[C.Error.ERROR_MESSAGE];
+
+                switch (error[C.Error.ERROR_PARAM]) {
 
                     case C.ID.NAME_DEADLINE:
-                        setInvalidDeadline(error[C.ID.ERROR_MESSAGE]);
+                        setInvalidDeadline(errorMessage);
 
                         break;
 
                     case C.ID.NAME_QUANTITY:
-                        setInvalidQuantity(error[C.ID.ERROR_MESSAGE]);
+                        setInvalidQuantity(errorMessage);
 
                         break;
 
                     default:
-                        throw new Error(error[C.ID.ERROR_MESSAGE]);
+                        throw new Error(errorMessage);
                 }
             });
 

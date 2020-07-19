@@ -135,30 +135,32 @@ const Register = () => {
             
             authError.error.forEach((error) => {
 
-                switch (error[C.ID.ERROR_PARAM]) {
+                const errorMessage = error[C.Error.ERROR_MESSAGE];
+
+                switch (error[C.Error.ERROR_PARAM]) {
 
                     case C.ID.NAME_NAME:
-                        setInvalidName(error[C.ID.ERROR_MESSAGE]);
+                        setInvalidName(errorMessage);
 
                         break;
 
                     case C.ID.NAME_EMAIL:
-                        setInvalidEmail(error[C.ID.ERROR_MESSAGE]);
+                        setInvalidEmail(errorMessage);
 
                         break;
 
                     case C.ID.NAME_PASSWORD:
-                        setInvalidPassword(error[C.ID.ERROR_MESSAGE]);
+                        setInvalidPassword(errorMessage);
 
                         break;
 
                     case C.ID.NAME_PASSWORD_CONFIRM:
-                        setInvalidPasswordConfirm(error[C.ID.ERROR_MESSAGE]);
+                        setInvalidPasswordConfirm(errorMessage);
 
                         break;
 
                     default:
-                        throw new Error(error[C.ID.ERROR_MESSAGE]);
+                        throw new Error(errorMessage);
                 }
             });
         }
@@ -187,8 +189,8 @@ const Register = () => {
             setUsersRegister(null);
 
             setEmailAlreadyRegistered(null);
-            setInvalidName(null);
             setInvalidEmail(null);
+            setInvalidName(null);
             setInvalidPassword(null);
             setInvalidPasswordConfirm(null);
 
@@ -233,7 +235,7 @@ const Register = () => {
                             <TextField
                                 name={C.ID.NAME_EMAIL}
                                 disabled={isLoading}
-                                errorMessage={emailAlreadyRegistered || invalidEmail}
+                                errorMessage={invalidEmail || emailAlreadyRegistered}
                                 {...bindEmail}
                             />
                         </div>
