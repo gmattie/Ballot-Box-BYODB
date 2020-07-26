@@ -30,6 +30,7 @@ import React, { useEffect, useState } from "react";
 const TextField = ({
     
         type,
+        name,
         placeholder,
         errorMessage,
         value,
@@ -46,14 +47,14 @@ const TextField = ({
     const [ showErrorMessage, setShowErrorMessage ] = useState(true);
 
     /**
-     * @description Called when the value of the text input element is changed.
+     * @description Handler for a dispatched "change" event.
      * 
      * @param {object} event - The event object
      * @private
      * @function
      *  
      */
-    const inputChangeHandler = (event) => {
+    const changeHandler = (event) => {
 
         if (showErrorMessage && errorMessage) {
 
@@ -104,9 +105,10 @@ const TextField = ({
                     )
                 }
                 type={type || C.HTMLElement.InputType.TEXT}
+                name={name}
                 value={value}
                 disabled={disabled}
-                onChange={inputChangeHandler}
+                onChange={changeHandler}
                 onKeyPress={onKeyPress}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
@@ -149,6 +151,7 @@ TextField.propTypes = {
         C.HTMLElement.InputType.PASSWORD
     ]),
     
+    name: PropTypes.string,
     placeholder: PropTypes.string,
     errorMessage: PropTypes.string,
     value: PropTypes.string,

@@ -38,6 +38,23 @@ const Access = Object.freeze({
  *         <li> ITEMS_EDIT </li>
  *         <li> ITEMS_ERROR </li>
  *         <li> ITEMS_VOTE </li>
+ *         <li> PERSIST_COLLAPSED_ADD_ITEM </li>
+ *         <li> PERSIST_COLLAPSED_ADMIN_CREDENTIALS </li>
+ *         <li> PERSIST_COLLAPSED_EDIT_ITEMS </li>
+ *         <li> PERSIST_COLLAPSED_MANAGE_VOTE </li>
+ *         <li> PERSIST_RADIO_AGGREGATE </li>
+ *         <li> PERSIST_SCROLL_ADMIN </li>
+ *         <li> PERSIST_SCROLL_CANDIDATES </li>
+ *         <li> PERSIST_SCROLL_EDIT </li>
+ *         <li> PERSIST_SCROLL_EDIT_ITEMS </li>
+ *         <li> PERSIST_SCROLL_RESULTS </li>
+ *         <li> PERSIST_SCROLL_VOTES </li>
+ *         <li> PERSIST_TEXT_DEADLINE </li>
+ *         <li> PERSIST_TEXT_IMAGE </li>
+ *         <li> PERSIST_TEXT_NAME </li>
+ *         <li> PERSIST_TEXT_QUANTITY </li>
+ *         <li> PERSIST_TEXT_THUMBNAIL </li>
+ *         <li> PERSIST_TOGGLE_ANONYMOUS </li>
  *         <li> USERS_EDIT </li>
  *         <li> USERS_ERROR </li>
  *         <li> USERS_LOGOUT </li>
@@ -71,6 +88,23 @@ const Action = Object.freeze({
         ITEMS_EDIT: "itemsEdit",
         ITEMS_ERROR: "itemsError",
         ITEMS_VOTE: "itemsVote",
+        PERSIST_COLLAPSED_ADD_ITEM: "persistCollapsedAddItem",
+        PERSIST_COLLAPSED_ADMIN_CREDENTIALS: "persistCollapsedAdminCredentials",
+        PERSIST_COLLAPSED_EDIT_ITEMS: "persistCollapsedEditItems",
+        PERSIST_COLLAPSED_MANAGE_VOTE: "persistCollapsedManageVote",
+        PERSIST_RADIO_AGGREGATE: "persistRadioAggregate",
+        PERSIST_SCROLL_ADMIN: "persistScrollAdmin",
+        PERSIST_SCROLL_CANDIDATES: "persistScrollCandidates",
+        PERSIST_SCROLL_EDIT_ITEMS: "persistScrollEditItems",
+        PERSIST_SCROLL_EDIT: "persistScrollEdit",
+        PERSIST_SCROLL_RESULTS: "persistScrollResults",
+        PERSIST_SCROLL_VOTES: "persistScrollVotes",
+        PERSIST_TEXT_DEADLINE: "persistTextDeadline",
+        PERSIST_TEXT_IMAGE: "persistTextImage",
+        PERSIST_TEXT_NAME: "persistTextName",
+        PERSIST_TEXT_QUANTITY: "persistTextQuantity",
+        PERSIST_TEXT_THUMBNAIL: "persistTextThumbnail",
+        PERSIST_TOGGLE_ANONYMOUS: "persistToggleAnonymous",
         USERS_EDIT: "usersEdit",
         USERS_ERROR: "usersError",
         USERS_LOGOUT: "usersLogout",
@@ -167,6 +201,24 @@ const Deadline = Object.freeze({
     MINUTES: "minutes",
 });
 
+ /**
+ * @description Properties of type {number} consist of:
+ * 
+ * <ul>
+ *     <li> DEBOUNCE_RESIZE </li>
+ *     <li> DEBOUNCE_SCROLL </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const Duration = Object.freeze({
+
+    DEBOUNCE_RESIZE: 100,
+    DEBOUNCE_SCROLL: 250,
+});
+
 /**
  * @description Properties of type {string} consist of:
  * 
@@ -213,7 +265,11 @@ const Error = Object.freeze({
  *     <li> MESSAGE </li>
  *     <li> MOUSE_DOWN </li>
  *     <li> OPEN </li>
+ *     <ul>
+ *         <li> SCROLL_OFFSET </li>
+ *     </ul>
  *     <li> RESIZE </li>
+ *     <li> SCROLL_OFFSET </li>
  *     <li> TRANSITION_END </li>
  *     <li> VOTE_AGGREGATE </li>
  *     <li> VOTE_CAST </li>
@@ -244,6 +300,12 @@ const Event = Object.freeze({
     MESSAGE: "message",
     MOUSE_DOWN: "mousedown",
     OPEN: "open",
+    
+    Property: {
+
+        SCROLL_OFFSET: "scrollOffset",
+    },
+
     RESIZE: "resize",
     TRANSITION_END: "transitionend",
     VOTE_AGGREGATE: "voteAggregate",
@@ -288,7 +350,8 @@ const Global = Object.freeze({
  *     </ul>
  *     <li> DIV </li>
  *     <ul>
- *         <li> CHECKBOX </li> 
+ *         <li> BUTTON </li>
+ *         <li> CHECKBOX </li>
  *         <li> IMAGE </li> 
  *         <li> PASSWORD </li> 
  *         <li> RADIO </li> 
@@ -312,6 +375,7 @@ const HTMLElement = Object.freeze({
 
     InputType: {
         
+        BUTTON: "button",
         CHECKBOX: "checkbox",
         PASSWORD: "password",
         RADIO: "radio",
@@ -1078,6 +1142,7 @@ export {
     Console,
     CSS,
     Deadline,
+    Duration,
     Error,
     Event,
     Global,

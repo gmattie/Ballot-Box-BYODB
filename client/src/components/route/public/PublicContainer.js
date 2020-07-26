@@ -101,9 +101,9 @@ const PublicContainer = () => {
                 contentElement.style.top = `${contentElement.parentElement.clientHeight / 2 - contentElement.clientHeight / 2}${C.CSS.PX}`;
             };
 
-            const debounceCenterContentHandler = debounce(100, centerContentHandler);
+            const debounceCenterContentHandler = debounce(C.Duration.DEBOUNCE_RESIZE, centerContentHandler);
 
-            const resizeObserver = new ResizeObserver(debounce(100, (entries) => {
+            const resizeObserver = new ResizeObserver(debounce(C.Duration.DEBOUNCE_RESIZE, (entries) => {
                 
                 for (let entry of entries) {
                     
@@ -119,7 +119,7 @@ const PublicContainer = () => {
                 threshold: 1.0
             };
 
-            const intersectionObserver = new IntersectionObserver(debounce(100, (entries) => {
+            const intersectionObserver = new IntersectionObserver(debounce(C.Duration.DEBOUNCE_RESIZE, (entries) => {
 
                 for (let entry of entries) {
 

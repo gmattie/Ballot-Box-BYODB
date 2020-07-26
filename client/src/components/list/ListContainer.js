@@ -6,16 +6,20 @@
  * @requires react
  * @requires react-beautiful-dnd
  * @requires useItems
+ * @requires usePersist
  * @requires useVotes
+ * @requires utilities
  * @public
  * @module
  * 
  */
 import { DragDropContext } from "react-beautiful-dnd";
+import { debounce } from "../../support/utilities";
 import * as C from "../../support/constants";
 import List from "./List";
 import React, { memo } from "react";
 import useItems from "../../hooks/useItems";
+import usePersist from "../../hooks/usePersist";
 import useVotes from "../../hooks/useVotes";
 
 /**
@@ -30,7 +34,7 @@ import useVotes from "../../hooks/useVotes";
 const ListContainer = () => {
 
     /**
-     * State
+     * Hooks
      * 
      */
     const {
@@ -41,6 +45,15 @@ const ListContainer = () => {
         setItemsCandidate,
         setItemsVote,
     } = useItems();
+
+    const {
+
+        persistScrollCandidates: scrollOffsetCandidates,
+        persistScrollVotes: scrollOffsetVotes,
+
+        setPersistScrollCandidates: setScrollOffsetCandidates,
+        setPersistScrollVotes: setScrollOffsetVotes,
+    } = usePersist();
 
     const { votesActive } = useVotes();
 
@@ -127,6 +140,29 @@ const ListContainer = () => {
     };
 
     /**
+     * @description Handler for a dispatched "scroll" event.
+     * 
+     * @param {string} targetListID - The ID of the target List component.
+     * @param {object} event - The event object
+     * @private
+     * @function
+     * 
+     */
+    const scrollHandler = (targetListID, event) => {
+
+        const scrollOffset = event[C.Event.Property.SCROLL_OFFSET];
+
+        if (targetListID === C.ID.LIST_ITEMS_CANDIDATE && scrollOffset !== scrollOffsetCandidates) {
+
+            setScrollOffsetCandidates(scrollOffset);
+        }
+        else if (targetListID === C.ID.LIST_ITEMS_VOTE && scrollOffset !== scrollOffsetVotes) {
+
+            setScrollOffsetVotes(scrollOffset);
+        }
+    };
+
+    /**
      * @description Retrieves the title of the "itemsVote" list with updated vote count.
      * 
      * @private
@@ -154,6 +190,12 @@ const ListContainer = () => {
                         ID={C.ID.LIST_ITEMS_CANDIDATE}
                         title={C.Label.CANDIDATES}
                         data={itemsCandidate}
+                        scrollOffset={scrollOffsetCandidates}
+                        scrollHandler={debounce(
+                            
+                            C.Duration.DEBOUNCE_SCROLL,
+                            scrollHandler.bind(null, C.ID.LIST_ITEMS_CANDIDATE)
+                        )}
                     />
 
                     {(votesActive && votesActive[C.Model.VOTE]) &&
@@ -161,6 +203,12 @@ const ListContainer = () => {
                             ID={C.ID.LIST_ITEMS_VOTE}
                             title={getVotesListTitle()}
                             data={itemsVote}
+                            scrollOffset={scrollOffsetVotes}
+                            scrollHandler={debounce(
+                                
+                                C.Duration.DEBOUNCE_SCROLL,
+                                scrollHandler.bind(null, C.ID.LIST_ITEMS_VOTE)
+                            )}
                         />
                     }
                 </DragDropContext>

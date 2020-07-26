@@ -10,10 +10,12 @@
  * @requires ResultsContainer
  * @requires useAuth
  * @requires useItems
+ * @requires usePersist
  * @requires UserInfo
  * @requires useUsers
  * @requires useVotes
  * @requires useWebSocket
+ * @requires utilities
  * @requires Vote
  * @requires VoteInfo
 
@@ -21,14 +23,16 @@
  * @module
  * 
  */
+import { debounce } from "../../../support/utilities";
 import { Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
 import * as C from "../../../support/constants";
 import AdminContainer from "./admin/AdminContainer";
 import Edit from "./edit/Edit";
-import React, { createContext, useRef, useState } from "react";
+import React, { createContext, useEffect, useRef, useState } from "react";
 import ResultsContainer from "./results/ResultsContainer";
 import useAuth from "../../../hooks/useAuth";
 import useItems from "../../../hooks/useItems";
+import usePersist from "../../../hooks/usePersist";
 import UserInfo from "./info/UserInfo";
 import useUsers from "../../../hooks/useUsers";
 import useVotes from "../../../hooks/useVotes";
@@ -71,6 +75,7 @@ const ProtectedContainer = () => {
      * 
      */
     const webSocketMessageRef = useRef();
+    const contentRef = useRef();
 
     /**
      * Hooks
@@ -87,6 +92,15 @@ const ProtectedContainer = () => {
         setItemsCandidate,
         setItemsVote
     } = useItems();
+
+    const {
+
+        persistScrollAdmin: scrollTopAdmin,
+        persistScrollEdit: scrollTopEdit,
+
+        setPersistScrollAdmin: setScrollTopAdmin,
+        setPersistScrollEdit: setScrollTopEdit,
+    } = usePersist();
 
     const { path } = useRouteMatch();
     const { fetchLogout, usersSelf } = useUsers();
@@ -213,6 +227,29 @@ const ProtectedContainer = () => {
     }
 
     /**
+     * @description Persist the scroll position for the AdminContainer and/or Edit components.
+     * The AdminContainer and Edit components content may overflow to activate the scrollbar of the ProtectedContainer component content. 
+     * 
+     * @private
+     * @function
+     * 
+     */
+    useEffect(() => {
+
+        if (contentRef.current) {
+
+            if (path === C.Route.ADMIN) {
+        
+                contentRef.current.scrollTop = scrollTopAdmin;
+            }
+            else if (path === C.Route.EDIT) {
+                
+                contentRef.current.scrollTop = scrollTopEdit;
+            }
+        }
+    }, [path, scrollTopAdmin, scrollTopEdit]);
+
+    /**
      * @description Retrieves a CSS style based on the hypertext reference link argument.
      * 
      * @param {string} href - A hypertext reference link.
@@ -288,6 +325,28 @@ const ProtectedContainer = () => {
     };
 
     /**
+     * @description Handler for a dispatched "scroll" event.
+     * Assigns the "topScroll" value of the content component to the appropriate persist state according to the route path.
+     * 
+     * @private
+     * @function
+     * 
+     */
+    const scrollHandler = () => {
+
+        const scrollTop = contentRef.current.scrollTop;
+
+        if ((path === C.Route.ADMIN) && (scrollTopAdmin !== scrollTop)) {
+
+            setScrollTopAdmin(scrollTop);
+        }
+        else if ((path === C.Route.EDIT) && (scrollTopEdit !== scrollTop)) {
+            
+            setScrollTopEdit(scrollTop);
+        }
+    };
+
+    /**
      * JSX markup
      * 
      */
@@ -309,7 +368,11 @@ const ProtectedContainer = () => {
                             {createButton(C.Label.LOGOUT, logout, null)}
                         </div>
 
-                        <div className={C.Style.PROTECTED_CONTAINER_CONTENT}>
+                        <div
+                            className={C.Style.PROTECTED_CONTAINER_CONTENT}
+                            onScroll={debounce(C.Duration.DEBOUNCE_SCROLL, scrollHandler)}
+                            ref={contentRef}
+                        >
                             <LogoutAPI.Provider value={logout}>
                                 <Switch>
                                     <Route path={C.Route.VOTE}>

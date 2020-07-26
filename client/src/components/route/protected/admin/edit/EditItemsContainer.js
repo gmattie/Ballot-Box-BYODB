@@ -5,14 +5,18 @@
  * @requires constants
  * @requires EditItem
  * @requires react
+ * @requires react-redux
  * @requires react-window
+ * @requires store
+ * @requires useItems
+ * @requires usePersist
  * @requires utilities
  * @public
  * @module
  * 
  */
 import { FixedSizeList as VirtualList } from "react-window";
-import { getReactElementSize, suppressConsoleMessage } from "../../../../../support/utilities";
+import { debounce, getReactElementSize, suppressConsoleMessage } from "../../../../../support/utilities";
 import { Provider } from "react-redux";
 import * as C from "../../../../../support/constants";
 import Collapsible from "../../../../controls/Collapsible";
@@ -20,6 +24,7 @@ import EditItem from "./EditItem";
 import React, { memo, useCallback, useState } from "react";
 import store from "../../../../../state/store";
 import useItems from "../../../../../hooks/useItems";
+import usePersist from "../../../../../hooks/usePersist";
 
 
 /**
@@ -44,24 +49,30 @@ const EditItemsContainer = () => {
      * Hooks
      * 
      */
+    const { fetchAll, itemsAll } = useItems();
+
     const {
         
-        fetchAll,
-        itemsAll
-    } = useItems();
+        persistCollapsedEditItems: collapsed,
+        persistScrollEditItems: scrollOffset,
+
+        setPersistCollapsedEditItems: setCollapsed,
+        setPersistScrollEditItems: setScrollOffset
+    } = usePersist();
 
     /**
-     * @description Callback executed each time the collapsed or expanded state of the Collapsible component is updated.
+     * @description Callback executed when the "collapsed" state of the Collapsible component is updated.
      * 
-     * @param {boolean} isCollapsed - Indicates the state of the Collapsible component.
-     * @async
+     * @param {boolean} collapsed - the "collapsed" state of the Collapsible component.
      * @private
      * @function
      *  
      */
-    const collapsibleHandler = async (isCollapsed) => {
+    const collapsibleHandler = async (collapsed) => {
 
-        if (!isCollapsed) {
+        setCollapsed(collapsed);
+
+        if (!collapsed) {
             
             if (!itemsAll) {
 
@@ -129,6 +140,24 @@ const EditItemsContainer = () => {
     ), []);
 
     /**
+     * @description Handler for a dispatched "scroll" event.
+     * 
+     * @param {object} event - The event object
+     * @private
+     * @function
+     * 
+     */
+    const scrollHandler = (event) => {
+
+        const offset = event[C.Event.Property.SCROLL_OFFSET];
+
+        if (scrollOffset !== offset) {
+
+            setScrollOffset(offset);
+        }
+    };
+
+    /**
      * JSX markup
      * 
      */
@@ -138,6 +167,7 @@ const EditItemsContainer = () => {
             <Collapsible
                 title={C.Label.EDIT_ITEMS}
                 eventHandler={collapsibleHandler}
+                collapsed={collapsed}
             >
                 <div
                     className={C.Style.EDIT_ITEMS_CONTAINER_CONTENT}
@@ -156,6 +186,8 @@ const EditItemsContainer = () => {
                                         itemData={itemsAll}
                                         itemCount={itemsAll.length}
                                         itemSize={itemRendererHeight}
+                                        onScroll={debounce(C.Duration.DEBOUNCE_SCROLL, scrollHandler)}
+                                        initialScrollOffset={scrollOffset}
                                     >
                                         {listItemRenderer}
                                     </VirtualList>

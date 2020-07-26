@@ -38,7 +38,7 @@ const broadcast = (clients, data) => {
  * 
  * @param {object} target - The target object used for extraction.
  * @param {...string} keys - The keys to extract from the target object and include in the new object.
- * @return {object}
+ * @returns {object}
  * @function
  * 
  * @example

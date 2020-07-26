@@ -13,6 +13,7 @@
  * @requires Toggle
  * @requires useAuth
  * @requires useInputText
+ * @requires usePersist
  * @requires useVotes
  * @public
  * @module
@@ -30,6 +31,7 @@ import TextField from "../../../controls/TextField";
 import Toggle from "../../../controls/Toggle";
 import useAuth from "../../../../hooks/useAuth";
 import useInputText from "../../../../hooks/useInputText";
+import usePersist from "../../../../hooks/usePersist";
 import useVotes from "../../../../hooks/useVotes";
 
 /**
@@ -54,18 +56,17 @@ const ManageVote = () => {
      * State
      * 
      */
-    const [ aggregate, setAggregate ] = useState(false);
-    const [ anonymous, setAnonymous ] = useState(false);
     const [ invalidDeadline, setInvalidDeadline ] = useState(null);
     const [ invalidQuantity, setInvalidQuantity ] = useState(null);
-    const [ isVoteActive, setIsVoteActive ] = useState(false);
     const [ isLoading, setIsLoading ] = useState(false);
+    const [ isVoteActive, setIsVoteActive ] = useState(false);
     const [ showDialog, setShowDialog ] = useState(false);
 
     /**
      * Refs
      * 
      */
+    const isMounted = useRef(false);
     const isSubmittable = useRef(false);
     const responseUpdate = useRef(false);
     const submitTarget = useRef(null);
@@ -85,21 +86,67 @@ const ManageVote = () => {
     } = useVotes();
 
     const {
-        
-        binding: bindDeadline,
-        setValue: setDeadline,
-        value: deadline
-    } = useInputText(C.Label.DEADLINE, confirmHandler);
 
-    const {
+        persistCollapsedManageVote: collapsed,
+        persistRadioAggregate: aggregate,
+        persistTextDeadline: deadline,
+        persistTextQuantity: quantity,
+        persistToggleAnonymous: anonymous,
+
+        setPersistCollapsedManageVote: setCollapsed,
+        setPersistRadioAggregate: setAggregate,
+        setPersistTextDeadline: setDeadline,
+        setPersistTextQuantity: setQuantity,
+        setPersistToggleAnonymous: setAnonymous,
+    } = usePersist();
+
+    const { binding: bindDeadline } = useInputText(
         
-        binding: bindQuantity,
-        setValue: setQuantity,
-        value: quantity
-    } = useInputText(C.Label.QUANTITY, confirmHandler);
+        C.Label.DEADLINE,
+        confirmHandler,
+        null,
+        {
+            value: deadline,
+            setValue: setDeadline
+        }
+    );
+
+    const { binding: bindQuantity } = useInputText(
+        
+        C.Label.QUANTITY,
+        confirmHandler,
+        null,
+        {
+            value: quantity,
+            setValue: setQuantity
+        }
+    );
     
     /**
-     * @description Persists local state according to the properties of an active vote.
+     * @description Converts a value of milliseconds into a descriptive unit of time.
+     * 
+     * @param {number} deadline - The value in milliseconds.
+     * @returns {string} A descriptive unit of time.
+     * @private
+     * @function
+     * 
+     * @example
+     * 
+     *      const deadlineDescription = createDeadlineDescription(60000)
+     *      console.log(deadlineDescription);  // 2 minutes
+     * 
+     */
+    const createDeadlineDescription = (deadline) => {
+
+        const result = (deadline !== 0)
+            ? ms(deadline, { long: true })
+            : "0";
+
+        return result;
+    };
+
+    /**
+     * @description Set local state according to the presence of an active vote.
      * 
      * @private
      * @function
@@ -107,24 +154,32 @@ const ManageVote = () => {
      */
     useEffect(() => {
 
-        if (votesActive && votesActive[C.Model.VOTE]) {
+        setIsVoteActive(
+            
+            Boolean(votesActive && votesActive[C.Model.VOTE])
+        );
+    }, [votesActive]);
 
-            const activeVote = votesActive[C.Model.VOTE];
-            const deadlineTimeFormat = (activeVote[C.Model.DEADLINE] !== 0)
-                ? ms(activeVote[C.Model.DEADLINE], { long: true })
-                : "0";
+    /**
+     * Persist values on mount
+     * Assign the values of UI control components to match the properties of an active vote.
+     * 
+     */
+    if (isVoteActive && !isMounted.current) {
 
-            setIsVoteActive(true);
-            setDeadline(deadlineTimeFormat);
-            setQuantity(activeVote[C.Model.QUANTITY].toString());
-            setAggregate(activeVote[C.Model.AGGREGATE]);
-            setAnonymous(activeVote[C.Model.ANONYMOUS]);
+        isMounted.current = true;
+
+        if (deadline === null) {
+
+            const vote = votesActive[C.Model.VOTE];
+            const deadlineDescription = createDeadlineDescription(vote[C.Model.DEADLINE]);
+
+            setDeadline(deadlineDescription);
+            setQuantity(vote[C.Model.QUANTITY].toString());
+            setAggregate(vote[C.Model.AGGREGATE]);
+            setAnonymous(vote[C.Model.ANONYMOUS]);
         }
-        else {
-
-            setIsVoteActive(false);
-        }
-    }, [setDeadline, setQuantity, votesActive]);
+    }
 
     /**
      * Set isSubmittable flag
@@ -138,11 +193,31 @@ const ManageVote = () => {
     );    
     
     /**
+     * Vote modification success
+     * Clear appropriate text input elements.
+     * 
+     */
+    if (votesActive && votesActive[C.Model.VOTE] && responseUpdate.current) {
+
+        responseUpdate.current = false;
+
+        if (submitTarget.current === C.Label.OPEN) {
+
+            const vote = votesActive[C.Model.VOTE];
+            const deadlineDescription = createDeadlineDescription(vote[C.Model.DEADLINE]);
+
+            setDeadline(deadlineDescription);
+        }
+    }
+
+    /**
      * Vote modification failure
      * Parse the error object to set the appropriate local error states.
      * 
      */
     if (authError && responseUpdate.current) {
+
+        responseUpdate.current = false;
 
         if (Array.isArray(authError.error)) {
             
@@ -177,20 +252,21 @@ const ManageVote = () => {
 
     /**
      * @description Displays the confirmation dialog.
-     * The event target's text content is assigned to the "submitTarget" reference that is used in the "submitHandler" callback.
-     * This function is also assigned to the "keyPressEnterCallback" from UseInputText hooks that do not supply an "event" argument.
+     * This callback is assigned to both Button and TextField control components.
+     * If the event's target type is C.HTML.InputType.BUTTON, the Button's label is assigned to the "submitTarget" reference.
+     * Otherwise, the "submitTarget" reference will default to C.Label.OPEN.
      * Written as a function declaration in order to be hoisted and accessible to the custom hooks above.
      * 
-     * @param {object|null} event - The event object. 
+     * @param {object} event - The event object. 
      * @function
      * @private
      * 
      */
-    function confirmHandler(event = null) {
+    function confirmHandler(event) {
 
         if (isSubmittable.current) {
 
-            submitTarget.current = (event)
+            submitTarget.current = (event.target.type === C.HTMLElement.InputType.BUTTON)
                 ? event.target.textContent
                 : C.Label.OPEN;
 
@@ -223,7 +299,6 @@ const ManageVote = () => {
             setInvalidDeadline(null);
             setInvalidQuantity(null);
 
-
             await fetchOpen(
                 
                 ms(deadline),
@@ -238,8 +313,20 @@ const ManageVote = () => {
             await fetchClose();
         }
 
-        responseUpdate.current = false;
         setIsLoading(false);
+    };
+
+    /**
+     * @description Callback executed when the "collapsed" state of the Collapsible component is updated.
+     * 
+     * @param {boolean} collapsed - the "collapsed" state of the Collapsible component.
+     * @private
+     * @function
+     *  
+     */
+    const collapsibleHandler = (collapsed) => {
+
+        setCollapsed(collapsed);
     };
 
     /**
@@ -262,7 +349,11 @@ const ManageVote = () => {
                 />
             }
 
-            <Collapsible title={C.Label.MANAGE_VOTE}>
+            <Collapsible
+                title={C.Label.MANAGE_VOTE}
+                eventHandler={collapsibleHandler}
+                collapsed={collapsed}
+            >
                 <div className={C.Style.MANAGE_VOTE}>
                     <div className={C.Style.MANAGE_VOTE_DEADLINE}>
                         <TextField

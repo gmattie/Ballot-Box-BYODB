@@ -38,6 +38,7 @@ const Button = ({
 
         <button
             className={`${C.Style.BUTTON} ${style}`}
+            type={C.HTMLElement.InputType.BUTTON}
             disabled={disabled || false}
             onClick={onClick}
         >

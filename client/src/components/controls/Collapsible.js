@@ -15,7 +15,7 @@ import { concatClassNames } from "../../support/utilities";
 import * as C from "../../support/constants";
 import Button from "../controls/Button";
 import PropTypes from "prop-types";
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import Triangle from "../../icons/Triangle";
 
 /**
@@ -32,7 +32,7 @@ const Collapsible = ({
         title,
         children,
         eventHandler,
-        expanded,
+        collapsed = true,
     }) => {
 
     /**
@@ -42,21 +42,6 @@ const Collapsible = ({
     const arrowRef = useRef();
     const contentRef = useRef();
     const isAnimating = useRef(false);
-
-    /**
-     * @description Calls a provided "eventHandler" prop if the component is initialized in an expanded state.
-     * 
-     * @private
-     * @function
-     * 
-     */
-    useEffect(() => {
-
-        if (expanded && eventHandler) {
-
-            eventHandler(false);
-        }
-    }, [eventHandler, expanded]);
 
     /**
      * @description Handler for a dispatched "transitionend" event.
@@ -155,7 +140,7 @@ const Collapsible = ({
                     className={
                         concatClassNames(
                             C.Style.COLLAPSIBLE_ARROW,
-                            (expanded && C.Style.COLLAPSIBLE_ARROW_EXPANDED)
+                            (!collapsed && C.Style.COLLAPSIBLE_ARROW_EXPANDED)
                         )
                     }
                 >
@@ -170,7 +155,7 @@ const Collapsible = ({
                 className={
                     concatClassNames(
                         C.Style.COLLAPSIBLE_CONTENT,
-                        (!expanded && C.Style.HIDDEN)
+                        (collapsed && C.Style.HIDDEN)
                     )
                 }
             > 
@@ -189,7 +174,7 @@ Collapsible.propTypes = {
     title: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
     eventHandler: PropTypes.func,
-    expanded: PropTypes.bool,
+    collapsed: PropTypes.bool,
 };
 
 /**

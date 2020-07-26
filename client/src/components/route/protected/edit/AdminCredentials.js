@@ -9,6 +9,7 @@
  * @requires react
  * @requires TextField
  * @requires useInputText
+ * @requires usePersist
  * @requires utilities
  * @public
  * @module
@@ -22,6 +23,7 @@ import PasswordField from "../../../controls/PasswordField";
 import PropTypes from "prop-types";
 import React, { useEffect, useRef } from "react";
 import TextField from "../../../controls/TextField";
+import usePersist from "../../../../hooks/usePersist";
 
 /**
  * @description The AdminCredentials component contains UI elements that are required to enter admin credentials.
@@ -47,6 +49,16 @@ const AdminCredentials = ({
     const showErrorMessage = useRef(true);
 
     /**
+     * Hooks
+     * 
+     */
+    const {
+        
+        persistCollapsedAdminCredentials: collapsed,
+        setPersistCollapsedAdminCredentials: setCollapsed
+    } = usePersist();
+
+    /**
      * @description Reset the "showErrorMessage" reference when the "errorMessage" prop is updated. 
      * 
      * @private
@@ -58,6 +70,19 @@ const AdminCredentials = ({
         showErrorMessage.current = true;
     }, [errorMessage]);
     
+    /**
+     * @description Callback executed when the "collapsed" state of the Collapsible component is updated.
+     * 
+     * @param {boolean} collapsed - the "collapsed" state of the Collapsible component.
+     * @private
+     * @function
+     *  
+     */
+    const collapsibleHandler = (collapsed) => {
+
+        setCollapsed(collapsed);
+    };
+
     /**
      * @description Callback for a dispatched "change" event for either the "adminUsername" or "adminPassword" HTMLInputElement.
      * Intercepts the target's "onChange" binding from its UseInputText hook.
@@ -84,7 +109,11 @@ const AdminCredentials = ({
      */
     return (
 
-        <Collapsible title={C.Label.ADMIN_CREDENTIALS}>
+        <Collapsible
+            title={C.Label.ADMIN_CREDENTIALS}
+            eventHandler={collapsibleHandler}
+            collapsed={collapsed}
+        >
             <div className={C.Style.ADMIN_CREDENTIALS}>
                 <div
                     className={

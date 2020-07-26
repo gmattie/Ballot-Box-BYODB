@@ -36,7 +36,9 @@ const List = ({
     
         ID,
         title,
-        data
+        data,
+        scrollOffset,
+        scrollHandler
     }) => {
 
     /**
@@ -191,7 +193,7 @@ const List = ({
 
                             {itemRendererHeight && listHeaderHeight &&
                                 <AutoSizer
-                                    defaultHeight={1}
+                                    defaultHeight={listHeaderHeight}
                                     defaultWidth={1}
                                 >
                                     {({ width, height }) => (
@@ -204,6 +206,13 @@ const List = ({
                                             itemCount={itemCount}
                                             itemData={data}
                                             outerRef={provided.innerRef}
+                                            onScroll={scrollHandler}
+                                            initialScrollOffset={
+                                        
+                                                (height >= itemRendererHeight * itemCount)
+                                                    ? 0
+                                                    : scrollOffset
+                                            }
                                         >
                                             {listItemRenderer}
                                         </VirtualList>
@@ -224,7 +233,9 @@ const List = ({
  */
 List.defaultProps = {
 
-    data: null
+    data: null,
+    scrollOffset: null,
+    scrollHandler: null,
 };
 
 /**
@@ -236,6 +247,8 @@ List.propTypes = {
     ID: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     data: PropTypes.array,
+    scrollOffset: PropTypes.number,
+    scrollHandler: PropTypes.func
 };
 
 /**

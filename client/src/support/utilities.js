@@ -31,7 +31,7 @@ const concatClassNames = (...classNames) => {
  * 
  * @param {number} delay - The time in milliseconds to postpone the callback.
  * @param {function} callback - The event's callback function.
- * @return {function} 
+ * @returns {function} 
  * @public
  * @function
  * 
@@ -64,7 +64,7 @@ const debounce = (delay, callback) => {
  * @description Simulates a double-click event that is determined by two clicks occurring within the standard time of 500 milliseconds.
  * 
  * @param {function} callback - The event's callback function.
- * @return {function} 
+ * @returns {function} 
  * @public
  * @function
  * 
@@ -97,7 +97,7 @@ const doubleClick = (callback) => {
  * @description Synchronously retrieve the width and/or heigh of a React element without visibly rendering and committing the element to the DOM.
  * 
  * @param {object} elementJSX - The target React element written in JSX.
- * @return {object} 
+ * @returns {object} 
  * @public
  * @function
  * 
@@ -147,7 +147,7 @@ const getReactElementSize = (elementJSX) => {
  * @description Checks if the deployment target is a mobile device.
  * Additional info: https://developer.mozilla.org/en-US/docs/Web/HTTP/Browser_detection_using_the_user_agent
  * 
- * @return {boolean} 
+ * @returns {boolean} 
  * @public
  * @function
  * 

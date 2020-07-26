@@ -10,6 +10,7 @@
  * @requires ResultDetail
  * @requires useAuth
  * @requires useMount
+ * @requires usePersist
  * @requires useVotes
  * @requires utilities
 
@@ -18,7 +19,7 @@
  * 
  */
 import { FixedSizeList as VirtualList } from "react-window";
-import { getReactElementSize } from "../../../../support/utilities";
+import { debounce, getReactElementSize } from "../../../../support/utilities";
 import { LogoutAPI } from "../ProtectedContainer";
 import * as C from "../../../../support/constants";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -27,6 +28,7 @@ import Result from "./Result";
 import ResultDetail from "../../../modal/result/ResultDetail";
 import useAuth from "../../../../hooks/useAuth";
 import useMount from "../../../../hooks/useMount";
+import usePersist from "../../../../hooks/usePersist";
 import useVotes from "../../../../hooks/useVotes";
 
 /**
@@ -67,6 +69,12 @@ const ResultsContainer = () => {
     const { authError } = useAuth();
     const { onMount } = useMount();
     
+    const {
+
+        persistScrollResults: scrollOffset,
+        setPersistScrollResults: setScrollOffset
+    } = usePersist();
+
     const {
 
         fetchAll,
@@ -165,6 +173,24 @@ const ResultsContainer = () => {
     ), []);
 
     /**
+     * @description Handler for a dispatched "scroll" event.
+     * 
+     * @param {object} event - The event object
+     * @private
+     * @function
+     * 
+     */
+    const scrollHandler = (event) => {
+
+        const offset = event[C.Event.Property.SCROLL_OFFSET];
+
+        if (scrollOffset !== offset) {
+
+            setScrollOffset(offset);
+        }
+    };
+
+    /**
      * JSX markup
      * 
      */
@@ -191,6 +217,13 @@ const ResultsContainer = () => {
                                     itemData={votesAll}
                                     itemCount={votesAll.length}
                                     itemSize={itemRendererHeight}
+                                    onScroll={debounce(C.Duration.DEBOUNCE_SCROLL, scrollHandler)}
+                                    initialScrollOffset={
+                                        
+                                        (height >= itemRendererHeight * votesAll.length)
+                                            ? 0
+                                            : scrollOffset
+                                    }
                                 >
                                     {listItemRenderer}
                                 </VirtualList>

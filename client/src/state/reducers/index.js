@@ -4,6 +4,7 @@
  * @requires authReducer
  * @requires constants
  * @requires itemsReducer
+ * @requires persistReducer
  * @requires redux
  * @requires usersReducer
  * @requires votesReducer
@@ -15,6 +16,7 @@ import { combineReducers } from "redux";
 import * as C from "../../support/constants";
 import auth from "./authReducer";
 import items from "./itemsReducer";
+import persist from "./persistReducer";
 import users from "./usersReducer";
 import votes from "./votesReducer";
 import webSocket from "./webSocketReducer";
@@ -30,9 +32,10 @@ const reducers = combineReducers({
 
     auth,
     items,
+    persist,
     users,
     votes,
-    webSocket
+    webSocket,
 });
 
 /**

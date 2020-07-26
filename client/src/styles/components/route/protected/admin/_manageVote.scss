@@ -12,14 +12,6 @@
     flex-direction: column;
     padding: $FORM_GAP;
 
-    &-deadline {
-
-        input {
-
-            text-transform: capitalize;
-        }
-    }
-
     &-quantity {
 
         margin-top: $FORM_GAP;

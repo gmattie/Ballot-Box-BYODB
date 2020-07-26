@@ -11,6 +11,7 @@
  * @requires useAuth
  * @requires useInputText
  * @requires useItems
+ * @requires usePersist
  * @requires useVotes
  * @public
  * @module
@@ -26,6 +27,7 @@ import TextField from "../../../controls/TextField";
 import useAuth from "../../../../hooks/useAuth";
 import useInputText from "../../../../hooks/useInputText";
 import useItems from "../../../../hooks/useItems";
+import usePersist from "../../../../hooks/usePersist";
 import useVotes from "../../../../hooks/useVotes";
 
 /**
@@ -71,24 +73,49 @@ const AddItem = () => {
 
     const {
         
-        binding: bindName,
-        clearValue: clearName,
-        value: name
-    } = useInputText(C.Label.NAME, confirmHandler);
+        persistCollapsedAddItem: collapsed,
+        persistTextImage: image,
+        persistTextName: name,
+        persistTextThumbnail: thumbnail,
 
-    const {
+        setPersistCollapsedAddItem: setCollapsed,
+        setPersistTextImage: setImage,
+        setPersistTextName: setName,
+        setPersistTextThumbnail: setThumbnail,
+    } = usePersist();
+
+    const { binding: bindImage, clearValue: clearImage } = useInputText(
         
-        binding: bindThumbnail,
-        clearValue: clearThumbnail,
-        value: thumbnail
-    } = useInputText(C.Label.THUMBNAIL, confirmHandler);
-    
-    const {
+        C.Label.IMAGE,
+        confirmHandler,
+        null,
+        {
+            value: image,
+            setValue: setImage
+        }
+    );
+
+    const { binding: bindName, clearValue: clearName } = useInputText(
         
-        binding: bindImage,
-        clearValue: clearImage,
-        value: image
-    } = useInputText(C.Label.IMAGE, confirmHandler);
+        C.Label.NAME,
+        confirmHandler,
+        null,
+        {
+            value: name,
+            setValue: setName
+        }
+    );
+
+    const { binding: bindThumbnail, clearValue: clearThumbnail } = useInputText(
+        
+        C.Label.THUMBNAIL,
+        confirmHandler,
+        null,
+        {
+            value: thumbnail,
+            setValue: setThumbnail
+        }
+    );
     
     const {
         
@@ -96,7 +123,7 @@ const AddItem = () => {
         itemsAdd,
         setItemsAdd
     } = useItems();
-
+    
     const { votesActive } = useVotes();
     
     /**
@@ -228,6 +255,19 @@ const AddItem = () => {
     };
 
     /**
+     * @description Callback executed when the "collapsed" state of the Collapsible component is updated.
+     * 
+     * @param {boolean} collapsed - the "collapsed" state of the Collapsible component.
+     * @private
+     * @function
+     *  
+     */
+    const collapsibleHandler = (collapsed) => {
+
+        setCollapsed(collapsed);
+    };
+
+    /**
      * JSX markup
      * 
      */
@@ -242,7 +282,11 @@ const AddItem = () => {
                 />
             }
 
-            <Collapsible title={C.Label.ADD_ITEM}>
+            <Collapsible
+                title={C.Label.ADD_ITEM}
+                eventHandler={collapsibleHandler}
+                collapsed={collapsed}
+            >
                 <div className={C.Style.ADD_ITEM}>
                     <div className={C.Style.ADD_ITEM_NAME}>
                         <TextField
