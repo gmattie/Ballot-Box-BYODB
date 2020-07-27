@@ -15,7 +15,7 @@
 
         $LINE_HEIGHT: 1.3rem;
 
-        margin-right: $LIST_ITEM_MARGIN;
+        margin: 0 $LIST_ITEM_MARGIN;
         line-height: $LINE_HEIGHT;
         max-height: calc(#{$LINE_HEIGHT} * 3);
     }
@@ -42,7 +42,7 @@
         max-height: $size;
         object-fit: contain;
         object-position: center;
-        margin: auto $LIST_ITEM_MARGIN;
+        margin-left: $LIST_ITEM_MARGIN;
         pointer-events: none;
         
         &-intersection {

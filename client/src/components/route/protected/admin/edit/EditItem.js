@@ -377,6 +377,16 @@ const EditItem = ({
 };
 
 /**
+ * Default Props
+ * 
+ */
+EditItem.defaultProps = {
+
+    itemThumbnail: null,
+    itemImage: null,
+};
+
+/**
  * Prop Types
  * 
  */
@@ -384,8 +394,8 @@ EditItem.propTypes = {
 
     itemID: PropTypes.string.isRequired,
     itemName: PropTypes.string.isRequired,
-    itemThumbnail: PropTypes.string.isRequired,
-    itemImage: PropTypes.string.isRequired,
+    itemThumbnail: PropTypes.string,
+    itemImage: PropTypes.string,
     itemActive: PropTypes.bool.isRequired
 };
 

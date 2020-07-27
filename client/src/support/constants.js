@@ -228,6 +228,7 @@ const Duration = Object.freeze({
  *     <li> ERROR_MESSAGE </li>
  *     <li> ERROR_PARAM </li>
  *     <li> ITEM_NAME_ALREADY_EXISTS </li>
+ *     <li> MISSING_DATA </li>
  *     <li> USE_LAYOUT_EFFECT_ON_SERVER </li>
  *     <li> VOTE_DOES_NOT_EXIST </li>
  * </ul>
@@ -243,6 +244,7 @@ const Error = Object.freeze({
     ERROR_PARAM: "param",
     ERROR: "error",
     ITEM_NAME_ALREADY_EXISTS: "Item name already exists",
+    MISSING_DATA: "Error: missing data",
     USE_LAYOUT_EFFECT_ON_SERVER: "useLayoutEffect does nothing on the server",
     VOTE_DOES_NOT_EXIST: "Vote does not exist",
 });

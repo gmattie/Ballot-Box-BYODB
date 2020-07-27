@@ -189,7 +189,7 @@ const ResultDetail = ({
 
             for (const cast of vote[C.Model.CAST]) {
 
-                if (cast[C.Model.ITEM][C.Model.ID] === itemID) {
+                if (cast[C.Model.ITEM] && (cast[C.Model.ITEM][C.Model.ID] === itemID)) {
 
                     result.splice(result.length - 1, 1, quantity - cast[C.Model.RANK]);
 
@@ -231,9 +231,21 @@ const ResultDetail = ({
 
                                                     <ResultDetailTableUserHeader
                                                         key={vote[C.Model.ID]}
-                                                        name={vote[C.Model.USER][C.Model.NAME]}
-                                                        email={vote[C.Model.USER][C.Model.EMAIL]}
-                                                        ip={vote[C.Model.USER][C.Model.IP]}
+                                                        name={
+                                                            
+                                                            (vote[C.Model.USER] && vote[C.Model.USER][C.Model.NAME]) ||
+                                                            C.Error.MISSING_DATA
+                                                        }
+                                                        email={
+                                                            
+                                                            (vote[C.Model.USER] && vote[C.Model.USER][C.Model.EMAIL]) ||
+                                                            C.Error.MISSING_DATA    
+                                                        }
+                                                        ip={
+                                                            
+                                                            (vote[C.Model.USER] && vote[C.Model.USER][C.Model.IP]) ||
+                                                            C.Error.MISSING_DATA
+                                                        }
                                                     />
                                                 );
                                             })
@@ -249,8 +261,12 @@ const ResultDetail = ({
                                             <ResultDetailTableItemRow
                                                 key={total[C.Model.ID]}
                                                 score={total[C.Model.RANK]}
-                                                itemName={total[C.Model.ITEM][C.Model.NAME]}
-                                                ranks={getCastRanks(total[C.Model.ITEM][C.Model.ID])}
+                                                itemName={
+                                                    
+                                                    (total[C.Model.ITEM] && total[C.Model.ITEM][C.Model.NAME]) ||
+                                                    C.Error.MISSING_DATA
+                                                }
+                                                ranks={getCastRanks(total[C.Model.ITEM] && total[C.Model.ITEM][C.Model.ID])}
                                             />
                                         );
                                     })}

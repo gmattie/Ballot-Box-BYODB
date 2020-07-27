@@ -240,6 +240,7 @@ const Header = Object.freeze({
  *     <li> ENV_DEVELOPMENT </li>
  *     <li> ENV_PRODUCTION </li>
  *     <li> IS_VOTE_OPEN </li>
+ *     <li> TRUST_PROXY </li>
  *     <li> USER </li>
  * </ul>
  * 
@@ -255,7 +256,8 @@ const Local = Object.freeze({
     ENV_DEVELOPMENT: "development",
     ENV_PRODUCTION: "production",
     IS_VOTE_OPEN: "isVoteOpen",
-    USER: "user"
+    TRUST_PROXY: "trust proxy",
+    USER: "user",
 });
 
 /**

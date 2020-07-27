@@ -34,6 +34,8 @@ const server = () => {
     app.use(C.Route.API_ITEMS, require(`${C.Dir.ROUTES}${C.Route.API_ITEMS}`));
     app.use(C.Route.API_USERS, require(`${C.Dir.ROUTES}${C.Route.API_USERS}`));
     app.use(C.Route.API_VOTES, require(`${C.Dir.ROUTES}${C.Route.API_VOTES}`));
+
+    app.set(C.Local.TRUST_PROXY, true);
     
     const environment = process.env.NODE_ENV || C.Local.ENV_DEVELOPMENT;
 

@@ -54,15 +54,17 @@ const ListItem = ({
             }}
             onClick={() => clickHandler(data[C.Model.NAME], data[C.Model.IMAGE])}
         >
-            <ViewportImage
-                src={data[C.Model.THUMBNAIL]}
-                alt={data[C.Model.NAME]}
-                placeholder={C.Image.TRANSPARENT_PLACEHOLDER}
-                imageStyle={C.Style.LIST_ITEM_IMAGE}
-                preIntersectionStyle={C.Style.TRANSPARENT}
-                intersectionStyle={C.Style.LIST_ITEM_IMAGE_INTERSECTION}
-                errorStyle={C.Style.LIST_ITEM_IMAGE_ERROR}
-            />
+            {data[C.Model.THUMBNAIL] &&
+                <ViewportImage
+                    src={data[C.Model.THUMBNAIL]}
+                    alt={data[C.Model.NAME]}
+                    placeholder={C.Image.TRANSPARENT_PLACEHOLDER}
+                    imageStyle={C.Style.LIST_ITEM_IMAGE}
+                    preIntersectionStyle={C.Style.TRANSPARENT}
+                    intersectionStyle={C.Style.LIST_ITEM_IMAGE_INTERSECTION}
+                    errorStyle={C.Style.LIST_ITEM_IMAGE_ERROR}
+                />
+            }
 
             <div className={C.Style.LIST_ITEM_TITLE}>
                 {data[C.Model.NAME]}
