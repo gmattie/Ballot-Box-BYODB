@@ -38,43 +38,15 @@ const votesReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case C.Action.Type.VOTES_ACTIVE:
-
-            return {
-                
-                ...state,
-                [C.Action.Type.VOTES_ACTIVE]: action[C.Action.PAYLOAD],
-            };
-
         case C.Action.Type.VOTES_ALL:
-
-            return {
-
-                ...state,
-                [C.Action.Type.VOTES_ALL]: action[C.Action.PAYLOAD]
-            };
-
         case C.Action.Type.VOTES_CAST:
-
-            return {
-
-                ...state,
-                [C.Action.Type.VOTES_CAST]: action[C.Action.PAYLOAD]
-            };
-
         case C.Action.Type.VOTES_ERROR:
-
-            return {
-
-                ...state,
-                [C.Action.Type.VOTES_ERROR]: action[C.Action.PAYLOAD]
-            };
-
         case C.Action.Type.VOTES_ONE:
 
             return {
 
                 ...state,
-                [C.Action.Type.VOTES_ONE]: action[C.Action.PAYLOAD]
+                [action.type]: action[C.Action.PAYLOAD]
             };
 
         default:

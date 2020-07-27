@@ -39,51 +39,16 @@ const itemsReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case C.Action.Type.ITEMS_ADD:
-
-            return {
-                
-                ...state,
-                [C.Action.Type.ITEMS_ADD]: action[C.Action.PAYLOAD],
-            };
-
         case C.Action.Type.ITEMS_ALL:
-
-            return {
-                
-                ...state,
-                [C.Action.Type.ITEMS_ALL]: action[C.Action.PAYLOAD],
-            };
-
         case C.Action.Type.ITEMS_CANDIDATE:
-
-            return {
-                
-                ...state,
-                [C.Action.Type.ITEMS_CANDIDATE]: action[C.Action.PAYLOAD],
-            };
-
         case C.Action.Type.ITEMS_EDIT:
-
-            return {
-                
-                ...state,
-                [C.Action.Type.ITEMS_EDIT]: action[C.Action.PAYLOAD],
-            };
-
         case C.Action.Type.ITEMS_ERROR:
-            
-            return {
-
-                ...state,
-                [C.Action.Type.ITEMS_ERROR]: action[C.Action.PAYLOAD]
-            };
-
         case C.Action.Type.ITEMS_VOTE:
 
             return {
 
                 ...state,
-                [C.Action.Type.ITEMS_VOTE]: action[C.Action.PAYLOAD],
+                [action.type]: action[C.Action.PAYLOAD],
             };
 
         default:

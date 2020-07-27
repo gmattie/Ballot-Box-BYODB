@@ -35,19 +35,12 @@ const authReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case C.Action.Type.AUTH_TOKEN:
-
-            return {
-                
-                ...state,
-                [C.Action.Type.AUTH_TOKEN]: action[C.Action.PAYLOAD],
-            };
-
         case C.Action.Type.AUTH_ERROR:
 
             return {
 
                 ...state,
-                [C.Action.Type.AUTH_ERROR]: action[C.Action.PAYLOAD]
+                [action.type]: action[C.Action.PAYLOAD]
             };
 
         default:

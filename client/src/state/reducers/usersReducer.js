@@ -38,43 +38,15 @@ const usersReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case C.Action.Type.USERS_EDIT:
-
-            return {
-
-                ...state,
-                [C.Action.Type.USERS_EDIT]: action[C.Action.PAYLOAD]
-            };
-
         case C.Action.Type.USERS_ERROR:
-
-            return {
-
-                ...state,
-                [C.Action.Type.USERS_ERROR]: action[C.Action.PAYLOAD]
-            };
-
         case C.Action.Type.USERS_REGISTER:
-
-            return {
-
-                ...state,
-                [C.Action.Type.USERS_REGISTER]: action[C.Action.PAYLOAD],
-            };
-
         case C.Action.Type.USERS_RESET:
-
-            return {
-
-                ...state,
-                [C.Action.Type.USERS_RESET]: action[C.Action.PAYLOAD],
-            };
-
         case C.Action.Type.USERS_SELF:
 
             return {
                 
                 ...state,
-                [C.Action.Type.USERS_SELF]: action[C.Action.PAYLOAD],
+                [action.type]: action[C.Action.PAYLOAD],
             };
 
         default:
