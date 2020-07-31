@@ -87,14 +87,24 @@ const EditItem = ({
         binding: bindThumbnail,
         clearValue: clearThumbnail,
         value: thumbnail
-    } = useInputText(C.Label.THUMBNAIL, confirmHandler, itemThumbnail);
+    } = useInputText(
+        
+        `${C.Label.THUMBNAIL} ${C.Label.URL}`,
+        confirmHandler,
+        itemThumbnail
+    );
     
     const {
         
         binding: bindImage,
         clearValue: clearImage,
         value: image
-    } = useInputText(C.Label.IMAGE, confirmHandler, itemImage);
+    } = useInputText(
+        
+        `${C.Label.IMAGE} ${C.Label.URL}`,
+        confirmHandler,
+        itemImage
+    );
     
     const {
 
@@ -133,8 +143,8 @@ const EditItem = ({
      */
     isSubmittable.current = (
         
-        (thumbnail && thumbnail !== itemThumbnail) ||
-        (image && image !== itemImage)
+        (thumbnail !== itemThumbnail) ||
+        (image !== itemImage)
     );
 
     /**
@@ -249,7 +259,7 @@ const EditItem = ({
         const value = !active;
 
         setActive(value);
-        submitData(null, null, value);
+        submitData(undefined, undefined, value);
     };
 
     /**
@@ -273,7 +283,7 @@ const EditItem = ({
             setInvalidThumbnail(null);
             setInvalidImage(null);
 
-            submitData(thumbnail, image, null);
+            submitData(thumbnail, image, undefined);
         }
     };
 

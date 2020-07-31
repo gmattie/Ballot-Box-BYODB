@@ -50,6 +50,7 @@ const Edit = () => {
      * 
      */
     const [ invalidAdminCredentials, setInvalidAdminCredentials ] = useState(null);
+    const [ invalidAvatar, setInvalidAvatar ] = useState(null);
     const [ invalidName, setInvalidName ] = useState(null);
     const [ invalidPassword, setInvalidPassword ] = useState(null);
     const [ invalidPasswordConfirm, setInvalidPasswordConfirm ] = useState(null);
@@ -84,21 +85,38 @@ const Edit = () => {
         binding: bindName,
         clearValue: clearName,
         value: name
-    } = useInputText(`${C.Label.NAME} ${C.Label.OPTIONAL}`, confirmHandler, usersSelf[C.Model.USER][C.Model.NAME]);
+    } = useInputText(
+        
+        C.Label.NAME,
+        confirmHandler,
+        usersSelf[C.Model.USER][C.Model.NAME]
+    );
+
+    const {
+
+        binding: bindAvatar,
+        clearValue: clearAvatar,
+        value: avatar
+    } = useInputText(
+        
+        `${C.Label.AVATAR} ${C.Label.URL} ${C.Label.OPTIONAL}`,
+        confirmHandler,
+        usersSelf[C.Model.USER][C.Model.AVATAR]
+    );
     
     const { 
         
         binding: bindPassword,
         clearValue: clearPassword,
         value: password
-    } = useInputText(`${C.Label.PASSWORD} ${C.Label.OPTIONAL}`, confirmHandler);
+    } = useInputText(`${C.Label.NEW} ${C.Label.PASSWORD} ${C.Label.OPTIONAL}`, confirmHandler);
 
     const { 
         
         binding: bindPasswordConfirm,
         clearValue: clearPasswordConfirm,
         value: passwordConfirm
-    } = useInputText(`${C.Label.CONFIRM} ${C.Label.PASSWORD} ${C.Label.OPTIONAL}`, confirmHandler);
+    } = useInputText(`${C.Label.CONFIRM} ${C.Label.NEW} ${C.Label.PASSWORD} ${C.Label.OPTIONAL}`, confirmHandler);
 
     const {
         
@@ -121,9 +139,14 @@ const Edit = () => {
      */
     isSubmittable.current = (
 
-        (name && name !== usersSelf[C.Model.USER][C.Model.NAME]) ||
-        (password && passwordConfirm) ||
-        (adminUsername && adminPassword)
+        (name &&
+            (
+                name !== usersSelf[C.Model.USER][C.Model.NAME] ||
+                avatar !== usersSelf[C.Model.USER][C.Model.AVATAR] ||
+                (password && passwordConfirm) ||
+                (adminUsername && adminPassword)
+            )
+        )
     );
 
     /**
@@ -133,7 +156,8 @@ const Edit = () => {
      */
     isResettable.current = (
 
-        (name && name !== usersSelf[C.Model.USER][C.Model.NAME]) ||
+        (name !== usersSelf[C.Model.USER][C.Model.NAME]) ||
+        (avatar !== usersSelf[C.Model.USER][C.Model.AVATAR]) ||
         password ||
         passwordConfirm ||
         adminUsername ||
@@ -198,6 +222,11 @@ const Edit = () => {
 
                         break;
 
+                    case C.ID.NAME_AVATAR:
+                        setInvalidAvatar(errorMessage);
+
+                        break;
+
                     case C.ID.NAME_PASSWORD:
                         setInvalidPassword(errorMessage);
 
@@ -244,10 +273,11 @@ const Edit = () => {
             setAuthError(null);
             setUsersEdit(null);
 
-            setInvalidAdminCredentials(null);
             setInvalidName(null);
+            setInvalidAvatar(null);
             setInvalidPassword(null);
             setInvalidPasswordConfirm(null);
+            setInvalidAdminCredentials(null);
 
             setIsLoading(true);
 
@@ -256,17 +286,18 @@ const Edit = () => {
 
             await fetchEdit(
                 
-                name,
-                password,
-                passwordConfirm,
-                adminUsername,
-                adminPassword
+                (name !== usersSelf[C.Model.USER][C.Model.NAME]) ? name : undefined,
+                (avatar !== usersSelf[C.Model.USER][C.Model.AVATAR]) ? avatar : undefined,
+                (password) ? password : undefined,
+                (passwordConfirm) ? passwordConfirm : undefined,
+                (adminUsername) ? adminUsername : undefined,
+                (adminPassword) ? adminPassword : undefined
             );
         }
     };
 
     /**
-     * @description Resets the "name", "password", "passwordConfirm", "adminUsername" and "adminPassword" text fields back to their default values.
+     * @description Resets the "name", "avatar", "password", "passwordConfirm", "adminUsername" and "adminPassword" text fields back to their default values.
      * This function is called either after clicking the "Reset" button or after data as been posted to the server.
      * Written as a function declaration in order to be hoisted and accessible to the code above.
      * 
@@ -280,6 +311,7 @@ const Edit = () => {
         if (event) {
             
             clearName();
+            clearAvatar();
         }
 
         clearPassword();
@@ -329,6 +361,15 @@ const Edit = () => {
                         disabled={isLoading}
                         errorMessage={invalidName}
                         {...bindName}
+                    />
+                </div>
+
+                <div className={C.Style.EDIT_AVATAR}>
+                    <TextField
+                        name={C.ID.NAME_AVATAR}
+                        disabled={isLoading}
+                        errorMessage={invalidAvatar}
+                        {...bindAvatar}
                     />
                 </div>
 

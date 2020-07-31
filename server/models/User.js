@@ -52,6 +52,11 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    [C.Model.AVATAR]: {
+
+        type: String,
+        default: ""
+    },
     [C.Model.DATE]: {
 
         type: Date,

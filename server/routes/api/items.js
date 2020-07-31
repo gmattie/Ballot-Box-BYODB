@@ -118,19 +118,19 @@ router.patch(`${C.Route.EDIT}/:${C.Route.PARAM}`, [
                     item[C.Model.NAME] = name;
                 }
 
-                if (thumbnail) {
+                if (thumbnail !== undefined) {
 
                     item[C.Model.THUMBNAIL] = thumbnail;
                 }
 
-                if (image) {
+                if (image !== undefined) {
                     
                     item[C.Model.IMAGE] = image;
                 }
 
-                if (active != null) {
+                if (active !== undefined) {
 
-                    item[C.Model.ACTIVE] = active;
+                    item[C.Model.ACTIVE] = Boolean(active);
                 }
                 
                 await item.save();

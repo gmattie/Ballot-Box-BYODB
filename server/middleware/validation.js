@@ -15,14 +15,14 @@ const mongoose = require("mongoose");
 
 /**
  * @description A custom validator function that determines if the supplied URL argument is valid image URL.
- * Valid image URLs must begin with "http://" or "https://" and end with an image extension of either ".bmp", ".gif", ".jpg", ".jpeg", ".png", ".svg", ".tif", ".tiff" or ".webp". 
+ * Valid image URLs must be either empty strings or begin with "http://" or "https://" and end with an image extension of either ".bmp", ".gif", ".jpg", ".jpeg", ".png", ".svg", ".tif", ".tiff" or ".webp". 
  *  
  * @param {string} value - The string value to test. 
  * @private
  * @function
  * 
  */
-const isImageURL = (value) => /^(http(s?):\/\/)(.+)(\.(bmp|gif|jpe?g|png|svg|tif?f|webp))$/i.test(value);
+const isImageURL = (value) => /(^$|^(http(s?):\/\/)(.+)(\.(bmp|gif|jpe?g|png|svg|tif?f|webp)))$/i.test(value);
 
 /**
  * @description A custom validator function that determines if the supplied argument matches the "password" property within the Request body object.
@@ -120,11 +120,11 @@ const itemEdit = [
         .trim(),
 
     check(C.Request.THUMBNAIL, C.Error.IMAGE_URL)
-        .optional({ checkFalsy: true })
+        .optional()
         .custom(isImageURL),
 
     check(C.Request.IMAGE, C.Error.IMAGE_URL)
-        .optional({ checkFalsy: true })
+        .optional()
         .custom(isImageURL),
 ];
 
@@ -163,6 +163,7 @@ const userEdit = [
         const allowedKeys = [
 
             C.Request.NAME,
+            C.Request.AVATAR,
             C.Request.PASSWORD,
             C.Request.PASSWORD_CONFIRM,
             C.Request.ADMIN_USERNAME,
@@ -182,7 +183,13 @@ const userEdit = [
 
     check(C.Request.NAME, C.Error.NAME)
         .optional({ checkFalsy: true })
+        .not()
+        .isEmpty({ ignore_whitespace: true })
         .trim(),
+
+    check(C.Request.AVATAR, C.Error.IMAGE_URL)
+        .optional()
+        .custom(isImageURL),
 
     check(C.Request.PASSWORD, C.Error.PASSWORD)
         .optional({ checkFalsy: true }),

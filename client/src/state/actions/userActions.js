@@ -103,6 +103,7 @@ const setUsersSelf = (data) => {
  * @description Patches data to /api/users/edit and dispatches actions from either userActions to the usersReducer state or from authActions to the authReducer state.
  * 
  * @param {string|null} name - The User's name.
+ * @param {string|null} avatar - The User's name.
  * @param {string|null} password - The User's password.
  * @param {string|null} passwordConfirm - The User's confirmed password.
  * @param {string|null} adminUsername - The admin username credential.
@@ -111,7 +112,7 @@ const setUsersSelf = (data) => {
  * @function
  * 
  */
-const fetchEdit = (name, password, passwordConfirm, adminUsername, adminPassword) => {
+const fetchEdit = (name, avatar, password, passwordConfirm, adminUsername, adminPassword) => {
 
     return async (dispatch, getState) => {
 
@@ -130,6 +131,7 @@ const fetchEdit = (name, password, passwordConfirm, adminUsername, adminPassword
                 body: JSON.stringify({
                     
                     name,
+                    avatar,
                     password,
                     passwordConfirm,
                     adminUsername,
@@ -149,6 +151,7 @@ const fetchEdit = (name, password, passwordConfirm, adminUsername, adminPassword
                 const editedFields = [
     
                     name && C.Label.NAME,
+                    avatar && C.Label.AVATAR,
                     password && C.Label.PASSWORD,
                     adminUsername && adminPassword && C.Label.ADMIN_CREDENTIALS
                 ].filter(x => x);

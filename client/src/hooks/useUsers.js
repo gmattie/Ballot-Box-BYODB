@@ -35,7 +35,7 @@ const useUsers = () => {
 
     const dispatch = useDispatch();
 
-    const fetchEdit = (name, password, passwordConfirm, adminUsername, adminPassword) => dispatch(userActions.fetchEdit(name, password, passwordConfirm, adminUsername, adminPassword));
+    const fetchEdit = (name, avatar, password, passwordConfirm, adminUsername, adminPassword) => dispatch(userActions.fetchEdit(name, avatar, password, passwordConfirm, adminUsername, adminPassword));
     const fetchLogin = (email, password) => dispatch(userActions.fetchLogin(email, password));
     const fetchLogout = (authToken = null) => dispatch(userActions.fetchLogout(authToken));
     const fetchRegister = (name, email, password, passwordConfirm, adminUsername, adminPassword) => dispatch(userActions.fetchRegister(name, email, password, passwordConfirm, adminUsername, adminPassword));

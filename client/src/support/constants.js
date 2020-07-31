@@ -400,6 +400,7 @@ const HTMLElement = Object.freeze({
  *     <li> NAME_ADMIN_PASSWORD </li>
  *     <li> NAME_ADMIN_USERNAME </li>
  *     <li> NAME_ANONYMOUS </li>
+ *     <li> NAME_AVATAR </li>
  *     <li> NAME_CAST </li>
  *     <li> NAME_DEADLINE </li>
  *     <li> NAME_EMAIL </li>
@@ -429,6 +430,7 @@ const ID = Object.freeze({
     NAME_ADMIN_PASSWORD: "adminPassword",
     NAME_ADMIN_USERNAME: "adminUsername",
     NAME_ANONYMOUS: "anonymous",
+    NAME_AVATAR: "avatar",
     NAME_CAST: "cast",
     NAME_DEADLINE: "deadline",
     NAME_EMAIL: "email",
@@ -470,6 +472,7 @@ const Image = Object.freeze({
  *     <li> ADMIN_PASSWORD </li>
  *     <li> ADMIN_USERNAME </li>
  *     <li> ARROW </li>
+ *     <li> AVATAR </li>
  *     <li> CANCEL </li>
  *     <li> CANDIDATES </li>
  *     <li> CLOSE </li>
@@ -520,6 +523,7 @@ const Image = Object.freeze({
  *     <li> SHOW </li>
  *     <li> THUMBNAIL </li>
  *     <li> TOTAL_VOTES_CAST </li>
+ *     <li> URL </li>
  *     <li> VOTE </li>
  *     <li> VOTE_CAST </li>
  *     <li> VOTE_STATUS </li>
@@ -539,6 +543,7 @@ const Label = Object.freeze({
     ADMIN_USERNAME: "Admin Username",
     ADMIN: "Admin",
     ARROW: "Arrow",
+    AVATAR: "Avatar",
     CANCEL: "Cancel",
     CANDIDATES: "Candidates",
     CLOSE: "Close",
@@ -589,6 +594,7 @@ const Label = Object.freeze({
     SHOW: "Show",
     THUMBNAIL: "Thumbnail",
     TOTAL_VOTES_CAST: "Total Votes Cast:",
+    URL: "URL",
     VOTE_CAST: "Your ballot has been cast for the current vote.",
     VOTE_STATUS: "Vote Status:",
     VOTE: "Vote",
@@ -645,6 +651,7 @@ const Mode = Object.freeze({
  *     <li> ADMIN </li>
  *     <li> AGGREGATE </li>
  *     <li> ANONYMOUS </li>
+ *     <li> AVATAR </li>
  *     <li> CAST </li>
  *     <li> DATE </li>
  *     <li> DEADLINE </li>
@@ -673,6 +680,7 @@ const Model = Object.freeze({
     ADMIN: "admin",
     AGGREGATE: "aggregate",
     ANONYMOUS: "anonymous",
+    AVATAR: "avatar",
     CAST: "cast",
     DATE: "date",
     DEADLINE: "deadline",
@@ -802,6 +810,7 @@ const Route = Object.freeze({
  *     <li> DIALOG_SUBMIT_PRELOADER </li>
  *     <li> EDIT </li>
  *     <li> EDIT_ADMIN </li>
+ *     <li> EDIT_AVATAR </li>
  *     <li> EDIT_BUTTONS </li>
  *     <li> EDIT_ITEM </li>
  *     <li> EDIT_ITEM_IMAGE </li>
@@ -976,6 +985,7 @@ const Style = Object.freeze({
     DIALOG_SUBMIT: "dialog-submit",
     DIALOG: "dialog",
     EDIT_ADMIN: "edit-admin",
+    EDIT_AVATAR: "edit-avatar",
     EDIT_BUTTONS: "edit-buttons",
     EDIT_ITEM_IMAGE: "editItem-image",
     EDIT_ITEM_NAME: "editItem-name",
@@ -985,8 +995,8 @@ const Style = Object.freeze({
     EDIT_ITEM_THUMBNAIL: "editItem-thumbnail",
     EDIT_ITEM: "editItem",
     EDIT_ITEMS_CONTAINER_CONTENT_EMPTY: "editItemsContainer-content-empty",
-    EDIT_ITEMS_CONTAINER_CONTENT_LIST: "editItemsContainer-content-list",
     EDIT_ITEMS_CONTAINER_CONTENT_LIST_ITEM_SIZE_CONTAINER: "editItemsContainer-content-list-itemSizeContainer",
+    EDIT_ITEMS_CONTAINER_CONTENT_LIST: "editItemsContainer-content-list",
     EDIT_ITEMS_CONTAINER_CONTENT_PRELOADER: "editItemsContainer-content-preloader",
     EDIT_ITEMS_CONTAINER_CONTENT_SHADOW: "editItemsContainer-content-shadow",
     EDIT_ITEMS_CONTAINER_CONTENT: "editItemsContainer-content",

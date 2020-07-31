@@ -30,7 +30,8 @@ const itemSchema = new mongoose.Schema({
     },
     [C.Model.IMAGE]: {
 
-        type: String
+        type: String,
+        default: ""
     },
     [C.Model.NAME]: {
         
@@ -48,7 +49,8 @@ const itemSchema = new mongoose.Schema({
     },
     [C.Model.THUMBNAIL]: {
 
-        type: String
+        type: String,
+        default: ""
     },
 }, { versionKey: false });
 

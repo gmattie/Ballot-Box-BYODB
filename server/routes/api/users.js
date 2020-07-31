@@ -371,11 +371,16 @@ router.patch(C.Route.EDIT, [
         try {
             
             const user = res.locals[C.Local.USER];
-            const { name, password, adminUsername, adminPassword } = req.body;
+            const { name, avatar, password, adminUsername, adminPassword } = req.body;
 
             if (name) {
 
                 user[C.Model.NAME] = name;
+            }
+
+            if (avatar !== undefined) {
+
+                user[C.Model.AVATAR] = avatar;
             }
 
             if (password) {
@@ -627,7 +632,7 @@ router.get(`/:${C.Route.PARAM}?`, auth, async (req, res) => {
 
         if (user.admin) {
 
-            const userFields = `${C.Model.ADMIN} ${C.Model.EMAIL} ${C.Model.IP} ${C.Model.NAME}`;
+            const userFields = `${C.Model.ADMIN} ${C.Model.AVATAR} ${C.Model.EMAIL} ${C.Model.IP} ${C.Model.NAME}`;
 
             if (paramUserID) {
 

@@ -289,6 +289,7 @@ const Message = Object.freeze({
  *     <li> ADMIN </li>
  *     <li> AGGREGATE </li>
  *     <li> ANONYMOUS </li>
+ *     <li> AVATAR </li>
  *     <li> CAST </li>
  *     <li> DATE </li>
  *     <li> DEADLINE </li>
@@ -320,6 +321,7 @@ const Model = Object.freeze({
     ADMIN: "admin",
     AGGREGATE: "aggregate",
     ANONYMOUS: "anonymous",
+    AVATAR: "avatar",
     CAST: "cast",
     DATE: "date",
     DEADLINE: "deadline",
@@ -348,6 +350,7 @@ const Model = Object.freeze({
  *     <li> ACTIVE </li>
  *     <li> ADMIN_PASSWORD </li>
  *     <li> ADMIN_USERNAME </li>
+ *     <li> AVATAR </li>
  *     <li> CAST </li>
  *     <li> DEADLINE </li>
  *     <li> EMAIL </li>
@@ -370,6 +373,7 @@ const Request = Object.freeze({
     ACTIVE: "active",
     ADMIN_PASSWORD: "adminPassword",
     ADMIN_USERNAME: "adminUsername",
+    AVATAR: "avatar",
     CAST: "cast",
     DEADLINE: "deadline",
     EMAIL: "email",

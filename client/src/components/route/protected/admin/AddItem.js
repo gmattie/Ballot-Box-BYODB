@@ -86,7 +86,7 @@ const AddItem = () => {
 
     const { binding: bindImage, clearValue: clearImage } = useInputText(
         
-        C.Label.IMAGE,
+        `${C.Label.IMAGE} ${C.Label.URL}`,
         confirmHandler,
         null,
         {
@@ -108,7 +108,7 @@ const AddItem = () => {
 
     const { binding: bindThumbnail, clearValue: clearThumbnail } = useInputText(
         
-        C.Label.THUMBNAIL,
+        `${C.Label.THUMBNAIL} ${C.Label.URL}`,
         confirmHandler,
         null,
         {
