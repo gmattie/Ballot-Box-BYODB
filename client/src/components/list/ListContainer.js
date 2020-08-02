@@ -172,7 +172,13 @@ const ListContainer = () => {
     const getVotesListTitle = () => {
 
         const quantity = Math.min(itemsAll.length, votesActive[C.Model.VOTE][C.Model.QUANTITY]);
-        const count = Math.min((itemsVote) ? itemsVote.length : 0, quantity);
+        const count = Math.min(
+            
+            (itemsVote)
+                ? itemsVote.length
+                : 0,
+            quantity
+        );
 
         return `${C.Label.VOTES} (${count}/${quantity})`;
     };

@@ -40,7 +40,10 @@ const useWebSocket = (init) => {
 
         if (init) {
 
-            const locationOrigin = (process.env.NODE_ENV === C.Local.ENV_DEVELOPMENT) ? proxy : window.location.origin;
+            const locationOrigin = (process.env.NODE_ENV === C.Local.ENV_DEVELOPMENT)
+                ? proxy
+                : window.location.origin;
+                
             const webSocketURL = locationOrigin.replace(new RegExp(`^${C.Local.PROTOCOL_HTTP}`), C.Local.PROTOCOL_WEB_SOCKET);
             const webSocket = new WebSocket(webSocketURL);
 

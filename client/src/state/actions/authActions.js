@@ -8,7 +8,7 @@
 import * as C from "../../support/constants";
 
 /**
- * @description Writes the token data to local storage and creates an action that sets the "authToken" property of the authReducer state.
+ * @description Adds or removes the token data to local storage and creates an action that sets the "authToken" property of the authReducer state.
  * 
  * @param {string|null} data - The value of the payload embedded in the action.
  * @returns {object} The action.
@@ -35,8 +35,8 @@ const setAuthToken = (data) => {
 };
 
 /**
- * @description Removes the token data from local storage and creates an action that sets the "authError" property of the authReducer state. 
- * 
+ * @description Creates an action that sets the "authError" property of the authReducer state.
+ *  
  * @param {string|null} error - The value of the payload embedded in the action.
  * @returns {object} The action.
  * @public

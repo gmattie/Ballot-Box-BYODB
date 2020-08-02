@@ -99,8 +99,8 @@ const PasswordField = ({
                 onMouseDown={buttonMouseDownHandler}
             >
                 {(isVisible)
-                    ?   <Eye />
-                    :   <EyeSlash />
+                    ? <Eye />
+                    : <EyeSlash />
                 }
             </Button>
         </div>

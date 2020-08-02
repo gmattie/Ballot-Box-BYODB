@@ -126,7 +126,12 @@ const fetchActive = () => {
             const response = await fetch(url, options);
             const data = await response.json();
 
-            dispatch((data.error) ? authActions.setAuthError(data) : setVotesActive(data));      
+            dispatch(
+                
+                (data.error)
+                    ? authActions.setAuthError(data)
+                    : setVotesActive(data)
+            );      
         }
         catch (error) {
 
@@ -160,7 +165,12 @@ const fetchAll = () => {
             const response = await fetch(url, options);
             const data = await response.json();
 
-            dispatch((data.error) ? authActions.setAuthError(data) : setVotesAll(data));      
+            dispatch(
+                
+                (data.error)
+                    ? authActions.setAuthError(data)
+                    : setVotesAll(data)
+            );      
         }
         catch (error) {
 
@@ -211,7 +221,12 @@ const fetchCast = () => {
             const response = await fetch(url, options);
             const data = await response.json();
 
-            dispatch((data.error) ? authActions.setAuthError(data) : setVotesCast(data));      
+            dispatch(
+                
+                (data.error)
+                    ? authActions.setAuthError(data)
+                    : setVotesCast(data)
+            );      
         }
         catch (error) {
 
@@ -245,7 +260,12 @@ const fetchClose = () => {
             const response = await fetch(url, options);
             const data = await response;
 
-            dispatch((data.error) ? authActions.setAuthError(data) : setVotesActive(null));      
+            dispatch(
+                
+                (data.error)
+                    ? authActions.setAuthError(data)
+                    : setVotesActive(null)
+            );      
         }
         catch (error) {
 
@@ -331,7 +351,12 @@ const fetchOpen = (deadline, quantity, aggregate, anonymous) => {
             const response = await fetch(url, options);
             const data = await response.json();
 
-            dispatch((data.error) ? authActions.setAuthError(data) : setVotesActive(data));      
+            dispatch(
+                
+                (data.error)
+                    ? authActions.setAuthError(data)
+                    : setVotesActive(data)
+            );      
         }
         catch (error) {
 

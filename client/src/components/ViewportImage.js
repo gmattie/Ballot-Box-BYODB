@@ -235,8 +235,12 @@ const ViewportImage = ({
             }
 
             <img
-                ref={(isCached) ? null : image}
-                src={(isCached) ? src : imageSrc}
+                ref={(isCached)
+                    ? null
+                    : image}
+                src={(isCached)
+                    ? src
+                    : imageSrc}
                 alt={alt}
                 className={imageStyle}
             />

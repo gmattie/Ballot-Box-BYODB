@@ -161,7 +161,12 @@ const fetchAdd = (name, thumbnail, image) => {
             const response = await fetch(url, options);
             const data = await response.json();
             
-            dispatch((data.error) ? authActions.setAuthError(data) : setItemsAdd(data));
+            dispatch(
+                
+                (data.error)
+                    ? authActions.setAuthError(data)
+                    : setItemsAdd(data)
+            );
         }
         catch (error) {
 
@@ -195,7 +200,12 @@ const fetchAll = () => {
             const response = await fetch(url, options);
             const data = await response.json();
             
-            dispatch((data.error) ? authActions.setAuthError(data) : setItemsAll(data));
+            dispatch(
+                
+                (data.error)
+                    ? authActions.setAuthError(data)
+                    : setItemsAll(data)
+            );
         }
         catch (error) {
 
@@ -238,7 +248,12 @@ const fetchEdit = (itemID, thumbnail, image, active) => {
             const response = await fetch(url, options);
             const data = await response.json();
             
-            dispatch((data.error) ? authActions.setAuthError(data) : setItemsEdit(data));
+            dispatch(
+                
+                (data.error)
+                    ? authActions.setAuthError(data)
+                    : setItemsEdit(data)
+            );
         }
         catch (error) {
 

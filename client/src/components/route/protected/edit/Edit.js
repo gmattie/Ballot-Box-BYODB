@@ -286,12 +286,24 @@ const Edit = () => {
 
             await fetchEdit(
                 
-                (name !== usersSelf[C.Model.USER][C.Model.NAME]) ? name : undefined,
-                (avatar !== usersSelf[C.Model.USER][C.Model.AVATAR]) ? avatar : undefined,
-                (password) ? password : undefined,
-                (passwordConfirm) ? passwordConfirm : undefined,
-                (adminUsername) ? adminUsername : undefined,
-                (adminPassword) ? adminPassword : undefined
+                (name !== usersSelf[C.Model.USER][C.Model.NAME])
+                    ? name
+                    : undefined,
+                (avatar !== usersSelf[C.Model.USER][C.Model.AVATAR])
+                    ? avatar
+                    : undefined,
+                (password)
+                    ? password
+                    : undefined,
+                (passwordConfirm)
+                    ? passwordConfirm
+                    : undefined,
+                (adminUsername)
+                    ? adminUsername
+                    : undefined,
+                (adminPassword)
+                    ? adminPassword
+                    : undefined
             );
         }
     };

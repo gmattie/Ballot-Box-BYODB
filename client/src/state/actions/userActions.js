@@ -194,7 +194,12 @@ const fetchLogin = (email, password) => {
             const response = await fetch(url, options);
             const data = await response.json();
 
-            dispatch((data.error) ? authActions.setAuthError(data) : fetchSelf(data[C.Local.TOKEN]));      
+            dispatch(
+                
+                (data.error)
+                    ? authActions.setAuthError(data)
+                    : fetchSelf(data[C.Local.TOKEN])
+            );      
         }
         catch (error) {
 
@@ -278,7 +283,12 @@ const fetchRegister = (name, email, password, passwordConfirm, adminUsername, ad
             const response = await fetch(url, options);
             const data = await response.json();
 
-            dispatch((data.error) ? authActions.setAuthError(data) : setUsersRegister(data));
+            dispatch(
+                
+                (data.error)
+                    ? authActions.setAuthError(data)
+                    : setUsersRegister(data)
+            );
         }
         catch (error) {
 
@@ -315,7 +325,12 @@ const fetchReset = (email, password, passwordConfirm) => {
             const response = await fetch(url, options);
             const data = await response.json();
             
-            dispatch((data.error) ? authActions.setAuthError(data) : setUsersReset(data));
+            dispatch(
+                
+                (data.error)
+                    ? authActions.setAuthError(data)
+                    : setUsersReset(data)
+            );
         }
         catch (error) {
 

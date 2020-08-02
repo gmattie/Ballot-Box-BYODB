@@ -510,9 +510,11 @@ router.get(`${C.Route.LOGOUT}/:${C.Route.PARAM}?`, auth, async (req, res) => {
                     throw new Error(C.Error.USER_DOES_NOT_EXIST);
                 }
 
-                result = (paramUserID === user.id) ? user : await User
-                    .findById(paramUserID)
-                    .select(`${C.Model.EMAIL} ${C.Model.NAME}`);
+                result = (paramUserID === user.id)
+                    ? user
+                    : await User
+                        .findById(paramUserID)
+                        .select(`${C.Model.EMAIL} ${C.Model.NAME}`);
 
                 if (!result) {
 
@@ -643,9 +645,11 @@ router.get(`/:${C.Route.PARAM}?`, auth, async (req, res) => {
                     throw new Error(C.Error.USER_DOES_NOT_EXIST);
                 }
 
-                result = (paramUserID === user.id) ? user : await User
-                    .findById(paramUserID)
-                    .select(userFields);
+                result = (paramUserID === user.id)
+                    ? user
+                    : await User
+                        .findById(paramUserID)
+                        .select(userFields);
 
                 if (!result) {
 
