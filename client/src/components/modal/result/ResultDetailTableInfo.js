@@ -41,7 +41,7 @@ const ResultDetailTableInfo = ({
      */
     return (
 
-        <td className={C.Style.RESULT_DETAIL_TABLE_INFO}>
+        <th className={C.Style.RESULT_DETAIL_TABLE_INFO}>
             <div className={C.Style.RESULT_DETAIL_TABLE_INFO_DATE}>
                 {Moment(date).format(C.Local.DATE_FORMAT)}
             </div>
@@ -65,7 +65,7 @@ const ResultDetailTableInfo = ({
                     <ResultActiveBadge aggregate={aggregate} />
                 </div>
             }
-        </td>
+        </th>
     );
 };
 

@@ -5,15 +5,16 @@
         display: flex;
         position: sticky;
         left: 0;
-        background-color: $RESULTS_TABLE_ITEM_MAX_WIDTH;
-        background-color: #666666;
+        min-width: $RESULTS_TABLE_ITEM_MIN_WIDTH;
+        background-color: $COLOR_RESULTS_TABLE_EMPHASIS;
 
         &-item {
             
             @include table-cell-border($top: false);
 
-            width: 100%;
-            max-width: $RESULTS_TABLE_ITEM_MAX_WIDTH;
+            flex: 1 0 0;
+            width: 0;
+            padding-right: $LIST_ITEM_MARGIN;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -22,10 +23,13 @@
             &::before {
 
                 display: inline-block;
-                width: 22px;
+                position: relative;
+                top: -2px;
+                width: 24px;
+                color: black;
                 text-align: right;
-                margin-right: 6px;
-                font-size: $FONT_SIZE_SMALL;
+                margin-right: $LIST_ITEM_MARGIN;
+                font-size: $FONT_SIZE_TINY;
                 counter-increment: item-index;
                 content: counter(item-index) ":";
             }
@@ -37,7 +41,7 @@
 
             width: $RESULTS_TABLE_USER_WIDTH;
             text-align: center;
-            background-color: gray;
+            background-color: $COLOR_RESULTS_TABLE_AUXILIARY;
         }
     }
 
@@ -45,6 +49,7 @@
 
         @include table-cell-border($top: false, $left: false);
 
+        width: $RESULTS_TABLE_USER_WIDTH;
         text-align: center;
     }
 }

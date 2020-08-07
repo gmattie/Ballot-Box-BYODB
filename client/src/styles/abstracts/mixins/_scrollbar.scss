@@ -4,12 +4,20 @@
 
         &::-webkit-scrollbar {
             
-            width: 6px;
+            $SIZE: 6px;
+
+            width: $SIZE;
+            height: $SIZE;
         }
         
         &::-webkit-scrollbar-thumb {
         
             background-color: $COLOR_AUXILIARY;
+        }
+
+        &::-webkit-scrollbar-corner {
+
+            display: none;
         }
 
         scrollbar-width: thin;

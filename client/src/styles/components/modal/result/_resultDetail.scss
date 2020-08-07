@@ -1,6 +1,9 @@
 .resultDetail {
 
-    margin: auto;
+    @include scrollbar;
+
+    width: 100%;
+    max-width: $SCREEN_MAX_WIDTH;
     max-height: 100%;
     overflow: auto;
     counter-reset: item-index;
@@ -19,9 +22,11 @@
         }
 
         &-table {
-
+            
+            width: 100%;
             background-color: $COLOR_RESULTS_TABLE_BACKGROUND;
             border-spacing: 0;
+            user-select: none;
         }
     }
 }
