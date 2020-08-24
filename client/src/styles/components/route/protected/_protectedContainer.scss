@@ -18,9 +18,20 @@
         left: $CENTER;
     }
 
-    &-nav-button {
+    &-nav {
+
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        min-width: $SCREEN_MIN_WIDTH;
+        max-width: $SCREEN_MAX_WIDTH;
+        padding: 0 $FORM_GAP;
+        
+        &-button {
     
-        background-color: gray;
+            background-color: gray;
+        }
+
         &-selected {
 
             background-color: white;

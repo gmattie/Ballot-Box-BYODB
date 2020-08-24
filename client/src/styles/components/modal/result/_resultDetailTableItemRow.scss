@@ -1,55 +1,82 @@
 .resultDetailTableItemRow {
+    
+    $CLASS_ROOT: &;
 
     &-header {
+
+        $PADDING: 2px;
+
+        @include table-cell-border(
+                
+            $top: false,
+            $bottom: false
+        );
 
         display: flex;
         position: sticky;
         left: 0;
         min-width: $RESULTS_TABLE_ITEM_MIN_WIDTH;
-        background-color: $COLOR_RESULTS_TABLE_EMPHASIS;
+        background-color: $COLOR_BACKGROUND;
+        padding: $PADDING 0;
 
-        &-item {
-            
+        #{$CLASS_ROOT}:first-of-type & {
+
+            @include table-cell-border(
+                
+                $top: false,
+                $bottom: false
+            );
+
+            padding-top: $FORM_GAP / 2 + $PADDING;
+        }
+
+        #{$CLASS_ROOT}:last-of-type & {
+
             @include table-cell-border($top: false);
 
+            padding-bottom: $FORM_GAP / 2 + $PADDING;
+        }
+
+        &-item {
+
+            display: flex;
+            align-items: center;
             flex: 1 0 0;
             width: 0;
-            padding-right: $LIST_ITEM_MARGIN;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            text-align: left;
+            height: $RESULTS_TABLE_CELL_SIZE;
+            padding: 0 $FORM_GAP;
 
-            &::before {
+            &-name {
 
-                display: inline-block;
-                position: relative;
-                top: -2px;
-                width: 24px;
-                color: black;
-                text-align: right;
-                margin-right: $LIST_ITEM_MARGIN;
-                font-size: $FONT_SIZE_TINY;
-                counter-increment: item-index;
-                content: counter(item-index) ":";
+                width: calc(100% - #{$FORM_GAP} - #{$RESULTS_TABLE_CELL_SIZE});
+
+                & > .button {
+
+                    width: 100%;
+                }
+            }
+
+            &-score {
+    
+                margin-left: $FORM_GAP;
+    
+                & > .button {
+    
+                    width: $RESULTS_TABLE_CELL_SIZE;
+                    text-align: center;
+                    padding: 0;
+                    text-overflow: unset;
+                }
             }
         }
-
-        &-score {
-
-            @include table-cell-border($top: false, $left: false);
-
-            width: $RESULTS_TABLE_USER_WIDTH;
-            text-align: center;
-            background-color: $COLOR_RESULTS_TABLE_AUXILIARY;
-        }
     }
-
+    
     &-rank {
 
         @include table-cell-border($top: false, $left: false);
 
-        width: $RESULTS_TABLE_USER_WIDTH;
+        width: $RESULTS_TABLE_CELL_SIZE;
         text-align: center;
+        background-color: $COLOR_BACKGROUND;
     }
 }

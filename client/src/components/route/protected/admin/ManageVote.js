@@ -113,7 +113,7 @@ const ManageVote = () => {
 
     const { binding: bindQuantity } = useInputText(
         
-        C.Label.QUANTITY,
+        C.Label.RANK_SELECTIONS,
         confirmHandler,
         null,
         {

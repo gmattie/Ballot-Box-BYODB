@@ -92,7 +92,7 @@ const VoteInfo = ({ deadline }) => {
         <div className={C.Style.VOTE_INFO}>
             <div className={C.Style.VOTE_INFO_STATUS}>
                 <span className={C.Style.VOTE_INFO_STATUS_LABEL}>
-                    {C.Label.VOTE_STATUS}
+                    {C.Label.VOTE_STATUS}:
                 </span>
                 
                 {    

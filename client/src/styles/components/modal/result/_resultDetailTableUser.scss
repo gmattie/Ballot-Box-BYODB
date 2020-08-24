@@ -1,0 +1,98 @@
+.resultDetailTableUser {
+
+    position: sticky;
+    top: 0;
+    background-color: $COLOR_BACKGROUND;
+
+    @include table-cell-border(
+            
+        $left: false,
+        $right: false
+    );
+
+    &:nth-child(2) {
+
+        padding-left: $FORM_GAP / 2;
+    }
+
+    &:last-of-type {
+
+        @include table-cell-border($left: false);
+
+        padding-right: $FORM_GAP / 2;
+    }
+
+    &-info {
+
+        $DROP_SHADOW_OFFSET: 3px;
+
+        position: relative;
+        width: $CONTROL_SIZE;
+        height: $RESULTS_TABLE_USER_HEIGHT;
+        margin: $FORM_GAP / 2;
+
+        &-name {
+            
+            transform: rotate(-90deg);
+            transform-origin: bottom left;
+
+            & > .button {
+                
+                $BUTTON_WIDTH: $RESULTS_TABLE_USER_HEIGHT - $CONTROL_SIZE - $FORM_GAP * 2;
+
+                @include dropShadow(
+
+                    $controlSize: $CONTROL_SIZE,
+                    $vertical: true
+                );
+
+                width: $BUTTON_WIDTH;
+                position: absolute;
+                left: -$BUTTON_WIDTH - $FORM_GAP / 2;
+            }
+        }
+
+        &-avatar {
+
+            $SIZE: $CONTROL_SIZE;
+
+            position: absolute;
+            bottom: $DROP_SHADOW_OFFSET;
+            z-index: 1;
+
+            & > .button {
+                
+                width: $SIZE;
+                height: $SIZE;
+                padding: 0;
+
+                & > svg {
+
+                    filter:
+                        invert(1)
+                        brightness(14%);
+                }
+            }
+
+            &-image {
+
+                min-width: $SIZE;
+                min-height: $SIZE;
+                max-width: $SIZE;
+                max-height: $SIZE;
+                object-fit: cover;
+                pointer-events: none;
+                
+                &-intersection {
+            
+                    animation: fade $DURATION_ANIMATION_SLOW ease-out;
+                }
+            
+                &-error {
+            
+                    opacity: 0;
+                }
+            }
+        }
+    }
+}

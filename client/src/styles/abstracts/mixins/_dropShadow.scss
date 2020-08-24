@@ -1,12 +1,22 @@
 @mixin dropShadow(
     
     $controlSize: 12px,
-    $color: black
+    $color: black,
+    $vertical: false
 ) {
 
+    $OFFSET_X: 0;
+    $OFFSET_Y: $controlSize * 0.075;
+
+    @if $vertical {
+        
+        $OFFSET_X: -$controlSize * 0.075;
+        $OFFSET_Y: 0;
+    }
+
     box-shadow:
-        0
-        $controlSize * 0.075
+        $OFFSET_X
+        $OFFSET_Y
         $controlSize * 0.15
         $color;
 }

@@ -34,7 +34,7 @@ const Confirmation = ({
     return (
 
         <div className={C.Style.CONFIRMATION}>
-            <p>{C.Label.EMAIL_SENT}</p>
+            <p>{C.Label.EMAIL_SENT}:</p>
 
             <p className={C.Style.CONFIRMATION_EMAIL}>
                 {email}

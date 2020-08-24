@@ -1,27 +1,43 @@
 .resultDetailTableInfo {
-
-    @include table-cell-border;
     
+    @include table-cell-border;
+
     position: sticky;
     top: 0;
     left: 0;
     height: $RESULTS_TABLE_USER_HEIGHT;
     min-width: $RESULTS_TABLE_ITEM_MIN_WIDTH;
-    background-color: $COLOR_RESULTS_TABLE_BACKGROUND;
+    background-color: $COLOR_BACKGROUND;
     z-index: 1;
-
+    text-align: center;
+    
     &-date,
     &-active {
 
-        @include table-header-info;
+        width: 100%;
+        padding: 0 $FORM_GAP $FORM_GAP;
+
+        & .resultActiveLabel {
+
+            justify-content: center;
+
+            &-icon {
+
+                position: absolute;
+                top: -26px;
+            }
+        }
+    }
+
+    &-active {
+        
+        display: inline-block;
     }
 
     &-quantity,
-    &-total,
-    &-anonymous {
+    &-total {
 
-        @include table-header-info;
-
+        font-size: $FONT_SIZE_SMALL;
         color: gray;
     }
 }

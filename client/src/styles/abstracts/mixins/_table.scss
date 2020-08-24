@@ -9,27 +9,11 @@
     $BORDER_WIDTH: 1px;
 
     border-style: solid;
-    border-color: darkgray;
+    border-color: #909090;
     border-width: 0;
 
     @if $top == true { border-top-width: $BORDER_WIDTH; }
     @if $right == true { border-right-width: $BORDER_WIDTH; }
     @if $bottom == true { border-bottom-width: $BORDER_WIDTH; }
     @if $left == true { border-left-width: $BORDER_WIDTH; }
-}
-
-@mixin table-header-info {
-
-    text-align: center;
-}
-
-@mixin table-header-user {
-
-    height: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    writing-mode: vertical-rl;
-    text-overflow: ellipsis;
-    text-align: left;
-    transform: rotate(180deg);
 }

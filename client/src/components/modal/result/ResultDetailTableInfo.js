@@ -2,19 +2,20 @@
  * @description ResultDetailTableInfo component.
  * 
  * @requires constants
- * @requires moment
  * @requires prop-types
  * @requires react
- * @requires ResultActiveBadge
+ * @requires ResultActiveLabel
+ * @requires ResultDateFormat
+ * 
  * @public
  * @module
  * 
  */
 import * as C from "../../../support/constants";
-import Moment from "moment";
 import PropTypes from "prop-types";
 import React from "react";
-import ResultActiveBadge from "../../route/protected/results/ResultActiveBadge";
+import ResultActiveLabel from "../../route/protected/results/ResultActiveLabel";
+import ResultDateFormat from "../../route/protected/results/ResultDateFormat";
 
 /**
  * @description Displays Vote document information within the table header of the ResultDetail component.
@@ -35,6 +36,10 @@ const ResultDetailTableInfo = ({
         totalCastVotes
     }) => {
 
+    const voteCastLabel = (isAnonymous)
+        ? `${C.Label.SECRET_BALLOT} ${C.Label.VOTES_CAST}`
+        : C.Label.VOTES_CAST;
+
     /**
      * JSX markup
      * 
@@ -42,29 +47,22 @@ const ResultDetailTableInfo = ({
     return (
 
         <th className={C.Style.RESULT_DETAIL_TABLE_INFO}>
-            <div className={C.Style.RESULT_DETAIL_TABLE_INFO_DATE}>
-                {Moment(date).format(C.Local.DATE_FORMAT)}
-            </div>
+            {(isActive)
+                ?   <div className={C.Style.RESULT_DETAIL_TABLE_INFO_ACTIVE}>
+                        <ResultActiveLabel aggregate={aggregate} />
+                    </div>
+                :   <div className={C.Style.RESULT_DETAIL_TABLE_INFO_DATE}>
+                        <ResultDateFormat ISODate={date} />
+                    </div>
+            }
 
             <div className={C.Style.RESULT_DETAIL_TABLE_INFO_QUANTITY}>
-                {`${C.Label.QUANTITY}: ${quantity}`}
+                {`${C.Label.RANK_SELECTIONS}: ${quantity}`}
             </div>
 
             <div className={C.Style.RESULT_DETAIL_TABLE_INFO_TOTAL}>
-                {`${C.Label.TOTAL_VOTES_CAST} ${totalCastVotes}`}
+                {`${voteCastLabel}: ${totalCastVotes}`}
             </div>
-
-            {isAnonymous &&
-                <div className={C.Style.RESULT_DETAIL_TABLE_INFO_ANONYMOUS}>
-                    {C.Label.SECRET_BALLOT}
-                </div>
-            }
-
-            {isActive &&
-                <div className={C.Style.RESULT_DETAIL_TABLE_INFO_ACTIVE}>
-                    <ResultActiveBadge aggregate={aggregate} />
-                </div>
-            }
         </th>
     );
 };

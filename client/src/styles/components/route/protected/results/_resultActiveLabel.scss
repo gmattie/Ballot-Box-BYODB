@@ -1,0 +1,20 @@
+.resultActiveLabel {
+    
+    $ICON_WIDTH: 1.25em;
+
+    position: relative;
+    text-transform: uppercase;
+    display: flex;
+    
+    &-text {
+
+        width: calc(100% - #{$ICON_WIDTH} - #{$CONTROL_PADDING_HORIZONTAL});
+    }
+
+    &-icon {
+
+        width: $ICON_WIDTH;
+        animation: blink 2s linear infinite alternate;
+        filter: invert(1);
+    }
+}

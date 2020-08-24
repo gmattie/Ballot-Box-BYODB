@@ -1,6 +1,21 @@
 .result {
 
-    @include list-item;
-
     width: calc(100% - #{$FORM_GAP});
+
+    & > .button {
+
+        width: 100%;
+
+        & .resultActiveLabel {
+    
+            display: flex;
+            justify-content: space-between;
+
+            &-icon {
+
+                position: relative;
+                top: 3px;
+            }
+        }
+    }
 }

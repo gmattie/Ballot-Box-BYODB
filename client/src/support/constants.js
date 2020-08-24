@@ -179,6 +179,28 @@ const CSS = Object.freeze({
     PERCENT_100: "100%"
 });
 
+/**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
+ *     <li> FORMAT_COMPACT </li>
+ *     <li> FORMAT_LONG </li>
+ *     <li> FORMAT_MEDIUM </li>
+ *     <li> FORMAT_SHORT </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const Date = Object.freeze({
+
+    FORMAT_COMPACT: "MMM d, y 'at' HH:mm",
+    FORMAT_LONG: "EEEE, MMMM d, y 'at' HH:mm (O)",
+    FORMAT_MEDIUM: "EEE, MMM d, y 'at' HH:mm (O)",
+    FORMAT_SHORT: "EEE, MMM d, y 'at' HH:mm",
+});
+
  /**
  * @description Properties of type {string} consist of:
  * 
@@ -449,6 +471,8 @@ const ID = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> BLANK </li>
+ *     <li> DEFAULT_AVATAR </li>
  *     <li> TRANSPARENT_PLACEHOLDER </li>
  * </ul>
  * 
@@ -458,6 +482,8 @@ const ID = Object.freeze({
  */
 const Image = Object.freeze({
 
+    BLANK: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+    DEFAULT_AVATAR: "http://leamvalleygs.com/content/img/anon-avatar.png",
     TRANSPARENT_PLACEHOLDER: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="
 });
 
@@ -465,6 +491,7 @@ const Image = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> ACTIVE </li>
  *     <li> ADD </li>
  *     <li> ADD_ITEM </li>
  *     <li> ADMIN </li>
@@ -500,7 +527,6 @@ const Image = Object.freeze({
  *     <li> HOURS </li>
  *     <li> ICON </li>
  *     <li> IMAGE </li>
- *     <li> LIVE </li>
  *     <li> LIVE_UPDATES </li>
  *     <li> LOGIN </li>
  *     <li> LOGOUT </li>
@@ -512,22 +538,23 @@ const Image = Object.freeze({
  *     <li> OPEN </li>
  *     <li> OPTIONAL </li>
  *     <li> PASSWORD </li>
- *     <li> PENDING </li>
  *     <li> PENDING_RESULTS </li>
- *     <li> QUANTITY </li>
+ *     <li> RANK </li>
+ *     <li> RANK_SELECTIONS </li>
  *     <li> REGISTER </li>
  *     <li> RESET </li>
  *     <li> RESULTS </li>
+ *     <li> SCORE </li>
  *     <li> SECONDS </li>
  *     <li> SECRET_BALLOT </li>
  *     <li> SHOW </li>
  *     <li> THUMBNAIL </li>
- *     <li> TOTAL_VOTES_CAST </li>
  *     <li> URL </li>
  *     <li> VOTE </li>
  *     <li> VOTE_CAST </li>
  *     <li> VOTE_STATUS </li>
  *     <li> VOTES </li>
+ *     <li> VOTES_CAST </li>
  * </ul>
  * 
  * @public
@@ -536,6 +563,7 @@ const Image = Object.freeze({
  */
 const Label = Object.freeze({
 
+    ACTIVE: "Active",
     ADD_ITEM: "Add Item",
     ADD: "Add",
     ADMIN_CREDENTIALS: "Admin Credentials",
@@ -562,7 +590,7 @@ const Label = Object.freeze({
     EMAIL_REFER: "Please refer to the email in order to",
     EMAIL_REGISTRATION: "complete your registration and activate your account.",
     EMAIL_RESET: "confirm the request to reset your account password.",
-    EMAIL_SENT: "An email has been sent to:",
+    EMAIL_SENT: "An email has been sent to",
     EMAIL: "Email",
     EMPTY_ITEMS: "No Items Available",
     EMPTY_RESULTS: "No Results Available",
@@ -572,7 +600,6 @@ const Label = Object.freeze({
     ICON: "Icon",
     IMAGE: "Image",
     LIVE_UPDATES: "Live Updates",
-    LIVE: "Live",
     LOGIN: "Login",
     LOGOUT: "Logout",
     MANAGE_VOTE: "Manage Vote",
@@ -584,20 +611,21 @@ const Label = Object.freeze({
     OPTIONAL: "(Optional)",
     PASSWORD: "Password",
     PENDING_RESULTS: "Pending Results",
-    PENDING: "Pending",
-    QUANTITY: "Quantity",
+    RANK_SELECTIONS: "Rank Selections",
+    RANK: "Rank",
     REGISTER: "Register",
     RESET: "Reset",
     RESULTS: "Results",
+    SCORE: "Score",
     SECONDS: "Seconds",
     SECRET_BALLOT: "Secret Ballot",
     SHOW: "Show",
     THUMBNAIL: "Thumbnail",
-    TOTAL_VOTES_CAST: "Total Votes Cast:",
     URL: "URL",
     VOTE_CAST: "Your ballot has been cast for the current vote.",
-    VOTE_STATUS: "Vote Status:",
+    VOTE_STATUS: "Vote Status",
     VOTE: "Vote",
+    VOTES_CAST: "Votes Cast",
     VOTES: "Votes",
 });
 
@@ -605,8 +633,6 @@ const Label = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
- *     <li> DATE_FORMAT </li>
- *     <li> DATE_TIME_FORMAT </li>
  *     <li> ENV_DEVELOPMENT </li>
  *     <li> PROTOCOL_HTTP </li>
  *     <li> PROTOCOL_WEB_SOCKET </li>
@@ -619,8 +645,6 @@ const Label = Object.freeze({
  */
 const Local = Object.freeze({
 
-    DATE_FORMAT: "dddd, MMMM Do YYYY",
-    DATE_TIME_FORMAT: "dddd, MMMM Do YYYY, h:mm:ss A",
     ENV_DEVELOPMENT: "development",
     PROTOCOL_HTTP: "http",
     PROTOCOL_WEB_SOCKET: "ws",
@@ -846,7 +870,12 @@ const Route = Object.freeze({
  *     <li> ITEM_DETAIL_IMAGE_ERROR </li>
  *     <li> ITEM_DETAIL_IMAGE_INTERSECTION </li>
  *     <li> ITEM_DETAIL_IMAGE_PRELOADER </li>
- *     <li> ITEM_DETAIL_TITLE </li>
+ *     <li> ITEM_DETAIL_INFO </li>
+ *     <li> ITEM_DETAIL_INFO_RESULT </li>
+ *     <li> ITEM_DETAIL_INFO_RESULT_ENTRY </li>
+ *     <li> ITEM_DETAIL_INFO_RESULT_ENTRY_KEY </li>
+ *     <li> ITEM_DETAIL_INFO_RESULT_ENTRY_VALUE </li>
+ *     <li> ITEM_DETAIL_INFO_TITLE </li>
  *     <li> LIST </li>
  *     <li> LIST_CONTAINER </li>
  *     <li> LIST_CONTENT </li>
@@ -877,6 +906,7 @@ const Route = Object.freeze({
  *     <li> NO_FOCUS_OUTLINE </li>
  *     <li> PORTAL </li>
  *     <li> PROTECTED_CONTAINER </li>
+ *     <li> PROTECTED_CONTAINER_NAV </li>
  *     <li> PROTECTED_CONTAINER_NAV_BUTTON </li>
  *     <li> PROTECTED_CONTAINER_NAV_BUTTON_SELECTED </li>
  *     <li> PROTECTED_CONTAINER_PRELOADER </li>
@@ -903,34 +933,38 @@ const Route = Object.freeze({
  *     <li> RESET_SUBMIT_BUTTON </li>
  *     <li> RESET_SUBMIT_PRELOADER </li>
  *     <li> RESULT </li>
- *     <li> RESULT_ACTIVE_BADGE </li>
- *     <li> RESULT_ACTIVE_BADGE_LIVE </li>
- *     <li> RESULT_ACTIVE_BADGE_PENDING </li>
+ *     <li> RESULT_ACTIVE_LABEL </li>
+ *     <li> RESULT_ACTIVE_LABEL_ICON </li>
+ *     <li> RESULT_ACTIVE_LABEL_TEXT </li>
  *     <li> RESULT_DETAIL </li>
  *     <li> RESULT_DETAIL_CONTAINER </li>
  *     <li> RESULT_DETAIL_CONTAINER_PRELOADER </li>
  *     <li> RESULT_DETAIL_CONTAINER_TABLE </li>
  *     <li> RESULT_DETAIL_TABLE_INFO </li>
  *     <li> RESULT_DETAIL_TABLE_INFO_ACTIVE </li>
- *     <li> RESULT_DETAIL_TABLE_INFO_ANONYMOUS </li>
  *     <li> RESULT_DETAIL_TABLE_INFO_DATE </li>
  *     <li> RESULT_DETAIL_TABLE_INFO_QUANTITY </li>
  *     <li> RESULT_DETAIL_TABLE_INFO_TOTAL </li>
  *     <li> RESULT_DETAIL_TABLE_ITEM_ROW </li>
  *     <li> RESULT_DETAIL_TABLE_ITEM_ROW_HEADER </li>
  *     <li> RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_ITEM </li>
- *     <li> RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_SCORE </li>
+ *     <li> RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_ITEM_NAME </li>
+ *     <li> RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_ITEM_SCORE </li>
  *     <li> RESULT_DETAIL_TABLE_ITEM_ROW_RANK </li>
- *     <li> RESULT_DETAIL_TABLE_USER_HEADER </li>
- *     <li> RESULT_DETAIL_TABLE_USER_HEADER_USER </li>
- *     <li> RESULT_DETAIL_TABLE_USER_HEADER_USER_EMAIL </li>
- *     <li> RESULT_DETAIL_TABLE_USER_HEADER_USER_IP </li>
- *     <li> RESULT_DETAIL_TABLE_USER_HEADER_USER_NAME </li>
+ *     <li> RESULT_DETAIL_TABLE_USER </li>
+ *     <li> RESULT_DETAIL_TABLE_USER_INFO </li>
+ *     <li> RESULT_DETAIL_TABLE_USER_INFO_AVATAR </li>
+ *     <li> RESULT_DETAIL_TABLE_USER_INFO_AVATAR_IMAGE </li>
+ *     <li> RESULT_DETAIL_TABLE_USER_INFO_AVATAR_IMAGE_ERROR </li>
+ *     <li> RESULT_DETAIL_TABLE_USER_INFO_AVATAR_IMAGE_INTERSECTION </li>
+ *     <li> RESULT_DETAIL_TABLE_USER_INFO_NAME </li>
  *     <li> RESULTS_CONTAINER </li>
  *     <li> RESULTS_CONTAINER_EMPTY </li>
  *     <li> RESULTS_CONTAINER_LIST </li>
  *     <li> RESULTS_CONTAINER_LIST_ITEM_SIZE_CONTAINER </li>
  *     <li> RESULTS_CONTAINER_PRELOADER </li>
+ *     <li> SPAN_OVERFLOW </li>
+ *     <li> SPAN_OVERFLOW_SHORT </li>
  *     <li> TOGGLE </li>
  *     <li> TRANSPARENT </li>
  *     <li> USER_INFO </li>
@@ -1021,7 +1055,12 @@ const Style = Object.freeze({
     ITEM_DETAIL_IMAGE_INTERSECTION: "itemDetail-image-intersection",
     ITEM_DETAIL_IMAGE_PRELOADER: "itemDetail-image-preloader",
     ITEM_DETAIL_IMAGE: "itemDetail-image",
-    ITEM_DETAIL_TITLE: "itemDetail-title",
+    ITEM_DETAIL_INFO_RESULT_ENTRY_KEY: "itemDetail-info-result-entry-key",
+    ITEM_DETAIL_INFO_RESULT_ENTRY_VALUE: "itemDetail-info-result-entry-value",
+    ITEM_DETAIL_INFO_RESULT_ENTRY: "itemDetail-info-result-entry",
+    ITEM_DETAIL_INFO_RESULT: "itemDetail-info-result",
+    ITEM_DETAIL_INFO_TITLE: "itemDetail-info-title",
+    ITEM_DETAIL_INFO: "itemDetail-info",
     ITEM_DETAIL: "itemDetail",
     LIST_CONTAINER: "listContainer",
     LIST_CONTENT: "list-content",
@@ -1055,6 +1094,7 @@ const Style = Object.freeze({
     PROTECTED_CONTAINER_CONTENT: "protectedContainer-content",
     PROTECTED_CONTAINER_NAV_BUTTON_SELECTED: "protectedContainer-nav-button-selected",
     PROTECTED_CONTAINER_NAV_BUTTON: "protectedContainer-nav-button",
+    PROTECTED_CONTAINER_NAV: "protectedContainer-nav",
     PROTECTED_CONTAINER_PRELOADER: "protectedContainer-preloader",
     PROTECTED_CONTAINER: "protectedContainer",
     PUBLIC_CONTAINER_CONTENT_FORM_NAV: "publicContainer-content-form-nav",
@@ -1079,35 +1119,39 @@ const Style = Object.freeze({
     RESET_SUBMIT_PRELOADER: "reset-submit-preloader",
     RESET_SUBMIT: "reset-submit",
     RESET: "reset",
-    RESULT_ACTIVE_BADGE_LIVE: "resultActiveBadge-live",
-    RESULT_ACTIVE_BADGE_PENDING: "resultActiveBadge-pending",
-    RESULT_ACTIVE_BADGE: "resultActiveBadge",
+    RESULT_ACTIVE_LABEL_ICON: "resultActiveLabel-icon",
+    RESULT_ACTIVE_LABEL_TEXT: "resultActiveLabel-text",
+    RESULT_ACTIVE_LABEL: "resultActiveLabel",
     RESULT_DETAIL_CONTAINER_PRELOADER: "resultDetail-container-preloader",
     RESULT_DETAIL_CONTAINER_TABLE: "resultDetail-container-table",
     RESULT_DETAIL_CONTAINER: "resultDetail-container",
     RESULT_DETAIL_TABLE_INFO_ACTIVE: "resultDetailTableInfo-active",
-    RESULT_DETAIL_TABLE_INFO_ANONYMOUS: "resultDetailTableInfo-anonymous",
     RESULT_DETAIL_TABLE_INFO_DATE: "resultDetailTableInfo-date",
     RESULT_DETAIL_TABLE_INFO_QUANTITY: "resultDetailTableInfo-quantity",
     RESULT_DETAIL_TABLE_INFO_TOTAL: "resultDetailTableInfo-total",
     RESULT_DETAIL_TABLE_INFO: "resultDetailTableInfo",
+    RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_ITEM_NAME: "resultDetailTableItemRow-header-item-name",
+    RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_ITEM_SCORE: "resultDetailTableItemRow-header-item-score",
     RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_ITEM: "resultDetailTableItemRow-header-item",
-    RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_SCORE: "resultDetailTableItemRow-header-score",
     RESULT_DETAIL_TABLE_ITEM_ROW_HEADER: "resultDetailTableItemRow-header",
     RESULT_DETAIL_TABLE_ITEM_ROW_RANK: "resultDetailTableItemRow-rank",
     RESULT_DETAIL_TABLE_ITEM_ROW: "resultDetailTableItemRow",
-    RESULT_DETAIL_TABLE_USER_HEADER_USER_EMAIL: "resultDetailTableUserHeader-user-email",
-    RESULT_DETAIL_TABLE_USER_HEADER_USER_IP: "resultDetailTableUserHeader-user-ip",
-    RESULT_DETAIL_TABLE_USER_HEADER_USER_NAME: "resultDetailTableUserHeader-user-name",
-    RESULT_DETAIL_TABLE_USER_HEADER_USER: "resultDetailTableUserHeader-user",
-    RESULT_DETAIL_TABLE_USER_HEADER: "resultDetailTableUserHeader",
+    RESULT_DETAIL_TABLE_USER_INFO_AVATAR: "resultDetailTableUser-info-avatar",
+    RESULT_DETAIL_TABLE_USER_INFO_AVATAR_IMAGE: "resultDetailTableUser-info-avatar-image",
+    RESULT_DETAIL_TABLE_USER_INFO_AVATAR_IMAGE_INTERSECTION: "resultDetailTableUser-info-avatar-image-intersection",
+    RESULT_DETAIL_TABLE_USER_INFO_AVATAR_IMAGE_ERROR: "resultDetailTableUser-info-avatar-image-error",
+    RESULT_DETAIL_TABLE_USER_INFO_NAME: "resultDetailTableUser-info-name",
+    RESULT_DETAIL_TABLE_USER_INFO: "resultDetailTableUser-info",
+    RESULT_DETAIL_TABLE_USER: "resultDetailTableUser",
     RESULT_DETAIL: "resultDetail",
     RESULT: "result",
     RESULTS_CONTAINER_EMPTY: "resultsContainer-empty",
-    RESULTS_CONTAINER_LIST: "resultsContainer-list",
     RESULTS_CONTAINER_LIST_ITEM_SIZE_CONTAINER: "resultsContainer-list-itemSizeContainer",
+    RESULTS_CONTAINER_LIST: "resultsContainer-list",
     RESULTS_CONTAINER_PRELOADER: "resultsContainer-preloader",
     RESULTS_CONTAINER: "resultsContainer",
+    SPAN_OVERFLOW_SHORT: "spanOverflow-short",
+    SPAN_OVERFLOW: "spanOverflow",
     TOGGLE: "toggle",
     TRANSPARENT: "transparent",
     USER_INFO_TABLE_LABEL: "userInfo-table-label",
@@ -1153,6 +1197,7 @@ export {
     CharCode,
     Console,
     CSS,
+    Date,
     Deadline,
     Duration,
     Error,

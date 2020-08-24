@@ -16,7 +16,7 @@ import React from "react";
  * @function
  * 
  */
-const Eye = () => {
+const Triangle = () => {
 
     /**
      * JSX markup
@@ -34,4 +34,4 @@ const Eye = () => {
  * Export module
  * 
  */
-export default Eye;
+export default Triangle;

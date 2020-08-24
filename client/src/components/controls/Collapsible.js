@@ -171,7 +171,12 @@ const Collapsible = ({
  */
 Collapsible.propTypes = {
 
-    title: PropTypes.string.isRequired,
+    title: PropTypes.oneOfType([
+
+        PropTypes.string,
+        PropTypes.element
+    ]).isRequired,
+
     children: PropTypes.node.isRequired,
     eventHandler: PropTypes.func,
     collapsed: PropTypes.bool,

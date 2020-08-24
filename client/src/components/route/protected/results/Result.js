@@ -1,21 +1,23 @@
 /**
  * @description Result component.
  * 
+ * @requires Button
  * @requires constants
- * @requires moment
  * @requires prop-types
  * @requires react
- * @requires ResultActiveBadge
+ * @requires ResultActiveLabel
+ * @requires ResultDateFormat
 
  * @public
  * @module
  * 
  */
 import * as C from "../../../../support/constants";
-import Moment from "moment";
+import Button from "../../../controls/Button";
 import PropTypes from "prop-types";
 import React from "react";
-import ResultActiveBadge from "./ResultActiveBadge";
+import ResultActiveLabel from "./ResultActiveLabel";
+import ResultDateFormat from "./ResultDateFormat";
 
 /**
  * @description The Result component is a clickable list item representing a Vote document.
@@ -53,15 +55,19 @@ const Result = ({
      */
     return (
 
-        <div 
-            className={C.Style.RESULT}
-            onClick={clickHandler}
-        >
-            {Moment(voteDocument[C.Model.DATE]).format(C.Local.DATE_TIME_FORMAT)}
-
-            {voteDocument[C.Model.ACTIVE] &&
-                <ResultActiveBadge aggregate={voteDocument[C.Model.AGGREGATE]} />
-            }
+        <div className={C.Style.RESULT}>
+            <Button
+                style={(voteDocument[C.Model.ACTIVE])
+                    ? C.Style.BUTTON_SUBMIT_EMPHASIS
+                    : C.Style.BUTTON_SUBMIT
+                }
+                onClick={clickHandler}
+            >
+                {(voteDocument[C.Model.ACTIVE])
+                    ? <ResultActiveLabel aggregate={voteDocument[C.Model.AGGREGATE]} />
+                    : <ResultDateFormat ISODate={voteDocument[C.Model.DATE]} />
+                }
+            </Button>
         </div>
     );
 };

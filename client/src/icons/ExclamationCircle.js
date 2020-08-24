@@ -16,7 +16,7 @@ import React from "react";
  * @function
  * 
  */
-const Eye = () => {
+const ExclamationCircle = () => {
 
     /**
      * JSX markup
@@ -34,4 +34,4 @@ const Eye = () => {
  * Export module
  * 
  */
-export default Eye;
+export default ExclamationCircle;

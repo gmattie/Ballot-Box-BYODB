@@ -190,7 +190,7 @@ const setNativeValue = (element, value) => {
  * @param {string} method - The Console method of the message to suppress, including "error", "info", "log" and "warn". 
  * @public
  * @function
- * eslint-disable no-console
+ * 
  * @example
  * 
  *      suppressConsoleMessage("overeager alarm system", "error");

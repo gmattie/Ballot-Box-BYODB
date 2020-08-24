@@ -7,7 +7,7 @@
  * @requires react
  * @requires ResultDetailTableInfo
  * @requires ResultDetailTableItemRow
- * @requires ResultDetailTableUserHeader
+ * @requires ResultDetailTableUser
  * @requires useAuth
  * @requires useMount
  * @requires useVotes
@@ -22,7 +22,7 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import ResultDetailTableInfo from "./ResultDetailTableInfo";
 import ResultDetailTableItemRow from "./ResultDetailTableItemRow";
-import ResultDetailTableUserHeader from "./ResultDetailTableUserHeader";
+import ResultDetailTableUser from "./ResultDetailTableUser";
 import useAuth from "../../../hooks/useAuth";
 import useMount from "../../../hooks/useMount";
 import useVotes from "../../../hooks/useVotes";
@@ -208,7 +208,10 @@ const ResultDetail = ({
     return (
 
         <Portal elementID={C.ID.ELEMENT_RESULT_DETAIL}>
-            <div className={C.Style.RESULT_DETAIL} onClick={okCallback}>
+            <div
+                className={C.Style.RESULT_DETAIL}
+                onClick={okCallback}
+            >
                 <div className={C.Style.RESULT_DETAIL_CONTAINER}>
                     {(isLoading || !votesOne)
                         ?   <div className={C.Style.RESULT_DETAIL_CONTAINER_PRELOADER} />
@@ -229,23 +232,14 @@ const ResultDetail = ({
 
                                                 return (
 
-                                                    <ResultDetailTableUserHeader
+                                                    <ResultDetailTableUser
                                                         key={vote[C.Model.ID]}
                                                         name={
                                                             
                                                             (vote[C.Model.USER] && vote[C.Model.USER][C.Model.NAME]) ||
                                                             C.Error.MISSING_DATA
                                                         }
-                                                        email={
-                                                            
-                                                            (vote[C.Model.USER] && vote[C.Model.USER][C.Model.EMAIL]) ||
-                                                            C.Error.MISSING_DATA    
-                                                        }
-                                                        ip={
-                                                            
-                                                            (vote[C.Model.USER] && vote[C.Model.USER][C.Model.IP]) ||
-                                                            C.Error.MISSING_DATA
-                                                        }
+                                                        avatarURL={vote[C.Model.USER] && vote[C.Model.USER][C.Model.AVATAR]}
                                                     />
                                                 );
                                             })
@@ -254,18 +248,27 @@ const ResultDetail = ({
                                 </thead>
 
                                 <tbody>
-                                    {votesOne[C.Model.TOTAL].map((total) => {
+                                    {votesOne[C.Model.TOTAL].map((total, index) => {
 
                                         return (
 
                                             <ResultDetailTableItemRow
                                                 key={total[C.Model.ID]}
-                                                score={total[C.Model.RANK]}
                                                 itemName={
                                                     
                                                     (total[C.Model.ITEM] && total[C.Model.ITEM][C.Model.NAME]) ||
                                                     C.Error.MISSING_DATA
                                                 }
+                                                itemImageURL={
+                                                    
+                                                    (total[C.Model.ITEM] && total[C.Model.ITEM][C.Model.IMAGE]) ||
+                                                    C.Image.BLANK
+                                                }
+                                                result={{
+
+                                                    [C.Model.RANK]: index + 1,
+                                                    [C.Model.TOTAL]: total[C.Model.RANK]
+                                                }}
                                                 ranks={getCastRanks(total[C.Model.ITEM] && total[C.Model.ITEM][C.Model.ID])}
                                             />
                                         );

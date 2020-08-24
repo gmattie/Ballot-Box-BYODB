@@ -1,16 +1,20 @@
 /**
  * @description ResultDetailTableItemRow component.
  * 
+ * @public
+ * @requires Button
  * @requires constants
+ * @requires ItemDetail
  * @requires prop-types
  * @requires react
- * @public
  * @module
  * 
  */
 import * as C from "../../../support/constants";
+import Button from "../../controls/Button";
+import ItemDetail from "../ItemDetail";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState } from "react";
 
 /**
  * @description The table body row displayed within the ResultDetail component that displays score and rank information for an item.
@@ -23,41 +27,85 @@ import React from "react";
  */
 const ResultDetailTableItemRow = ({
 
-        score,
         itemName,
+        itemImageURL,
+        result,
         ranks
     }) => {
+
+    /**
+     * State
+     * 
+     */
+    const [ showDialog, setShowDialog ] = useState(false);
+
+    /**
+     * @description Handler for dispatched "click" events.
+     * 
+     * @param {object} event - The event object. 
+     * @private
+     * @function
+     * 
+     */
+    const clickHandler = (event) => {
+
+        event.stopPropagation();
+
+        setShowDialog(true);
+    };
 
     /**
      * JSX markup
      * 
      */
     return (
+        <>
+            {showDialog &&
+                <ItemDetail 
+                    imageURL={itemImageURL}
+                    title={itemName}
+                    result={result}
+                    okCallback={() => setShowDialog(false)}
+                />
+            }
 
-        <tr className={C.Style.RESULT_DETAIL_TABLE_ITEM_ROW}>
-            <th className={C.Style.RESULT_DETAIL_TABLE_ITEM_ROW_HEADER}>
-                <div className={C.Style.RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_ITEM}>
-                    {itemName}
-                </div>
+            <tr className={C.Style.RESULT_DETAIL_TABLE_ITEM_ROW}>
+                <th className={C.Style.RESULT_DETAIL_TABLE_ITEM_ROW_HEADER}>
+                    <div className={C.Style.RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_ITEM}>
+                        <div className={C.Style.RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_ITEM_NAME}>
+                            <Button
+                                style={C.Style.BUTTON_SUBMIT}
+                                onClick={clickHandler}
+                            >
+                                {itemName}
+                            </Button>
+                        </div>
 
-                <div className={C.Style.RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_SCORE}>
-                    {score}
-                </div>
-            </th>
+                        <div className={C.Style.RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_ITEM_SCORE}>
+                            <Button
+                                style={C.Style.BUTTON_SUBMIT_EMPHASIS}
+                                onClick={clickHandler}
+                            >
+                                {result[C.Model.TOTAL]}
+                            </Button>
+                        </div>
+                    </div>
+                </th>
 
-            {ranks && ranks.map((rank, index) => {
+                {ranks && ranks.map((rank, index) => {
 
-                return (
+                    return (
 
-                    <td
-                        key={index}
-                        className={C.Style.RESULT_DETAIL_TABLE_ITEM_ROW_RANK}
-                    >
-                        {rank}
-                    </td>
-                );
-            })}
-        </tr>
+                        <td
+                            key={index}
+                            className={C.Style.RESULT_DETAIL_TABLE_ITEM_ROW_RANK}
+                        >
+                            {rank}
+                        </td>
+                    );
+                })}
+            </tr>
+        </>
     );
 };
 
@@ -67,8 +115,15 @@ const ResultDetailTableItemRow = ({
  */
 ResultDetailTableItemRow.propTypes = {
 
-    score: PropTypes.number.isRequired,
     itemName: PropTypes.string.isRequired,
+    itemImageURL: PropTypes.string.isRequired,
+
+    result: PropTypes.shape({
+
+        [C.Model.RANK]: PropTypes.number.isRequired,
+        [C.Model.TOTAL]: PropTypes.number.isRequired
+    }),
+
     ranks: PropTypes.array
 };
 

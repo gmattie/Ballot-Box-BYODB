@@ -1,0 +1,18 @@
+.spanOverflow {
+
+    display: inline-flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+    max-width: 100%;
+    height: 1.5em;
+    line-height: 1.5em;
+
+    &-short {
+
+        display: block;
+        overflow: hidden;
+        flex-grow: 1;
+        width: 0;
+        text-overflow: ellipsis;
+    }
+}

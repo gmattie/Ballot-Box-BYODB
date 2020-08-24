@@ -360,7 +360,7 @@ const ProtectedContainer = () => {
 
                         <UserInfo />
 
-                        <div>
+                        <div className={C.Style.PROTECTED_CONTAINER_NAV}>
                             {createButton(C.Label.VOTE, addRouterHistory, C.Route.VOTE)}
                             {createButton(C.Label.RESULTS, addRouterHistory, C.Route.RESULTS)}
                             {createButton(C.Label.ADMIN, addRouterHistory, C.Route.ADMIN)}

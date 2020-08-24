@@ -18,7 +18,7 @@
  * @module
  * 
  */
-import { LogoutAPI } from "../protected/ProtectedContainer";
+import { LogoutAPI } from "./ProtectedContainer";
 import * as C from "../../../support/constants";
 import Button from "../../controls/Button";
 import Dialog from "../../modal/Dialog";

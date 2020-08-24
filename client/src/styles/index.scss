@@ -9,7 +9,6 @@
 @import "./abstracts/animations/fade";
 @import "./abstracts/animations/spin";
 
-@import "./abstracts/mixins/badge";
 @import "./abstracts/mixins/button";
 @import "./abstracts/mixins/dropShadow";
 @import "./abstracts/mixins/error";
@@ -26,6 +25,7 @@
 @import "./miscellaneous/transparent";
 
 @import "./components/errorResponse";
+@import "./components/spanOverflow";
 
 @import "./components/controls/button";
 @import "./components/controls/collapsible";
@@ -45,7 +45,7 @@
 @import "./components/modal/result/resultDetail";
 @import "./components/modal/result/resultDetailTableInfo";
 @import "./components/modal/result/resultDetailTableItemRow";
-@import "./components/modal/result/resultDetailTableUserHeader";
+@import "./components/modal/result/resultDetailTableUser";
 
 @import "./components/route/public/confirmation";
 @import "./components/route/public/login";
@@ -64,6 +64,6 @@
 @import "./components/route/protected/info/voteInfo";
 @import "./components/route/protected/protectedContainer";
 @import "./components/route/protected/results/result";
-@import "./components/route/protected/results/resultActiveBadge";
+@import "./components/route/protected/results/resultActiveLabel";
 @import "./components/route/protected/results/resultsContainer";
 @import "./components/route/protected/vote";

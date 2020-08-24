@@ -65,19 +65,20 @@ const Portal = ({
             
             portalRoot = document.createElement(C.HTMLElement.DIV);
             portalRoot.id = elementID;
-
-            const applicationRoot = document.getElementById(C.HTMLElement.ROOT);
-            applicationRoot.parentNode.insertBefore(portalRoot, applicationRoot.nextSibling);
         }
-
+        
         const container = childrenContainer.current;
         container.className = C.Style.PORTAL;
         
         portalRoot.appendChild(container);
 
+        const applicationRoot = document.getElementById(C.HTMLElement.ROOT);
+        applicationRoot.parentNode.appendChild(portalRoot);
+        
         return () => {
 
             portalRoot.removeChild(container);
+            applicationRoot.parentNode.removeChild(portalRoot);
         };
     }, [elementID]);
 
