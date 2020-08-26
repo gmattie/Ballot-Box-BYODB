@@ -33,3 +33,31 @@
         filter: brightness(75%);
     }
 }
+
+@mixin info-label {
+
+    font-weight: 700;
+    text-align: center;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@mixin entry-label {
+        
+    @include info-label;
+    
+    font-size: $FONT_SIZE_SMALL;
+
+    &-key {
+
+        color: #808080;
+    }
+
+    &-value {
+
+        margin-left: $FORM_GAP / 1rem * $FONT_SIZE_SMALL;
+        color: #AAAAAA;
+    }
+}

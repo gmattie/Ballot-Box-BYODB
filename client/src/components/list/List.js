@@ -158,7 +158,7 @@ const List = ({
                 <ItemDetail 
                     imageURL={itemImageURL.current}
                     title={itemName.current}
-                    okCallback={() => setShowDialog(false)}
+                    cancelCallback={() => setShowDialog(false)}
                 />
             }
 

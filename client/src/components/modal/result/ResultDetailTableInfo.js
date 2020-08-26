@@ -56,12 +56,24 @@ const ResultDetailTableInfo = ({
                     </div>
             }
 
-            <div className={C.Style.RESULT_DETAIL_TABLE_INFO_QUANTITY}>
-                {`${C.Label.RANK_SELECTIONS}: ${quantity}`}
+            <div className={C.Style.RESULT_DETAIL_TABLE_INFO_ENTRY}>
+                <span className={C.Style.RESULT_DETAIL_TABLE_INFO_ENTRY_KEY}>
+                    {C.Label.RANK_SELECTIONS}:
+                </span>
+
+                <span className={C.Style.RESULT_DETAIL_TABLE_INFO_ENTRY_VALUE}>
+                    {quantity}
+                </span>
             </div>
 
-            <div className={C.Style.RESULT_DETAIL_TABLE_INFO_TOTAL}>
-                {`${voteCastLabel}: ${totalCastVotes}`}
+            <div className={C.Style.RESULT_DETAIL_TABLE_INFO_ENTRY}>
+                <span className={C.Style.RESULT_DETAIL_TABLE_INFO_ENTRY_KEY}>
+                    {voteCastLabel}:
+                </span>
+
+                <span className={C.Style.RESULT_DETAIL_TABLE_INFO_ENTRY_VALUE}>
+                    {totalCastVotes}
+                </span>
             </div>
         </th>
     );

@@ -28,7 +28,7 @@
 
         position: relative;
         width: $CONTROL_SIZE;
-        height: $RESULTS_TABLE_USER_HEIGHT;
+        height: $RESULTS_TABLE_USER_HEIGHT - $FORM_GAP;
         margin: $FORM_GAP / 2;
 
         &-name {
@@ -38,7 +38,7 @@
 
             & > .button {
                 
-                $BUTTON_WIDTH: $RESULTS_TABLE_USER_HEIGHT - $CONTROL_SIZE - $FORM_GAP * 2;
+                $BUTTON_WIDTH: $RESULTS_TABLE_USER_HEIGHT - $CONTROL_SIZE - $FORM_GAP * 3;
 
                 @include dropShadow(
 

@@ -65,7 +65,7 @@ const ResultDetailTableItemRow = ({
                     imageURL={itemImageURL}
                     title={itemName}
                     result={result}
-                    okCallback={() => setShowDialog(false)}
+                    cancelCallback={() => setShowDialog(false)}
                 />
             }
 

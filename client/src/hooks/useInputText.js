@@ -133,7 +133,7 @@ const useInputText = (
      */
     const onKeyPressHandler = (event) => {
 
-        if (event.charCode === C.CharCode.ENTER) {
+        if (event.key === C.Key.ENTER) {
 
             if (keyPressEnterCallback) {
 

@@ -44,13 +44,13 @@ const App = () => {
         const mouseDownHandler = () => document.body.classList.add(C.Style.NO_FOCUS_OUTLINE);
         const keyDownHandler = () => document.body.classList.remove(C.Style.NO_FOCUS_OUTLINE);
 
-        document.body.addEventListener(C.Event.MOUSE_DOWN, mouseDownHandler);
-        document.body.addEventListener(C.Event.KEY_DOWN, keyDownHandler);
+        window.addEventListener(C.Event.MOUSE_DOWN, mouseDownHandler);
+        window.addEventListener(C.Event.KEY_DOWN, keyDownHandler);
 
         return () => {
 
-            document.body.removeEventListener(C.Event.MOUSE_DOWN, mouseDownHandler);
-            document.body.removeEventListener(C.Event.KEY_DOWN, keyDownHandler);
+            window.removeEventListener(C.Event.MOUSE_DOWN, mouseDownHandler);
+            window.removeEventListener(C.Event.KEY_DOWN, keyDownHandler);
         };
     }, []);
     

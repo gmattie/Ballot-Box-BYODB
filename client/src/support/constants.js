@@ -121,22 +121,6 @@ const Action = Object.freeze({
 });
 
 /**
- * @description Properties of type {number} consist of:
- * 
- * <ul>
- *     <li> ENTER </li>
- * </ul>
- * 
- * @public
- * @constant
- * 
- */
-const CharCode = Object.freeze({
-
-    ENTER: 13
-});
-
-/**
  * @description Properties of type {string} consist of:
  * 
  * <ul>
@@ -485,6 +469,24 @@ const Image = Object.freeze({
     BLANK: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
     DEFAULT_AVATAR: "http://leamvalleygs.com/content/img/anon-avatar.png",
     TRANSPARENT_PLACEHOLDER: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="
+});
+
+/**
+ * @description Properties of type {number} consist of:
+ * 
+ * <ul>
+ *     <li> ENTER </li>
+ *     <li> ESCAPE </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const Key = Object.freeze({
+
+    ENTER: "Enter",
+    ESCAPE: "Escape",
 });
 
 /**
@@ -943,8 +945,9 @@ const Route = Object.freeze({
  *     <li> RESULT_DETAIL_TABLE_INFO </li>
  *     <li> RESULT_DETAIL_TABLE_INFO_ACTIVE </li>
  *     <li> RESULT_DETAIL_TABLE_INFO_DATE </li>
- *     <li> RESULT_DETAIL_TABLE_INFO_QUANTITY </li>
- *     <li> RESULT_DETAIL_TABLE_INFO_TOTAL </li>
+ *     <li> RESULT_DETAIL_TABLE_INFO_ENTRY </li>
+ *     <li> RESULT_DETAIL_TABLE_INFO_ENTRY_KEY </li>
+ *     <li> RESULT_DETAIL_TABLE_INFO_ENTRY_VALUE </li>
  *     <li> RESULT_DETAIL_TABLE_ITEM_ROW </li>
  *     <li> RESULT_DETAIL_TABLE_ITEM_ROW_HEADER </li>
  *     <li> RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_ITEM </li>
@@ -1127,8 +1130,9 @@ const Style = Object.freeze({
     RESULT_DETAIL_CONTAINER: "resultDetail-container",
     RESULT_DETAIL_TABLE_INFO_ACTIVE: "resultDetailTableInfo-active",
     RESULT_DETAIL_TABLE_INFO_DATE: "resultDetailTableInfo-date",
-    RESULT_DETAIL_TABLE_INFO_QUANTITY: "resultDetailTableInfo-quantity",
-    RESULT_DETAIL_TABLE_INFO_TOTAL: "resultDetailTableInfo-total",
+    RESULT_DETAIL_TABLE_INFO_ENTRY_KEY: "resultDetailTableInfo-entry-key",
+    RESULT_DETAIL_TABLE_INFO_ENTRY_VALUE: "resultDetailTableInfo-entry-value",
+    RESULT_DETAIL_TABLE_INFO_ENTRY: "resultDetailTableInfo-entry",
     RESULT_DETAIL_TABLE_INFO: "resultDetailTableInfo",
     RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_ITEM_NAME: "resultDetailTableItemRow-header-item-name",
     RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_ITEM_SCORE: "resultDetailTableItemRow-header-item-score",
@@ -1194,7 +1198,6 @@ export {
 
     Access,
     Action,
-    CharCode,
     Console,
     CSS,
     Date,
@@ -1206,6 +1209,7 @@ export {
     HTMLElement,
     ID,
     Image,
+    Key,
     Label,
     Local,
     Mode,

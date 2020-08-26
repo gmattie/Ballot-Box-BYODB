@@ -24,7 +24,7 @@
             &-icon {
 
                 position: absolute;
-                top: -26px;
+                top: -35px;
             }
         }
     }
@@ -34,10 +34,8 @@
         display: inline-block;
     }
 
-    &-quantity,
-    &-total {
-
-        font-size: $FONT_SIZE_SMALL;
-        color: gray;
+    &-entry {
+        
+        @include entry-label;
     }
 }

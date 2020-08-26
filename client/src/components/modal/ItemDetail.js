@@ -18,7 +18,7 @@ import ViewportImage from "../ViewportImage";
 
 /**
  * @description Renders an modal window inside a React Portal.
- * ItemDetails must contain an "imageURL" and "title" for display and an "okCallback" that is called when the image is clicked.
+ * ItemDetails must contain an "imageURL" and "title" for display and a "cancelCallback" function  that is called to close the modal window.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} The portal rendered to the DOM.
@@ -31,7 +31,7 @@ const ItemDetail = ({
         imageURL,
         title,
         result,
-        okCallback
+        cancelCallback
     }) => {
 
     /**
@@ -46,7 +46,7 @@ const ItemDetail = ({
 
         event.stopPropagation();
 
-        okCallback();
+        cancelCallback();
     };
     /**
      * JSX markup
@@ -54,7 +54,11 @@ const ItemDetail = ({
      */
     return (
 
-        <Portal elementID={C.ID.ELEMENT_ITEM_DETAIL}>
+        <Portal
+            elementID={C.ID.ELEMENT_ITEM_DETAIL}
+            okCallback={cancelCallback}
+            closeCallback={cancelCallback}
+        >
             <div
                 className={C.Style.ITEM_DETAIL}
                 onClick={clickHandler}
@@ -119,7 +123,7 @@ ItemDetail.propTypes = {
         [C.Model.TOTAL]: PropTypes.number.isRequired
     }),
 
-    okCallback: PropTypes.func.isRequired,
+    cancelCallback: PropTypes.func.isRequired,
 };
 
 /**

@@ -40,16 +40,6 @@
 
     &-info {
 
-        @mixin info-label {
-
-            font-weight: 700;
-            text-align: center;
-            width: 100%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
         padding: $FORM_GAP;
 
         &-title {
@@ -60,21 +50,10 @@
         &-result {
 
             padding-top: $FORM_GAP;
-            font-size: $FONT_SIZE_SMALL;
 
             &-entry {
 
-                @include info-label;
-
-                &-key {
-
-                    color: darkgray;
-                }
-
-                &-value {
-
-                    margin-left: $FORM_GAP / 1rem * $FONT_SIZE_SMALL;
-                }
+                @include entry-label;
             }
         }
     }

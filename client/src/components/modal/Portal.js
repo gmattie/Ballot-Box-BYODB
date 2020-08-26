@@ -9,7 +9,7 @@
  * @module
  * 
  */
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import * as C from "../../support/constants";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
@@ -27,10 +27,17 @@ import ReactDOM from "react-dom";
 const Portal = ({
     
         elementID,
+        okCallback,
+        closeCallback,
         children
     }) => {
 
-    const childrenContainer = useRef(document.createElement(C.HTMLElement.DIV));
+    /**
+     * Refs
+     * 
+     */
+    const root = useRef();
+    const container = useRef(document.createElement(C.HTMLElement.DIV));
 
     /**
      * @description Pause background scrolling
@@ -49,8 +56,41 @@ const Portal = ({
     }, []);
 
     /**
+     * @description Handler for a dispatched "keydown" event.
+     * Since there may exist several portal component node siblings in the DOM at once, this callback only executes on the last portal component node sibling. 
+     * 
+     * @param {object} event - The event object.
+     * @private
+     * @function
+     * 
+     */
+    const keyDownHandler = useCallback((event) => {
+
+        if (!root.current.nextElementSibling) {
+
+            event.stopPropagation();
+            event.preventDefault();
+
+            if (event.key === C.Key.ENTER) {
+
+                if (okCallback) {
+
+                    okCallback();
+                }
+            }
+            else if (event.key === C.Key.ESCAPE) {
+
+                if (closeCallback) {
+
+                    closeCallback();
+                }
+            }
+        }
+    }, [closeCallback, okCallback]);
+
+    /**
      * @description Portal root element
-     * Creates an element containing the ChildrenContainer to be appended to the DOM as the Portal.
+     * Creates an element containing the children to be appended to the DOM as the Portal.
      * 
      * @returns {function} Cleanup code to execute when the component dismounts.
      * @private
@@ -58,31 +98,30 @@ const Portal = ({
      * 
      */
     useEffect(() => {
+
+        const portalRoot = document.createElement(C.HTMLElement.DIV);
+        portalRoot.id = elementID;
+        root.current = portalRoot;
         
-        let portalRoot = document.getElementById(elementID);
+        const childrenContainer = container.current;
+        childrenContainer.className = C.Style.PORTAL;
         
-        if (!portalRoot) {
-            
-            portalRoot = document.createElement(C.HTMLElement.DIV);
-            portalRoot.id = elementID;
-        }
-        
-        const container = childrenContainer.current;
-        container.className = C.Style.PORTAL;
-        
-        portalRoot.appendChild(container);
+        portalRoot.appendChild(childrenContainer);
 
         const applicationRoot = document.getElementById(C.HTMLElement.ROOT);
         applicationRoot.parentNode.appendChild(portalRoot);
-        
+
+        window.addEventListener(C.Event.KEY_DOWN, keyDownHandler, true);
+
         return () => {
 
-            portalRoot.removeChild(container);
+            portalRoot.removeChild(childrenContainer);
             applicationRoot.parentNode.removeChild(portalRoot);
+            window.removeEventListener(C.Event.KEY_DOWN, keyDownHandler, true);
         };
-    }, [elementID]);
+    }, [elementID, keyDownHandler]);
 
-    return ReactDOM.createPortal(children, childrenContainer.current);
+    return ReactDOM.createPortal(children, container.current);
 };
 
 /**
@@ -92,6 +131,8 @@ const Portal = ({
 Portal.propTypes = {
 
     elementID: PropTypes.string.isRequired,
+    okCallback: PropTypes.func.isRequired,
+    closeCallback: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired
 };
 

@@ -65,7 +65,11 @@ const Dialog = ({
      */
     return (
 
-        <Portal elementID={C.ID.ELEMENT_DIALOG}>
+        <Portal
+            elementID={C.ID.ELEMENT_DIALOG}
+            okCallback={okButtonHandler}
+            closeCallback={cancelCallback}
+        >
             <div className={C.Style.DIALOG}>
                 <div className={C.Style.DIALOG_CONTENT}>
                     {content}

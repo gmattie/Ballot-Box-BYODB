@@ -207,7 +207,11 @@ const ResultDetail = ({
      */
     return (
 
-        <Portal elementID={C.ID.ELEMENT_RESULT_DETAIL}>
+        <Portal
+            elementID={C.ID.ELEMENT_RESULT_DETAIL}
+            okCallback={okCallback}
+            closeCallback={okCallback}
+        >
             <div
                 className={C.Style.RESULT_DETAIL}
                 onClick={okCallback}
