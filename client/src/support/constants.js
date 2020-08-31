@@ -263,6 +263,8 @@ const Error = Object.freeze({
  *     <li> CLOSE </li>
  *     <li> DRAG_ENTER </li>
  *     <li> DRAG_OVER </li>
+ *         <li> SCROLL_OFFSET </li>
+ *     </ul>
  *     <li> DRAG_START </li>
  *     <li> DROP </li>
  *     <li> ERROR </li>
@@ -273,9 +275,7 @@ const Error = Object.freeze({
  *     <li> MESSAGE </li>
  *     <li> MOUSE_DOWN </li>
  *     <li> OPEN </li>
- *     <ul>
- *         <li> SCROLL_OFFSET </li>
- *     </ul>
+ *     <li> POP_STATE </li>
  *     <li> RESIZE </li>
  *     <li> SCROLL_OFFSET </li>
  *     <li> TRANSITION_END </li>
@@ -286,6 +286,7 @@ const Error = Object.freeze({
  *     <li> VOTE_DEADLINE </li>
  *     <li> VOTE_OPENED </li>
  *     <li> WEBSOCKET_HEARTBEAT </li>
+ *     <ul>
  * </ul>
  * 
  * @public
@@ -308,6 +309,7 @@ const Event = Object.freeze({
     MESSAGE: "message",
     MOUSE_DOWN: "mousedown",
     OPEN: "open",
+    POP_STATE: "popstate",
     
     Property: {
 
@@ -973,7 +975,6 @@ const Route = Object.freeze({
  *     <li> USER_INFO </li>
  *     <li> USER_INFO_TABLE </li>
  *     <li> USER_INFO_TABLE_LABEL </li>
- *     <li> VISIBLE </li>
  *     <li> VOTE </li>
  *     <li> VOTE_BUTTONS </li>
  *     <li> VOTE_ERROR </li>
@@ -1161,7 +1162,6 @@ const Style = Object.freeze({
     USER_INFO_TABLE_LABEL: "userInfo-table-label",
     USER_INFO_TABLE: "userInfo-table",
     USER_INFO: "userInfo",
-    VISIBLE: "visible",
     VOTE_BUTTONS: "vote-buttons",
     VOTE_ERROR: "vote-error",
     VOTE_INFO_DEADLINE: "voteInfo-deadline",

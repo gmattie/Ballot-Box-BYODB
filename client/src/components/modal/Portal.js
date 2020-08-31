@@ -9,14 +9,15 @@
  * @module
  * 
  */
-import { useCallback, useEffect, useRef } from "react";
+import { useRef } from "react";
 import * as C from "../../support/constants";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
+import useMount from "../../hooks/useMount";
 
 /**
- * @description Renders children in a separate DOM node outside of the application's root DOM node.
- * Portal DOM nodes that are not predefined in the public index.html file with a matching "elementID" prop will be created and inserted after the application root DOM node.
+ * @description Renders children in a separate DOM node outside of the application root DOM node.
+ * Portal DOM nodes that are not predefined in the public index.html file with a matching "elementID" prop will be created and appended as the last element sibling of the application root DOM node.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} The portal rendered to the DOM.
@@ -40,31 +41,22 @@ const Portal = ({
     const container = useRef(document.createElement(C.HTMLElement.DIV));
 
     /**
-     * @description Pause background scrolling
-     * Temporarily deactivates scrolling on the document body while the Portal component is visible. 
-     * 
-     * @returns {function} Cleanup code to execute when the component dismounts.
-     * @private
-     * @function
+     * Hooks
      * 
      */
-    useEffect(() => {
-
-        document.body.style.overflow = C.Style.HIDDEN;
-
-        return () => document.body.style.overflow = C.Style.VISIBLE;
-    }, []);
+     const { onMount } = useMount();
 
     /**
      * @description Handler for a dispatched "keydown" event.
-     * Since there may exist several portal component node siblings in the DOM at once, this callback only executes on the last portal component node sibling. 
+     * The Enter key calls the okCallback handler while the Escape key calls the closeCallback handler.
+     * While there may exist several Portal component node siblings in the DOM at once, this callback only executes on the last sibling.
      * 
      * @param {object} event - The event object.
      * @private
      * @function
      * 
      */
-    const keyDownHandler = useCallback((event) => {
+    const keyDownHandler = (event) => {
 
         if (!root.current.nextElementSibling) {
 
@@ -73,31 +65,44 @@ const Portal = ({
 
             if (event.key === C.Key.ENTER) {
 
-                if (okCallback) {
-
-                    okCallback();
-                }
+                okCallback();
             }
             else if (event.key === C.Key.ESCAPE) {
 
-                if (closeCallback) {
-
-                    closeCallback();
-                }
+                closeCallback();
             }
         }
-    }, [closeCallback, okCallback]);
+    };
 
     /**
-     * @description Portal root element
-     * Creates an element containing the children to be appended to the DOM as the Portal.
+     * @description Handler for a dispatched "popstate" event.
+     * Clicking the browser's back button calls the closeCallback handler.
+     * While there may exist several Portal component node siblings in the DOM at once, this callback only executes on the last sibling. 
+     * 
+     * @param {object} event - The event object.
+     * @private
+     * @function
+     * 
+     */
+    const popStateHandler = (event) => {
+
+        if (!root.current.nextElementSibling) {
+
+            closeCallback();
+        }
+     };
+
+    /**
+     * @description Creates an element containing children to be appended to the DOM as a React Portal.
+     * Creating new history states on both mount and dismount and listening for a "popstate" event facilitates closing modal windows via the browser's back button. 
+     * Listening for a "keydown" event facilitates both affirmative and dismissive actions on modal windows via pressing the Enter and Escape keys, respectively.
      * 
      * @returns {function} Cleanup code to execute when the component dismounts.
      * @private
      * @function
      * 
      */
-    useEffect(() => {
+    const mount = () => {
 
         const portalRoot = document.createElement(C.HTMLElement.DIV);
         portalRoot.id = elementID;
@@ -111,15 +116,26 @@ const Portal = ({
         const applicationRoot = document.getElementById(C.HTMLElement.ROOT);
         applicationRoot.parentNode.appendChild(portalRoot);
 
+        const windowTitle = window.document.title;
+        const history = window.history;
+        history.pushState(null, windowTitle);
+        
         window.addEventListener(C.Event.KEY_DOWN, keyDownHandler, true);
+        window.addEventListener(C.Event.POP_STATE, popStateHandler);
 
         return () => {
 
             portalRoot.removeChild(childrenContainer);
             applicationRoot.parentNode.removeChild(portalRoot);
+
             window.removeEventListener(C.Event.KEY_DOWN, keyDownHandler, true);
+            window.removeEventListener(C.Event.POP_STATE, popStateHandler);
+
+            history.pushState(null, windowTitle);
         };
-    }, [elementID, keyDownHandler]);
+    };
+
+    onMount(mount);
 
     return ReactDOM.createPortal(children, container.current);
 };
