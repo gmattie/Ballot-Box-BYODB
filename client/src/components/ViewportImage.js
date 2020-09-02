@@ -50,6 +50,7 @@ const ViewportImage = ({
      * 
      */
     const image = useRef(null);
+    const preloader = useRef(null);
 
     /**
      * @description Handler for ending the preloader.
@@ -104,6 +105,11 @@ const ViewportImage = ({
 
             imageElement.removeEventListener(C.Event.LOAD, loadHandler);
 
+            if (preloader.current) {
+
+                preloader.current.classList.add(C.Style.HIDDEN);
+            }
+
             if (intersectionStyle) {
 
                 imageElement.addEventListener(C.Event.ANIMATION_END, animationEndHandler);
@@ -128,10 +134,12 @@ const ViewportImage = ({
 
         if (preIntersectionStyle && intersectionStyle) {
 
-            image.current.classList.add(preIntersectionStyle);
+            image.current.classList.remove(preIntersectionStyle);
         }
         
         image.current.classList.add(errorStyle);
+
+        setIsLoading(false);
     }, [errorStyle, intersectionStyle, preIntersectionStyle]);
 
     /**
@@ -231,7 +239,10 @@ const ViewportImage = ({
         
         <>
             {!isCached && preloaderStyle && isLoading &&
-                <div className={preloaderStyle} />
+                <div
+                    ref={preloader}
+                    className={preloaderStyle}
+                />
             }
 
             <img

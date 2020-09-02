@@ -1,0 +1,45 @@
+.userDetail {
+
+    @include modal-detail-image;
+
+    &-icon {
+
+        object-fit: contain;
+        min-height: 0;
+        padding: $FORM_GAP $FORM_GAP 0;
+        -webkit-user-drag: none;
+
+        & > svg {
+
+            width: 50%;
+            height: 100%;
+            transform: translateX(50%);
+
+            filter:
+                invert(1)
+                brightness(38%);
+        }
+    }
+
+    &-info {
+        
+        width: 100%;
+        padding: $FORM_GAP;
+
+        &-name {
+
+            @include label-info;
+
+            padding-bottom: $FORM_GAP;
+        }
+        
+        &-email,
+        &-ip {
+
+            &-entry {
+
+                @include label-entry;
+            }
+        }
+    }
+}

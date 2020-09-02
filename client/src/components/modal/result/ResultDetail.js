@@ -238,12 +238,7 @@ const ResultDetail = ({
 
                                                     <ResultDetailTableUser
                                                         key={vote[C.Model.ID]}
-                                                        name={
-                                                            
-                                                            (vote[C.Model.USER] && vote[C.Model.USER][C.Model.NAME]) ||
-                                                            C.Error.MISSING_DATA
-                                                        }
-                                                        avatarURL={vote[C.Model.USER] && vote[C.Model.USER][C.Model.AVATAR]}
+                                                        user={vote[C.Model.USER]}
                                                     />
                                                 );
                                             })

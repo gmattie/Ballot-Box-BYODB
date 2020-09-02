@@ -6,6 +6,7 @@
  * @requires constants
  * @requires prop-types
  * @requires react
+ * @requires UserDetail
  * @requires ViewportImage
  * @public
  * @module
@@ -15,7 +16,8 @@ import * as C from "../../../support/constants";
 import Avatar from "../../../icons/Avatar";
 import Button from "../../controls/Button";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState } from "react";
+import UserDetail from "../UserDetail";
 import ViewportImage from "../../ViewportImage";
 
 /**
@@ -27,11 +29,13 @@ import ViewportImage from "../../ViewportImage";
  * @function
  * 
  */
-const ResultDetailTableUser = ({
+const ResultDetailTableUser = ({ user }) => {
 
-        name,
-        avatarURL
-    }) => {
+    /**
+     * State
+     * 
+     */
+    const [ showDialog, setShowDialog ] = useState(false);
 
     /**
      * @description Handler for dispatched "click" events.
@@ -45,7 +49,7 @@ const ResultDetailTableUser = ({
 
         event.stopPropagation();
 
-        console.log(name);
+        setShowDialog(true);
     };
 
     /**
@@ -54,38 +58,52 @@ const ResultDetailTableUser = ({
      */
     return (
 
-        <th className={C.Style.RESULT_DETAIL_TABLE_USER}>
-            <div className={C.Style.RESULT_DETAIL_TABLE_USER_INFO}>
-                <div className={C.Style.RESULT_DETAIL_TABLE_USER_INFO_NAME}>
-                    <Button
-                        style={C.Style.BUTTON_SUBMIT}
-                        onClick={clickHandler}
-                    >
-                        {name}
-                    </Button>
-                </div>
-                <div className={C.Style.RESULT_DETAIL_TABLE_USER_INFO_AVATAR}>
-                    <Button
-                        style={C.Style.BUTTON_SUBMIT}
-                        onClick={clickHandler}
-                    >
-                        {(avatarURL)
-                            ?   <ViewportImage
-                                    src={avatarURL}
-                                    alt={name}
-                                    placeholder={C.Image.TRANSPARENT_PLACEHOLDER}
-                                    imageStyle={C.Style.RESULT_DETAIL_TABLE_USER_INFO_AVATAR_IMAGE}
-                                    preIntersectionStyle={C.Style.TRANSPARENT}
-                                    intersectionStyle={C.Style.RESULT_DETAIL_TABLE_USER_INFO_AVATAR_IMAGE_INTERSECTION}
-                                    errorStyle={C.Style.RESULT_DETAIL_TABLE_USER_INFO_AVATAR_IMAGE_ERROR}
-                                    preloaderStyle={C.Style.ITEM_DETAIL_IMAGE_PRELOADER}
-                                />
-                            :   <Avatar />
+        <>
+            {showDialog &&
+                <UserDetail
+                    avatarURL={user[C.Model.AVATAR]}
+                    name={user[C.Model.NAME]}
+                    email={user[C.Model.EMAIL]}
+                    ip={user[C.Model.IP]}
+                    cancelCallback={() => setShowDialog(false)}
+                />
+            }
+
+            <th className={C.Style.RESULT_DETAIL_TABLE_USER}>
+                <div className={C.Style.RESULT_DETAIL_TABLE_USER_INFO}>
+                    <div className={C.Style.RESULT_DETAIL_TABLE_USER_INFO_NAME}>
+                        {user[C.Model.NAME] &&
+                            <Button
+                                style={C.Style.BUTTON_SUBMIT}
+                                onClick={clickHandler}
+                            >
+                                {user[C.Model.NAME]}
+                            </Button>
                         }
-                    </Button>
+                    </div>
+                    <div className={C.Style.RESULT_DETAIL_TABLE_USER_INFO_AVATAR}>
+                        <Button
+                            style={C.Style.BUTTON_SUBMIT}
+                            onClick={clickHandler}
+                        >
+                            {(user[C.Model.AVATAR])
+                                ?   <ViewportImage
+                                        src={user[C.Model.AVATAR]}
+                                        alt={user[C.Model.NAME]}
+                                        placeholder={C.Image.TRANSPARENT_PLACEHOLDER}
+                                        imageStyle={C.Style.RESULT_DETAIL_TABLE_USER_INFO_AVATAR_IMAGE}
+                                        preIntersectionStyle={C.Style.TRANSPARENT}
+                                        intersectionStyle={C.Style.RESULT_DETAIL_TABLE_USER_INFO_AVATAR_IMAGE_INTERSECTION}
+                                        errorStyle={C.Style.RESULT_DETAIL_TABLE_USER_INFO_AVATAR_IMAGE_ERROR}
+                                        preloaderStyle={C.Style.RESULT_DETAIL_TABLE_USER_INFO_AVATAR_IMAGE_PRELOADER}
+                                    />
+                                :   <Avatar />
+                            }
+                        </Button>
+                    </div>
                 </div>
-            </div>
-        </th>
+            </th>
+        </>
     );
 };
 
@@ -95,8 +113,13 @@ const ResultDetailTableUser = ({
  */
 ResultDetailTableUser.propTypes = {
 
-    name: PropTypes.string.isRequired,
-    avatarURL: PropTypes.string
+    user: PropTypes.shape({
+
+        [C.Model.AVATAR]: PropTypes.string.isRequired,
+        [C.Model.NAME]: PropTypes.string.isRequired,
+        [C.Model.EMAIL]: PropTypes.string.isRequired,
+        [C.Model.IP]: PropTypes.string.isRequired
+    }).isRequired
 };
 
 /**

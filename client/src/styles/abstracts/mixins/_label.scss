@@ -34,7 +34,7 @@
     }
 }
 
-@mixin info-label {
+@mixin label-info {
 
     font-weight: 700;
     text-align: center;
@@ -44,20 +44,20 @@
     text-overflow: ellipsis;
 }
 
-@mixin entry-label {
+@mixin label-entry {
         
-    @include info-label;
+    @include label-info;
     
     font-size: $FONT_SIZE_SMALL;
 
     &-key {
 
-        color: #808080;
+        color: $COLOR_AUXILIARY;
     }
 
     &-value {
 
         margin-left: $FORM_GAP / 1rem * $FONT_SIZE_SMALL;
-        color: #AAAAAA;
+        color: lighten($COLOR_AUXILIARY, 20%);
     }
 }

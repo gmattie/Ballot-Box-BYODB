@@ -89,8 +89,23 @@
                 }
             
                 &-error {
-            
+                    
+                    position: absolute;
+                    bottom: $DROP_SHADOW_OFFSET;
+                    overflow: hidden;
                     opacity: 0;
+                }
+
+                &-preloader {
+
+                    $SMALL_PRELOADER_SIZE: 17px;
+                    $CENTER: calc(50% - #{$SMALL_PRELOADER_SIZE} / 2);
+
+                    @include preloader($size: $SMALL_PRELOADER_SIZE);
+            
+                    position: absolute;
+                    top: calc(#{$CENTER} - 1px);
+                    left: $CENTER;
                 }
             }
         }

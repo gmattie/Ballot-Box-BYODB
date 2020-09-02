@@ -18,7 +18,7 @@ import ViewportImage from "../ViewportImage";
 
 /**
  * @description Renders an modal window inside a React Portal.
- * ItemDetails must contain an "imageURL" and "title" for display and a "cancelCallback" function  that is called to close the modal window.
+ * ItemDetail components must contain an "imageURL" and "title" for display and a "cancelCallback" function that is called to close the modal window.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} The portal rendered to the DOM.
@@ -48,6 +48,7 @@ const ItemDetail = ({
 
         cancelCallback();
     };
+    
     /**
      * JSX markup
      * 

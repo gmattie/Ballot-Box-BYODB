@@ -1,42 +1,6 @@
 .itemDetail {
 
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    user-select: none;
-    
-    &-image {
-
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        min-height: 0;
-        padding: $FORM_GAP $FORM_GAP 0;
-        -webkit-user-drag: none;
-        
-        &-intersection {
-    
-            animation: fade $DURATION_ANIMATION_SLOW ease-out;
-        }
-    
-        &-error {
-    
-            opacity: 0;
-        }
-
-        &-preloader {
-
-            @include preloader($size: $PRELOADER_SIZE);
-
-            $CENTER: calc(50% - #{$PRELOADER_SIZE} / 2);
-    
-            position: absolute;
-            top: $CENTER;
-            left: $CENTER;
-        }
-    }
+    @include modal-detail-image;
 
     &-info {
 
@@ -44,7 +8,7 @@
 
         &-title {
 
-            @include info-label;
+            @include label-info;
         }
             
         &-result {
@@ -53,7 +17,7 @@
 
             &-entry {
 
-                @include entry-label;
+                @include label-entry;
             }
         }
     }

@@ -531,6 +531,7 @@ const Key = Object.freeze({
  *     <li> HOURS </li>
  *     <li> ICON </li>
  *     <li> IMAGE </li>
+ *     <li> IP </li>
  *     <li> LIVE_UPDATES </li>
  *     <li> LOGIN </li>
  *     <li> LOGOUT </li>
@@ -603,6 +604,7 @@ const Label = Object.freeze({
     HOURS: "Hours",
     ICON: "Icon",
     IMAGE: "Image",
+    IP: "IP Address",
     LIVE_UPDATES: "Live Updates",
     LOGIN: "Login",
     LOGOUT: "Logout",
@@ -962,6 +964,7 @@ const Route = Object.freeze({
  *     <li> RESULT_DETAIL_TABLE_USER_INFO_AVATAR_IMAGE </li>
  *     <li> RESULT_DETAIL_TABLE_USER_INFO_AVATAR_IMAGE_ERROR </li>
  *     <li> RESULT_DETAIL_TABLE_USER_INFO_AVATAR_IMAGE_INTERSECTION </li>
+ *     <li> RESULT_DETAIL_TABLE_USER_INFO_AVATAR_IMAGE_PRELOADER </li>
  *     <li> RESULT_DETAIL_TABLE_USER_INFO_NAME </li>
  *     <li> RESULTS_CONTAINER </li>
  *     <li> RESULTS_CONTAINER_EMPTY </li>
@@ -972,6 +975,23 @@ const Route = Object.freeze({
  *     <li> SPAN_OVERFLOW_SHORT </li>
  *     <li> TOGGLE </li>
  *     <li> TRANSPARENT </li>
+ *     <li> USER_DETAIL </li>
+ *     <li> USER_DETAIL_ICON </li>
+ *     <li> USER_DETAIL_IMAGE </li>
+ *     <li> USER_DETAIL_IMAGE_ERROR </li>
+ *     <li> USER_DETAIL_IMAGE_INTERSECTION </li>
+ *     <li> USER_DETAIL_IMAGE_PRELOADER </li>
+ *     <li> USER_DETAIL_INFO </li>
+ *     <li> USER_DETAIL_INFO_EMAIL </li>
+ *     <li> USER_DETAIL_INFO_EMAIL_ENTRY </li>
+ *     <li> USER_DETAIL_INFO_EMAIL_ENTRY_KEY </li>
+ *     <li> USER_DETAIL_INFO_EMAIL_ENTRY_VALUE </li>
+ *     <li> USER_DETAIL_INFO_IP </li>
+ *     <li> USER_DETAIL_INFO_IP_ENTRY </li>
+ *     <li> USER_DETAIL_INFO_IP_ENTRY_KEY </li>
+ *     <li> USER_DETAIL_INFO_IP_ENTRY_VALUE </li>
+ *     <li> USER_DETAIL_INFO_MISSING_DATA </li>
+ *     <li> USER_DETAIL_INFO_NAME </li>
  *     <li> USER_INFO </li>
  *     <li> USER_INFO_TABLE </li>
  *     <li> USER_INFO_TABLE_LABEL </li>
@@ -1141,10 +1161,11 @@ const Style = Object.freeze({
     RESULT_DETAIL_TABLE_ITEM_ROW_HEADER: "resultDetailTableItemRow-header",
     RESULT_DETAIL_TABLE_ITEM_ROW_RANK: "resultDetailTableItemRow-rank",
     RESULT_DETAIL_TABLE_ITEM_ROW: "resultDetailTableItemRow",
-    RESULT_DETAIL_TABLE_USER_INFO_AVATAR: "resultDetailTableUser-info-avatar",
-    RESULT_DETAIL_TABLE_USER_INFO_AVATAR_IMAGE: "resultDetailTableUser-info-avatar-image",
-    RESULT_DETAIL_TABLE_USER_INFO_AVATAR_IMAGE_INTERSECTION: "resultDetailTableUser-info-avatar-image-intersection",
     RESULT_DETAIL_TABLE_USER_INFO_AVATAR_IMAGE_ERROR: "resultDetailTableUser-info-avatar-image-error",
+    RESULT_DETAIL_TABLE_USER_INFO_AVATAR_IMAGE_INTERSECTION: "resultDetailTableUser-info-avatar-image-intersection",
+    RESULT_DETAIL_TABLE_USER_INFO_AVATAR_IMAGE_PRELOADER: "resultDetailTableUser-info-avatar-image-preloader",
+    RESULT_DETAIL_TABLE_USER_INFO_AVATAR_IMAGE: "resultDetailTableUser-info-avatar-image",
+    RESULT_DETAIL_TABLE_USER_INFO_AVATAR: "resultDetailTableUser-info-avatar",
     RESULT_DETAIL_TABLE_USER_INFO_NAME: "resultDetailTableUser-info-name",
     RESULT_DETAIL_TABLE_USER_INFO: "resultDetailTableUser-info",
     RESULT_DETAIL_TABLE_USER: "resultDetailTableUser",
@@ -1159,6 +1180,23 @@ const Style = Object.freeze({
     SPAN_OVERFLOW: "spanOverflow",
     TOGGLE: "toggle",
     TRANSPARENT: "transparent",
+    USER_DETAIL_ICON: "userDetail-icon",
+    USER_DETAIL_IMAGE_ERROR: "userDetail-image-error",
+    USER_DETAIL_IMAGE_INTERSECTION: "userDetail-image-intersection",
+    USER_DETAIL_IMAGE_PRELOADER: "userDetail-image-preloader",
+    USER_DETAIL_IMAGE: "userDetail-image",
+    USER_DETAIL_INFO_EMAIL_ENTRY_KEY: "userDetail-info-email-entry-key",
+    USER_DETAIL_INFO_EMAIL_ENTRY_VALUE: "userDetail-info-email-entry-value",
+    USER_DETAIL_INFO_EMAIL_ENTRY: "userDetail-info-email-entry",
+    USER_DETAIL_INFO_EMAIL: "userDetail-info-email",
+    USER_DETAIL_INFO_IP_ENTRY_KEY: "userDetail-info-ip-entry-key",
+    USER_DETAIL_INFO_IP_ENTRY_VALUE: "userDetail-info-ip-entry-value",
+    USER_DETAIL_INFO_IP_ENTRY: "userDetail-info-ip-entry",
+    USER_DETAIL_INFO_IP: "userDetail-info-ip",
+    USER_DETAIL_INFO_MISSING_DATA: "userDetail-info-missing-data",
+    USER_DETAIL_INFO_NAME: "userDetail-info-name",
+    USER_DETAIL_INFO: "userDetail-info",
+    USER_DETAIL: "userDetail",
     USER_INFO_TABLE_LABEL: "userInfo-table-label",
     USER_INFO_TABLE: "userInfo-table",
     USER_INFO: "userInfo",
