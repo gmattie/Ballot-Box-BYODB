@@ -41,5 +41,10 @@
                 @include label-entry;
             }
         }
+
+        &-missing-data {
+
+            @include label-info;
+        }
     }
 }

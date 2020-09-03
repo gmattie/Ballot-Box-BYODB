@@ -482,7 +482,8 @@ router.get(C.Route.ACTIVE, auth, async (req, res) => {
  * @description (GET) Retrieve one vote or an array of all votes.
  * All users are authorized to retrieve either an array of all votes, both active and inactive, or a single vote by optionally providing a valid vote ID as a request parameter.
  * Retrieving an array of all votes include the following properties per vote:  "aggregate", "anonymous", "active" and "date".
- * Retrieving a single vote, in addition to the aforementioned properties, will include all remaining properties of the Vote document model: "deadline", "quantity", "total" and "vote".   
+ * Retrieving a single vote, in addition to the aforementioned properties, will include all remaining properties of the Vote document model: "deadline", "quantity", "total" and "vote".
+ * Retrieving a single vote marked as "anonymous" will not be populated with User data other than User document IDs. 
  * 
  * @protected
  * @constant
@@ -505,21 +506,28 @@ router.get(`/:${C.Route.PARAM}?`, auth, async (req, res) => {
                 throw new Error(C.Error.VOTE_DOES_NOT_EXIST);
             }
             
-            const popPathVoteUser = `${C.Model.VOTE}.${C.Model.USER}`;
             const popPathVoteItem = `${C.Model.VOTE}.${C.Model.CAST}.${C.Model.ITEM}`;
-            const popPathTotalItem = `${C.Model.TOTAL}.${C.Model.ITEM}`;
-    
-            const popFieldsUser = `${C.Model.AVATAR} ${C.Model.EMAIL} ${C.Model.NAME} ${C.Model.IP}`;
+            const popPathTotalItem = `${C.Model.TOTAL}.${C.Model.ITEM}`;    
             const popFieldsItem = `${C.Model.NAME} ${C.Model.IMAGE}`;
 
-            result = await Vote.findById(paramVoteID)
-                .populate(popPathVoteUser, popFieldsUser)
+            result = await Vote
+                .findById(paramVoteID)
                 .populate(popPathVoteItem, popFieldsItem)
                 .populate(popPathTotalItem, popFieldsItem);
 
             if (!result) {
 
                 throw new Error(C.Error.VOTE_DOES_NOT_EXIST);
+            }
+
+            const popPathVoteUser = `${C.Model.VOTE}.${C.Model.USER}`;
+            const popFieldsUser = `${C.Model.AVATAR} ${C.Model.EMAIL} ${C.Model.NAME} ${C.Model.IP}`;
+
+            if (!result[C.Model.ANONYMOUS]) {
+
+                await result
+                    .populate(popPathVoteUser, popFieldsUser)
+                    .execPopulate();
             }
         }
         else {

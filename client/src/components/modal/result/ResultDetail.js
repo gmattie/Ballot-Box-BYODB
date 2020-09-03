@@ -72,7 +72,7 @@ const ResultDetail = ({
 
     /**
      * @description Fetch the target Vote document
-     * The target Vote document, which is either loaded from the local cache or fetched via an HTTP request, populates the "votesOne" state.
+     * The target Vote document, which is either loaded from the cache or fetched via an HTTP request, populates the "votesOne" state.
      * 
      * @private
      * @function
@@ -84,7 +84,7 @@ const ResultDetail = ({
 
             setWebSocketMessage(null);
 
-            const cachedVote = localStorage.getItem(voteID);
+            const cachedVote = sessionStorage.getItem(voteID);
 
             if (cachedVote) {
 
@@ -130,9 +130,9 @@ const ResultDetail = ({
      */
     if (votesOne && !votesOne[C.Model.ACTIVE] && !isLoading) {
 
-        if (!localStorage.getItem(voteID)) {
+        if (!sessionStorage.getItem(voteID)) {
 
-            localStorage.setItem(voteID, JSON.stringify(votesOne));
+            sessionStorage.setItem(voteID, JSON.stringify(votesOne));
         }
     }
 
