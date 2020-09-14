@@ -1,9 +1,26 @@
 .dialog {
 
+    @include dropShadow($CONTROL_SIZE);
+
+    $TRANSLATE_Y_OFFSET: -60px;
+
     display: flex;
     flex-direction: column;
     background-color: $COLOR_BACKGROUND;
     padding: $FORM_GAP * 2;
+    
+    &-animation {
+        
+        &-enter {
+
+            animation: dialog-enter $DURATION_ANIMATION_SLOW ease-out forwards;
+        }
+
+        &-exit {
+
+            animation: dialog-exit $DURATION_ANIMATION_SLOW ease-out forwards;
+        }
+    }
 
     &-content {
 

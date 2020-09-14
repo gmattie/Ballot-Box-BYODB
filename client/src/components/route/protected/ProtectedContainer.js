@@ -334,15 +334,18 @@ const ProtectedContainer = () => {
      */
     const scrollHandler = () => {
 
-        const scrollTop = contentRef.current.scrollTop;
+        if (contentRef.current) {
 
-        if ((path === C.Route.ADMIN) && (scrollTopAdmin !== scrollTop)) {
+            const scrollTop = contentRef.current.scrollTop;
 
-            setScrollTopAdmin(scrollTop);
-        }
-        else if ((path === C.Route.EDIT) && (scrollTopEdit !== scrollTop)) {
-            
-            setScrollTopEdit(scrollTop);
+            if ((path === C.Route.ADMIN) && (scrollTopAdmin !== scrollTop)) {
+
+                setScrollTopAdmin(scrollTop);
+            }
+            else if ((path === C.Route.EDIT) && (scrollTopEdit !== scrollTop)) {
+                
+                setScrollTopEdit(scrollTop);
+            }
         }
     };
 

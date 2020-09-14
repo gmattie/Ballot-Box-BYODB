@@ -200,7 +200,7 @@ const ResultsContainer = () => {
             {showDialog &&
                 <ResultDetail 
                     voteID={resultDetailDocumentID.current}
-                    okCallback={() => setShowDialog(false)}
+                    dismountCallback={() => setShowDialog(false)}
                     logout={logout}
                 />
             }

@@ -6,9 +6,7 @@
     height: 100%;
     overflow: auto;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    
+
     &-container {
         
         position: relative;
@@ -34,6 +32,11 @@
             background-color: $COLOR_BACKGROUND;
             border-spacing: 0;
             user-select: none;
+
+            &-animation-enter {
+        
+                animation: fade-in $DURATION_ANIMATION_SLOW ease-out forwards;
+            }
         }
     }
 }

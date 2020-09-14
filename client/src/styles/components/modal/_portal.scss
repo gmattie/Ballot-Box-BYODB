@@ -9,4 +9,17 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
+
+    &-animation {
+        
+        &-enter {
+
+            animation: fade-in $DURATION_ANIMATION_SLOW ease-out forwards;
+        }
+
+        &-exit {
+
+            animation: fade-out $DURATION_ANIMATION_SLOW ease-out forwards;
+        }
+    }
 }

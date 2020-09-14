@@ -275,8 +275,6 @@ const EditItem = ({
 
         if (isSubmittable.current) {
 
-            setShowDialog(false);
-
             setAuthError(null);
             setItemsEdit(null);
 
@@ -285,6 +283,18 @@ const EditItem = ({
 
             submitData(thumbnail, image, undefined);
         }
+    };
+
+    /**
+     * @description Handler for a dispatched "click" event on the Cancel button.
+     * 
+     * @function
+     * @private
+     *  
+     */
+    const cancelHandler = () => {
+
+        setShowDialog(false);
     };
 
     /**
@@ -326,7 +336,8 @@ const EditItem = ({
                 <Dialog 
                     content={C.Label.CONFIRM_EDIT_ITEM}
                     okCallback={editHandler}
-                    cancelCallback={() => setShowDialog(false)}
+                    cancelCallback={cancelHandler}
+                    dismountCallback={cancelHandler}
                 />
             }
 

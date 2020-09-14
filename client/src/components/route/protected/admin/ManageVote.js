@@ -286,8 +286,6 @@ const ManageVote = () => {
      */
     const submitHandler = async () => {
 
-        setShowDialog(false);
-
         setIsLoading(true);
         responseUpdate.current = true;
 
@@ -314,6 +312,18 @@ const ManageVote = () => {
         }
 
         setIsLoading(false);
+    };
+
+    /**
+     * @description Handler for a dispatched "click" event on the Cancel button.
+     * 
+     * @function
+     * @private
+     *  
+     */
+    const cancelHandler = () => {
+
+        setShowDialog(false);
     };
 
     /**
@@ -345,7 +355,8 @@ const ManageVote = () => {
                             : C.Label.CONFIRM_CLOSE_VOTE
                     }
                     okCallback={submitHandler}
-                    cancelCallback={() => setShowDialog(false)}
+                    cancelCallback={cancelHandler}
+                    dismountCallback={cancelHandler}
                 />
             }
 

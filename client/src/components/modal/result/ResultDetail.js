@@ -12,14 +12,16 @@
  * @requires useMount
  * @requires useVotes
  * @requires useWebSocket
+ * @requires utilities
  * @public
  * @module
  * 
  */
+import { concatClassNames } from "../../../support/utilities";
 import * as C from "../../../support/constants";
 import Portal from "../Portal";
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import ResultDetailTableInfo from "./ResultDetailTableInfo";
 import ResultDetailTableItemRow from "./ResultDetailTableItemRow";
 import ResultDetailTableUser from "./ResultDetailTableUser";
@@ -30,7 +32,8 @@ import useWebSocket from "../../../hooks/useWebSocket";
 
 /**
  * @description Renders an modal window inside a React Portal.
- * ResultDetail components must contain a "voteID" to create and display details of the target Vote document and an "okCallback" that is called when the details are clicked.
+ * ResultDetail components must contain a "voteID" to create and display details of the target Vote document and a "dismountCallback"
+ * function that is passed down to the Portal child component for removal of the modal window from the DOM.
  * Vote documents that are flagged as active will continue to fetch data and render when new data is received.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
@@ -42,7 +45,7 @@ import useWebSocket from "../../../hooks/useWebSocket";
 const ResultDetail = ({
 
         voteID,
-        okCallback,
+        dismountCallback,
         logout
     }) => {
 
@@ -51,6 +54,12 @@ const ResultDetail = ({
      * 
      */
     const [ isLoading, setIsLoading ] = useState(true);
+
+    /**
+     * Refs
+     */
+    const cachedVote = useRef(null);
+    const portal = useRef(null);
 
     /**
      * Hooks
@@ -84,11 +93,11 @@ const ResultDetail = ({
 
             setWebSocketMessage(null);
 
-            const cachedVote = sessionStorage.getItem(voteID);
+            cachedVote.current = sessionStorage.getItem(voteID);
 
-            if (cachedVote) {
+            if (cachedVote.current) {
 
-                setVotesOne(JSON.parse(cachedVote));
+                setVotesOne(JSON.parse(cachedVote.current));
             }
             else {
 
@@ -156,7 +165,7 @@ const ResultDetail = ({
         if (votesError.error === C.Error.VOTE_DOES_NOT_EXIST) {
 
             setVotesError(null);
-            okCallback();
+            dismountCallback();
         }
         else {
 
@@ -208,18 +217,23 @@ const ResultDetail = ({
     return (
 
         <Portal
+            ref={portal}
             elementID={C.ID.ELEMENT_RESULT_DETAIL}
-            okCallback={okCallback}
-            closeCallback={okCallback}
+            dismountCallback={dismountCallback}
         >
             <div
                 className={C.Style.RESULT_DETAIL}
-                onClick={okCallback}
+                onClick={() => portal.current.exit()}
             >
                 <div className={C.Style.RESULT_DETAIL_CONTAINER}>
                     {(isLoading || !votesOne)
                         ?   <div className={C.Style.RESULT_DETAIL_CONTAINER_PRELOADER} />
-                        :   <table className={C.Style.RESULT_DETAIL_CONTAINER_TABLE}>
+                        :   <table className={
+                                concatClassNames(
+                                    C.Style.RESULT_DETAIL_CONTAINER_TABLE,
+                                    (!cachedVote.current && C.Style.RESULT_DETAIL_CONTAINER_TABLE_ANIMATION_ENTER)
+                                )
+                            }>
                                 <thead>
                                     <tr>
                                         <ResultDetailTableInfo
@@ -288,7 +302,7 @@ const ResultDetail = ({
 ResultDetail.propTypes = {
 
     voteID: PropTypes.string.isRequired,
-    okCallback: PropTypes.func.isRequired,
+    dismountCallback: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
 };
 

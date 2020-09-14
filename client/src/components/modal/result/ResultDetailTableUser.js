@@ -65,7 +65,7 @@ const ResultDetailTableUser = ({ user }) => {
                     name={user[C.Model.NAME]}
                     email={user[C.Model.EMAIL]}
                     ip={user[C.Model.IP]}
-                    cancelCallback={() => setShowDialog(false)}
+                    dismountCallback={() => setShowDialog(false)}
                 />
             }
 

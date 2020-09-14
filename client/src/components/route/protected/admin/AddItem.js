@@ -238,7 +238,6 @@ const AddItem = () => {
      */
     const submitHandler = async () => {
 
-        setShowDialog(false);
         setIsLoading(true);
 
         setAuthError(null);
@@ -252,6 +251,18 @@ const AddItem = () => {
         await fetchAdd(name, thumbnail, image);
 
         setIsLoading(false);
+    };
+
+    /**
+     * @description Handler for a dispatched "click" event on the Cancel button.
+     * 
+     * @function
+     * @private
+     *  
+     */
+    const cancelHandler = () => {
+
+        setShowDialog(false);
     };
 
     /**
@@ -278,7 +289,8 @@ const AddItem = () => {
                 <Dialog 
                     content={C.Label.CONFIRM_ADD_ITEM}
                     okCallback={submitHandler}
-                    cancelCallback={() => setShowDialog(false)}
+                    cancelCallback={cancelHandler}
+                    dismountCallback={cancelHandler}
                 />
             }
 

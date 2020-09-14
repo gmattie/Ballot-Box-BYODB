@@ -49,6 +49,7 @@ const Edit = () => {
      * State
      * 
      */
+    const [ dialogPreloaderComplete, setDialogPreloaderComplete ] = useState(false);
     const [ invalidAdminCredentials, setInvalidAdminCredentials ] = useState(null);
     const [ invalidAvatar, setInvalidAvatar ] = useState(null);
     const [ invalidName, setInvalidName ] = useState(null);
@@ -180,7 +181,7 @@ const Edit = () => {
             awaitUsersSelfUpdate.current = false;
 
             setIsLoading(false);
-            setShowDialog(false);
+            setDialogPreloaderComplete(true);
         }
     }, [usersSelf]);
 
@@ -335,7 +336,7 @@ const Edit = () => {
     }
 
     /**
-     * @description Displays the confirmation dialog.
+     * @description Displays the Dialog component.
      * Written as a function declaration in order to be hoisted and accessible to the custom hooks above.
      * 
      * @function
@@ -351,6 +352,19 @@ const Edit = () => {
     }
 
     /**
+     * @description Handler for a dispatched "click" event on the Cancel button.
+     * 
+     * @function
+     * @private
+     *  
+     */
+    const cancelHandler = () => {
+
+        setShowDialog(false);
+        setDialogPreloaderComplete(false);
+    };
+
+    /**
      * JSX markup
      * 
      */
@@ -361,8 +375,9 @@ const Edit = () => {
                 <Dialog 
                     content={C.Label.CONFIRM_EDIT}
                     okCallback={submitHandler}
-                    cancelCallback={() => setShowDialog(false)}
-                    preloader={true}
+                    cancelCallback={cancelHandler}
+                    dismountCallback={cancelHandler}
+                    preloader={{ [C.Event.COMPLETE]: dialogPreloaderComplete }}
                 />
             }
 

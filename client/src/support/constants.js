@@ -261,6 +261,7 @@ const Error = Object.freeze({
  * <ul>
  *     <li> ANIMATION_END </li>
  *     <li> CLOSE </li>
+ *     <li> COMPLETE </li>
  *     <li> DRAG_ENTER </li>
  *     <li> DRAG_OVER </li>
  *         <li> SCROLL_OFFSET </li>
@@ -297,6 +298,7 @@ const Event = Object.freeze({
 
     ANIMATION_END: "animationend",
     CLOSE: "close",
+    COMPLETE: "complete",
     DRAG_ENTER: "dragenter",
     DRAG_OVER: "dragover",
     DRAG_START: "dragstart",
@@ -835,6 +837,8 @@ const Route = Object.freeze({
  *     <li> CONFIRMATION </li>
  *     <li> CONFIRMATION_EMAIL </li>
  *     <li> DIALOG </li>
+ *     <li> DIALOG_ANIMATION_ENTER</li>
+ *     <li> DIALOG_ANIMATION_EXIT</li>
  *     <li> DIALOG_CONTENT </li>
  *     <li> DIALOG_SUBMIT </li>
  *     <li> DIALOG_SUBMIT_PRELOADER </li>
@@ -911,6 +915,8 @@ const Route = Object.freeze({
  *     <li> MANAGE_VOTE_SUBMIT_PRELOADER </li>
  *     <li> NO_FOCUS_OUTLINE </li>
  *     <li> PORTAL </li>
+ *     <li> PORTAL_ANIMATION_ENTER </li>
+ *     <li> PORTAL_ANIMATION_EXIT </li>
  *     <li> PROTECTED_CONTAINER </li>
  *     <li> PROTECTED_CONTAINER_NAV </li>
  *     <li> PROTECTED_CONTAINER_NAV_BUTTON </li>
@@ -946,6 +952,7 @@ const Route = Object.freeze({
  *     <li> RESULT_DETAIL_CONTAINER </li>
  *     <li> RESULT_DETAIL_CONTAINER_PRELOADER </li>
  *     <li> RESULT_DETAIL_CONTAINER_TABLE </li>
+ *     <li> RESULT_DETAIL_CONTAINER_TABLE_ANIMATION_ENTER </li>
  *     <li> RESULT_DETAIL_TABLE_INFO </li>
  *     <li> RESULT_DETAIL_TABLE_INFO_ACTIVE </li>
  *     <li> RESULT_DETAIL_TABLE_INFO_DATE </li>
@@ -1038,6 +1045,8 @@ const Style = Object.freeze({
     COLLAPSIBLE: "collapsible",
     CONFIRMATION_EMAIL: "confirmation-email",
     CONFIRMATION: "confirmation",
+    DIALOG_ANIMATION_ENTER: "dialog-animation-enter",
+    DIALOG_ANIMATION_EXIT: "dialog-animation-exit",
     DIALOG_CONTENT: "dialog-content",
     DIALOG_SUBMIT_PRELOADER: "dialog-submit-preloader",
     DIALOG_SUBMIT: "dialog-submit",
@@ -1114,6 +1123,8 @@ const Style = Object.freeze({
     MANAGE_VOTE_SUBMIT: "manageVote-submit",
     MANAGE_VOTE: "manageVote",
     NO_FOCUS_OUTLINE: "noFocusOutline",
+    PORTAL_ANIMATION_ENTER: "portal-animation-enter",
+    PORTAL_ANIMATION_EXIT: "portal-animation-exit",
     PORTAL: "portal",
     PROTECTED_CONTAINER_CONTENT: "protectedContainer-content",
     PROTECTED_CONTAINER_NAV_BUTTON_SELECTED: "protectedContainer-nav-button-selected",
@@ -1147,6 +1158,7 @@ const Style = Object.freeze({
     RESULT_ACTIVE_LABEL_TEXT: "resultActiveLabel-text",
     RESULT_ACTIVE_LABEL: "resultActiveLabel",
     RESULT_DETAIL_CONTAINER_PRELOADER: "resultDetail-container-preloader",
+    RESULT_DETAIL_CONTAINER_TABLE_ANIMATION_ENTER: "resultDetail-container-table-animation-enter",
     RESULT_DETAIL_CONTAINER_TABLE: "resultDetail-container-table",
     RESULT_DETAIL_CONTAINER: "resultDetail-container",
     RESULT_DETAIL_TABLE_INFO_ACTIVE: "resultDetailTableInfo-active",

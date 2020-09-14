@@ -47,7 +47,7 @@
         
         &-intersection {
     
-            animation: fade $DURATION_ANIMATION_SLOW ease-out;
+            animation: fade-in $DURATION_ANIMATION_SLOW ease-out;
         }
     
         &-error {

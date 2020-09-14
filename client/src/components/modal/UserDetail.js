@@ -15,12 +15,13 @@ import * as C from "../../support/constants";
 import Avatar from "../../icons/Avatar";
 import Portal from "./Portal";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useRef } from "react";
 import ViewportImage from "../ViewportImage";
 
 /**
  * @description Renders an modal window inside a React Portal.
- * UserDetail components must contain an "avatarURL", "name", "email" and "ip" for display and a "cancelCallback" function that is called to close the modal window.
+ * UserDetail components must contain an "avatarURL", "name", "email" and "ip" for display and a a "dismountCallback" function
+ * that is passed down to the Portal child component for removal of the modal window from the DOM.
  * 
  * @param {object} props - Immutable properties populated by the parent component.
  * @returns {object} The portal rendered to the DOM.
@@ -34,11 +35,17 @@ const UserDetail = ({
         name,
         email,
         ip,
-        cancelCallback
+        dismountCallback
     }) => {
 
     /**
+     * Refs
+     */
+    const portal = useRef(null);
+
+    /**
      * @description Handler for dispatched "click" events.
+     * Since this modal component may have sibling modal components it is necessary to stop the propagation of the click event. 
      * 
      * @param {object} event - The event object. 
      * @private
@@ -49,7 +56,7 @@ const UserDetail = ({
 
         event.stopPropagation();
 
-        cancelCallback();
+        portal.current.exit();
     };
 
     /**
@@ -59,9 +66,9 @@ const UserDetail = ({
     return (
 
         <Portal
+            ref={portal}
             elementID={C.ID.ELEMENT_ITEM_DETAIL}
-            okCallback={cancelCallback}
-            closeCallback={cancelCallback}
+            dismountCallback={dismountCallback}
         >
             <div
                 className={C.Style.USER_DETAIL}
@@ -134,7 +141,7 @@ UserDetail.propTypes = {
     name: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     ip: PropTypes.string.isRequired,
-    cancelCallback: PropTypes.func.isRequired,
+    dismountCallback: PropTypes.func.isRequired,
 };
 
 /**

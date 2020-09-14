@@ -1,0 +1,13 @@
+$TRANSLATE_OFFSET: -40px;
+
+@keyframes dialog-enter {
+
+    0%   { transform: translateY($TRANSLATE_OFFSET); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes dialog-exit {
+
+    0%   { transform: translateY(0); }
+    100% { transform: translateY($TRANSLATE_OFFSET); }
+}

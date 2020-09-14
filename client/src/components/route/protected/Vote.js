@@ -253,6 +253,18 @@ const Vote = () => {
     };
 
     /**
+     * @description Handler for a dispatched "click" event on the Cancel button.
+     * 
+     * @function
+     * @private
+     *  
+     */
+    const cancelHandler = () => {
+
+        setShowDialog(false);
+    };
+
+    /**
      * JSX markup
      * 
      */
@@ -263,7 +275,8 @@ const Vote = () => {
                 <Dialog 
                     content={C.Label.CONFIRM_VOTE}
                     okCallback={submitHandler}
-                    cancelCallback={() => setShowDialog(false)}
+                    cancelCallback={cancelHandler}
+                    dismountCallback={cancelHandler}
                     preloader={true}
                 />
             }
