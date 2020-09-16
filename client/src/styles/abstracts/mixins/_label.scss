@@ -59,5 +59,11 @@
 
         margin-left: $FORM_GAP / 1rem * $FONT_SIZE_SMALL;
         color: lighten($COLOR_AUXILIARY, 20%);
+
+        &-ordinal {
+            
+            font-size: calc(#{$FONT_SIZE_SMALL} * 0.68);
+            vertical-align: super;
+        }
     }
 }

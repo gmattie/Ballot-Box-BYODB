@@ -546,6 +546,7 @@ const Key = Object.freeze({
  *     <li> OPTIONAL </li>
  *     <li> PASSWORD </li>
  *     <li> PENDING_RESULTS </li>
+ *     <li> POINTS </li>
  *     <li> RANK </li>
  *     <li> RANK_SELECTIONS </li>
  *     <li> REGISTER </li>
@@ -619,6 +620,7 @@ const Label = Object.freeze({
     OPTIONAL: "(Optional)",
     PASSWORD: "Password",
     PENDING_RESULTS: "Pending Results",
+    POINTS: "points",
     RANK_SELECTIONS: "Rank Selections",
     RANK: "Rank",
     REGISTER: "Register",
@@ -729,6 +731,28 @@ const Model = Object.freeze({
     TOTAL: "total",
     USER: "user",
     VOTE: "vote",
+});
+
+/**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
+ *     <li> NS </li>
+ *     <li> RD </li>
+ *     <li> ST </li>
+ *     <li> TH </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const Ordinal = Object.freeze({
+
+    ND: "nd",
+    RD: "rd",
+    ST: "st",
+    TH: "th",
 });
 
 /**
@@ -885,6 +909,7 @@ const Route = Object.freeze({
  *     <li> ITEM_DETAIL_INFO_RESULT_ENTRY </li>
  *     <li> ITEM_DETAIL_INFO_RESULT_ENTRY_KEY </li>
  *     <li> ITEM_DETAIL_INFO_RESULT_ENTRY_VALUE </li>
+ *     <li> ITEM_DETAIL_INFO_RESULT_ENTRY_VALUE_ORDINAL </li>
  *     <li> ITEM_DETAIL_INFO_TITLE </li>
  *     <li> LIST </li>
  *     <li> LIST_CONTAINER </li>
@@ -1089,6 +1114,7 @@ const Style = Object.freeze({
     ITEM_DETAIL_IMAGE_PRELOADER: "itemDetail-image-preloader",
     ITEM_DETAIL_IMAGE: "itemDetail-image",
     ITEM_DETAIL_INFO_RESULT_ENTRY_KEY: "itemDetail-info-result-entry-key",
+    ITEM_DETAIL_INFO_RESULT_ENTRY_VALUE_ORDINAL: "itemDetail-info-result-entry-value-ordinal",
     ITEM_DETAIL_INFO_RESULT_ENTRY_VALUE: "itemDetail-info-result-entry-value",
     ITEM_DETAIL_INFO_RESULT_ENTRY: "itemDetail-info-result-entry",
     ITEM_DETAIL_INFO_RESULT: "itemDetail-info-result",
@@ -1264,6 +1290,7 @@ export {
     Local,
     Mode,
     Model,
+    Ordinal,
     Request,
     Route,
     Style,

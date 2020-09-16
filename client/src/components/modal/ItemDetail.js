@@ -55,6 +55,37 @@ const ItemDetail = ({
 
         portal.current.exit();
     };
+
+    /**
+     * @description Returns the appropriate ordinal suffix for a target number.
+     * 
+     * @param {number} value - The target number.
+     * @private
+     * @function
+     * 
+     */
+    const ordinal = (value) => {
+
+        const ones = value % 10;
+        const tens = value % 100;
+
+        if (ones === 1 && tens !== 11) {
+
+            return C.Ordinal.ST;
+        }
+
+        if (ones === 2 && tens !== 12) {
+
+            return C.Ordinal.ND;
+        }
+
+        if (ones === 3 && tens !== 13) {
+
+            return C.Ordinal.RD;
+        }
+
+        return C.Ordinal.TH;
+    };
     
     /**
      * JSX markup
@@ -96,6 +127,10 @@ const ItemDetail = ({
 
                                 <span className={C.Style.ITEM_DETAIL_INFO_RESULT_ENTRY_VALUE}>
                                     {result[C.Model.RANK]}
+
+                                    <span className={C.Style.ITEM_DETAIL_INFO_RESULT_ENTRY_VALUE_ORDINAL}>
+                                        {ordinal(result[C.Model.RANK])}
+                                    </span>
                                 </span>
                             </div>
 
@@ -105,7 +140,7 @@ const ItemDetail = ({
                                 </span>
 
                                 <span className={C.Style.ITEM_DETAIL_INFO_RESULT_ENTRY_VALUE}>
-                                    {result[C.Model.TOTAL]}
+                                    {`${result[C.Model.TOTAL]} ${C.Label.POINTS}`}
                                 </span>
                             </div>
                         </div>
