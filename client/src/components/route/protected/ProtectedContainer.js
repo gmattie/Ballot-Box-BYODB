@@ -359,9 +359,9 @@ const ProtectedContainer = () => {
             {(!authToken || isMounting || isLoading)
                 ?   <div className={C.Style.PROTECTED_CONTAINER_PRELOADER} />
                 :   <>
-                        <VoteInfo deadline={deadline} />
-
                         <UserInfo />
+
+                        <VoteInfo deadline={deadline} />
 
                         <div className={C.Style.PROTECTED_CONTAINER_NAV}>
                             {createButton(C.Label.VOTE, addRouterHistory, C.Route.VOTE)}

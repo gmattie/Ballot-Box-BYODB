@@ -24,13 +24,13 @@
         &:hover {
             
             cursor: pointer;
-            filter: brightness(88%);
+            filter: brightness($CONTROL_BRIGHTNESS_MEDIUM);
         }
     }
 
     &:active {
 
-        filter: brightness(75%);
+        filter: brightness($CONTROL_BRIGHTNESS_LOW);
     }
 }
 
@@ -57,7 +57,7 @@
 
     &-value {
 
-        margin-left: $FORM_GAP / 1rem * $FONT_SIZE_SMALL;
+        margin-left: $FORM_GAP / 2;
         color: lighten($COLOR_AUXILIARY, 20%);
 
         &-ordinal {

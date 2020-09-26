@@ -85,7 +85,7 @@
         &:disabled + label {
     
             cursor: default;
-            filter: brightness(75%);
+            filter: brightness($CONTROL_BRIGHTNESS_LOW);
         }
     
         &:not(:disabled) {
@@ -95,13 +95,13 @@
                 &:hover {
                     
                     cursor: pointer;
-                    filter: brightness(88%);
+                    filter: brightness($CONTROL_BRIGHTNESS_MEDIUM);
                 }
             }
     
             &:active {
     
-                filter: brightness(75%);
+                filter: brightness($CONTROL_BRIGHTNESS_LOW);
             }
         }
     }

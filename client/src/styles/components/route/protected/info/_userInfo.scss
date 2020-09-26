@@ -1,15 +1,107 @@
 .userInfo {
+    
+    $AVATAR_SIZE: 64px;
 
-    &-table {
-        
-        border: 1px solid gray;
-        padding: $FORM_GAP;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: $SCREEN_MAX_WIDTH;
+    min-width: $SCREEN_MIN_WIDTH;
+    padding: $FORM_GAP;
 
-        &-label {
+    &-avatar {
+
+        @include dropShadow($CONTROL_SIZE);
         
-            font-weight: $FONT_WEIGHT_BOLD;
-            text-transform: capitalize;
-            margin-right: $FORM_GAP;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        width: $AVATAR_SIZE;
+        height: $AVATAR_SIZE;
+        user-select: none;
+
+        transition:
+            all
+            $DURATION_ANIMATION_SLOW
+            ease-in-out;
+
+        @include mq-device-desktop {
+            
+            &:hover {
+                
+                cursor: pointer;
+                filter: brightness($CONTROL_BRIGHTNESS_HIGH);
+            }
+        }
+        
+        &-image {
+            
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            -webkit-user-drag: none;
+            
+            &-intersection {
+        
+                animation: fade-in $DURATION_ANIMATION_SLOW ease-out;
+            }
+        
+            &-error {
+        
+                opacity: 0;
+            }
+    
+            &-preloader {
+    
+                @include preloader($size: $PRELOADER_SIZE);
+
+                position: absolute;
+                top: calc(50% - #{$PRELOADER_SIZE} / 2);
+                left: calc(50% - #{$PRELOADER_SIZE} / 2);
+            }
+        }
+
+        &-icon {
+
+            @include avatar-icon;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &-description {
+
+        max-width: calc(100% - #{$AVATAR_SIZE} - #{$FORM_GAP});
+        margin-left: $FORM_GAP;
+
+        &-name {
+
+            @include label-info;
+
+            text-align: left;
+            padding-bottom: $FORM_GAP;
+        }
+
+        &-email,
+        &-ip {
+
+            &-entry {
+
+                @include label-entry;
+
+                text-align: left;
+
+                &-key {
+
+                    display: inline-block;
+                    min-width: 35px;
+                }
+            }
         }
     }
 }

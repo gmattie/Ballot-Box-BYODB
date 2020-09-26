@@ -607,7 +607,7 @@ const Label = Object.freeze({
     HOURS: "Hours",
     ICON: "Icon",
     IMAGE: "Image",
-    IP: "IP Address",
+    IP: "IP",
     LIVE_UPDATES: "Live Updates",
     LOGIN: "Login",
     LOGOUT: "Logout",
@@ -1025,8 +1025,22 @@ const Route = Object.freeze({
  *     <li> USER_DETAIL_INFO_MISSING_DATA </li>
  *     <li> USER_DETAIL_INFO_NAME </li>
  *     <li> USER_INFO </li>
- *     <li> USER_INFO_TABLE </li>
- *     <li> USER_INFO_TABLE_LABEL </li>
+ *     <li> USER_INFO_AVATAR </li>
+ *     <li> USER_INFO_AVATAR_ICON </li>
+ *     <li> USER_INFO_AVATAR_IMAGE </li>
+ *     <li> USER_INFO_AVATAR_IMAGE_ERROR </li>
+ *     <li> USER_INFO_AVATAR_IMAGE_INTERSECTION </li>
+ *     <li> USER_INFO_AVATAR_IMAGE_PRELOADER </li>
+ *     <li> USER_INFO_DESCRIPTION </li>
+ *     <li> USER_INFO_DESCRIPTION_EMAIL </li>
+ *     <li> USER_INFO_DESCRIPTION_EMAIL_ENTRY </li>
+ *     <li> USER_INFO_DESCRIPTION_EMAIL_ENTRY_KEY </li>
+ *     <li> USER_INFO_DESCRIPTION_EMAIL_ENTRY_VALUE </li>
+ *     <li> USER_INFO_DESCRIPTION_IP </li>
+ *     <li> USER_INFO_DESCRIPTION_IP_ENTRY </li>
+ *     <li> USER_INFO_DESCRIPTION_IP_ENTRY_KEY </li>
+ *     <li> USER_INFO_DESCRIPTION_IP_ENTRY_VALUE </li>
+ *     <li> USER_INFO_DESCRIPTION_NAME </li>
  *     <li> VOTE </li>
  *     <li> VOTE_BUTTONS </li>
  *     <li> VOTE_ERROR </li>
@@ -1235,9 +1249,23 @@ const Style = Object.freeze({
     USER_DETAIL_INFO_NAME: "userDetail-info-name",
     USER_DETAIL_INFO: "userDetail-info",
     USER_DETAIL: "userDetail",
-    USER_INFO_TABLE_LABEL: "userInfo-table-label",
-    USER_INFO_TABLE: "userInfo-table",
+    USER_INFO_AVATAR_ICON: "userInfo-avatar-icon",
+    USER_INFO_AVATAR_IMAGE_ERROR: "userInfo-avatar-image-error",
+    USER_INFO_AVATAR_IMAGE_INTERSECTION: "userInfo-avatar-image-intersection",
+    USER_INFO_AVATAR_IMAGE_PRELOADER: "userInfo-avatar-image-preloader",
+    USER_INFO_AVATAR_IMAGE: "userInfo-avatar-image",
+    USER_INFO_AVATAR: "userInfo-avatar",
     USER_INFO: "userInfo",
+    USER_INFO_DESCRIPTION: "userInfo-description",
+    USER_INFO_DESCRIPTION_NAME: "userInfo-description-name",
+    USER_INFO_DESCRIPTION_EMAIL: "userInfo-description-email",
+    USER_INFO_DESCRIPTION_EMAIL_ENTRY: "userInfo-description-email-entry",
+    USER_INFO_DESCRIPTION_EMAIL_ENTRY_KEY: "userInfo-description-email-entry-key",
+    USER_INFO_DESCRIPTION_EMAIL_ENTRY_VALUE: "userInfo-description-email-entry-value",
+    USER_INFO_DESCRIPTION_IP: "userInfo-description-ip",
+    USER_INFO_DESCRIPTION_IP_ENTRY: "userInfo-description-ip-entry",
+    USER_INFO_DESCRIPTION_IP_ENTRY_KEY: "userInfo-description-ip-entry-key",
+    USER_INFO_DESCRIPTION_IP_ENTRY_VALUE: "userInfo-description-ip-entry-value",
     VOTE_BUTTONS: "vote-buttons",
     VOTE_ERROR: "vote-error",
     VOTE_INFO_DEADLINE: "voteInfo-deadline",

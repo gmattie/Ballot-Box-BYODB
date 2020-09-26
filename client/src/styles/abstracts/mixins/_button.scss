@@ -35,7 +35,7 @@
     &:disabled {
 
         cursor: default;
-        filter: brightness(75%);
+        filter: brightness($CONTROL_BRIGHTNESS_LOW);
     }
 
     &:not(:disabled) {
@@ -45,13 +45,13 @@
             &:hover {
                 
                 cursor: pointer;
-                filter: brightness(112%);
+                filter: brightness($CONTROL_BRIGHTNESS_HIGH);
             }
         }
 
         &:active {
 
-            filter: brightness(88%);
+            filter: brightness($CONTROL_BRIGHTNESS_MEDIUM);
         }
     }
 }

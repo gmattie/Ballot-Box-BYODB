@@ -11,13 +11,11 @@
 
         & > svg {
 
+            @include avatar-icon;
+            
             width: 50%;
             height: 100%;
             transform: translateX(50%);
-
-            filter:
-                invert(1)
-                brightness(38%);
         }
     }
 
