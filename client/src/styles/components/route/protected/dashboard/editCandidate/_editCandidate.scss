@@ -1,9 +1,12 @@
-.addItem {
+.editCandidate {
+
+    @include dropShadow($CONTROL_SIZE);
 
     display: flex;
     flex-direction: column;
+    background-color: scale-color($color: $COLOR_AUXILIARY, $lightness: -50%);
     padding: $FORM_GAP;
-    
+
     &-thumbnail,
     &-image {
 
@@ -23,9 +26,12 @@
             @include preloader($size: $PRELOADER_SIZE);
         }
 
-        &-button {
+        &-buttons {
+            
+            button {
 
-            margin-left: $FORM_GAP;
+                margin-left: $FORM_GAP;
+            }
         }
     }
 }

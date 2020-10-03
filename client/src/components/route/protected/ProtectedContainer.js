@@ -1,9 +1,8 @@
 /**
  * @description ProtectedContainer component.
  * 
- * @requires AdminContainer
  * @requires constants
- * @requires Edit
+ * @requires EditUser
  * @requires react
  * @requires react-router-dom
  * @requires Results
@@ -26,8 +25,7 @@
 import { debounce } from "../../../support/utilities";
 import { Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
 import * as C from "../../../support/constants";
-import AdminContainer from "./admin/AdminContainer";
-import Edit from "./edit/Edit";
+import DashboardContainer from "./dashboard/DashboardContainer";
 import React, { createContext, useEffect, useRef, useState } from "react";
 import ResultsContainer from "./results/ResultsContainer";
 import useAuth from "../../../hooks/useAuth";
@@ -53,7 +51,7 @@ const LogoutAPI = createContext();
 
 /**
  * @description The ProtectedContainer component groups the UI components of the application that are only accessible via user authentication.
- * This component contains vote and user information, a logout button and navigation buttons for all the protected route components: Vote, Results, AdminContainer and Edit.
+ * This component contains vote and user information and navigation buttons for all the protected route components: Vote, ResultsContainer, and DashboardContainer.
  * 
  * @returns {object} JSX markup.
  * @public
@@ -95,15 +93,12 @@ const ProtectedContainer = () => {
 
     const {
 
-        persistScrollAdmin: scrollTopAdmin,
-        persistScrollEdit: scrollTopEdit,
-
-        setPersistScrollAdmin: setScrollTopAdmin,
-        setPersistScrollEdit: setScrollTopEdit,
+        persistScrollDashboard: scrollTopDashboard,
+        setPersistScrollDashboard: setScrollTopDashboard
     } = usePersist();
 
     const { path } = useRouteMatch();
-    const { fetchLogout, usersSelf } = useUsers();
+    const { fetchLogout } = useUsers();
     
     const {
         
@@ -227,8 +222,8 @@ const ProtectedContainer = () => {
     }
 
     /**
-     * @description Persist the scroll position for the AdminContainer and/or Edit components.
-     * The AdminContainer and Edit components content may overflow to activate the scrollbar of the ProtectedContainer component content. 
+     * @description Persist the scroll position for the DashboardContainer components.
+     * The DashboardContainer component content may overflow to activate the scrollbar of the ProtectedContainer component content. 
      * 
      * @private
      * @function
@@ -238,16 +233,12 @@ const ProtectedContainer = () => {
 
         if (contentRef.current) {
 
-            if (path === C.Route.ADMIN) {
-        
-                contentRef.current.scrollTop = scrollTopAdmin;
-            }
-            else if (path === C.Route.EDIT) {
+            if (path === C.Route.DASHBOARD) {
                 
-                contentRef.current.scrollTop = scrollTopEdit;
+                contentRef.current.scrollTop = scrollTopDashboard;
             }
         }
-    }, [path, scrollTopAdmin, scrollTopEdit]);
+    }, [path, scrollTopDashboard]);
 
     /**
      * @description Retrieves a CSS style based on the hypertext reference link argument.
@@ -277,11 +268,6 @@ const ProtectedContainer = () => {
      * 
      */
     const createButton = (label, callback, href) => {
-
-        if (href === C.Route.ADMIN && !usersSelf.user.admin) {
-
-            return null;
-        }
  
         return (
 
@@ -338,13 +324,9 @@ const ProtectedContainer = () => {
 
             const scrollTop = contentRef.current.scrollTop;
 
-            if ((path === C.Route.ADMIN) && (scrollTopAdmin !== scrollTop)) {
-
-                setScrollTopAdmin(scrollTop);
-            }
-            else if ((path === C.Route.EDIT) && (scrollTopEdit !== scrollTop)) {
+            if ((path === C.Route.DASHBOARD) && (scrollTopDashboard !== scrollTop)) {
                 
-                setScrollTopEdit(scrollTop);
+                setScrollTopDashboard(scrollTop);
             }
         }
     };
@@ -366,9 +348,7 @@ const ProtectedContainer = () => {
                         <div className={C.Style.PROTECTED_CONTAINER_NAV}>
                             {createButton(C.Label.VOTE, addRouterHistory, C.Route.VOTE)}
                             {createButton(C.Label.RESULTS, addRouterHistory, C.Route.RESULTS)}
-                            {createButton(C.Label.ADMIN, addRouterHistory, C.Route.ADMIN)}
-                            {createButton(C.Label.EDIT, addRouterHistory, C.Route.EDIT)}
-                            {createButton(C.Label.LOGOUT, logout, null)}
+                            {createButton(C.Label.DASHBOARD, addRouterHistory, C.Route.DASHBOARD)}
                         </div>
 
                         <div
@@ -385,13 +365,9 @@ const ProtectedContainer = () => {
                                     <Route path={C.Route.RESULTS}>
                                         <ResultsContainer />
                                     </Route>
-                                    
-                                    <Route path={C.Route.ADMIN}>
-                                        <AdminContainer />
-                                    </Route>
 
-                                    <Route path={C.Route.EDIT}>
-                                        <Edit />
+                                    <Route path={C.Route.DASHBOARD}>
+                                        <DashboardContainer />
                                     </Route>
                                 </Switch>
                             </LogoutAPI.Provider>

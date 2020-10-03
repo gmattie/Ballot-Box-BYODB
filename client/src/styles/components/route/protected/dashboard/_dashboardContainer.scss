@@ -1,0 +1,26 @@
+.dashboardContainer {
+
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: $FORM_GAP;
+    
+    &-editUser,
+    &-adminCredentials,
+    &-manageVote,
+    &-addCandidate,
+    &-editCandidatesContainer,
+    &-logout {
+
+        margin-bottom: $FORM_GAP;
+    }
+
+    &-logout {
+
+        button {
+            
+            width: 100%;
+            text-align: center;
+        }
+    }
+}

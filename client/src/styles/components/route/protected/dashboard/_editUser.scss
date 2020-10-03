@@ -1,0 +1,31 @@
+.editUser {
+
+    display: flex;
+    flex-direction: column;
+    padding: $FORM_GAP;
+
+    &-avatar,
+    &-password,
+    &-passwordConfirm {
+
+        margin-top: $FORM_GAP;
+    }
+
+    &-admin {
+
+        margin-top: $FORM_GAP;
+    }
+
+    &-buttons {
+        
+        display: flex;
+        align-self: flex-end;
+        flex-direction: row;
+        margin-top: $FORM_GAP;
+
+        button:not(:nth-of-type(1)) {
+
+            margin-left: $FORM_GAP;
+        }
+    }
+}

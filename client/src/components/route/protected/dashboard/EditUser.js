@@ -1,8 +1,8 @@
 /**
- * @description Edit component
+ * @description EditUser component
  * 
- * @requires AdminCredentials
  * @requires Button
+ * @requires Collapsible
  * @requires constants
  * @requires Dialog
  * @requires PasswordField
@@ -11,6 +11,7 @@
  * @requires TextField
  * @requires useAuth
  * @requires useInputText
+ * @requires usePersist
  * @requires useUsers
  * @public
  * @module
@@ -18,26 +19,27 @@
  */
 import { LogoutAPI } from "../ProtectedContainer";
 import * as C from "../../../../support/constants";
-import AdminCredentials from "./AdminCredentials";
 import Button from "../../../controls/Button";
+import Collapsible from "../../../controls/Collapsible";
 import Dialog from "../../../modal/Dialog";
 import PasswordField from "../../../controls/PasswordField";
 import React, { useContext, useRef, useEffect, useState } from "react";
 import TextField from "../../../controls/TextField";
 import useAuth from "../../../../hooks/useAuth";
 import useInputText from "../../../../hooks/useInputText";
+import usePersist from "../../../../hooks/usePersist";
 import useUsers from "../../../../hooks/useUsers";
 
 /**
- * @description The Edit component contains UI elements that are required to edit a User document.
- * The UI elements include text input fields for editing a user's name, password and admin credentials and a button for submitting the input data to the server.
+ * @description The EditUser component contains UI elements that are required to edit a User document.
+ * The UI elements include text input fields for editing a user's name, avatar, password and buttons to reset edited input data or submit edited input data to the server.
  * 
  * @returns {object} JSX markup.
  * @public
  * @function
  * 
  */
-const Edit = () => {
+const EditUser = () => {
 
     /**
      * Context
@@ -50,12 +52,10 @@ const Edit = () => {
      * 
      */
     const [ dialogPreloaderComplete, setDialogPreloaderComplete ] = useState(false);
-    const [ invalidAdminCredentials, setInvalidAdminCredentials ] = useState(null);
     const [ invalidAvatar, setInvalidAvatar ] = useState(null);
     const [ invalidName, setInvalidName ] = useState(null);
     const [ invalidPassword, setInvalidPassword ] = useState(null);
     const [ invalidPasswordConfirm, setInvalidPasswordConfirm ] = useState(null);
-    const [ isLoading, setIsLoading ] = useState(false);
     const [ showDialog, setShowDialog ] = useState(false);
 
     /**
@@ -72,6 +72,12 @@ const Edit = () => {
      * 
      */
     const { authError, setAuthError } = useAuth();
+
+    const {
+        
+        persistCollapsedEditUser: collapsed,
+        setPersistCollapsedEditUser: setCollapsed
+    } = usePersist();
 
     const {
         
@@ -119,20 +125,6 @@ const Edit = () => {
         value: passwordConfirm
     } = useInputText(`${C.Label.CONFIRM} ${C.Label.NEW} ${C.Label.PASSWORD} ${C.Label.OPTIONAL}`, confirmHandler);
 
-    const {
-        
-        binding: bindAdminUsername,
-        clearValue: clearAdminUsername,
-        value: adminUsername
-    } = useInputText(C.Label.ADMIN_USERNAME, confirmHandler);
-
-    const {
-        
-        binding: bindAdminPassword,
-        clearValue: clearAdminPassword,
-        value: adminPassword
-    } = useInputText(C.Label.ADMIN_PASSWORD, confirmHandler);
-
     /**
      * Set isSubmittable flag
      * Determines if the present state of text data is sufficient for submitting to the server.
@@ -144,8 +136,7 @@ const Edit = () => {
             (
                 name !== usersSelf[C.Model.USER][C.Model.NAME] ||
                 avatar !== usersSelf[C.Model.USER][C.Model.AVATAR] ||
-                (password && passwordConfirm) ||
-                (adminUsername && adminPassword)
+                (password && passwordConfirm)
             )
         )
     );
@@ -160,9 +151,7 @@ const Edit = () => {
         (name !== usersSelf[C.Model.USER][C.Model.NAME]) ||
         (avatar !== usersSelf[C.Model.USER][C.Model.AVATAR]) ||
         password ||
-        passwordConfirm ||
-        adminUsername ||
-        adminPassword
+        passwordConfirm
     );
 
     /**
@@ -180,13 +169,12 @@ const Edit = () => {
 
             awaitUsersSelfUpdate.current = false;
 
-            setIsLoading(false);
             setDialogPreloaderComplete(true);
         }
     }, [usersSelf]);
 
     /**
-     * Edit success
+     * Edit user success
      * Clear text input elements.
      * 
      */
@@ -198,7 +186,7 @@ const Edit = () => {
     }
 
     /**
-     * Edit failure
+     * Edit user failure
      * Parse the error object to set the appropriate local error states.
      * 
      */
@@ -207,7 +195,6 @@ const Edit = () => {
         responseUpdate.current = false;
         awaitUsersSelfUpdate.current = false;
 
-        setIsLoading(false);
         setShowDialog(false);
 
         if (Array.isArray(authError.error)) {
@@ -235,12 +222,6 @@ const Edit = () => {
 
                     case C.ID.NAME_PASSWORD_CONFIRM:
                         setInvalidPasswordConfirm(errorMessage);
-
-                        break;
-
-                    case C.ID.NAME_ADMIN_USERNAME:
-                    case C.ID.NAME_ADMIN_PASSWORD:
-                        setInvalidAdminCredentials(errorMessage);
 
                         break;
 
@@ -278,9 +259,6 @@ const Edit = () => {
             setInvalidAvatar(null);
             setInvalidPassword(null);
             setInvalidPasswordConfirm(null);
-            setInvalidAdminCredentials(null);
-
-            setIsLoading(true);
 
             responseUpdate.current = true;
             awaitUsersSelfUpdate.current = true;
@@ -299,18 +277,14 @@ const Edit = () => {
                 (passwordConfirm)
                     ? passwordConfirm
                     : undefined,
-                (adminUsername)
-                    ? adminUsername
-                    : undefined,
-                (adminPassword)
-                    ? adminPassword
-                    : undefined
+                undefined,
+                undefined
             );
         }
     };
 
     /**
-     * @description Resets the "name", "avatar", "password", "passwordConfirm", "adminUsername" and "adminPassword" text fields back to their default values.
+     * @description Resets the "name", "avatar", "password", and "passwordConfirm" text fields back to their default values.
      * This function is called either after clicking the "Reset" button or after data as been posted to the server.
      * Written as a function declaration in order to be hoisted and accessible to the code above.
      * 
@@ -329,10 +303,6 @@ const Edit = () => {
 
         clearPassword();
         clearPasswordConfirm();
-        clearAdminUsername();
-        clearAdminPassword();
-
-        setInvalidAdminCredentials(null);
     }
 
     /**
@@ -365,6 +335,19 @@ const Edit = () => {
     };
 
     /**
+     * @description Callback executed when the "collapsed" state of the Collapsible component is updated.
+     * 
+     * @param {boolean} collapsed - the "collapsed" state of the Collapsible component.
+     * @private
+     * @function
+     *  
+     */
+    const collapsibleHandler = (collapsed) => {
+
+        setCollapsed(collapsed);
+    };
+
+    /**
      * JSX markup
      * 
      */
@@ -381,72 +364,64 @@ const Edit = () => {
                 />
             }
 
-            <div className={C.Style.EDIT}>
-                <div className={C.Style.EDIT_NAME}>
-                    <TextField
-                        name={C.ID.NAME_NAME}
-                        disabled={isLoading}
-                        errorMessage={invalidName}
-                        {...bindName}
-                    />
-                </div>
-
-                <div className={C.Style.EDIT_AVATAR}>
-                    <TextField
-                        name={C.ID.NAME_AVATAR}
-                        disabled={isLoading}
-                        errorMessage={invalidAvatar}
-                        {...bindAvatar}
-                    />
-                </div>
-
-                <div className={C.Style.EDIT_PASSWORD}>
-                    <PasswordField
-                        name={C.ID.NAME_PASSWORD}
-                        disabled={isLoading}
-                        errorMessage={invalidPassword}
-                        {...bindPassword}
-                    />
-                </div>
-
-                <div className={C.Style.EDIT_PASSWORD_CONFIRM}>
-                    <PasswordField
-                        name={C.ID.NAME_PASSWORD_CONFIRM}
-                        disabled={isLoading}
-                        errorMessage={invalidPasswordConfirm}
-                        {...bindPasswordConfirm}
-                    />
-                </div>
-
-                {!usersSelf[C.Model.USER][C.Model.ADMIN] &&
-                    <div className={C.Style.EDIT_ADMIN}>
-                        <AdminCredentials
-                            bindAdminUsername={bindAdminUsername}
-                            bindAdminPassword={bindAdminPassword}
-                            isLoading={isLoading}
-                            errorMessage={invalidAdminCredentials}
+            <Collapsible
+                title={C.Label.EDIT_USER}
+                eventHandler={collapsibleHandler}
+                collapsed={collapsed}
+            >
+                <div className={C.Style.EDIT_USER}>
+                    <div className={C.Style.EDIT_USER_NAME}>
+                        <TextField
+                            name={C.ID.NAME_NAME}
+                            errorMessage={invalidName}
+                            {...bindName}
                         />
                     </div>
-                }
-                
-                <div className={C.Style.EDIT_BUTTONS}>
-                    <Button
-                        style={C.Style.BUTTON_SUBMIT_EMPHASIS}
-                        onClick={confirmHandler}
-                        disabled={isLoading || !isSubmittable.current}
-                    >
-                        {C.Label.EDIT}
-                    </Button>
 
-                    <Button
-                        style={C.Style.BUTTON_SUBMIT}
-                        onClick={resetHandler}
-                        disabled={isLoading || !isResettable.current}
-                    >
-                        {C.Label.RESET}
-                    </Button>
+                    <div className={C.Style.EDIT_USER_AVATAR}>
+                        <TextField
+                            name={C.ID.NAME_AVATAR}
+                            errorMessage={invalidAvatar}
+                            {...bindAvatar}
+                        />
+                    </div>
+
+                    <div className={C.Style.EDIT_USER_PASSWORD}>
+                        <PasswordField
+                            name={C.ID.NAME_PASSWORD}
+                            errorMessage={invalidPassword}
+                            {...bindPassword}
+                        />
+                    </div>
+
+                    <div className={C.Style.EDIT_USER_PASSWORD_CONFIRM}>
+                        <PasswordField
+                            name={C.ID.NAME_PASSWORD_CONFIRM}
+                            errorMessage={invalidPasswordConfirm}
+                            {...bindPasswordConfirm}
+                        />
+                    </div>
+
+                    
+                    <div className={C.Style.EDIT_USER_BUTTONS}>
+                        <Button
+                            style={C.Style.BUTTON_SUBMIT_EMPHASIS}
+                            onClick={confirmHandler}
+                            disabled={!isSubmittable.current}
+                            >
+                            {C.Label.EDIT}
+                        </Button>
+
+                        <Button
+                            style={C.Style.BUTTON_SUBMIT}
+                            onClick={resetHandler}
+                            disabled={!isResettable.current}
+                        >
+                            {C.Label.RESET}
+                        </Button>
+                    </div>
                 </div>
-            </div>
+            </Collapsible>
         </>
     );
 };
@@ -455,4 +430,4 @@ const Edit = () => {
  * Export module
  * 
  */
-export default Edit;
+export default EditUser;

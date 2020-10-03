@@ -64,7 +64,7 @@ const ItemDetail = ({
      * @function
      * 
      */
-    const ordinal = (value) => {
+    const getOrdinal = (value) => {
 
         const ones = value % 10;
         const tens = value % 100;
@@ -85,6 +85,23 @@ const ItemDetail = ({
         }
 
         return C.Ordinal.TH;
+    };
+
+    /**
+     * @description Returns the appropriate label for the number of points.
+     * 
+     * @param {number} value - The number of points.
+     * @private
+     * @function
+     * 
+     */
+    const getPoints = (value) => {
+
+        const label = (value === 1)
+            ? C.Label.POINT
+            : C.Label.POINTS;
+
+        return `${value} ${label}`;
     };
     
     /**
@@ -129,7 +146,7 @@ const ItemDetail = ({
                                     {result[C.Model.RANK]}
 
                                     <span className={C.Style.ITEM_DETAIL_INFO_RESULT_ENTRY_VALUE_ORDINAL}>
-                                        {ordinal(result[C.Model.RANK])}
+                                        {getOrdinal(result[C.Model.RANK])}
                                     </span>
                                 </span>
                             </div>
@@ -140,7 +157,7 @@ const ItemDetail = ({
                                 </span>
 
                                 <span className={C.Style.ITEM_DETAIL_INFO_RESULT_ENTRY_VALUE}>
-                                    {`${result[C.Model.TOTAL]} ${C.Label.POINTS}`}
+                                    {getPoints(result[C.Model.TOTAL])}
                                 </span>
                             </div>
                         </div>

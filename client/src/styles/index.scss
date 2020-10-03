@@ -57,13 +57,13 @@
 @import "./components/route/public/register";
 @import "./components/route/public/reset";
 
-@import "./components/route/protected/admin/addItem";
-@import "./components/route/protected/admin/adminContainer";
-@import "./components/route/protected/admin/edit/editItem";
-@import "./components/route/protected/admin/edit/editItemsContainer";
-@import "./components/route/protected/admin/manageVote";
-@import "./components/route/protected/edit/adminCredentials";
-@import "./components/route/protected/edit/edit";
+@import "./components/route/protected/dashboard/addCandidate";
+@import "./components/route/protected/dashboard/adminCredentials";
+@import "./components/route/protected/dashboard/dashboardContainer";
+@import "./components/route/protected/dashboard/editCandidate/editCandidate";
+@import "./components/route/protected/dashboard/editCandidate/editCandidatesContainer";
+@import "./components/route/protected/dashboard/editUser";
+@import "./components/route/protected/dashboard/manageVote";
 @import "./components/route/protected/info/userInfo";
 @import "./components/route/protected/info/voteInfo";
 @import "./components/route/protected/protectedContainer";

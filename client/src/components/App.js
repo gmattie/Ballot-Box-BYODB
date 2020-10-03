@@ -67,8 +67,7 @@ const App = () => {
 
             <RouteDiverter access={C.Access.PROTECTED} path={C.Route.VOTE} component={ProtectedContainer} />
             <RouteDiverter access={C.Access.PROTECTED} path={C.Route.RESULTS} component={ProtectedContainer} />
-            <RouteDiverter access={C.Access.PROTECTED} path={C.Route.ADMIN} component={ProtectedContainer} />
-            <RouteDiverter access={C.Access.PROTECTED} path={C.Route.EDIT} component={ProtectedContainer} />
+            <RouteDiverter access={C.Access.PROTECTED} path={C.Route.DASHBOARD} component={ProtectedContainer} />
 
             <Redirect to={C.Route.VOTE} />
         </Switch>

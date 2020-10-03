@@ -41,11 +41,11 @@ const Access = Object.freeze({
  *         <li> PERSIST_COLLAPSED_ADD_ITEM </li>
  *         <li> PERSIST_COLLAPSED_ADMIN_CREDENTIALS </li>
  *         <li> PERSIST_COLLAPSED_EDIT_ITEMS </li>
+ *         <li> PERSIST_COLLAPSED_EDIT_USER </li>
  *         <li> PERSIST_COLLAPSED_MANAGE_VOTE </li>
  *         <li> PERSIST_RADIO_AGGREGATE </li>
- *         <li> PERSIST_SCROLL_ADMIN </li>
- *         <li> PERSIST_SCROLL_CANDIDATES </li>
- *         <li> PERSIST_SCROLL_EDIT </li>
+ *         <li> PERSIST_SCROLL_CANDIDATES </li> 
+ *         <li> PERSIST_SCROLL_DASHBOARD </li>
  *         <li> PERSIST_SCROLL_EDIT_ITEMS </li>
  *         <li> PERSIST_SCROLL_RESULTS </li>
  *         <li> PERSIST_SCROLL_VOTES </li>
@@ -91,12 +91,12 @@ const Action = Object.freeze({
         PERSIST_COLLAPSED_ADD_ITEM: "persistCollapsedAddItem",
         PERSIST_COLLAPSED_ADMIN_CREDENTIALS: "persistCollapsedAdminCredentials",
         PERSIST_COLLAPSED_EDIT_ITEMS: "persistCollapsedEditItems",
+        PERSIST_COLLAPSED_EDIT_USER: "persistCollapsedEditUser",
         PERSIST_COLLAPSED_MANAGE_VOTE: "persistCollapsedManageVote",
         PERSIST_RADIO_AGGREGATE: "persistRadioAggregate",
-        PERSIST_SCROLL_ADMIN: "persistScrollAdmin",
         PERSIST_SCROLL_CANDIDATES: "persistScrollCandidates",
+        PERSIST_SCROLL_DASHBOARD: "persistScrollDashboard",
         PERSIST_SCROLL_EDIT_ITEMS: "persistScrollEditItems",
-        PERSIST_SCROLL_EDIT: "persistScrollEdit",
         PERSIST_SCROLL_RESULTS: "persistScrollResults",
         PERSIST_SCROLL_VOTES: "persistScrollVotes",
         PERSIST_TEXT_DEADLINE: "persistTextDeadline",
@@ -499,28 +499,31 @@ const Key = Object.freeze({
  * <ul>
  *     <li> ACTIVE </li>
  *     <li> ADD </li>
- *     <li> ADD_ITEM </li>
- *     <li> ADMIN </li>
+ *     <li> ADD_CANDIDATE </li>
  *     <li> ADMIN_CREDENTIALS </li>
  *     <li> ADMIN_PASSWORD </li>
  *     <li> ADMIN_USERNAME </li>
  *     <li> ARROW </li>
+ *     <li> AUTHENTICATE </li>
  *     <li> AVATAR </li>
  *     <li> CANCEL </li>
  *     <li> CANDIDATES </li>
  *     <li> CLOSE </li>
  *     <li> CLOSED </li>
  *     <li> CONFIRM </li>
- *     <li> CONFIRM_ADD_ITEM </li>
+ *     <li> CONFIRM_ADD_CANDIDATE </li>
+ *     <li> CONFIRM_ADMIN </li>
  *     <li> CONFIRM_CLOSE_VOTE </li>
  *     <li> CONFIRM_EDIT </li>
- *     <li> CONFIRM_EDIT_ITEM </li>
+ *     <li> CONFIRM_EDIT_CANDIDATE </li>
+ *     <li> CONFIRM_LOGOUT </li>
  *     <li> CONFIRM_OPEN_VOTE </li>
  *     <li> CONFIRM_VOTE </li>
+ *     <li> DASHBOARD </li>
  *     <li> DAYS </li>
  *     <li> DEADLINE </li>
- *     <li> EDIT </li>
- *     <li> EDIT_ITEMS </li>
+ *     <li> EDIT_CANDIDATES </li>
+ *     <li> EDIT_USER </li>
  *     <li> EMAIL </li>
  *     <li> EMAIL_REFER </li>
  *     <li> EMAIL_REGISTRATION </li>
@@ -546,6 +549,7 @@ const Key = Object.freeze({
  *     <li> OPTIONAL </li>
  *     <li> PASSWORD </li>
  *     <li> PENDING_RESULTS </li>
+ *     <li> POINT </li>
  *     <li> POINTS </li>
  *     <li> RANK </li>
  *     <li> RANK_SELECTIONS </li>
@@ -572,28 +576,32 @@ const Key = Object.freeze({
 const Label = Object.freeze({
 
     ACTIVE: "Active",
-    ADD_ITEM: "Add Item",
+    ADD_CANDIDATE: "Add Candidate",
     ADD: "Add",
     ADMIN_CREDENTIALS: "Admin Credentials",
     ADMIN_PASSWORD: "Admin Password",
     ADMIN_USERNAME: "Admin Username",
-    ADMIN: "Admin",
     ARROW: "Arrow",
+    AUTHENTICATE: "Authenticate",
     AVATAR: "Avatar",
     CANCEL: "Cancel",
     CANDIDATES: "Candidates",
     CLOSE: "Close",
     CLOSED: "Closed",
-    CONFIRM_ADD_ITEM: "Are you sure you want to add this item?",
+    CONFIRM_ADD_CANDIDATE: "Are you sure you want to add this candidate?",
+    CONFIRM_ADMIN: "Are you sure you want to authenticate your admin credentials?",
     CONFIRM_CLOSE_VOTE: "Are you sure you want to close the vote?",
-    CONFIRM_EDIT_ITEM: "Are you sure you want to edit this item?",
+    CONFIRM_EDIT_CANDIDATE: "Are you sure you want to edit this candidate?",
     CONFIRM_EDIT: "Are you sure you want to edit your user account?",
+    CONFIRM_LOGOUT: "Are you sure you want to logout?",
     CONFIRM_OPEN_VOTE: "Are you sure you want to open a vote?",
     CONFIRM_VOTE: "Are you sure you want to cast this ballot?",
     CONFIRM: "Confirm",
+    DASHBOARD: "Dashboard",
     DAYS: "Days",
     DEADLINE: "Deadline",
-    EDIT_ITEMS: "Edit Items",
+    EDIT_CANDIDATES: "Edit Candidates",
+    EDIT_USER: "Edit User Account",
     EDIT: "Edit",
     EMAIL_REFER: "Please refer to the email in order to",
     EMAIL_REGISTRATION: "complete your registration and activate your account.",
@@ -620,6 +628,7 @@ const Label = Object.freeze({
     OPTIONAL: "(Optional)",
     PASSWORD: "Password",
     PENDING_RESULTS: "Pending Results",
+    POINT: "point",
     POINTS: "points",
     RANK_SELECTIONS: "Rank Selections",
     RANK: "Rank",
@@ -787,12 +796,12 @@ const Request = Object.freeze({
  * <ul>
  *     <li> ACTIVE </li>
  *     <li> ADD </li>
- *     <li> ADMIN </li>
  *     <li> API_ITEMS </li>
  *     <li> API_USERS </li>
  *     <li> API_VOTES </li>
  *     <li> CAST </li>
  *     <li> CLOSE </li>
+ *     <li> DASHBOARD </li>
  *     <li> EDIT </li>
  *     <li> LOGIN </li>
  *     <li> LOGOUT </li>
@@ -812,12 +821,12 @@ const Route = Object.freeze({
 
     ACTIVE: "/active",
     ADD: "/add",
-    ADMIN: "/admin",
     API_ITEMS: "/api/items",
     API_USERS: "/api/users",
     API_VOTES: "/api/votes",
     CAST: "/cast",
     CLOSE: "/close",
+    DASHBOARD: "/dashboard",
     EDIT: "/edit",
     LOGIN: "/login",
     LOGOUT: "/logout",
@@ -833,18 +842,15 @@ const Route = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
- *     <li> ADD_ITEM </li>
- *     <li> ADD_ITEM_IMAGE </li>
- *     <li> ADD_ITEM_NAME </li>
- *     <li> ADD_ITEM_SUBMIT </li>
- *     <li> ADD_ITEM_SUBMIT_BUTTON </li>
- *     <li> ADD_ITEM_SUBMIT_PRELOADER </li>
- *     <li> ADD_ITEM_THUMBNAIL </li>
- *     <li> ADMIN_CONTAINER </li>
- *     <li> ADMIN_CONTAINER_ADD_ITEM </li>
- *     <li> ADMIN_CONTAINER_EDIT_ITEMS_CONTAINER </li>
- *     <li> ADMIN_CONTAINER_MANAGE_VOTE </li>
+ *     <li> ADD_CANDIDATE </li>
+ *     <li> ADD_CANDIDATE_IMAGE </li>
+ *     <li> ADD_CANDIDATE_NAME </li>
+ *     <li> ADD_CANDIDATE_SUBMIT </li>
+ *     <li> ADD_CANDIDATE_SUBMIT_BUTTON </li>
+ *     <li> ADD_CANDIDATE_SUBMIT_PRELOADER </li>
+ *     <li> ADD_CANDIDATE_THUMBNAIL </li>
  *     <li> ADMIN_CREDENTIALS </li>
+ *     <li> ADMIN_CREDENTIALS_BUTTONS </li>
  *     <li> ADMIN_CREDENTIALS_ERROR </li>
  *     <li> ADMIN_CREDENTIALS_ERROR_SHOW </li>
  *     <li> ADMIN_CREDENTIALS_PASSWORD </li>
@@ -860,33 +866,39 @@ const Route = Object.freeze({
  *     <li> COLLAPSIBLE_CONTENT </li>
  *     <li> CONFIRMATION </li>
  *     <li> CONFIRMATION_EMAIL </li>
+ *     <li> DASHBOARD_CONTAINER </li>
+ *     <li> DASHBOARD_CONTAINER_ADD_CANDIDATE </li>
+ *     <li> DASHBOARD_CONTAINER_ADMIN_CREDENTIALS </li>
+ *     <li> DASHBOARD_CONTAINER_EDIT_CANDIDATES_CONTAINER </li>
+ *     <li> DASHBOARD_CONTAINER_EDIT_USER </li>
+ *     <li> DASHBOARD_CONTAINER_LOGOUT </li>
+ *     <li> DASHBOARD_CONTAINER_MANAGE_VOTE </li>
  *     <li> DIALOG </li>
  *     <li> DIALOG_ANIMATION_ENTER</li>
  *     <li> DIALOG_ANIMATION_EXIT</li>
  *     <li> DIALOG_CONTENT </li>
  *     <li> DIALOG_SUBMIT </li>
  *     <li> DIALOG_SUBMIT_PRELOADER </li>
- *     <li> EDIT </li>
- *     <li> EDIT_ADMIN </li>
- *     <li> EDIT_AVATAR </li>
- *     <li> EDIT_BUTTONS </li>
- *     <li> EDIT_ITEM </li>
- *     <li> EDIT_ITEM_IMAGE </li>
- *     <li> EDIT_ITEM_NAME </li>
- *     <li> EDIT_ITEM_SUBMIT </li>
- *     <li> EDIT_ITEM_SUBMIT_BUTTONS </li>
- *     <li> EDIT_ITEM_SUBMIT_PRELOADER </li>
- *     <li> EDIT_ITEM_THUMBNAIL </li>
- *     <li> EDIT_ITEMS_CONTAINER </li>
- *     <li> EDIT_ITEMS_CONTAINER_CONTENT </li>
- *     <li> EDIT_ITEMS_CONTAINER_CONTENT_EMPTY </li>
- *     <li> EDIT_ITEMS_CONTAINER_CONTENT_LIST </li>
- *     <li> EDIT_ITEMS_CONTAINER_CONTENT_LIST_ITEM_SIZE_CONTAINER </li>
- *     <li> EDIT_ITEMS_CONTAINER_CONTENT_PRELOADER </li>
- *     <li> EDIT_ITEMS_CONTAINER_CONTENT_SHADOW </li>
- *     <li> EDIT_NAME </li>
- *     <li> EDIT_PASSWORD </li>
- *     <li> EDIT_PASSWORD_CONFIRM </li>
+ *     <li> EDIT_CANDIDATE </li>
+ *     <li> EDIT_CANDIDATE_IMAGE </li>
+ *     <li> EDIT_CANDIDATE_NAME </li>
+ *     <li> EDIT_CANDIDATE_SUBMIT </li>
+ *     <li> EDIT_CANDIDATE_SUBMIT_BUTTONS </li>
+ *     <li> EDIT_CANDIDATE_SUBMIT_PRELOADER </li>
+ *     <li> EDIT_CANDIDATE_THUMBNAIL </li>
+ *     <li> EDIT_CANDIDATES_CONTAINER </li>
+ *     <li> EDIT_CANDIDATES_CONTAINER_CONTENT </li>
+ *     <li> EDIT_CANDIDATES_CONTAINER_CONTENT_EMPTY </li>
+ *     <li> EDIT_CANDIDATES_CONTAINER_CONTENT_LIST </li>
+ *     <li> EDIT_CANDIDATES_CONTAINER_CONTENT_LIST_ITEM_SIZE_CONTAINER </li>
+ *     <li> EDIT_CANDIDATES_CONTAINER_CONTENT_PRELOADER </li>
+ *     <li> EDIT_CANDIDATES_CONTAINER_CONTENT_SHADOW </li>
+ *     <li> EDIT_USER </li>
+ *     <li> EDIT_USER_AVATAR </li>
+ *     <li> EDIT_USER_BUTTONS </li>
+ *     <li> EDIT_USER_NAME </li>
+ *     <li> EDIT_USER_PASSWORD </li>
+ *     <li> EDIT_USER_PASSWORD_CONFIRM </li>
  *     <li> ERROR_RESPONSE </li>
  *     <li> ERROR_RESPONSE_ICON </li>
  *     <li> ERROR_RESPONSE_TEXT </li>
@@ -1057,17 +1069,14 @@ const Route = Object.freeze({
  */
 const Style = Object.freeze({
 
-    ADD_ITEM_IMAGE: "addItem-image",
-    ADD_ITEM_NAME: "addItem-name",
-    ADD_ITEM_SUBMIT_BUTTON: "addItem-submit-button",
-    ADD_ITEM_SUBMIT_PRELOADER: "addItem-submit-preloader",
-    ADD_ITEM_SUBMIT: "addItem-submit",
-    ADD_ITEM_THUMBNAIL: "addItem-thumbnail",
-    ADD_ITEM: "addItem",
-    ADMIN_CONTAINER_ADD_ITEM: "adminContainer-addItem",
-    ADMIN_CONTAINER_EDIT_ITEMS_CONTAINER: "adminContainer-editItemsContainer",
-    ADMIN_CONTAINER_MANAGE_VOTE: "adminContainer-manageVote",
-    ADMIN_CONTAINER: "adminContainer",
+    ADD_CANDIDATE_IMAGE: "addCandidate-image",
+    ADD_CANDIDATE_NAME: "addCandidate-name",
+    ADD_CANDIDATE_SUBMIT_BUTTON: "addCandidate-submit-button",
+    ADD_CANDIDATE_SUBMIT_PRELOADER: "addCandidate-submit-preloader",
+    ADD_CANDIDATE_SUBMIT: "addCandidate-submit",
+    ADD_CANDIDATE_THUMBNAIL: "addCandidate-thumbnail",
+    ADD_CANDIDATE: "addCandidate",
+    ADMIN_CREDENTIALS_BUTTONS: "adminCredentials-buttons",
     ADMIN_CREDENTIALS_ERROR_SHOW: "adminCredentials-error-show",
     ADMIN_CREDENTIALS_ERROR: "adminCredentials-error",
     ADMIN_CREDENTIALS_PASSWORD: "adminCredentials-password",
@@ -1084,33 +1093,39 @@ const Style = Object.freeze({
     COLLAPSIBLE: "collapsible",
     CONFIRMATION_EMAIL: "confirmation-email",
     CONFIRMATION: "confirmation",
+    DASHBOARD_CONTAINER_ADD_CANDIDATE: "dashboardContainer-addCandidate",
+    DASHBOARD_CONTAINER_ADMIN_CREDENTIALS: "dashboardContainer-adminCredentials",
+    DASHBOARD_CONTAINER_EDIT_CANDIDATES_CONTAINER: "dashboardContainer-editCandidatesContainer",
+    DASHBOARD_CONTAINER_EDIT_USER: "dashboardContainer-editUser",
+    DASHBOARD_CONTAINER_LOGOUT: "dashboardContainer-logout",
+    DASHBOARD_CONTAINER_MANAGE_VOTE: "dashboardContainer-manageVote",
+    DASHBOARD_CONTAINER: "dashboardContainer",
     DIALOG_ANIMATION_ENTER: "dialog-animation-enter",
     DIALOG_ANIMATION_EXIT: "dialog-animation-exit",
     DIALOG_CONTENT: "dialog-content",
     DIALOG_SUBMIT_PRELOADER: "dialog-submit-preloader",
     DIALOG_SUBMIT: "dialog-submit",
     DIALOG: "dialog",
-    EDIT_ADMIN: "edit-admin",
-    EDIT_AVATAR: "edit-avatar",
-    EDIT_BUTTONS: "edit-buttons",
-    EDIT_ITEM_IMAGE: "editItem-image",
-    EDIT_ITEM_NAME: "editItem-name",
-    EDIT_ITEM_SUBMIT_BUTTONS: "editItem-submit-buttons",
-    EDIT_ITEM_SUBMIT_PRELOADER: "editItem-submit-preloader",
-    EDIT_ITEM_SUBMIT: "editItem-submit",
-    EDIT_ITEM_THUMBNAIL: "editItem-thumbnail",
-    EDIT_ITEM: "editItem",
-    EDIT_ITEMS_CONTAINER_CONTENT_EMPTY: "editItemsContainer-content-empty",
-    EDIT_ITEMS_CONTAINER_CONTENT_LIST_ITEM_SIZE_CONTAINER: "editItemsContainer-content-list-itemSizeContainer",
-    EDIT_ITEMS_CONTAINER_CONTENT_LIST: "editItemsContainer-content-list",
-    EDIT_ITEMS_CONTAINER_CONTENT_PRELOADER: "editItemsContainer-content-preloader",
-    EDIT_ITEMS_CONTAINER_CONTENT_SHADOW: "editItemsContainer-content-shadow",
-    EDIT_ITEMS_CONTAINER_CONTENT: "editItemsContainer-content",
-    EDIT_ITEMS_CONTAINER: "editItemsContainer",
-    EDIT_NAME: "edit-name",
-    EDIT_PASSWORD_CONFIRM: "edit-passwordConfirm",
-    EDIT_PASSWORD: "edit-password",
-    EDIT: "edit",
+    EDIT_CANDIDATE_IMAGE: "editCandidate-image",
+    EDIT_CANDIDATE_NAME: "editCandidate-name",
+    EDIT_CANDIDATE_SUBMIT_BUTTONS: "editCandidate-submit-buttons",
+    EDIT_CANDIDATE_SUBMIT_PRELOADER: "editCandidate-submit-preloader",
+    EDIT_CANDIDATE_SUBMIT: "editCandidate-submit",
+    EDIT_CANDIDATE_THUMBNAIL: "editCandidate-thumbnail",
+    EDIT_CANDIDATE: "editCandidate",
+    EDIT_CANDIDATES_CONTAINER_CONTENT_EMPTY: "editCandidatesContainer-content-empty",
+    EDIT_CANDIDATES_CONTAINER_CONTENT_LIST_ITEM_SIZE_CONTAINER: "editCandidatesContainer-content-list-itemSizeContainer",
+    EDIT_CANDIDATES_CONTAINER_CONTENT_LIST: "editCandidatesContainer-content-list",
+    EDIT_CANDIDATES_CONTAINER_CONTENT_PRELOADER: "editCandidatesContainer-content-preloader",
+    EDIT_CANDIDATES_CONTAINER_CONTENT_SHADOW: "editCandidatesContainer-content-shadow",
+    EDIT_CANDIDATES_CONTAINER_CONTENT: "editCandidatesContainer-content",
+    EDIT_CANDIDATES_CONTAINER: "editCandidatesContainer",
+    EDIT_USER_AVATAR: "editUser-avatar",
+    EDIT_USER_BUTTONS: "editUser-buttons",
+    EDIT_USER_NAME: "editUser-name",
+    EDIT_USER_PASSWORD_CONFIRM: "editUser-passwordConfirm",
+    EDIT_USER_PASSWORD: "editUser-password",
+    EDIT_USER: "editUser",
     ERROR_RESPONSE_ICON: "errorResponse-icon",
     ERROR_RESPONSE_TEXT: "errorResponse-text",
     ERROR_RESPONSE: "errorResponse",

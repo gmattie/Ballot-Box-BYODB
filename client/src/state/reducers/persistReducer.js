@@ -19,12 +19,12 @@ const initialState = {
     [C.Action.Type.PERSIST_COLLAPSED_ADD_ITEM]: true,
     [C.Action.Type.PERSIST_COLLAPSED_ADMIN_CREDENTIALS]: true,
     [C.Action.Type.PERSIST_COLLAPSED_EDIT_ITEMS]: true,
+    [C.Action.Type.PERSIST_COLLAPSED_EDIT_USER]: false,
     [C.Action.Type.PERSIST_COLLAPSED_MANAGE_VOTE]: false,
     [C.Action.Type.PERSIST_RADIO_AGGREGATE]: false,
-    [C.Action.Type.PERSIST_SCROLL_ADMIN]: null,
     [C.Action.Type.PERSIST_SCROLL_CANDIDATES]: null,
+    [C.Action.Type.PERSIST_SCROLL_DASHBOARD]: null,
     [C.Action.Type.PERSIST_SCROLL_EDIT_ITEMS]: null,
-    [C.Action.Type.PERSIST_SCROLL_EDIT]: null,
     [C.Action.Type.PERSIST_SCROLL_RESULTS]: null,
     [C.Action.Type.PERSIST_SCROLL_VOTES]: null,
     [C.Action.Type.PERSIST_TEXT_DEADLINE]: null,
@@ -52,12 +52,12 @@ const persistReducer = (state = initialState, action) => {
         case C.Action.Type.PERSIST_COLLAPSED_ADD_ITEM:
         case C.Action.Type.PERSIST_COLLAPSED_ADMIN_CREDENTIALS:
         case C.Action.Type.PERSIST_COLLAPSED_EDIT_ITEMS:
+        case C.Action.Type.PERSIST_COLLAPSED_EDIT_USER:
         case C.Action.Type.PERSIST_COLLAPSED_MANAGE_VOTE:
         case C.Action.Type.PERSIST_RADIO_AGGREGATE:
-        case C.Action.Type.PERSIST_SCROLL_ADMIN:
         case C.Action.Type.PERSIST_SCROLL_CANDIDATES:
+        case C.Action.Type.PERSIST_SCROLL_DASHBOARD:
         case C.Action.Type.PERSIST_SCROLL_EDIT_ITEMS:
-        case C.Action.Type.PERSIST_SCROLL_EDIT:
         case C.Action.Type.PERSIST_SCROLL_RESULTS:
         case C.Action.Type.PERSIST_SCROLL_VOTES:
         case C.Action.Type.PERSIST_TEXT_DEADLINE:

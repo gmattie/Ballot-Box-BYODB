@@ -1,5 +1,5 @@
 /**
- * @description EditItem component.
+ * @description EditCandidate component.
  * 
  * @requires Button
  * @requires constants
@@ -31,7 +31,7 @@ import useItems from "../../../../../hooks/useItems";
 import useVotes from "../../../../../hooks/useVotes";
 
 /**
- * @description The EditItem component contains UI elements that are required to toggle availability or edit Item documents.
+ * @description The EditCandidate component contains UI elements that are required to toggle availability or edit Item documents.
  * The UI elements include a toggle switch with a non-editable "name" for the label, text input fields for optionally
  * editing "thumbnail" and "image" properties and buttons to reset edited input data or submit edited input data to the server.
  * 
@@ -41,7 +41,7 @@ import useVotes from "../../../../../hooks/useVotes";
  * @function
  * 
  */
-const EditItem = ({
+const EditCandidate = ({
 
         itemID,
         itemName,
@@ -170,7 +170,7 @@ const EditItem = ({
     );
 
     /**
-     * Edit item success
+     * Edit candidate success
      * 
      */
     if (itemsEdit && responseUpdate.current) {
@@ -179,7 +179,7 @@ const EditItem = ({
     }
     
     /**
-     * Edit item failure
+     * Edit candidate failure
      * Parse the error object to set the appropriate local error states.
      * 
      */
@@ -334,15 +334,15 @@ const EditItem = ({
         <>
             {showDialog &&
                 <Dialog 
-                    content={C.Label.CONFIRM_EDIT_ITEM}
+                    content={C.Label.CONFIRM_EDIT_CANDIDATE}
                     okCallback={editHandler}
                     cancelCallback={cancelHandler}
                     dismountCallback={cancelHandler}
                 />
             }
 
-            <div className={C.Style.EDIT_ITEM}>
-                <div className={C.Style.EDIT_ITEM_NAME}>
+            <div className={C.Style.EDIT_CANDIDATE}>
+                <div className={C.Style.EDIT_CANDIDATE_NAME}>
                     <Toggle
                         label={itemName}
                         checked={active}
@@ -351,7 +351,7 @@ const EditItem = ({
                     />
                 </div>
 
-                <div className={C.Style.EDIT_ITEM_THUMBNAIL}>
+                <div className={C.Style.EDIT_CANDIDATE_THUMBNAIL}>
                     <TextField
                         name={C.ID.NAME_THUMBNAIL}
                         disabled={isLoading || !active || isVoteOpen.current}
@@ -360,7 +360,7 @@ const EditItem = ({
                     />
                 </div>
 
-                <div className={C.Style.EDIT_ITEM_IMAGE}>
+                <div className={C.Style.EDIT_CANDIDATE_IMAGE}>
                     <TextField
                         name={C.ID.NAME_IMAGE}
                         disabled={isLoading || !active || isVoteOpen.current}
@@ -369,12 +369,12 @@ const EditItem = ({
                     />
                 </div>
 
-                <div className={C.Style.EDIT_ITEM_SUBMIT}>
+                <div className={C.Style.EDIT_CANDIDATE_SUBMIT}>
                     {isLoading &&
-                        <div className={C.Style.EDIT_ITEM_SUBMIT_PRELOADER} />
+                        <div className={C.Style.EDIT_CANDIDATE_SUBMIT_PRELOADER} />
                     }
 
-                    <div className={C.Style.EDIT_ITEM_SUBMIT_BUTTONS}>
+                    <div className={C.Style.EDIT_CANDIDATE_SUBMIT_BUTTONS}>
                         <Button
                             style={C.Style.BUTTON_SUBMIT_EMPHASIS}
                             onClick={confirmHandler}
@@ -401,7 +401,7 @@ const EditItem = ({
  * Default Props
  * 
  */
-EditItem.defaultProps = {
+EditCandidate.defaultProps = {
 
     itemThumbnail: null,
     itemImage: null,
@@ -411,7 +411,7 @@ EditItem.defaultProps = {
  * Prop Types
  * 
  */
-EditItem.propTypes = {
+EditCandidate.propTypes = {
 
     itemID: PropTypes.string.isRequired,
     itemName: PropTypes.string.isRequired,
@@ -424,4 +424,4 @@ EditItem.propTypes = {
  * Export module
  * 
  */
-export default EditItem;
+export default EditCandidate;

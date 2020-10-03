@@ -62,6 +62,24 @@ const setPersistCollapsedEditItems = (collapsed) => {
 };
 
 /**
+ * @description Creates an action that sets the "persistCollapsedEditUser" property of the persistReducer state.
+ * 
+ * @param {boolean} collapsed - The value of the payload embedded in the action.
+ * @returns {object} The action.
+ * @public
+ * @function
+ *  
+ */
+const setPersistCollapsedEditUser = (collapsed) => {
+
+    return {
+
+        type: C.Action.Type.PERSIST_COLLAPSED_EDIT_USER,
+        [C.Action.PAYLOAD]: collapsed
+    };
+};
+
+/**
  * @description Creates an action that sets the "persistCollapsedManageVote" property of the persistReducer state.
  * 
  * @param {boolean} collapsed - The value of the payload embedded in the action.
@@ -98,24 +116,6 @@ const setPersistRadioAggregate = (aggregate) => {
 };
 
 /**
- * @description Creates an action that sets the "persistScrollAdmin" property of the persistReducer state.
- * 
- * @param {boolean} scrollOffset - The value of the payload embedded in the action.
- * @returns {object} The action.
- * @public
- * @function
- *  
- */
-const setPersistScrollAdmin = (scrollOffset) => {
-
-    return {
-
-        type: C.Action.Type.PERSIST_SCROLL_ADMIN,
-        [C.Action.PAYLOAD]: scrollOffset
-    };
-};
-
-/**
  * @description Creates an action that sets the "persistScrollCandidates" property of the persistReducer state.
  * 
  * @param {boolean} scrollOffset - The value of the payload embedded in the action.
@@ -134,7 +134,7 @@ const setPersistScrollCandidates = (scrollOffset) => {
 };
 
 /**
- * @description Creates an action that sets the "persistScrollEdit" property of the persistReducer state.
+ * @description Creates an action that sets the "persistScrollDashboard" property of the persistReducer state.
  * 
  * @param {boolean} scrollOffset - The value of the payload embedded in the action.
  * @returns {object} The action.
@@ -142,11 +142,11 @@ const setPersistScrollCandidates = (scrollOffset) => {
  * @function
  *  
  */
-const setPersistScrollEdit = (scrollOffset) => {
+const setPersistScrollDashboard = (scrollOffset) => {
 
     return {
 
-        type: C.Action.Type.PERSIST_SCROLL_EDIT,
+        type: C.Action.Type.PERSIST_SCROLL_DASHBOARD,
         [C.Action.PAYLOAD]: scrollOffset
     };
 };
@@ -322,18 +322,18 @@ export {
     setPersistCollapsedAddItem,
     setPersistCollapsedAdminCredentials,
     setPersistCollapsedEditItems,
+    setPersistCollapsedEditUser,
     setPersistCollapsedManageVote,
     setPersistRadioAggregate,
-    setPersistScrollAdmin,
+    setPersistScrollDashboard,
     setPersistScrollCandidates,
-    setPersistScrollEdit,
     setPersistScrollEditItems,
     setPersistScrollResults,
     setPersistScrollVotes,
+    setPersistTextDeadline,
     setPersistTextImage,
     setPersistTextName,
-    setPersistTextThumbnail,
-    setPersistTextDeadline,
     setPersistTextQuantity,
+    setPersistTextThumbnail,
     setPersistToggleAnonymous,
 };

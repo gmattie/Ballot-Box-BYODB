@@ -1,5 +1,5 @@
 /**
- * @description AddItem component.
+ * @description AddCandidate component.
  * 
  * @requires Button
  * @requires Collapsible
@@ -31,7 +31,7 @@ import usePersist from "../../../../hooks/usePersist";
 import useVotes from "../../../../hooks/useVotes";
 
 /**
- * @description The AddItem component contains UI elements that are required to add Item documents to the database.
+ * @description The AddCandidate component contains UI elements that are required to add Item documents to the database.
  * The UI elements include text input fields for setting the "name" with optional "thumbnail" and "image" URLs and a button for submitting the input data to the server.
  * 
  * @returns {object} JSX markup.
@@ -39,7 +39,7 @@ import useVotes from "../../../../hooks/useVotes";
  * @function
  * 
  */
-const AddItem = () => {
+const AddCandidate = () => {
 
     /**
      * Context
@@ -145,7 +145,7 @@ const AddItem = () => {
     );
 
     /**
-     * Add item success
+     * Add candidate success
      * Clear appropriate text input elements.
      * 
      */
@@ -159,7 +159,7 @@ const AddItem = () => {
     }
     
     /**
-     * Add item failure
+     * Add candidate failure
      * Parse the error object to set the appropriate local error states.
      * 
      */
@@ -287,7 +287,7 @@ const AddItem = () => {
         <>
             {showDialog &&
                 <Dialog 
-                    content={C.Label.CONFIRM_ADD_ITEM}
+                    content={C.Label.CONFIRM_ADD_CANDIDATE}
                     okCallback={submitHandler}
                     cancelCallback={cancelHandler}
                     dismountCallback={cancelHandler}
@@ -295,12 +295,12 @@ const AddItem = () => {
             }
 
             <Collapsible
-                title={C.Label.ADD_ITEM}
+                title={C.Label.ADD_CANDIDATE}
                 eventHandler={collapsibleHandler}
                 collapsed={collapsed}
             >
-                <div className={C.Style.ADD_ITEM}>
-                    <div className={C.Style.ADD_ITEM_NAME}>
+                <div className={C.Style.ADD_CANDIDATE}>
+                    <div className={C.Style.ADD_CANDIDATE_NAME}>
                         <TextField
                             name={C.ID.NAME_NAME}
                             disabled={isLoading || isVoteOpen.current}
@@ -309,7 +309,7 @@ const AddItem = () => {
                         />
                     </div>
 
-                    <div className={C.Style.ADD_ITEM_THUMBNAIL}>
+                    <div className={C.Style.ADD_CANDIDATE_THUMBNAIL}>
                         <TextField
                             name={C.ID.NAME_THUMBNAIL}
                             disabled={isLoading || isVoteOpen.current}
@@ -318,7 +318,7 @@ const AddItem = () => {
                         />
                     </div>
 
-                    <div className={C.Style.ADD_ITEM_IMAGE}>
+                    <div className={C.Style.ADD_CANDIDATE_IMAGE}>
                         <TextField
                             name={C.ID.NAME_IMAGE}
                             disabled={isLoading || isVoteOpen.current}
@@ -327,12 +327,12 @@ const AddItem = () => {
                         />
                     </div>
 
-                    <div className={C.Style.ADD_ITEM_SUBMIT}>
+                    <div className={C.Style.ADD_CANDIDATE_SUBMIT}>
                         {isLoading &&
                             <div className={C.Style.ADD_ITEM_SUBMIT_PRELOADER} />
                         }
 
-                        <div className={C.Style.ADD_ITEM_SUBMIT_BUTTON}>
+                        <div className={C.Style.ADD_CANDIDATE_SUBMIT_BUTTON}>
                             <Button
                                 style={C.Style.BUTTON_SUBMIT_EMPHASIS}
                                 onClick={confirmHandler}
@@ -352,4 +352,4 @@ const AddItem = () => {
  * Export module
  * 
  */
-export default AddItem;
+export default AddCandidate;

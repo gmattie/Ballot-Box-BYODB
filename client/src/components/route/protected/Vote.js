@@ -277,7 +277,7 @@ const Vote = () => {
                     okCallback={submitHandler}
                     cancelCallback={cancelHandler}
                     dismountCallback={cancelHandler}
-                    preloader={true}
+                    preloader={{ [C.Event.COMPLETE]: false }}
                 />
             }
 

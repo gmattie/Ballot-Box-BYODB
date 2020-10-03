@@ -1,9 +1,9 @@
 /**
- * @description EditItemsContainer component.
+ * @description EditCandidatesContainer component.
  * 
  * @requires Collapsible
  * @requires constants
- * @requires EditItem
+ * @requires EditCandidate
  * @requires react
  * @requires react-redux
  * @requires react-window
@@ -20,7 +20,7 @@ import { debounce, getReactElementSize, suppressConsoleMessage } from "../../../
 import { Provider } from "react-redux";
 import * as C from "../../../../../support/constants";
 import Collapsible from "../../../../controls/Collapsible";
-import EditItem from "./EditItem";
+import EditCandidate from "./EditCandidate";
 import React, { memo, useCallback, useState } from "react";
 import store from "../../../../../state/store";
 import useItems from "../../../../../hooks/useItems";
@@ -28,15 +28,15 @@ import usePersist from "../../../../../hooks/usePersist";
 
 
 /**
- * @description The memoized EditItemsContainer component contains a list of EditItem components.
- * This component facilitates fetching all Item documents from the database in order to populate the list of EditItem components.
+ * @description The memoized EditCandidatesContainer component contains a list of EditCandidate components.
+ * This component facilitates fetching all Item documents from the database in order to populate the list of EditCandidate components.
  * 
  * @returns {object} JSX markup.
  * @public
  * @function
  * 
  */
-const EditItemsContainer = () => {
+const EditCandidatesContainer = () => {
 
     /**
      * State
@@ -87,7 +87,7 @@ const EditItemsContainer = () => {
 
     /**
      * Set the itemRendererHeight state
-     * Retrieves the memoized height of the "EditItem" component.
+     * Retrieves the memoized height of the EditCandidate component.
      * 
      */
     if (!itemRendererHeight) {
@@ -98,9 +98,9 @@ const EditItemsContainer = () => {
 
             const elementSize = getReactElementSize(
     
-                <div className={C.Style.EDIT_ITEMS_CONTAINER_CONTENT_LIST_ITEM_SIZE_CONTAINER}>
+                <div className={C.Style.EDIT_CANDIDATES_CONTAINER_CONTENT_LIST_ITEM_SIZE_CONTAINER}>
                     <Provider store={store}>
-                        <EditItem
+                        <EditCandidate
                             itemID={C.Model.ID}
                             itemName={C.Model.NAME}
                             itemThumbnail={C.Model.THUMBNAIL}
@@ -128,7 +128,7 @@ const EditItemsContainer = () => {
     const listItemRenderer = useCallback(({ data, index, style }) => (
 
         <div style={style}>
-            <EditItem
+            <EditCandidate
                 key={data[index][C.Model.ID]}
                 itemID={data[index][C.Model.ID]}
                 itemName={data[index][C.Model.NAME]}
@@ -163,24 +163,24 @@ const EditItemsContainer = () => {
      */
     return (
 
-        <div className={C.Style.EDIT_ITEMS_CONTAINER}>
+        <div className={C.Style.EDIT_CANDIDATES_CONTAINER}>
             <Collapsible
-                title={C.Label.EDIT_ITEMS}
+                title={C.Label.EDIT_CANDIDATES}
                 eventHandler={collapsibleHandler}
                 collapsed={collapsed}
             >
                 <div
-                    className={C.Style.EDIT_ITEMS_CONTAINER_CONTENT}
+                    className={C.Style.EDIT_CANDIDATES_CONTAINER_CONTENT}
                     style={{ height: itemRendererHeight * 2 }}
                 >
                     {(isLoading || !itemsAll)
-                        ?   <div className={C.Style.EDIT_ITEMS_CONTAINER_CONTENT_PRELOADER} />
+                        ?   <div className={C.Style.EDIT_CANDIDATES_CONTAINER_CONTENT_PRELOADER} />
                         :   (itemsAll && itemsAll.length)
                             ?   <>
-                                    <div className={C.Style.EDIT_ITEMS_CONTAINER_CONTENT_SHADOW} />
+                                    <div className={C.Style.EDIT_CANDIDATES_CONTAINER_CONTENT_SHADOW} />
 
                                     <VirtualList
-                                        className={C.Style.EDIT_ITEMS_CONTAINER_CONTENT_LIST}
+                                        className={C.Style.EDIT_CANDIDATES_CONTAINER_CONTENT_LIST}
                                         width={C.CSS.PERCENT_100}
                                         height={itemRendererHeight * 2}
                                         itemData={itemsAll}
@@ -192,7 +192,7 @@ const EditItemsContainer = () => {
                                         {listItemRenderer}
                                     </VirtualList>
                                 </>
-                            :   <div className={C.Style.EDIT_ITEMS_CONTAINER_CONTENT_EMPTY}>
+                            :   <div className={C.Style.EDIT_CANDIDATES_CONTAINER_CONTENT_EMPTY}>
                                     {C.Label.EMPTY_ITEMS}
                                 </div>
                     }
@@ -206,4 +206,4 @@ const EditItemsContainer = () => {
  * Export module
  * 
  */
-export default memo(EditItemsContainer);
+export default memo(EditCandidatesContainer);

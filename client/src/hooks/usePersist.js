@@ -23,9 +23,8 @@ import * as persistActions from "../state/actions/persistActions";
  *      persistCollapsedEditItems: boolean,
  *      persistCollapsedManageVote: boolean,
  *      persistRadioAggregate: boolean,
- *      persistScrollAdmin: number,
  *      persistScrollCandidates: number,
- *      persistScrollEdit: number,
+ *      persistScrollDashboard: number,
  *      persistScrollEditItems: number,
  *      persistScrollResults: number,
  *      persistScrollVotes: number,
@@ -40,9 +39,8 @@ import * as persistActions from "../state/actions/persistActions";
  *      setPersistCollapsedEditItems: function,
  *      setPersistCollapsedManageVote: function,
  *      setPersistRadioAggregate: function,
- *      setPersistScrollAdmin: function,
  *      setPersistScrollCandidates: function,
- *      setPersistScrollEdit: function,
+ *      setPersistScrollDashboard: function,
  *      setPersistScrollEditItems: function,
  *      setPersistScrollResults: function,
  *      setPersistScrollVotes: function,
@@ -70,20 +68,20 @@ const usePersist = () => {
     const setPersistCollapsedEditItems = (collapsed) => dispatch(persistActions.setPersistCollapsedEditItems(collapsed));
     const persistCollapsedEditItems = useSelector((state) => state.persist[C.Action.Type.PERSIST_COLLAPSED_EDIT_ITEMS]);
 
+    const setPersistCollapsedEditUser = (collapsed) => dispatch(persistActions.setPersistCollapsedEditUser(collapsed));
+    const persistCollapsedEditUser = useSelector((state) => state.persist[C.Action.Type.PERSIST_COLLAPSED_EDIT_USER]);
+
     const setPersistCollapsedManageVote = (collapsed) => dispatch(persistActions.setPersistCollapsedManageVote(collapsed));
     const persistCollapsedManageVote = useSelector((state) => state.persist[C.Action.Type.PERSIST_COLLAPSED_MANAGE_VOTE]);
 
     const setPersistRadioAggregate = (aggregate) => dispatch(persistActions.setPersistRadioAggregate(aggregate));
     const persistRadioAggregate = useSelector((state) => state.persist[C.Action.Type.PERSIST_RADIO_AGGREGATE]);
-
-    const setPersistScrollAdmin = (scrollOffset) => dispatch(persistActions.setPersistScrollAdmin(scrollOffset));
-    const persistScrollAdmin = useSelector((state) => state.persist[C.Action.Type.PERSIST_SCROLL_ADMIN]);
-
+    
     const setPersistScrollCandidates = (scrollOffset) => dispatch(persistActions.setPersistScrollCandidates(scrollOffset));
     const persistScrollCandidates = useSelector((state) => state.persist[C.Action.Type.PERSIST_SCROLL_CANDIDATES]);
     
-    const setPersistScrollEdit = (scrollOffset) => dispatch(persistActions.setPersistScrollEdit(scrollOffset));
-    const persistScrollEdit = useSelector((state) => state.persist[C.Action.Type.PERSIST_SCROLL_EDIT]);
+    const setPersistScrollDashboard = (scrollOffset) => dispatch(persistActions.setPersistScrollDashboard(scrollOffset));
+    const persistScrollDashboard = useSelector((state) => state.persist[C.Action.Type.PERSIST_SCROLL_DASHBOARD]);
 
     const setPersistScrollEditItems = (scrollOffset) => dispatch(persistActions.setPersistScrollEditItems(scrollOffset));
     const persistScrollEditItems = useSelector((state) => state.persist[C.Action.Type.PERSIST_SCROLL_EDIT_ITEMS]);
@@ -117,11 +115,11 @@ const usePersist = () => {
         persistCollapsedAddItem,
         persistCollapsedAdminCredentials,
         persistCollapsedEditItems,
+        persistCollapsedEditUser,
         persistCollapsedManageVote,
         persistRadioAggregate,
-        persistScrollAdmin,
         persistScrollCandidates,
-        persistScrollEdit,
+        persistScrollDashboard,
         persistScrollEditItems,
         persistScrollResults,
         persistScrollVotes,
@@ -134,11 +132,11 @@ const usePersist = () => {
         setPersistCollapsedAddItem,
         setPersistCollapsedAdminCredentials,
         setPersistCollapsedEditItems,
+        setPersistCollapsedEditUser,
         setPersistCollapsedManageVote,
         setPersistRadioAggregate,
-        setPersistScrollAdmin,
         setPersistScrollCandidates,
-        setPersistScrollEdit,
+        setPersistScrollDashboard,
         setPersistScrollEditItems,
         setPersistScrollResults,
         setPersistScrollVotes,
