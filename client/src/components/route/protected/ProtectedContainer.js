@@ -1,6 +1,7 @@
 /**
  * @description ProtectedContainer component.
  * 
+ * @requires Button
  * @requires constants
  * @requires EditUser
  * @requires react
@@ -25,6 +26,7 @@
 import { debounce } from "../../../support/utilities";
 import { Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
 import * as C from "../../../support/constants";
+import Button from "../../controls/Button";
 import DashboardContainer from "./dashboard/DashboardContainer";
 import React, { createContext, useEffect, useRef, useState } from "react";
 import ResultsContainer from "./results/ResultsContainer";
@@ -251,8 +253,8 @@ const ProtectedContainer = () => {
     const getButtonStyle = (href) => {
 
         const style = (href === path)
-            ? C.Style.PROTECTED_CONTAINER_NAV_BUTTON_SELECTED
-            : C.Style.PROTECTED_CONTAINER_NAV_BUTTON;
+            ? C.Style.BUTTON_NAVIGATION_SELECTED
+            : C.Style.BUTTON_NAVIGATION;
 
         return style;
     };
@@ -271,12 +273,12 @@ const ProtectedContainer = () => {
  
         return (
 
-            <button
-                className={getButtonStyle(href)}
+            <Button
+                style={getButtonStyle(href)}
                 onClick={callback.bind(null, href)}
             >
                 {label}
-            </button>
+            </Button>
         );
     };
 
@@ -349,8 +351,10 @@ const ProtectedContainer = () => {
                             {createButton(C.Label.VOTE, addRouterHistory, C.Route.VOTE)}
                             {createButton(C.Label.RESULTS, addRouterHistory, C.Route.RESULTS)}
                             {createButton(C.Label.DASHBOARD, addRouterHistory, C.Route.DASHBOARD)}
+                        
+                            <div className={C.Style.PROTECTED_CONTAINER_NAV_SHADOW} />
                         </div>
-
+                        
                         <div
                             className={C.Style.PROTECTED_CONTAINER_CONTENT}
                             onScroll={debounce(C.Duration.DEBOUNCE_SCROLL, scrollHandler)}

@@ -958,6 +958,7 @@ const Route = Object.freeze({
  *     <li> PROTECTED_CONTAINER_NAV </li>
  *     <li> PROTECTED_CONTAINER_NAV_BUTTON </li>
  *     <li> PROTECTED_CONTAINER_NAV_BUTTON_SELECTED </li>
+ *     <li> PROTECTED_CONTAINER_NAV_SHADOW </li>
  *     <li> PROTECTED_CONTAINER_PRELOADER </li>
  *     <li> PUBLIC_CONTAINER </li>
  *     <li> PUBLIC_CONTAINER_CONTENT </li>
@@ -1184,6 +1185,7 @@ const Style = Object.freeze({
     PROTECTED_CONTAINER_CONTENT: "protectedContainer-content",
     PROTECTED_CONTAINER_NAV_BUTTON_SELECTED: "protectedContainer-nav-button-selected",
     PROTECTED_CONTAINER_NAV_BUTTON: "protectedContainer-nav-button",
+    PROTECTED_CONTAINER_NAV_SHADOW: "protectedContainer-nav-shadow",
     PROTECTED_CONTAINER_NAV: "protectedContainer-nav",
     PROTECTED_CONTAINER_PRELOADER: "protectedContainer-preloader",
     PROTECTED_CONTAINER: "protectedContainer",

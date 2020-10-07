@@ -20,21 +20,22 @@
 
     &-nav {
 
+        position: relative;
         display: flex;
         justify-content: space-around;
         width: 100%;
         min-width: $SCREEN_MIN_WIDTH;
         max-width: $SCREEN_MAX_WIDTH;
         padding: 0 $FORM_GAP;
-        
-        &-button {
-    
-            background-color: gray;
-        }
 
-        &-selected {
+        &-shadow {
 
-            background-color: white;
+            @include rulerShadow;
+
+            position: absolute;
+            bottom: -($RULER_SHADOW_HEIGHT);
+            width: 100vw;
+            border-top: 1px solid $COLOR_AUXILIARY;
         }
     }
 

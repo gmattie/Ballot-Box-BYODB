@@ -19,13 +19,11 @@
         
         &-shadow {
 
+            @include rulerShadow;
+
             position: absolute;
             top: 0;
             width: 100%;
-            height: 6px;
-            background: linear-gradient(black, transparent);
-            pointer-events: none;
-            z-index: 1;
         }
 
         &-list {

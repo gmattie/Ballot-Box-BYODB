@@ -20,3 +20,11 @@
         $controlSize * 0.15
         $color;
 }
+
+@mixin rulerShadow {
+
+    height: $RULER_SHADOW_HEIGHT;
+    background: linear-gradient(black, transparent);
+    pointer-events: none;
+    z-index: 1;
+}
