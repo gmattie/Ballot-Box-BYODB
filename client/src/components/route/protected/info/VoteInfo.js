@@ -6,12 +6,14 @@
  * @requires prop-types
  * @requires react
  * @requires useVotes
+ * @requires utilities
 
  * @public
  * @module
  * 
  */
 
+import { concatClassNames } from "../../../../support/utilities";
 import * as C from "../../../../support/constants";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
@@ -34,10 +36,10 @@ const VoteInfo = ({ deadline }) => {
      * State
      * 
      */
-    const [ days, setDays ] = useState(null);
-    const [ hours, setHours ] = useState(null);
-    const [ minutes, setMinutes ] = useState(null);
-    const [ seconds, setSeconds ] = useState(null);
+    const [ days, setDays ] = useState(C.Deadline.ZEROS);
+    const [ hours, setHours ] = useState(C.Deadline.ZEROS);
+    const [ minutes, setMinutes ] = useState(C.Deadline.ZEROS);
+    const [ seconds, setSeconds ] = useState(C.Deadline.ZEROS);
 
     /**
      * Hooks
@@ -58,28 +60,28 @@ const VoteInfo = ({ deadline }) => {
             
             (deadline)
                 ? deadline[C.Deadline.DAYS]
-                : null
+                : C.Deadline.ZEROS
         );
 
         setHours(
             
             (deadline)
                 ? deadline[C.Deadline.HOURS]
-                : null
+                : C.Deadline.ZEROS
         );
         
         setMinutes(
             
             (deadline)
                 ? deadline[C.Deadline.MINUTES]
-                : null
+                : C.Deadline.ZEROS
         );
 
         setSeconds(
             
             (deadline)
                 ? deadline[C.Deadline.SECONDS]
-                : null
+                : C.Deadline.ZEROS
         );
     }, [deadline]);
 
@@ -90,40 +92,65 @@ const VoteInfo = ({ deadline }) => {
     return (
 
         <div className={C.Style.VOTE_INFO}>
+            <div className={C.Style.VOTE_INFO_SHADOW_TOP} />
+
             <div className={C.Style.VOTE_INFO_STATUS}>
-                <span className={C.Style.VOTE_INFO_STATUS_LABEL}>
+                <span className={C.Style.VOTE_INFO_STATUS_KEY}>
                     {C.Label.VOTE_STATUS}:
                 </span>
                 
-                {    
-                    (votesActive && votesActive[C.Model.VOTE])
-                        ? C.Label.OPEN
-                        : C.Label.CLOSED
-                }
+                <span className={
+                    concatClassNames(
+                        C.Style.VOTE_INFO_STATUS_VALUE,
+                        (votesActive && votesActive[C.Model.VOTE])
+                            ? C.Style.VOTE_INFO_STATUS_VALUE_ACTIVE
+                            : C.Style.VOTE_INFO_STATUS_VALUE_INACTIVE
+                        )
+                    }
+                >
+                    {(votesActive && votesActive[C.Model.VOTE])
+                        ? `${C.Label.ACTIVE} - ${(votesActive[C.Model.VOTE][C.Model.AGGREGATE])
+                              ? C.Label.LIVE_UPDATES
+                              : C.Label.PENDING_RESULTS
+                          }`
+                        : C.Label.INACTIVE
+                    }
+                </span>
             </div>
             
-            {(days || hours || minutes || seconds) &&
-                <div className={C.Style.VOTE_INFO_DEADLINE}>
-                    <table>
-                        <thead>
-                            <tr>
-                                <td>{C.Label.DAYS}</td>
-                                <td>{C.Label.HOURS}</td>
-                                <td>{C.Label.MINUTES}</td>
-                                <td>{C.Label.SECONDS}</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{days}</td>
-                                <td>{hours}</td>
-                                <td>{minutes}</td>
-                                <td>{seconds}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            }
+            <div className={
+                concatClassNames(
+                    C.Style.VOTE_INFO_DEADLINE,
+                    ((days    !== C.Deadline.ZEROS) ||
+                     (hours   !== C.Deadline.ZEROS) ||
+                     (minutes !== C.Deadline.ZEROS) ||
+                     (seconds !== C.Deadline.ZEROS))
+                        ? C.Style.VOTE_INFO_DEADLINE_SHOW
+                        : C.Style.VOTE_INFO_DEADLINE_HIDE
+                    )
+                }
+            >
+                <table>
+                    <thead>
+                        <tr>
+                            <td>{C.Label.DAYS}</td>
+                            <td>{C.Label.HOURS}</td>
+                            <td>{C.Label.MINUTES}</td>
+                            <td>{C.Label.SECONDS}</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{days}</td>
+                            <td>{hours}</td>
+                            <td>{minutes}</td>
+                            <td>{seconds}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div className={C.Style.VOTE_INFO_SHADOW_BOTTOM} />
         </div>
     );
 };

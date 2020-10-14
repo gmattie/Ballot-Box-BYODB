@@ -193,6 +193,7 @@ const Date = Object.freeze({
  *     <li> HOURS </li>
  *     <li> SECONDS </li>
  *     <li> MINUTES </li>
+ *     <li> ZEROS </li>
  * </ul>
  * 
  * @public
@@ -205,6 +206,7 @@ const Deadline = Object.freeze({
     HOURS: "hours",
     SECONDS: "seconds",
     MINUTES: "minutes",
+    ZEROS: "00",
 });
 
  /**
@@ -497,6 +499,7 @@ const Key = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> ACTIVATE </li>
  *     <li> ACTIVE </li>
  *     <li> ADD </li>
  *     <li> ADD_CANDIDATE </li>
@@ -508,19 +511,18 @@ const Key = Object.freeze({
  *     <li> AVATAR </li>
  *     <li> CANCEL </li>
  *     <li> CANDIDATES </li>
- *     <li> CLOSE </li>
- *     <li> CLOSED </li>
  *     <li> CONFIRM </li>
+ *     <li> CONFIRM_ACTIVATE_VOTE </li>
  *     <li> CONFIRM_ADD_CANDIDATE </li>
  *     <li> CONFIRM_ADMIN </li>
- *     <li> CONFIRM_CLOSE_VOTE </li>
+ *     <li> CONFIRM_DEACTIVATE_VOTE </li>
  *     <li> CONFIRM_EDIT </li>
  *     <li> CONFIRM_EDIT_CANDIDATE </li>
  *     <li> CONFIRM_LOGOUT </li>
- *     <li> CONFIRM_OPEN_VOTE </li>
  *     <li> CONFIRM_VOTE </li>
  *     <li> DASHBOARD </li>
  *     <li> DAYS </li>
+ *     <li> DEACTIVATE </li>
  *     <li> DEADLINE </li>
  *     <li> EDIT_CANDIDATES </li>
  *     <li> EDIT_USER </li>
@@ -536,6 +538,7 @@ const Key = Object.freeze({
  *     <li> HOURS </li>
  *     <li> ICON </li>
  *     <li> IMAGE </li>
+ *     <li> INACTIVE </li>
  *     <li> IP </li>
  *     <li> LIVE_UPDATES </li>
  *     <li> LOGIN </li>
@@ -545,7 +548,6 @@ const Key = Object.freeze({
  *     <li> NAME </li>
  *     <li> NEW </li>
  *     <li> OK </li>
- *     <li> OPEN </li>
  *     <li> OPTIONAL </li>
  *     <li> PASSWORD </li>
  *     <li> PENDING_RESULTS </li>
@@ -575,6 +577,7 @@ const Key = Object.freeze({
  */
 const Label = Object.freeze({
 
+    ACTIVATE: "Activate",
     ACTIVE: "Active",
     ADD_CANDIDATE: "Add Candidate",
     ADD: "Add",
@@ -586,19 +589,18 @@ const Label = Object.freeze({
     AVATAR: "Avatar",
     CANCEL: "Cancel",
     CANDIDATES: "Candidates",
-    CLOSE: "Close",
-    CLOSED: "Closed",
+    CONFIRM_ACTIVATE_VOTE: "Are you sure you want to activate the vote?",
     CONFIRM_ADD_CANDIDATE: "Are you sure you want to add this candidate?",
     CONFIRM_ADMIN: "Are you sure you want to authenticate your admin credentials?",
-    CONFIRM_CLOSE_VOTE: "Are you sure you want to close the vote?",
+    CONFIRM_DEACTIVATE_VOTE: "Are you sure you want to deactivate the vote?",
     CONFIRM_EDIT_CANDIDATE: "Are you sure you want to edit this candidate?",
     CONFIRM_EDIT: "Are you sure you want to edit your user account?",
     CONFIRM_LOGOUT: "Are you sure you want to logout?",
-    CONFIRM_OPEN_VOTE: "Are you sure you want to open a vote?",
     CONFIRM_VOTE: "Are you sure you want to cast this ballot?",
     CONFIRM: "Confirm",
     DASHBOARD: "Dashboard",
     DAYS: "Days",
+    DEACTIVATE: "Deactivate",
     DEADLINE: "Deadline",
     EDIT_CANDIDATES: "Edit Candidates",
     EDIT_USER: "Edit User Account",
@@ -615,6 +617,7 @@ const Label = Object.freeze({
     HOURS: "Hours",
     ICON: "Icon",
     IMAGE: "Image",
+    INACTIVE: "Inactive",
     IP: "IP",
     LIVE_UPDATES: "Live Updates",
     LOGIN: "Login",
@@ -624,7 +627,6 @@ const Label = Object.freeze({
     NAME: "Name",
     NEW: "New",
     OK: "OK",
-    OPEN: "Open",
     OPTIONAL: "(Optional)",
     PASSWORD: "Password",
     PENDING_RESULTS: "Pending Results",
@@ -1059,8 +1061,15 @@ const Route = Object.freeze({
  *     <li> VOTE_ERROR </li>
  *     <li> VOTE_INFO </li>
  *     <li> VOTE_INFO_DEADLINE </li>
+ *     <li> VOTE_INFO_DEADLINE_HIDE </li>
+ *     <li> VOTE_INFO_DEADLINE_SHOW </li>
+ *     <li> VOTE_INFO_SHADOW_BOTTOM </li>
+ *     <li> VOTE_INFO_SHADOW_TOP </li>
  *     <li> VOTE_INFO_STATUS </li>
- *     <li> VOTE_INFO_STATUS_LABEL </li>
+ *     <li> VOTE_INFO_STATUS_KEY </li>
+ *     <li> VOTE_INFO_STATUS_VALUE </li>
+ *     <li> VOTE_INFO_STATUS_VALUE_ACTIVE </li>
+ *     <li> VOTE_INFO_STATUS_VALUE_INACTIVE </li>
  *     <li> VOTE_PRELOADER </li>
  * </ul>
  * 
@@ -1285,8 +1294,15 @@ const Style = Object.freeze({
     USER_INFO_DESCRIPTION_IP_ENTRY_VALUE: "userInfo-description-ip-entry-value",
     VOTE_BUTTONS: "vote-buttons",
     VOTE_ERROR: "vote-error",
+    VOTE_INFO_DEADLINE_HIDE: "voteInfo-deadline-hide",
+    VOTE_INFO_DEADLINE_SHOW: "voteInfo-deadline-show",
     VOTE_INFO_DEADLINE: "voteInfo-deadline",
-    VOTE_INFO_STATUS_LABEL: "voteInfo-status-label",
+    VOTE_INFO_SHADOW_BOTTOM: "voteInfo-shadow-bottom",
+    VOTE_INFO_SHADOW_TOP: "voteInfo-shadow-top",
+    VOTE_INFO_STATUS_KEY: "voteInfo-status-key",
+    VOTE_INFO_STATUS_VALUE_ACTIVE: "voteInfo-status-value-active",
+    VOTE_INFO_STATUS_VALUE_INACTIVE: "voteInfo-status-value-inactive",
+    VOTE_INFO_STATUS_VALUE: "voteInfo-status-value",
     VOTE_INFO_STATUS: "voteInfo-status",
     VOTE_INFO: "voteInfo",
     VOTE_PRELOADER: "vote-preloader",

@@ -1,24 +1,90 @@
 .voteInfo {
 
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid gray;
-    padding: $FORM_GAP;
+    width: 100%;
+    background-color: $COLOR_AUXILIARY_DARK;
+    padding-top: $FORM_GAP;
+    text-shadow: 0 4px 5px black;
 
+    &-shadow {
+
+        @include rulerShadow;
+
+        position: absolute;
+        width: 100%;
+        border-top: 1px solid $COLOR_AUXILIARY;
+        
+        &-top {
+
+            @extend .voteInfo-shadow;
+
+            top: 0;
+        }
+
+        &-bottom {
+
+            @extend .voteInfo-shadow;
+
+            bottom: -($RULER_SHADOW_HEIGHT);
+
+            transform:
+                translateY(-100%)
+                scaleY(-1);
+        }
+    }
+    
     &-status {
 
-        &-label {
+        min-width: $SCREEN_MIN_WIDTH;
+        font-weight: $FONT_WEIGHT_BOLD;
+        display: flex;
+        justify-content: center;
 
-            font-weight: $FONT_WEIGHT_BOLD;
+        &-key {
+
+            color: darkgray;
             margin-right: $FORM_GAP;
+        }
+
+        &-value {
+
+            text-transform: capitalize;
+
+            &-active {
+
+                color: white;
+            }
+
+            &-inactive {
+
+                color: darkgray;
+            }
         }
     }
 
     &-deadline {
 
         padding-top: $FORM_GAP;
-        border-top: 1px solid gray;
+        overflow: hidden;
+        height: 0;
+
+        transition:
+            height
+            $DURATION_ANIMATION_SLOW
+            ease-in-out;
+
+        &-show {
+
+            height: calc(72px + #{$FORM_GAP});
+        }
+
+        &-hide {
+
+            height: 0;
+        }
 
         table {
 
@@ -28,6 +94,12 @@
             thead {
 
                 font-weight: $FONT_WEIGHT_BOLD;
+
+                tr {
+
+                    font-size: $FONT_SIZE_TINY;
+                    color: darkgray;
+                }
                 
                 td {
 
@@ -39,8 +111,9 @@
             tbody {
 
                 td {
-
-                    font-size: 30px;
+                    
+                    font-size: 40px;
+                    font-weight: $FONT_WEIGHT_BOLD;
                 }
             }
         }

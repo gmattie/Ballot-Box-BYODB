@@ -201,7 +201,7 @@ const ManageVote = () => {
 
         responseUpdate.current = false;
 
-        if (submitTarget.current === C.Label.OPEN) {
+        if (submitTarget.current === C.Label.ACTIVATE) {
 
             const vote = votesActive[C.Model.VOTE];
             const deadlineDescription = createDeadlineDescription(vote[C.Model.DEADLINE]);
@@ -254,7 +254,7 @@ const ManageVote = () => {
      * @description Displays the confirmation dialog.
      * This callback is assigned to both Button and TextField control components.
      * If the event's target type is C.HTML.InputType.BUTTON, the Button's label is assigned to the "submitTarget" reference.
-     * Otherwise, the "submitTarget" reference will default to C.Label.OPEN.
+     * Otherwise, the "submitTarget" reference will default to C.Label.ACTIVATE.
      * Written as a function declaration in order to be hoisted and accessible to the custom hooks above.
      * 
      * @param {object} event - The event object. 
@@ -268,7 +268,7 @@ const ManageVote = () => {
 
             submitTarget.current = (event.target.type === C.HTMLElement.InputType.BUTTON)
                 ? event.target.textContent
-                : C.Label.OPEN;
+                : C.Label.ACTIVATE;
 
             setShowDialog(true);
         }
@@ -289,7 +289,7 @@ const ManageVote = () => {
         setIsLoading(true);
         responseUpdate.current = true;
 
-        if (submitTarget.current === C.Label.OPEN) {
+        if (submitTarget.current === C.Label.ACTIVATE) {
 
             setAuthError(null);
             setVotesActive(null);
@@ -306,7 +306,7 @@ const ManageVote = () => {
             );
         }
 
-        if (submitTarget.current === C.Label.CLOSE) {
+        if (submitTarget.current === C.Label.DEACTIVATE) {
 
             await fetchClose();
         }
@@ -350,9 +350,9 @@ const ManageVote = () => {
                 <Dialog 
                     content={
                         
-                        (submitTarget.current === C.Label.OPEN)
-                            ? C.Label.CONFIRM_OPEN_VOTE
-                            : C.Label.CONFIRM_CLOSE_VOTE
+                        (submitTarget.current === C.Label.ACTIVATE)
+                            ? C.Label.CONFIRM_ACTIVATE_VOTE
+                            : C.Label.CONFIRM_DEACTIVATE_VOTE
                     }
                     okCallback={submitHandler}
                     cancelCallback={cancelHandler}
@@ -425,8 +425,8 @@ const ManageVote = () => {
                                 disabled={isLoading || !isSubmittable.current}
                             >
                                 {(isVoteActive)
-                                    ? C.Label.CLOSE
-                                    : C.Label.OPEN
+                                    ? C.Label.DEACTIVATE
+                                    : C.Label.ACTIVATE
                                 }
                             </Button>
                         </div>

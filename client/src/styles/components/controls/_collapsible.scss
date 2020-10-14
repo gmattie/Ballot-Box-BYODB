@@ -30,11 +30,7 @@
 
         @include dropShadow($CONTROL_SIZE);
 
-        background-color: scale-color(
-            $color: $COLOR_AUXILIARY,
-            $lightness: -50%
-        );
-
+        background-color: $COLOR_AUXILIARY_DARK;
         overflow: hidden;
 
         transition:
