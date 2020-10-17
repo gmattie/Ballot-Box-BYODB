@@ -51,5 +51,6 @@
         min-width: $SCREEN_MIN_WIDTH;
         max-width: $SCREEN_MAX_WIDTH;
         overflow-y: auto;
+        overflow-x: hidden;
     }
 }

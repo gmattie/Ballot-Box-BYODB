@@ -7,7 +7,7 @@
     width: 100%;
     background-color: $COLOR_AUXILIARY_DARK;
     padding-top: $FORM_GAP;
-    text-shadow: 0 4px 5px black;
+    text-shadow: 0 3px 3px black;
 
     &-shadow {
 
@@ -55,12 +55,12 @@
 
             &-active {
 
-                color: white;
+                color: lime;
             }
 
             &-inactive {
 
-                color: darkgray;
+                color: white;
             }
         }
     }
@@ -90,6 +90,7 @@
 
             border-collapse: collapse;
             text-align: center;
+            min-width: $SCREEN_MIN_WIDTH;
 
             thead {
 
@@ -103,15 +104,14 @@
                 
                 td {
 
-                    min-width: ($SCREEN_MIN_WIDTH - $FORM_GAP * 2) / 4;
-                    width: 100px;
+                    width: 80px;
                 }
             }
 
             tbody {
 
                 td {
-                    
+
                     font-size: 40px;
                     font-weight: $FONT_WEIGHT_BOLD;
                 }

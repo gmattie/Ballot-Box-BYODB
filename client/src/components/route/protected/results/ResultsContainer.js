@@ -52,14 +52,16 @@ const ResultsContainer = () => {
      * State
      * 
      */
+    const [ containerHeight, setContainerHeight ] = useState(window[C.Global.COMPONENT_HEIGHT_RESULTS_CONTAINER] || 0);
     const [ isLoading, setIsLoading ] = useState(true);
-    const [ showDialog, setShowDialog ] = useState(false);
     const [ itemRendererHeight, setItemRendererHeight ] = useState();
+    const [ showDialog, setShowDialog ] = useState(false);
 
     /**
      * Refs
      * 
      */
+    const container = useRef(null);
     const resultDetailDocumentID = useRef(null);
 
     /**
@@ -173,6 +175,22 @@ const ResultsContainer = () => {
     ), []);
 
     /**
+     * @description Handler for a dispatched "resize" event from the AutoSizer component.
+     * Ensures that scaled display resolutions, which may derive a precise floating point value from the ResultsContainer "height: 100%" style
+     * while the AutoSizer derived height always rounds up, will not cause the ProtectedContainer's content scrollbar to appear.   
+     * 
+     * @private
+     * @function
+     * 
+     */
+    const resizeHandler = () => {
+
+        window[C.Global.COMPONENT_HEIGHT_RESULTS_CONTAINER] = container.current.getBoundingClientRect().height;
+    
+        setContainerHeight(window[C.Global.COMPONENT_HEIGHT_RESULTS_CONTAINER]);
+    };
+
+    /**
      * @description Handler for a dispatched "scroll" event.
      * 
      * @param {object} event - The event object
@@ -196,7 +214,10 @@ const ResultsContainer = () => {
      */
     return (
 
-        <div className={C.Style.RESULTS_CONTAINER}>
+        <div 
+            ref={container}
+            className={C.Style.RESULTS_CONTAINER}
+        >
             {showDialog &&
                 <ResultDetail 
                     voteID={resultDetailDocumentID.current}
@@ -207,13 +228,16 @@ const ResultsContainer = () => {
             {(isLoading)
                 ?   <div className={C.Style.RESULTS_CONTAINER_PRELOADER} />
                 :   (votesAll && votesAll.length)
-                    ?   <AutoSizer>
-                            {({ width, height }) => (
+                    ?   <AutoSizer
+                            disableWidth={true}
+                            onResize={debounce(C.Duration.DEBOUNCE_RESIZE, resizeHandler)}
+                        >
+                            {({ height }) => (
 
                                 <VirtualList
                                     className={C.Style.RESULTS_CONTAINER_LIST}
-                                    width={width}
-                                    height={height}
+                                    width={C.CSS.PERCENT_100}
+                                    height={Math.min(height, containerHeight)}
                                     itemData={votesAll}
                                     itemCount={votesAll.length}
                                     itemSize={itemRendererHeight}
