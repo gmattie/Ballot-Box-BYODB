@@ -139,7 +139,7 @@ const ManageVote = () => {
     const createDeadlineDescription = (deadline) => {
 
         const result = (deadline !== 0)
-            ? ms(deadline, { long: true })
+            ? ms(deadline, { long: true, decimal: 2 })
             : "0";
 
         return result;
