@@ -1003,9 +1003,10 @@ const Route = Object.freeze({
  *     <li> RESULT_DETAIL_TABLE_INFO_ENTRY_VALUE </li>
  *     <li> RESULT_DETAIL_TABLE_ITEM_ROW </li>
  *     <li> RESULT_DETAIL_TABLE_ITEM_ROW_HEADER </li>
- *     <li> RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_ITEM </li>
- *     <li> RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_ITEM_NAME </li>
- *     <li> RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_ITEM_SCORE </li>
+ *     <li> RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_CONTAINER </li>
+ *     <li> RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_CONTAINER_ITEM </li>
+ *     <li> RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_CONTAINER_ITEM_NAME </li>
+ *     <li> RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_CONTAINER_ITEM_SCORE </li>
  *     <li> RESULT_DETAIL_TABLE_ITEM_ROW_RANK </li>
  *     <li> RESULT_DETAIL_TABLE_USER </li>
  *     <li> RESULT_DETAIL_TABLE_USER_INFO </li>
@@ -1235,9 +1236,10 @@ const Style = Object.freeze({
     RESULT_DETAIL_TABLE_INFO_ENTRY_VALUE: "resultDetailTableInfo-entry-value",
     RESULT_DETAIL_TABLE_INFO_ENTRY: "resultDetailTableInfo-entry",
     RESULT_DETAIL_TABLE_INFO: "resultDetailTableInfo",
-    RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_ITEM_NAME: "resultDetailTableItemRow-header-item-name",
-    RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_ITEM_SCORE: "resultDetailTableItemRow-header-item-score",
-    RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_ITEM: "resultDetailTableItemRow-header-item",
+    RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_CONTAINER_ITEM_NAME: "resultDetailTableItemRow-header-container-item-name",
+    RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_CONTAINER_ITEM_SCORE: "resultDetailTableItemRow-header-container-item-score",
+    RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_CONTAINER_ITEM: "resultDetailTableItemRow-header-container-item",
+    RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_CONTAINER: "resultDetailTableItemRow-header-container",
     RESULT_DETAIL_TABLE_ITEM_ROW_HEADER: "resultDetailTableItemRow-header",
     RESULT_DETAIL_TABLE_ITEM_ROW_RANK: "resultDetailTableItemRow-rank",
     RESULT_DETAIL_TABLE_ITEM_ROW: "resultDetailTableItemRow",

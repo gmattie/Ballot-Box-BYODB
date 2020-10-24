@@ -12,9 +12,9 @@
             $bottom: false
         );
 
-        display: flex;
         position: sticky;
         left: 0;
+        width: 100%;
         min-width: $RESULTS_TABLE_ITEM_MIN_WIDTH;
         background-color: $COLOR_BACKGROUND;
         padding: $PADDING 0;
@@ -37,35 +37,42 @@
             padding-bottom: $FORM_GAP / 2 + $PADDING;
         }
 
-        &-item {
+        &-container {
 
             display: flex;
-            align-items: center;
-            flex: 1 0 0;
-            width: 0;
-            height: $RESULTS_TABLE_CELL_SIZE;
-            padding: 0 $FORM_GAP;
+        
+            &-item {
 
-            &-name {
+                display: flex;
+                align-items: center;
+                flex: 1 0 0;
+                width: 0;
+                max-width: 100%;
+                height: $RESULTS_TABLE_CELL_SIZE;
+                padding: 0 $FORM_GAP;
 
-                width: calc(100% - #{$FORM_GAP} - #{$RESULTS_TABLE_CELL_SIZE});
-
-                & > .button {
-
+                &-name {
+                    
                     width: 100%;
-                }
-            }
+                    max-width: calc(100% - #{$FORM_GAP} - #{$RESULTS_TABLE_CELL_SIZE});
 
-            &-score {
-    
-                margin-left: $FORM_GAP;
-    
-                & > .button {
-    
-                    width: $RESULTS_TABLE_CELL_SIZE;
-                    text-align: center;
-                    padding: 0;
-                    text-overflow: unset;
+                    & > .button {
+
+                        width: 100%;
+                    }
+                }
+
+                &-score {
+        
+                    margin-left: $FORM_GAP;
+        
+                    & > .button {
+        
+                        width: $RESULTS_TABLE_CELL_SIZE;
+                        text-align: center;
+                        padding: 0;
+                        text-overflow: unset;
+                    }
                 }
             }
         }

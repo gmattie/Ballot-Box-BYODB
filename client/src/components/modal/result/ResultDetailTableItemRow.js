@@ -71,23 +71,25 @@ const ResultDetailTableItemRow = ({
 
             <tr className={C.Style.RESULT_DETAIL_TABLE_ITEM_ROW}>
                 <th className={C.Style.RESULT_DETAIL_TABLE_ITEM_ROW_HEADER}>
-                    <div className={C.Style.RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_ITEM}>
-                        <div className={C.Style.RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_ITEM_NAME}>
-                            <Button
-                                style={C.Style.BUTTON_SUBMIT}
-                                onClick={clickHandler}
-                            >
-                                {itemName}
-                            </Button>
-                        </div>
+                    <div className={C.Style.RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_CONTAINER}>
+                        <div className={C.Style.RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_CONTAINER_ITEM}>
+                            <div className={C.Style.RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_CONTAINER_ITEM_NAME}>
+                                <Button
+                                    style={C.Style.BUTTON_SUBMIT}
+                                    onClick={clickHandler}
+                                >
+                                    {itemName}
+                                </Button>
+                            </div>
 
-                        <div className={C.Style.RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_ITEM_SCORE}>
-                            <Button
-                                style={C.Style.BUTTON_SUBMIT_EMPHASIS}
-                                onClick={clickHandler}
-                            >
-                                {result[C.Model.TOTAL]}
-                            </Button>
+                            <div className={C.Style.RESULT_DETAIL_TABLE_ITEM_ROW_HEADER_CONTAINER_ITEM_SCORE}>
+                                <Button
+                                    style={C.Style.BUTTON_SUBMIT_EMPHASIS}
+                                    onClick={clickHandler}
+                                >
+                                    {result[C.Model.TOTAL]}
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 </th>
