@@ -45,22 +45,27 @@
 
         &-key {
 
-            color: darkgray;
+            color: $COLOR_AUXILIARY_LIGHT;
             margin-right: $FORM_GAP;
         }
 
         &-value {
 
             text-transform: capitalize;
+            padding: 0 6px;
+            color: $COLOR_AUXILIARY_DARK;
+            border-radius: 4px;
+            text-shadow: none;
+            filter: drop-shadow(0 3px 3px black);
 
             &-active {
 
-                color: lime;
+                background-color: #08FF08;
             }
 
             &-inactive {
 
-                color: white;
+                background-color: $COLOR_AUXILIARY_LIGHT;
             }
         }
     }
@@ -99,7 +104,7 @@
                 tr {
 
                     font-size: $FONT_SIZE_TINY;
-                    color: darkgray;
+                    color: $COLOR_AUXILIARY_LIGHT;
                 }
                 
                 td {

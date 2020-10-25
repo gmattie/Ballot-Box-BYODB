@@ -1017,7 +1017,8 @@ const Route = Object.freeze({
  *     <li> RESULT_DETAIL_TABLE_USER_INFO_AVATAR_IMAGE_PRELOADER </li>
  *     <li> RESULT_DETAIL_TABLE_USER_INFO_NAME </li>
  *     <li> RESULTS_CONTAINER </li>
- *     <li> RESULTS_CONTAINER_EMPTY </li>
+ *     <li> RESULTS_CONTAINER_MESSAGE </li>
+ *     <li> RESULTS_CONTAINER_MESSAGE_LABEL </li>
  *     <li> RESULTS_CONTAINER_LIST </li>
  *     <li> RESULTS_CONTAINER_LIST_ITEM_SIZE_CONTAINER </li>
  *     <li> RESULTS_CONTAINER_PRELOADER </li>
@@ -1073,6 +1074,8 @@ const Route = Object.freeze({
  *     <li> VOTE_INFO_STATUS_VALUE </li>
  *     <li> VOTE_INFO_STATUS_VALUE_ACTIVE </li>
  *     <li> VOTE_INFO_STATUS_VALUE_INACTIVE </li>
+ *     <li> VOTE_MESSAGE </li>
+ *     <li> VOTE_MESSAGE_LABEL </li>
  *     <li> VOTE_PRELOADER </li>
  * </ul>
  * 
@@ -1253,7 +1256,8 @@ const Style = Object.freeze({
     RESULT_DETAIL_TABLE_USER: "resultDetailTableUser",
     RESULT_DETAIL: "resultDetail",
     RESULT: "result",
-    RESULTS_CONTAINER_EMPTY: "resultsContainer-empty",
+    RESULTS_CONTAINER_MESSAGE_LABEL: "resultsContainer-message-label",
+    RESULTS_CONTAINER_MESSAGE: "resultsContainer-message",
     RESULTS_CONTAINER_LIST_ITEM_SIZE_CONTAINER: "resultsContainer-list-itemSizeContainer",
     RESULTS_CONTAINER_LIST: "resultsContainer-list",
     RESULTS_CONTAINER_PRELOADER: "resultsContainer-preloader",
@@ -1309,6 +1313,8 @@ const Style = Object.freeze({
     VOTE_INFO_STATUS_VALUE: "voteInfo-status-value",
     VOTE_INFO_STATUS: "voteInfo-status",
     VOTE_INFO: "voteInfo",
+    VOTE_MESSAGE_LABEL: "vote-message-label",
+    VOTE_MESSAGE: "vote-message",
     VOTE_PRELOADER: "vote-preloader",
     VOTE: "vote",
 });

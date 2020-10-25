@@ -15,11 +15,18 @@
         left: $CENTER;
     }
 
-    &-empty {
+    &-message {
 
-        color: gray;
-        text-align: center;
-        padding-top: $FORM_GAP;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+
+        &-label {
+
+            text-align: center;
+            color: $COLOR_AUXILIARY_LIGHT;
+        }
     }
 
     &-list {

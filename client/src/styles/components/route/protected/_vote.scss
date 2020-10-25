@@ -16,6 +16,20 @@
         top: $CENTER;
         left: $CENTER;
     }
+
+    &-message {
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+
+        &-label {
+
+            text-align: center;
+            color: $COLOR_AUXILIARY_LIGHT;
+        }
+    }
     
     &-error {
         

@@ -253,8 +253,10 @@ const ResultsContainer = () => {
                                 </VirtualList>
                             )}
                         </AutoSizer>
-                    :   <div className={C.Style.RESULTS_CONTAINER_EMPTY}>
-                            {C.Label.EMPTY_RESULTS}
+                    :   <div className={C.Style.RESULTS_CONTAINER_MESSAGE}>
+                            <div className={C.Style.RESULTS_CONTAINER_MESSAGE_LABEL}>
+                                {C.Label.EMPTY_RESULTS}
+                            </div>
                         </div>
             }
         </div>

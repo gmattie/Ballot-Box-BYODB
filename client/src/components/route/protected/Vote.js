@@ -284,7 +284,11 @@ const Vote = () => {
             {(isMounting)
                 ?   <div className={C.Style.VOTE_PRELOADER} />
                 :   (votesCast && !responseUpdate.current)
-                    ?   <>{C.Label.VOTE_CAST}</>
+                    ?   <div className={C.Style.VOTE_MESSAGE}>
+                            <div className={C.Style.VOTE_MESSAGE_LABEL}>
+                                {C.Label.VOTE_CAST}
+                            </div>
+                        </div>
                     :   <>
                             <ListContainer />
 
