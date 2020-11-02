@@ -1,23 +1,47 @@
 @mixin listItem {
 
-    @include list-item;
+    @include dropShadow($CONTROL_SIZE);
+    
+    $COLOR_AUXILIARY_MIX: mix($COLOR_AUXILIARY, $COLOR_AUXILIARY_DARK);
 
-    width: 100%;
-    height: $LIST_ITEM_HEIGHT;
-    background-color: black;
-    list-style: none;
+    position: relative;
     display: flex;
     align-items: center;
+    height: $LIST_ITEM_HEIGHT + $LIST_ITEM_MARGIN * 2;
+    background-color: $COLOR_AUXILIARY_MIX;
+
+    &::after {
+
+        content: "\283F";
+        position: absolute;
+        right: 0;
+        color: $COLOR_AUXILIARY_DARK;
+        margin-right: $LIST_ITEM_MARGIN;
+    }
 
     &-title {
 
-        @include list-item-title;
-
         $LINE_HEIGHT: 1.3rem;
+        $TEXT_SHADOW_OFFSET: 2px;
+        $TEXT_SHADOW_COLOR: $COLOR_AUXILIARY_MIX;
 
-        margin: 0 $LIST_ITEM_MARGIN;
+        color: white;
+        font-weight: $FONT_WEIGHT_BOLD;
+        text-align: center;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding: 0 $LIST_ITEM_MARGIN * 2;
         line-height: $LINE_HEIGHT;
         max-height: calc(#{$LINE_HEIGHT} * 3);
+        z-index: 1;
+
+        text-shadow:
+            0 0 $TEXT_SHADOW_OFFSET $TEXT_SHADOW_COLOR,
+            -#{$TEXT_SHADOW_OFFSET} -#{$TEXT_SHADOW_OFFSET} $TEXT_SHADOW_OFFSET $TEXT_SHADOW_COLOR,
+            #{$TEXT_SHADOW_OFFSET} -#{$TEXT_SHADOW_OFFSET} $TEXT_SHADOW_OFFSET $TEXT_SHADOW_COLOR,
+            -#{$TEXT_SHADOW_OFFSET} #{$TEXT_SHADOW_OFFSET} $TEXT_SHADOW_OFFSET $TEXT_SHADOW_COLOR,
+            $TEXT_SHADOW_OFFSET $TEXT_SHADOW_OFFSET $TEXT_SHADOW_OFFSET $TEXT_SHADOW_COLOR;
     }
 }
 
@@ -29,18 +53,20 @@
 
         @include listItem;
 
-        background-color: gray;
+        background-color: $COLOR_AUXILIARY;
     }
 
     &-image {
 
-        $size: $LIST_ITEM_HEIGHT - $LIST_ITEM_MARGIN * 2;
+        @include dropShadow($CONTROL_SIZE);
 
-        min-width: $size;
-        min-height: $size;
-        max-width: $size;
-        max-height: $size;
-        object-fit: contain;
+        $SIZE: $LIST_ITEM_HEIGHT - $LIST_ITEM_MARGIN * 2;
+        
+        min-width: $SIZE;
+        min-height: $SIZE;
+        max-width: $SIZE;
+        max-height: $SIZE;
+        object-fit: cover;
         object-position: center;
         margin-left: $LIST_ITEM_MARGIN;
         pointer-events: none;
@@ -53,6 +79,42 @@
         &-error {
     
             opacity: 0;
+        }
+    }
+
+    &-small {
+
+        @extend .listItem;
+    
+        justify-content: center;
+    
+        &-title {
+    
+            @extend .listItem-title;
+    
+            position: absolute;
+        }
+    
+        &-active {
+    
+            @extend .listItem-active;
+    
+            justify-content: center;
+    
+            &-title {
+    
+                @extend .listItem-title;
+    
+                position: absolute;
+            }
+        }
+    
+        &-image {
+    
+            @extend .listItem-image;
+    
+            position: absolute;
+            margin-left: 0;
         }
     }
 }

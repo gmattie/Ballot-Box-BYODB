@@ -4,7 +4,7 @@
 
     display: flex;
     flex-direction: column;
-    background-color: $COLOR_AUXILIARY_DARK;
+    background-color: mix($COLOR_AUXILIARY, $COLOR_AUXILIARY_DARK);
     padding: $FORM_GAP;
 
     &-thumbnail,

@@ -9,6 +9,7 @@
  * @requires prop-types
  * @requires ProtectedContainer
  * @requires react
+ * @requires SpanOverflow
  * @requires useAuth
  * @requires useItems
  * @requires useMount
@@ -25,6 +26,7 @@ import Dialog from "../../modal/Dialog";
 import ErrorResponse from "../../ErrorResponse";
 import ListContainer from "../../list/ListContainer";
 import React, { useContext, useRef, useState } from "react";
+import SpanOverflow from "../../../components/SpanOverflow";
 import useAuth from "../../../hooks/useAuth";
 import useItems from "../../../hooks/useItems";
 import useMount from "../../../hooks/useMount";
@@ -306,7 +308,10 @@ const Vote = () => {
                                             onClick={() => setShowDialog(true)}
                                             disabled={isLoading || !isVotable.current}
                                         >
-                                            {C.Label.VOTE}
+                                            <SpanOverflow
+                                                longText={C.Label.VOTE}
+                                                shortText={C.Label.VOTE_SHORT_TEXT}
+                                            />
                                         </Button>
                                         
                                         <Button
@@ -314,7 +319,10 @@ const Vote = () => {
                                             onClick={resetItemLists}
                                             disabled={isLoading || !(itemsVote && itemsVote.length)}
                                         >
-                                            {C.Label.RESET}
+                                            <SpanOverflow
+                                                longText={C.Label.RESET}
+                                                shortText={C.Label.RESET_SHORT_TEXT}
+                                            />
                                         </Button>
                                     </div>
                                 </>

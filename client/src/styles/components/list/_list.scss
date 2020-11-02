@@ -1,20 +1,52 @@
 .list {
 
+    @include dropShadow($CONTROL_SIZE);
+
     width: 100%;
     height: 100%;
 
     &-title {
 
+        @include dropShadow($CONTROL_SIZE);
+
+        position: relative;
         width: 100%;
-        padding: $FORM_GAP;
-        background-color: rgba(255, 255, 255, 0.75);
-        color: black;
-        font-weight: 700;
+        height: $CONTROL_SIZE;
+        line-height: $CONTROL_SIZE;
+        padding: 0 $CONTROL_PADDING_HORIZONTAL;
+        background-color: $COLOR_AUXILIARY;
+        color: white;
+        font-weight: $FONT_WEIGHT_BOLD;
         text-align: center;
+        text-transform: uppercase;
+        z-index: 1;
+    }
+
+    &-background {
+
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $COLOR_AUXILIARY_DARK;
+    }
+
+    &-placeholder {
+
+        color: mix($COLOR_AUXILIARY, $COLOR_AUXILIARY_DARK);
+        margin: $FORM_GAP;
+        text-align: center;
+        text-transform: capitalize;
+        white-space: pre-wrap;
     }
 
     &-content {
 
         @include scrollbar;
+
+        & > div {
+
+            margin-bottom: $FORM_GAP;
+        }
     }
 }

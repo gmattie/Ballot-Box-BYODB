@@ -341,6 +341,7 @@ const Event = Object.freeze({
  *     <li> COMPONENT_HEIGHT_RESULT </li>
  *     <li> COMPONENT_HEIGHT_RESULTS_CONTAINER </li>
  *     <li> LOADED_IMAGE_URLS </li>
+ *     <li> STYLE_VARIABLE_FORM_GAP </li>
  * </ul>
  * 
  * @public
@@ -355,6 +356,7 @@ const Global = Object.freeze({
     COMPONENT_HEIGHT_RESULT: "__BALLOT_BOX_COMPONENT_HEIGHT_RESULT",
     COMPONENT_HEIGHT_RESULTS_CONTAINER: "__BALLOT_BOX_COMPONENT_HEIGHT_RESULTS_CONTAINER",
     LOADED_IMAGE_URLS: "__BALLOT_BOX_LOADED_IMAGE_URLS",
+    STYLE_VARIABLE_FORM_GAP: "__BALLOT_BOX_STYLE_VARIABLE_FORM_GAP",
 });
 
 /**
@@ -542,6 +544,7 @@ const Key = Object.freeze({
  *     <li> IMAGE </li>
  *     <li> INACTIVE </li>
  *     <li> IP </li>
+ *     <li> LIST_PLACEHOLDER </li>
  *     <li> LIVE_UPDATES </li>
  *     <li> LOGIN </li>
  *     <li> LOGOUT </li>
@@ -559,6 +562,7 @@ const Key = Object.freeze({
  *     <li> RANK_SELECTIONS </li>
  *     <li> REGISTER </li>
  *     <li> RESET </li>
+ *     <li> RESET_SHORT_TEXT </li>
  *     <li> RESULTS </li>
  *     <li> SCORE </li>
  *     <li> SECONDS </li>
@@ -568,6 +572,7 @@ const Key = Object.freeze({
  *     <li> URL </li>
  *     <li> VOTE </li>
  *     <li> VOTE_CAST </li>
+ *     <li> VOTE_SHORT_TEXT </li>
  *     <li> VOTE_STATUS </li>
  *     <li> VOTES </li>
  *     <li> VOTES_CAST </li>
@@ -621,6 +626,7 @@ const Label = Object.freeze({
     IMAGE: "Image",
     INACTIVE: "Inactive",
     IP: "IP",
+    LIST_PLACEHOLDER: "Drag & drop candidates here",
     LIVE_UPDATES: "Live Updates",
     LOGIN: "Login",
     LOGOUT: "Logout",
@@ -637,6 +643,7 @@ const Label = Object.freeze({
     RANK_SELECTIONS: "Rank Selections",
     RANK: "Rank",
     REGISTER: "Register",
+    RESET_SHORT_TEXT: "✖",
     RESET: "Reset",
     RESULTS: "Results",
     SCORE: "Score",
@@ -646,6 +653,7 @@ const Label = Object.freeze({
     THUMBNAIL: "Thumbnail",
     URL: "URL",
     VOTE_CAST: "Your ballot has been cast for the current vote.",
+    VOTE_SHORT_TEXT: "✔",
     VOTE_STATUS: "Vote Status",
     VOTE: "Vote",
     VOTES_CAST: "Votes Cast",
@@ -928,14 +936,22 @@ const Route = Object.freeze({
  *     <li> ITEM_DETAIL_INFO_RESULT_ENTRY_VALUE_ORDINAL </li>
  *     <li> ITEM_DETAIL_INFO_TITLE </li>
  *     <li> LIST </li>
+ *     <li> LIST_BACKGROUND </li>
  *     <li> LIST_CONTAINER </li>
  *     <li> LIST_CONTENT </li>
  *     <li> LIST_ITEM </li>
  *     <li> LIST_ITEM_ACTIVE </li>
+ *     <li> LIST_ITEM_ACTIVE_TITLE </li>
  *     <li> LIST_ITEM_IMAGE </li>
  *     <li> LIST_ITEM_IMAGE_ERROR </li>
  *     <li> LIST_ITEM_IMAGE_INTERSECTION </li>
+ *     <li> LIST_ITEM_SMALL </li>
+ *     <li> LIST_ITEM_SMALL_ACTIVE </li>
+ *     <li> LIST_ITEM_SMALL_ACTIVE_TITLE </li>
+ *     <li> LIST_ITEM_SMALL_IMAGE </li>
+ *     <li> LIST_ITEM_SMALL_TITLE </li>
  *     <li> LIST_ITEM_TITLE </li>
+ *     <li> LIST_PLACEHOLDER </li>
  *     <li> LIST_TITLE </li>
  *     <li> LOGIN </li>
  *     <li> LOGIN_EMAIL </li>
@@ -1166,14 +1182,22 @@ const Style = Object.freeze({
     ITEM_DETAIL_INFO_TITLE: "itemDetail-info-title",
     ITEM_DETAIL_INFO: "itemDetail-info",
     ITEM_DETAIL: "itemDetail",
+    LIST_BACKGROUND: "list-background",
     LIST_CONTAINER: "listContainer",
     LIST_CONTENT: "list-content",
+    LIST_ITEM_ACTIVE_TITLE: "listItem-active-title",
     LIST_ITEM_ACTIVE: "listItem-active",
     LIST_ITEM_IMAGE_ERROR: "listItem-image-error",
     LIST_ITEM_IMAGE_INTERSECTION: "listItem-image-intersection",
     LIST_ITEM_IMAGE: "listItem-image",
+    LIST_ITEM_SMALL_ACTIVE_TITLE: "listItem-small-active-title",
+    LIST_ITEM_SMALL_ACTIVE: "listItem-small-active",
+    LIST_ITEM_SMALL_IMAGE: "listItem-small-image",
+    LIST_ITEM_SMALL_TITLE: "listItem-small-title",
+    LIST_ITEM_SMALL: "listItem-small",
     LIST_ITEM_TITLE: "listItem-title",
     LIST_ITEM: "listItem",
+    LIST_PLACEHOLDER: "list-placeholder",
     LIST_TITLE: "list-title",
     LIST: "list",
     LOGIN_EMAIL: "login-email",
@@ -1323,6 +1347,24 @@ const Style = Object.freeze({
  * @description Properties of type {string} consist of:
  * 
  * <ul>
+ *     <li> FORM_GAP </li>
+ *     <li> LIST_WIDTH_BOUNDARY </li>
+ * </ul>
+ * 
+ * @public
+ * @constant
+ * 
+ */
+const StyleVariable = Object.freeze({
+
+    FORM_GAP: "--FORM_GAP",
+    LIST_WIDTH_BOUNDARY: "--LIST_WIDTH_BOUNDARY",
+});
+
+/**
+ * @description Properties of type {string} consist of:
+ * 
+ * <ul>
  *     <li> TYPE </li>
  *     <li> DATA </li>
  * </ul>
@@ -1365,5 +1407,6 @@ export {
     Request,
     Route,
     Style,
+    StyleVariable,
     WebSocket
 };

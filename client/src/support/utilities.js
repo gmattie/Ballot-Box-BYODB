@@ -144,6 +144,30 @@ const getReactElementSize = (elementJSX) => {
 };
 
 /**
+ * @description Retrieve a global style variable declared in the ":root" CSS pseudo-class.
+ * 
+ * @param {string} variable - The global style variable to retrieve. 
+ * @returns {string} 
+ * @public
+ * @function
+ * 
+ * @example
+ * 
+ *     //CSS
+ *     :root {
+ *         --MY_STYLE_VAR: 10px;
+ *     }
+ * 
+ *     //JavaScript
+ *     console.log(getStyleVariable("--MY_STYLE_VAR")) //10px
+ * 
+ */
+const getStyleVariable = (variable) => {
+
+    return getComputedStyle(document.documentElement).getPropertyValue(variable);
+};
+
+/**
  * @description Checks if the deployment target is a mobile device.
  * Additional info: https://developer.mozilla.org/en-US/docs/Web/HTTP/Browser_detection_using_the_user_agent
  * 
@@ -223,6 +247,7 @@ export {
     debounce,
     doubleClick,
     getReactElementSize,
+    getStyleVariable,
     isMobileDevice,
     setNativeValue,
     suppressConsoleMessage

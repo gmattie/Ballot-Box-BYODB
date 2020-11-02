@@ -59,6 +59,7 @@ const ListContainer = () => {
 
     /**
      * @description Reorders and/or transfers item data between the "itemsCandidate" and "itemsVote" List components according to the results of a drag.
+     * Candidate items dropped onto the Votes list will be returned if the Votes list is already populated with the maximum amount of rank selections for the active vote. 
      * 
      * @param {object} result - An object containing information about the drag.
      * @private
@@ -106,6 +107,12 @@ const ListContainer = () => {
             }
         }
         else {
+
+            if (destination.droppableId === C.ID.LIST_ITEMS_VOTE &&
+                itemsVote && itemsVote.length === Math.min(itemsAll.length, votesActive[C.Model.VOTE][C.Model.QUANTITY])) {
+              
+                return;
+            }
 
             const transferItem = (droppableSource, droppableDestination) => {
 
@@ -208,6 +215,7 @@ const ListContainer = () => {
                         <List
                             ID={C.ID.LIST_ITEMS_VOTE}
                             title={getVotesListTitle()}
+                            placeholder={C.Label.LIST_PLACEHOLDER}
                             data={itemsVote}
                             scrollOffset={scrollOffsetVotes}
                             scrollHandler={debounce(

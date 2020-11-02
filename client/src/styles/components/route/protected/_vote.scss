@@ -38,11 +38,17 @@
     }
 
     &-buttons {
-
+        
         display: flex;
         align-self: flex-end;
-        flex-direction: row;
+        width: calc(50% - #{$FORM_GAP} / 2);
         margin-top: $FORM_GAP;
+
+        button {
+
+            width: 100%;
+            text-align: center;
+        }
 
         button:not(:last-of-type) {
 
