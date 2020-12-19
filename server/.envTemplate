@@ -38,3 +38,20 @@ EMAIL_CLIENT_ID = ""
 EMAIL_CLIENT_SECRET = ""
 EMAIL_NAME = ""
 EMAIL_REFRESH_TOKEN = ""
+
+#
+# Configuration of the outgoing email SMTP server.
+#
+# Example:
+#
+# SMTP_EMAIL = "no-reply@ballotbox.com"
+# SMTP_HOST = "smtp.ballotbox.com"
+# SMTP_NAME = "Ballot Box"
+# SMTP_PASSWORD = "password12345"
+# SMTP_PORT = "465"
+#
+SMTP_EMAIL = ""
+SMTP_HOST = ""
+SMTP_NAME = ""
+SMTP_PASSWORD = ""
+SMTP_PORT = ""
