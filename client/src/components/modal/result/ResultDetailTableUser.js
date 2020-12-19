@@ -61,10 +61,10 @@ const ResultDetailTableUser = ({ user }) => {
         <>
             {showDialog &&
                 <UserDetail
-                    avatarURL={user[C.Model.AVATAR]}
-                    name={user[C.Model.NAME]}
-                    email={user[C.Model.EMAIL]}
-                    ip={user[C.Model.IP]}
+                    avatarURL={user && user[C.Model.AVATAR]}
+                    name={user && user[C.Model.NAME]}
+                    email={user && user[C.Model.EMAIL]}
+                    ip={user && user[C.Model.IP]}
                     dismountCallback={() => setShowDialog(false)}
                 />
             }
@@ -72,21 +72,19 @@ const ResultDetailTableUser = ({ user }) => {
             <th className={C.Style.RESULT_DETAIL_TABLE_USER}>
                 <div className={C.Style.RESULT_DETAIL_TABLE_USER_INFO}>
                     <div className={C.Style.RESULT_DETAIL_TABLE_USER_INFO_NAME}>
-                        {user[C.Model.NAME] &&
-                            <Button
-                                style={C.Style.BUTTON_SUBMIT}
-                                onClick={clickHandler}
-                            >
-                                {user[C.Model.NAME]}
-                            </Button>
-                        }
+                        <Button
+                            style={C.Style.BUTTON_SUBMIT}
+                            onClick={clickHandler}
+                        >
+                            {user && user[C.Model.NAME]}
+                        </Button>
                     </div>
                     <div className={C.Style.RESULT_DETAIL_TABLE_USER_INFO_AVATAR}>
                         <Button
                             style={C.Style.BUTTON_SUBMIT}
                             onClick={clickHandler}
                         >
-                            {(user[C.Model.AVATAR])
+                            {(user && user[C.Model.AVATAR])
                                 ?   <ViewportImage
                                         src={user[C.Model.AVATAR]}
                                         alt={user[C.Model.NAME]}
@@ -119,7 +117,7 @@ ResultDetailTableUser.propTypes = {
         [C.Model.NAME]: PropTypes.string.isRequired,
         [C.Model.EMAIL]: PropTypes.string.isRequired,
         [C.Model.IP]: PropTypes.string.isRequired
-    }).isRequired
+    })
 };
 
 /**

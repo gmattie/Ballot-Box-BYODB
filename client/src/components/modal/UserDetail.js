@@ -137,10 +137,10 @@ const UserDetail = ({
  */
 UserDetail.propTypes = {
 
-    avatarURL: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-    ip: PropTypes.string.isRequired,
+    avatarURL: PropTypes.string,
+    name: PropTypes.string,
+    email: PropTypes.string,
+    ip: PropTypes.string,
     dismountCallback: PropTypes.func.isRequired,
 };
 
