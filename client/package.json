@@ -2,7 +2,7 @@
     "dependencies": {
         "date-fns": "^2.15.0",
         "ms": "github:almandsky/ms#sc/decimal_place",
-        "node-sass": "^4.13.1",
+        "node-sass": "^7.0.0",
         "react": "~16.12.0",
         "react-beautiful-dnd": "^13.0.0",
         "react-dom": "~16.12.0",
