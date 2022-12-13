@@ -63,34 +63,17 @@ JWT_PRIVATE_KEY = ""
 #
 # Example:
 #
-# EMAIL_ADDRESS = "no-reply@ballotbox.com"
-# EMAIL_CLIENT_ID = "12345"
-# EMAIL_CLIENT_SECRET = "secret12345"
+# EMAIL_ADDRESS = "account@gmail.com"
+# EMAIL_HOST = "smtp.gmail.com"
 # EMAIL_NAME = "Ballot Box"
-# EMAIL_REFRESH_TOKEN = "refreshToken12345"
+# EMAIL_PASSWORD = "12345"
+# EMAIL_SERVICE = "gmail"
 #
 EMAIL_ADDRESS = ""
-EMAIL_CLIENT_ID = ""
-EMAIL_CLIENT_SECRET = ""
+EMAIL_HOST = ""
 EMAIL_NAME = ""
-EMAIL_REFRESH_TOKEN = ""
-
-#
-# Configuration of the outgoing email SMTP server.
-#
-# Example:
-#
-# SMTP_EMAIL = "no-reply@ballotbox.com"
-# SMTP_HOST = "smtp.ballotbox.com"
-# SMTP_NAME = "Ballot Box"
-# SMTP_PASSWORD = "password12345"
-# SMTP_PORT = "465"
-#
-SMTP_EMAIL = ""
-SMTP_HOST = ""
-SMTP_NAME = ""
-SMTP_PASSWORD = ""
-SMTP_PORT = ""
+EMAIL_PASSWORD = ""
+EMAIL_SERVICE = ""
 ```
 
 #### **Client**
