@@ -141,15 +141,13 @@ const sendEmail = async (to, name, subject, href) => {
         `;
 
         const transporter = nodemailer.createTransport({
-                
-            service: C.Email.TRANSPORT_SERVICE,
+
+            service: process.env.EMAIL_SERVICE,
+            host: process.env.EMAIL_HOST,
+            secure: false,
             auth: {
-        
-                type: C.Email.TRANSPORT_AUTH_TYPE,
-                user: process.env.EMAIL_ADDRESS,
-                clientId: process.env.EMAIL_CLIENT_ID,
-                clientSecret: process.env.EMAIL_CLIENT_SECRET,
-                refreshToken: process.env.EMAIL_REFRESH_TOKEN,
+              user: process.env.EMAIL_ADDRESS,
+              pass: process.env.EMAIL_PASSWORD
             }
         });
 
